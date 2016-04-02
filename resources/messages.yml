@@ -1,0 +1,7 @@
+# English language for Worlds by jjplaying
+
+allworlds: "§eWorlds on this server: §b"
+ingame: "§cYou can only run this command in-game"
+noworld: "§cWorld doesn't exist or isn't loaded"
+teleported: "§aYou've been teleported to §e{world}"
+set: "§aYou've set §b{key} §ain §e{world} §ato §c{value}"

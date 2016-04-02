@@ -1,0 +1,10 @@
+name: Worlds
+main: jjmc\Worlds\Worlds
+version: 1.0.0
+api: 1.0.0
+author: jjmc
+commands:
+  worlds:
+    description: "Worlds"
+    usage: "/worlds <info|list|tp|set> [gamemode|build|pvp|damage|hunger|drop] [true|false]"
+    aliases: ["w"]
