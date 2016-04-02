@@ -13,13 +13,13 @@ Please report bugs on the issues page.
 - Load and unload worlds
 - Teleport to worlds
 - Control nearly every event for each world (it's getting more and more).
-⋅⋅- World's gamemode
-⋅⋅- Block breaking and placing
-⋅⋅- PVP
-⋅⋅- Damage (everything like attacking, fall damage, ...)
-⋅⋅- Hunger
-⋅⋅- Item drop
-⋅⋅- You have an idea what to add? Feel free to open an issue.
+    - World's gamemode
+    - Block breaking and placing
+    - PVP
+    - Damage (everything like attacking, fall damage, ...)
+    - Hunger
+    - Item drop
+    - You have an idea what to add? Feel free to open an issue.
 - Easy to use, fast and mostly bug-free.
 
 <h2>How to use</h2>
