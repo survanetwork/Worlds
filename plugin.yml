@@ -7,4 +7,8 @@ commands:
   worlds:
     description: "Worlds"
     usage: "/worlds <info|list|tp|set> [gamemode|build|pvp|damage|hunger|drop] [true|false]"
-    aliases: ["w"]
+    aliases: ["ws"]
+permissions:
+  worlds.admin:
+    description: "Create worlds, delete worlds, set parameters"
+    default: op

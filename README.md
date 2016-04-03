@@ -25,7 +25,11 @@ Please report bugs on the issues page.
 <h2>How to use</h2>
 Worlds is really easy to use. Here is the command syntax:
 
-`/worlds <info|list|tp|set> [gamemode|build|pvp|damage|hunger|drop] [true|false]`
+`/worlds <info|list>`
+
+`/worlds <create|delete|load|unload|tp> <world>`
+
+`/worlds set <gamemode|build|pvp|damage|hunger|drop> <true|false>`
 
 And for beginners, here are some examples of commands:
 

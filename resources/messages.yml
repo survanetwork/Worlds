@@ -5,10 +5,16 @@
 #    \_/\_/ \___/|_|  |_|\__,_|___/
 #
 # (C) 2016 by jjplaying | https://github.com/jjplaying
+
 # English language for Worlds by jjplaying
 
 allworlds: "§eWorlds on this server: §b"
 ingame: "§cYou can only run this command in-game"
-noworld: "§cWorld doesn't exist or isn't loaded"
+noworld: "§cWorld doesn't exist"
+notloaded: "§cWorld isn't loaded or does not exist"
+alreadyloaded: "§eWorld is already loaded"
 teleported: "§aYou've been teleported to §e{world}"
 set: "§aYou've set §b{key} §ain §e{world} §ato §c{value}"
+permission: "§cSorry, you have no permission to do that."
+loadworld: "§aLoading world §e{world} §a..."
+unloadworld: "§aUnloading world §e{world} §a..."
