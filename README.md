@@ -29,10 +29,14 @@ Worlds is really easy to use. Here is the command syntax:
 
 And for beginners, here are some examples of commands:
 
-List all worlds on the server: `/worlds list`.
-Teleport to world PVP: `/worlds tp PVP`.
-No hunger in survival world: Go to survival world an run `/worlds set hunger false`.
-Gamemode 1 in creative world: Go to creative world an run `/worlds set gamemode 1`.
+List all worlds on the server: `/worlds list`
+
+Teleport to world PVP: `/worlds tp PVP`
+
+No hunger in survival world: Go to survival world an run `/worlds set hunger false`
+
+Gamemode 1 in creative world: Go to creative world an run `/worlds set gamemode 1`
+
 
 <h2>Development plan</h2>
 Todo:
@@ -48,7 +52,7 @@ Todo:
 - [x] Messages file 
 - [ ] Translate into diffrent languages 
 
-- [x] First release 
+- [ ] First release 
 
 What to do next:
 
