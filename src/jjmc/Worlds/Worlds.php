@@ -33,7 +33,6 @@ class Worlds extends PluginBase implements Listener {
 
         if(!file_exists($messagesfile)) {
             file_put_contents($messagesfile, $this->getResource("messages.yml"));
-            echo "erstellen";
         }
         $this->messages = new Config($messagesfile, Config::YAML, []);
     }
