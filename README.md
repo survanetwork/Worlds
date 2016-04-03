@@ -41,18 +41,18 @@ Gamemode 1 in creative world: Go to creative world an run `/worlds set gamemode 
 <h2>Development plan</h2>
 Todo:
 
-- [x] Main plugin 
-- [x] Events 
-- [x] World config 
+- [x] Main plugin
+- [x] Events
+- [x] World config
 
-- [ ] Create and remove worlds 
-- [ ] Load and unload worlds 
-- [x] Teleport to worlds 
+- [ ] Create and remove worlds
+- [ ] Load and unload worlds
+- [x] Teleport to worlds
 
-- [x] Messages file 
-- [ ] Translate into diffrent languages 
+- [x] Messages file
+- [ ] Translate into diffrent languages
 
-- [ ] First release 
+- [ ] First release
 
 What to do next:
 
@@ -62,5 +62,6 @@ What to do next:
 
 <h2>License & Credits</h2>
 [![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-sa/4.0/)
+
 You are free to copy, redistribute, change or expand our work, but you must give credits share it under the same license.
 Worlds by [jjplaying](https://github.com/jjplaying/Worlds) is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
