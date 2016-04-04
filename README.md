@@ -17,6 +17,7 @@ Please report bugs on the issues page.
     - Block breaking and placing
     - PVP
     - Damage (everything like attacking, fall damage, ...)
+    - Explosion
     - Hunger
     - Item drop
     - You have an idea what to add? Feel free to open an issue.
@@ -61,7 +62,7 @@ Todo:
 What to do next:
 
 - Test everything
-- Add more events
+- Hunger-Event does not work on many PocketMine-forks
 - Add language switch in config and translate into native language
 
 <h2>License & Credits</h2>

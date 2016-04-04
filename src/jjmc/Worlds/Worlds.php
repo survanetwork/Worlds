@@ -22,6 +22,10 @@ class Worlds extends PluginBase {
 
         $this->worlds = array();
 
+        foreach($this->getServer()->getLevels() as $level) {
+            $this->loadWorld($level->getName());
+        }
+
         $messagesfile = $this->getServer()->getPluginPath() . "Worlds/messages.yml";
 
         if(!file_exists($messagesfile)) {
@@ -131,9 +135,9 @@ class Worlds extends PluginBase {
                         case "set":
                             if($sender->hasPermission("worlds.admin")) {
                                 if(isset($args[1]) AND isset($args[2])) {
-                                    if(in_array($args[1], array("gamemode", "build", "pvp", "damage", "hunger", "drop"))) {
+                                    if(in_array($args[1], array("gamemode", "build", "pvp", "damage", "explode", "hunger", "drop"))) {
                                         if($args[1] == "gamemode") {
-                                            if(in_array($args[2], array("1", "2", "3", "4"))) {
+                                            if(in_array($args[2], array("0", "1", "2", "3"))) {
                                                 if($sender instanceof Player) {
                                                     $world = $sender->getLevel()->getName();
                                                     $this->updateValue($world, $args[1], $args[2]);
@@ -201,6 +205,7 @@ class Worlds extends PluginBase {
             $this->loadConfigItem($config, $foldername, "build");
             $this->loadConfigItem($config, $foldername, "pvp");
             $this->loadConfigItem($config, $foldername, "damage");
+            $this->loadConfigItem($config, $foldername, "explode");
             $this->loadConfigItem($config, $foldername, "hunger");
             $this->loadConfigItem($config, $foldername, "drop");
         } else {

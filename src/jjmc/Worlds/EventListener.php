@@ -12,11 +12,13 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
+use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\event\level\LevelLoadEvent;
 use pocketmine\event\player\PlayerHungerChangeEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\Listener;
+use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 
 class EventListener extends PluginBase implements Listener {
@@ -94,6 +96,15 @@ class EventListener extends PluginBase implements Listener {
                     }
                     break;
             }
+        }
+    }
+
+    public function onExplosionPrime(ExplosionPrimeEvent $event) {
+        $entity = $event->getEntity();
+        $foldername = $entity->getLevel()->getName();
+
+        if(isset($this->plugin->worlds[$foldername]["explode"])) {
+            $event->setCancelled($this->plugin->worlds[$foldername]["explode"]);
         }
     }
 
