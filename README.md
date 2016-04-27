@@ -48,11 +48,6 @@ Todo:
 
 - [ ] Create and remove worlds
 - [ ] Translate into diffrent languages
-- [ ] First release
-
-Known bugs:
-
-- Hunger-Event does not work on many PocketMine-forks
 
 Tested and works on:
 
