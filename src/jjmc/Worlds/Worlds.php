@@ -40,7 +40,7 @@ class Worlds extends PluginBase {
                 if(isset($args[0])) {
                     switch(strtolower($args[0])) {
                         case "info":
-                            $sender->sendMessage("§7This server is using §l§9Worlds §r§fversion 1.0 §7by §ejjplaying §7(https://github.com/jjplaying)");
+                            $sender->sendMessage("§7This server is using §l§9Worlds §r§fversion 1.0 §7(C) 2016 by §ejjplaying §7(https://github.com/jjplaying)");
                             return true;
                         case "list":
                             if($sender->hasPermission("worlds.list")) {
@@ -197,62 +197,47 @@ class Worlds extends PluginBase {
 
     public function loadWorld($foldername) {
         $file = $this->getWorldFile($foldername);
+        $config = $this->getCustomConfig($file);
 
-        if(file_exists($file)) {
-            $config = new Config($file, Config::YAML, []);
-
-            $this->loadConfigItem($config, $foldername, "gamemode");
-            $this->loadConfigItem($config, $foldername, "build");
-            $this->loadConfigItem($config, $foldername, "pvp");
-            $this->loadConfigItem($config, $foldername, "damage");
-            $this->loadConfigItem($config, $foldername, "explode");
-            $this->loadConfigItem($config, $foldername, "hunger");
-            $this->loadConfigItem($config, $foldername, "drop");
-        } else {
-            $this->createDefaultConfig($foldername);
-        }
+        $this->loadConfigItem($config, $foldername, "gamemode");
+        $this->loadConfigItem($config, $foldername, "build");
+        $this->loadConfigItem($config, $foldername, "pvp");
+        $this->loadConfigItem($config, $foldername, "damage");
+        $this->loadConfigItem($config, $foldername, "explode");
+        $this->loadConfigItem($config, $foldername, "hunger");
+        $this->loadConfigItem($config, $foldername, "drop");
     }
 
     public function loadConfigItem($config, $foldername, $key) {
         if($config instanceof Config) {
             if($config->exists($key)) {
-                if(is_bool($config->get($key))) {
-                    switch($config->get($key)) {
-                        case true:
-                            $value = false;
-                            break;
-                        case false:
-                            $value = true;
-                            break;
-                    }
-                } else {
-                    $value = $config->get($key);
-                }
-
-                $this->worlds[$foldername][$key] = $value;
+                $this->worlds[$foldername][$key] = $config->get($key);
             }
         }
     }
 
     public function updateValue($foldername, $key, $value) {
         $file = $this->getWorldFile($foldername);
-
-        if(!file_exists($file)) {
-            $this->createDefaultConfig($foldername);
-        }
         
-        $config = new Config($file, Config::YAML, []);
-        $config->set($key, $value);
-        $config->save();
+        $config = $this->getCustomConfig($file);
 
+        if($value == "true") {
+            $config->remove($key);
+        } else {
+            $config->set($key, $value);
+        }
+
+        $config->save();
         $this->loadWorld($foldername);
     }
 
-    public function createDefaultConfig($foldername) {
-        $file = $this->getWorldFile($foldername);
+    public function getCustomConfig($file) {
+        $config = new Config($file, Config::YAML, []);
 
         if(!file_exists($file)) {
-            touch($file);
+            $config->save();
         }
+
+        return $config;
     }
 }

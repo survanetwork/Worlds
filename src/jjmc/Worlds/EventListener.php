@@ -14,8 +14,8 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
 use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\event\level\LevelLoadEvent;
-use pocketmine\event\player\PlayerHungerChangeEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
+use pocketmine\event\player\PlayerHungerChangeEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\Listener;
 use pocketmine\Player;
@@ -116,7 +116,7 @@ class EventListener extends PluginBase implements Listener {
 
             if(isset($this->plugin->worlds[$foldername]["hunger"])) {
                 if($this->plugin->worlds[$foldername]["hunger"]) {
-                    $player->setFood(20); // TODO: Does not work
+                    $event->setCancelled(true);
                 }
             }
         }
