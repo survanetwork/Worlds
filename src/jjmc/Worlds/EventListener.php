@@ -36,7 +36,7 @@ class EventListener extends PluginBase implements Listener {
         $foldername = $player->getLevel()->getFolderName();
 
         if($player instanceof Player) {
-            if(isset($this->plugin->worlds[$foldername]["gamemode"])) {
+            if(isset($this->plugin->worlds[$foldername]["gamemode"]) AND !$player->hasPermission("worlds.admin.gamemode")) {
                 $player->setGamemode($this->plugin->worlds[$foldername]["gamemode"]);
             }
         }
@@ -47,7 +47,7 @@ class EventListener extends PluginBase implements Listener {
         $foldername = $event->getTarget()->getFolderName();
 
         if($player instanceof Player) {
-            if(isset($this->plugin->worlds[$foldername]["gamemode"])) {
+            if(isset($this->plugin->worlds[$foldername]["gamemode"]) AND !$player->hasPermission("worlds.admin.gamemode")) {
                 $player->setGamemode($this->plugin->worlds[$foldername]["gamemode"]);
             }
         }
@@ -59,7 +59,7 @@ class EventListener extends PluginBase implements Listener {
         if($player instanceof Player) {
             $foldername = $player->getLevel()->getFolderName();
 
-            if(isset($this->plugin->worlds[$foldername]["build"])) {
+            if(isset($this->plugin->worlds[$foldername]["build"]) AND !$player->hasPermission("worlds.admin.build")) {
                 $event->setCancelled($this->plugin->worlds[$foldername]["build"]);
             }
         }
@@ -71,7 +71,7 @@ class EventListener extends PluginBase implements Listener {
         if($player instanceof Player) {
             $foldername = $player->getLevel()->getFolderName();
 
-            if(isset($this->plugin->worlds[$foldername]["build"])) {
+            if(isset($this->plugin->worlds[$foldername]["build"]) AND !$player->hasPermission("worlds.admin.build")) {
                 $event->setCancelled($this->plugin->worlds[$foldername]["build"]);
             }
         }

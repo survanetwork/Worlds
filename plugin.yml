@@ -9,6 +9,28 @@ commands:
     usage: "/worlds <info|list|tp|set> [gamemode|build|pvp|damage|hunger|drop] [true|false]"
     aliases: ["ws"]
 permissions:
+  worlds.list:
+    description: "List worlds"
+    default: true
   worlds.admin:
     description: "Create worlds, delete worlds, set parameters"
     default: op
+    children:
+      worlds.admin.create:
+        description: "Create and delete worlds"
+        default: op
+      worlds.admin.load:
+        description: "Load and unload worlds"
+        default: op
+      worlds.admin.tp:
+        description: "Teleport to worlds"
+        default: op
+      worlds.admin.set:
+        description: "Set parameters"
+        default: op
+      worlds.admin.build:
+        description: "Allow building in protected worlds"
+        default: op
+      worlds.admin.gamemode:
+        description: "Don't change gamemode to world's gamemode"
+        default: false

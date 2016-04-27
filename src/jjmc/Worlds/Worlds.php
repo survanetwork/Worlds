@@ -43,7 +43,7 @@ class Worlds extends PluginBase {
                             $sender->sendMessage("§7This server is using §l§9Worlds §r§fversion 1.0 §7by §ejjplaying §7(https://github.com/jjplaying)");
                             return true;
                         case "list":
-                            if($sender->hasPermission("worlds.admin")) {
+                            if($sender->hasPermission("worlds.list")) {
                                 foreach($this->getServer()->getLevels() as $level) {
                                     $levels[] = $level->getName();
                                 }
@@ -54,21 +54,21 @@ class Worlds extends PluginBase {
                             }
                             return true;
                         case "create":
-                            if($sender->hasPermission("worlds.admin")) {
+                            if($sender->hasPermission("worlds.admin.create")) {
                                 // TODO
                             } else {
                                 $sender->sendMessage($this->getMessage("permission"));
                             }
                             break;
                         case "delete":
-                            if($sender->hasPermission("worlds.admin")) {
+                            if($sender->hasPermission("worlds.admin.create")) {
                                 // TODO
                             } else {
                                 $sender->sendMessage($this->getMessage("permission"));
                             }
                             break;
                         case "load":
-                            if($sender->hasPermission("worlds.admin")) {
+                            if($sender->hasPermission("worlds.admin.load")) {
                                 if(isset($args[1])) {
                                     if(!$this->getServer()->isLevelLoaded($args[1])) {
                                         $level = $this->getServer()->loadLevel($args[1]);
@@ -89,7 +89,7 @@ class Worlds extends PluginBase {
                             }
                             return true;
                         case "unload":
-                            if($sender->hasPermission("worlds.admin")) {
+                            if($sender->hasPermission("worlds.admin.load")) {
                                 if(isset($args[1])) {
                                     if($this->getServer()->isLevelLoaded($args[1])) {
                                         $this->getServer()->unloadLevel($this->getServer()->getLevelByName($args[1]));
@@ -105,7 +105,7 @@ class Worlds extends PluginBase {
                             }
                             return true;
                         case "tp":
-                            if($sender->hasPermission("worlds.admin")) {
+                            if($sender->hasPermission("worlds.admin.tp")) {
                                 if($sender instanceof Player) {
                                     if(isset($args[1])) {
                                         if(!$this->getServer()->isLevelLoaded($args[1])) {
@@ -133,7 +133,7 @@ class Worlds extends PluginBase {
                             }
                             return true;;
                         case "set":
-                            if($sender->hasPermission("worlds.admin")) {
+                            if($sender->hasPermission("worlds.admin.set")) {
                                 if(isset($args[1]) AND isset($args[2])) {
                                     if(in_array($args[1], array("gamemode", "build", "pvp", "damage", "explode", "hunger", "drop"))) {
                                         if($args[1] == "gamemode") {

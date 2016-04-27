@@ -46,24 +46,18 @@ Gamemode 1 in creative world: Go to creative world an run `/worlds set gamemode 
 <h2>Development plan</h2>
 Todo:
 
-- [x] Main plugin
-- [x] Events
-- [x] World config
-
 - [ ] Create and remove worlds
-- [ ] Load and unload worlds
-- [x] Teleport to worlds
-
-- [x] Messages file
 - [ ] Translate into diffrent languages
-
 - [ ] First release
 
-What to do next:
+Known bugs:
 
-- Test everything
 - Hunger-Event does not work on many PocketMine-forks
-- Add language switch in config and translate into native language
+
+Tested and works on:
+
+- ImagicalMine
+- ClearSky
 
 <h2>License & Credits</h2>
 [![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-sa/4.0/)
