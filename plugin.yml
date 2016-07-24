@@ -1,12 +1,12 @@
 name: Worlds
-main: jjmc\Worlds\Worlds
-version: 1.0.1
-api: 1.0.0
-author: jjmc
+main: jjplaying\Worlds\Worlds
+version: 1.0.3
+api: 2.0.0
+author: jjplaying
 commands:
   worlds:
     description: "Worlds"
-    usage: "/worlds <info|list|tp|set> [gamemode|build|pvp|damage|hunger|drop] [true|false]"
+    usage: "/worlds <info|list|tp|set> [gamemode|build|pvp|damage|drop] [true|false]"
     aliases: ["ws"]
 permissions:
   worlds.list:

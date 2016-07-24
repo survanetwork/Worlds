@@ -18,7 +18,6 @@ Please report bugs on the issues page.
     - PVP
     - Damage (everything like attacking, fall damage, ...)
     - Explosion
-    - Hunger
     - Item drop
     - You have an idea what to add? Feel free to open an issue.
 - Easy to use, fast and mostly bug-free.
@@ -30,15 +29,15 @@ Worlds is really easy to use. Here is the command syntax:
 
 `/worlds <create|delete|load|unload|tp> <world>`
 
-`/worlds set <gamemode|build|pvp|damage|hunger|drop> <true|false>`
+`/worlds set <gamemode|build|pvp|damage|drop> <true|false>`
 
 And for beginners, here are some examples of commands:
 
 List all worlds on the server: `/worlds list`
 
-Teleport to world PVP: `/worlds tp PVP`
+Teleport to world lobby: `/worlds tp lobby`
 
-No hunger in survival world: Go to survival world an run `/worlds set hunger false`
+No dropping in survival world: Go to survival world an run `/worlds set drop false`
 
 Gamemode 1 in creative world: Go to creative world an run `/worlds set gamemode 1`
 
@@ -47,7 +46,6 @@ Gamemode 1 in creative world: Go to creative world an run `/worlds set gamemode 
 Todo:
 
 - [ ] Create and remove worlds
-- [ ] Translate into diffrent languages
 
 Tested and works on:
 

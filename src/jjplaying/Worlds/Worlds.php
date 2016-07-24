@@ -6,8 +6,10 @@
  * Time: 16:01
  */
 
-namespace jjmc\Worlds;
+namespace jjplaying\Worlds;
 
+use jjplaying\Worlds\Types\World;
+use jjplaying\Worlds\Utils\StaticArrayList;
 use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
@@ -16,14 +18,17 @@ use pocketmine\command\CommandSender;
 use pocketmine\utils\Config;
 
 class Worlds extends PluginBase {
+    private $worlds;
+    private $messages;
+
     public function onEnable() {
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $this->saveDefaultConfig();
 
-        $this->worlds = array();
+        $this->worlds = new StaticArrayList();
 
         foreach($this->getServer()->getLevels() as $level) {
-            $this->loadWorld($level->getName());
+            $this->loadWorld($level->getFolderName());
         }
 
         $messagesfile = $this->getServer()->getPluginPath() . "Worlds/messages.yml";
@@ -31,6 +36,7 @@ class Worlds extends PluginBase {
         if(!file_exists($messagesfile)) {
             file_put_contents($messagesfile, $this->getResource("messages.yml"));
         }
+
         $this->messages = new Config($messagesfile, Config::YAML, []);
     }
 
@@ -44,6 +50,8 @@ class Worlds extends PluginBase {
                             return true;
                         case "list":
                             if($sender->hasPermission("worlds.list")) {
+                                $levels = array();
+
                                 foreach($this->getServer()->getLevels() as $level) {
                                     $levels[] = $level->getName();
                                 }
@@ -59,14 +67,22 @@ class Worlds extends PluginBase {
                             } else {
                                 $sender->sendMessage($this->getMessage("permission"));
                             }
-                            break;
+                            return true;
                         case "delete":
                             if($sender->hasPermission("worlds.admin.create")) {
-                                // TODO
+                                if(isset($args[1])) {
+                                    if($this->getServer()->isLevelLoaded($args[1])) {
+                                        $this->getServer()->unloadLevel($this->getServer()->getLevelByName($args[1]));
+                                    }
+
+                                    // TODO: Delete folder
+                                } else {
+                                    return false;
+                                }
                             } else {
                                 $sender->sendMessage($this->getMessage("permission"));
                             }
-                            break;
+                            return true;
                         case "load":
                             if($sender->hasPermission("worlds.admin.load")) {
                                 if(isset($args[1])) {
@@ -94,6 +110,8 @@ class Worlds extends PluginBase {
                                     if($this->getServer()->isLevelLoaded($args[1])) {
                                         $this->getServer()->unloadLevel($this->getServer()->getLevelByName($args[1]));
                                         $sender->sendMessage($this->getMessage("unloadworld", array("world" => $args[1])));
+
+                                        $this->getWorlds()->remove($args[1]);
                                     } else {
                                         $sender->sendMessage($this->getMessage("notloaded"));
                                     }
@@ -114,6 +132,7 @@ class Worlds extends PluginBase {
                                             if($level instanceof Level) {
                                                 $sender->sendMessage($this->getMessage("loadworld", array("world" => $args[1])));
                                             } else {
+
                                                 $sender->sendMessage($this->getMessage("noworld"));
                                                 return true;
                                             }
@@ -131,31 +150,41 @@ class Worlds extends PluginBase {
                             } else {
                                 $sender->sendMessage($this->getMessage("permission"));
                             }
-                            return true;;
+                            return true;
                         case "set":
                             if($sender->hasPermission("worlds.admin.set")) {
                                 if(isset($args[1]) AND isset($args[2])) {
-                                    if(in_array($args[1], array("gamemode", "build", "pvp", "damage", "explode", "hunger", "drop"))) {
+                                    if(in_array($args[1], array("gamemode", "build", "pvp", "damage", "explode", "drop"))) {
                                         if($args[1] == "gamemode") {
                                             if(in_array($args[2], array("0", "1", "2", "3"))) {
                                                 if($sender instanceof Player) {
-                                                    $world = $sender->getLevel()->getName();
-                                                    $this->updateValue($world, $args[1], $args[2]);
-                                                    $sender->sendMessage($this->getMessage("set", array("world" => $world, "key" => $args[1], "value" => $args[2])));
+                                                    if($world = $this->getWorldByName($sender->getLevel()->getFolderName())) {
+                                                        $world->updateValue($args[1], $args[2]);
+
+                                                        $sender->sendMessage($this->getMessage("set", array("world" => $sender->getLevel()->getFolderName(), "key" => $args[1], "value" => $args[2])));
+                                                    } else {
+                                                        $sender->sendMessage($this->getMessage("noworld"));
+                                                    }
                                                 } else {
                                                     $sender->sendMessage($this->getMessage("ingame"));
                                                 }
+
                                                 return true;
                                             }
                                         } else {
                                             if(in_array($args[2], array("true", "false"))) {
                                                 if($sender instanceof Player) {
-                                                    $world = $sender->getLevel()->getName();
-                                                    $this->updateValue($world, $args[1], $args[2]);
-                                                    $sender->sendMessage($this->getMessage("set", array("world" => $world, "key" => $args[1], "value" => $args[2])));
+                                                    if($world = $this->getWorldByName($sender->getLevel()->getFolderName())) {
+                                                        $world->updateValue($args[1], $args[2]);
+
+                                                        $sender->sendMessage($this->getMessage("set", array("world" => $sender->getLevel()->getFolderName(), "key" => $args[1], "value" => $args[2])));
+                                                    } else {
+                                                        $sender->sendMessage($this->getMessage("noworld"));
+                                                    }
                                                 } else {
                                                     $sender->sendMessage($this->getMessage("ingame"));
                                                 }
+
                                                 return true;
                                             }
                                         }
@@ -163,75 +192,45 @@ class Worlds extends PluginBase {
                                 }
                             } else {
                                 $sender->sendMessage($this->getMessage("permission"));
+                                return true;
                             }
-                            break;
+                            return false;
                     }
                 }
-                break;
+
+                return false;
         }
+
+        return false;
     }
 
-    public function getWorldFile($foldername) {
-        return $this->getServer()->getDataPath() . "worlds/" . $foldername . "/worlds.yml";
-    }
-
-    public function getMessage($key, $replaces = null) {
-        $config = $this->messages;
-
-        if($config instanceof Config) {
-            if($config->exists($key)) {
-                if(is_array($replaces)) {
-                    $get = $config->get($key);
-
-                    foreach($replaces as $replace => $value) {
-                        $get = str_replace("{" . $replace . "}", $value, $get);
-                    }
-
-                    return $get;
-                } else {
-                    return $config->get($key);
-                }
-            }
+    /**
+     * @param string $name
+     * @return World|bool
+     */
+    public function getWorldByName(string $name) {
+        if($this->getWorlds()->containsKey($name)) {
+            return $this->getWorlds()->get($name);
         }
+
+        return false;
     }
 
-    public function loadWorld($foldername) {
+    /**
+     * @param string $foldername
+     */
+    public function loadWorld(string $foldername) {
         $file = $this->getWorldFile($foldername);
         $config = $this->getCustomConfig($file);
 
-        $this->loadConfigItem($config, $foldername, "gamemode");
-        $this->loadConfigItem($config, $foldername, "build");
-        $this->loadConfigItem($config, $foldername, "pvp");
-        $this->loadConfigItem($config, $foldername, "damage");
-        $this->loadConfigItem($config, $foldername, "explode");
-        $this->loadConfigItem($config, $foldername, "hunger");
-        $this->loadConfigItem($config, $foldername, "drop");
+        $this->getWorlds()->add(new World($this, $config), $foldername);
     }
 
-    public function loadConfigItem($config, $foldername, $key) {
-        if($config instanceof Config) {
-            if($config->exists($key)) {
-                $this->worlds[$foldername][$key] = $config->get($key);
-            }
-        }
-    }
-
-    public function updateValue($foldername, $key, $value) {
-        $file = $this->getWorldFile($foldername);
-        
-        $config = $this->getCustomConfig($file);
-
-        if($value == "true") {
-            $config->remove($key);
-        } else {
-            $config->set($key, $value);
-        }
-
-        $config->save();
-        $this->loadWorld($foldername);
-    }
-
-    public function getCustomConfig($file) {
+    /**
+     * @param string $file
+     * @return Config
+     */
+    public function getCustomConfig(string $file) {
         $config = new Config($file, Config::YAML, []);
 
         if(!file_exists($file)) {
@@ -239,5 +238,52 @@ class Worlds extends PluginBase {
         }
 
         return $config;
+    }
+
+    /**
+     * @param string $foldername
+     * @return string
+     */
+    public function getWorldFile(string $foldername) {
+        return $this->getServer()->getDataPath() . "worlds/" . $foldername . "/worlds.yml";
+    }
+
+    /**
+     * @param string $key
+     * @param array|null $replaces
+     * @return string
+     */
+    public function getMessage(string $key, array $replaces = null) {
+        $messages = $this->getMessages();
+
+        if($messages->exists($key)) {
+            if(isset($replaces)) {
+                $get = $messages->get($key);
+
+                foreach($replaces as $replace => $value) {
+                    $get = str_replace("{" . $replace . "}", $value, $get);
+                }
+
+                return $get;
+            } else {
+                return $messages->get($key);
+            }
+        }
+
+        return $key;
+    }
+
+    /**
+     * @return Config
+     */
+    public function getMessages() {
+        return $this->messages;
+    }
+
+    /**
+     * @return StaticArrayList
+     */
+    public function getWorlds() {
+        return $this->worlds;
     }
 }
