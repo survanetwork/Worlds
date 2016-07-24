@@ -1,5 +1,7 @@
 <h1>Worlds</h1>
-<h3>A simple but feature rich world guard plugin for PocketMine</h3>
+A simple but feature rich world guard plugin for PocketMine
+
+[![Build Status](https://travis-ci.org/jjplaying/Worlds.svg?branch=master)](https://travis-ci.org/jjplaying/Worlds)
 
 <h2>Description</h2>
 Because there is no plugin to manage all aspects of the game for each world like WorldGuard on Bukkit, I made Worlds.
