@@ -1,7 +1,7 @@
 <h1>Worlds</h1>
 A simple but feature rich world guard plugin for PocketMine
 
-![](https://circleci.com/gh/jjplaying/World.png?style=shield)
+![](https://circleci.com/gh/jjplaying/Worlds.png?style=shield)
 
 [Get the latest Worlds artifacts (PHAR file) here](https://buildtest.ml/jjplaying/Worlds)
 
