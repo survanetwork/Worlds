@@ -1,7 +1,9 @@
 <h1>Worlds</h1>
 A simple but feature rich world guard plugin for PocketMine
 
-[![Build Status](https://travis-ci.org/jjplaying/Worlds.svg?branch=master)](https://travis-ci.org/jjplaying/Worlds)
+![](https://circleci.com/gh/jjplaying/World.png?style=shield)
+
+[Get the latest Worlds artifacts (PHAR file) here](https://buildtest.ml/jjplaying/Worlds)
 
 <h2>Description</h2>
 Because there is no plugin to manage all aspects of the game for each world like WorldGuard on Bukkit, I made Worlds.
@@ -29,7 +31,7 @@ Worlds is really easy to use. Here is the command syntax:
 
 `/worlds <info|list>`
 
-`/worlds <create|delete|load|unload|tp> <world>`
+`/worlds <create|delete|load|unload|tp> <world> [type]`
 
 `/worlds set <gamemode|build|pvp|damage|drop> <true|false>`
 
@@ -39,15 +41,16 @@ List all worlds on the server: `/worlds list`
 
 Teleport to world lobby: `/worlds tp lobby`
 
+Generate a flat world named newworld: `/worlds create newworld flat`
+
 No dropping in survival world: Go to survival world an run `/worlds set drop false`
 
 Gamemode 1 in creative world: Go to creative world an run `/worlds set gamemode 1`
 
 
-<h2>Development plan</h2>
-Todo:
+<h2>Development</h2>
 
-- [ ] Create and remove worlds
+Feel free to contribute if you have ideas or found an issue.
 
 Tested and works on:
 

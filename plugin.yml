@@ -6,7 +6,7 @@ author: jjplaying
 commands:
   worlds:
     description: "Worlds"
-    usage: "/worlds <info|list|tp|set> [gamemode|build|pvp|damage|drop] [true|false]"
+    usage: "/worlds <info|list> | /worlds <create|delete|load|unload|tp> <world> [type] | /worlds set <gamemode|build|pvp|damage|drop> <true|false>"
     aliases: ["ws"]
 permissions:
   worlds.list:
@@ -22,7 +22,7 @@ permissions:
       worlds.admin.load:
         description: "Load and unload worlds"
         default: op
-      worlds.admin.tp:
+      worlds.admin.teleport:
         description: "Teleport to worlds"
         default: op
       worlds.admin.set:

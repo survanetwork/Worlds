@@ -2,10 +2,9 @@
 /**
  * Created by PhpStorm.
  * User: Jarne
- * Date: 24.07.16
- * Time: 21:21
+ * Date: 19.05.16
+ * Time: 12:16
  */
-
 
 // Name of the .phar file
 $name = "Worlds";
@@ -52,11 +51,6 @@ if(run("php -dphar.readonly=0 DevTools.phar --make build --out " . $name . ".pha
     exit(1);
 }
 
-echo "Uploading file ...\n";
-if($upload = run("curl --upload-file ./" . $name . ".phar https://transfer.sh/" . $name . ".phar")) {
-    echo "Success!\n\n";
-    echo "Download phar: " . $upload[0];
-} else {
-    echo "Failed!";
-    exit();
-}
+echo "Collecting artifacts ...\n";
+run("mkdir output");
+run("mv " . $name . ".phar output/" . $name . ".phar");

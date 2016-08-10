@@ -1,0 +1,18 @@
+# CircleCI
+
+machine:
+  php:
+    version: 7.0.4
+
+checkout:
+  post:
+  - git clone https://github.com/jjplaying/Worlds
+
+dependencies:
+  override:
+  - curl -sL https://github.com/PocketMine/DevTools/releases/download/v1.11.0/DevTools_v1.11.0.phar -o DevTools.phar
+
+test:
+  override:
+  - php build.php
+  - cp -rv ./output/ $CIRCLE_ARTIFACTS
