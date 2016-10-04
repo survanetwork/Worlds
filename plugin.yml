@@ -1,6 +1,6 @@
 name: Worlds
 main: jjplaying\Worlds\Worlds
-version: 1.0.3
+version: 1.0.5
 api: 2.0.0
 author: jjplaying
 commands:

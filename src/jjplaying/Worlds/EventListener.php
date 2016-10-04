@@ -125,7 +125,7 @@ class EventListener implements Listener {
     /**
      * @return Worlds
      */
-    public function getWorlds() {
+    public function getWorlds(): Worlds {
         return $this->worlds;
     }
 }

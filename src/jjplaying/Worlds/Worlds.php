@@ -13,7 +13,6 @@ use jjplaying\Worlds\Utils\StaticArrayList;
 use pocketmine\level\generator\Flat;
 use pocketmine\level\generator\hell\Nether;
 use pocketmine\level\generator\normal\Normal;
-use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\command\Command;
@@ -121,9 +120,7 @@ class Worlds extends PluginBase {
                             if($sender->hasPermission("worlds.admin.load")) {
                                 if(count($args) == 2) {
                                     if(!$this->getServer()->isLevelLoaded($args[1])) {
-                                        $level = $this->getServer()->loadLevel($args[1]);
-
-                                        if($level instanceof Level) {
+                                        if($level = $this->getServer()->loadLevel($args[1])) {
                                             $sender->sendMessage($this->getMessage("loadworld", array("world" => $args[1])));
                                         } else {
                                             $sender->sendMessage($this->getMessage("noworld"));
@@ -163,18 +160,17 @@ class Worlds extends PluginBase {
                                 if($sender instanceof Player) {
                                     if(count($args) == 2) {
                                         if(!$this->getServer()->isLevelLoaded($args[1])) {
-                                            $level = $this->getServer()->loadLevel($args[1]);
-
-                                            if($level instanceof Level) {
+                                            if($level = $this->getServer()->loadLevel($args[1])) {
                                                 $sender->sendMessage($this->getMessage("loadworld", array("world" => $args[1])));
                                             } else {
-
                                                 $sender->sendMessage($this->getMessage("noworld"));
+
                                                 return true;
                                             }
                                         }
 
                                         $world = $this->getServer()->getLevelByName($args[1]);
+
                                         $sender->teleport($world->getSafeSpawn());
                                         $sender->sendMessage($this->getMessage("teleported", array("world" => $args[1])));
                                     } else {
@@ -241,6 +237,8 @@ class Worlds extends PluginBase {
     }
 
     /**
+     * Get a world by name
+     *
      * @param string $name
      * @return World|bool
      */
@@ -253,6 +251,8 @@ class Worlds extends PluginBase {
     }
 
     /**
+     * Register a world load
+     *
      * @param string $foldername
      */
     public function loadWorld(string $foldername) {
@@ -263,6 +263,8 @@ class Worlds extends PluginBase {
     }
 
     /**
+     * Create a custom config file
+     *
      * @param string $file
      * @return Config
      */
@@ -277,6 +279,8 @@ class Worlds extends PluginBase {
     }
 
     /**
+     * Get the worlds.yml file of a world
+     *
      * @param string $foldername
      * @return string
      */
@@ -285,6 +289,8 @@ class Worlds extends PluginBase {
     }
 
     /**
+     * Delete a world
+     *
      * @param string $directory
      */
     public function delete(string $directory) {
@@ -306,6 +312,8 @@ class Worlds extends PluginBase {
     }
 
     /**
+     * Get a translated message
+     *
      * @param string $key
      * @param array|null $replaces
      * @return string
@@ -333,14 +341,14 @@ class Worlds extends PluginBase {
     /**
      * @return Config
      */
-    public function getMessages() {
+    public function getMessages(): Config {
         return $this->messages;
     }
 
     /**
      * @return StaticArrayList
      */
-    public function getWorlds() {
+    public function getWorlds(): StaticArrayList {
         return $this->worlds;
     }
 }

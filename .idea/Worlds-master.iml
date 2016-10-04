@@ -9,10 +9,10 @@
     <orderEntry type="module-library">
       <library name="PHP">
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../../ClearSky-master" />
+          <root url="file://$MODULE_DIR$/../../src" />
         </CLASSES>
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../../../ClearSky-master" />
+          <root url="file://$MODULE_DIR$/../../src" />
         </SOURCES>
       </library>
     </orderEntry>
