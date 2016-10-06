@@ -120,8 +120,10 @@ class Worlds extends PluginBase {
                             if($sender->hasPermission("worlds.admin.load")) {
                                 if(count($args) == 2) {
                                     if(!$this->getServer()->isLevelLoaded($args[1])) {
-                                        if($level = $this->getServer()->loadLevel($args[1])) {
-                                            $sender->sendMessage($this->getMessage("loadworld", array("world" => $args[1])));
+                                        if($this->getServer()->loadLevel($args[1])) {
+                                            if($level = $this->getServer()->getLevelByName($args[1])) {
+                                                $sender->sendMessage($this->getMessage("loadworld", array("world" => $args[1])));
+                                            }
                                         } else {
                                             $sender->sendMessage($this->getMessage("noworld"));
                                         }
@@ -160,8 +162,10 @@ class Worlds extends PluginBase {
                                 if($sender instanceof Player) {
                                     if(count($args) == 2) {
                                         if(!$this->getServer()->isLevelLoaded($args[1])) {
-                                            if($level = $this->getServer()->loadLevel($args[1])) {
-                                                $sender->sendMessage($this->getMessage("loadworld", array("world" => $args[1])));
+                                            if($this->getServer()->loadLevel($args[1])) {
+                                                if($level = $this->getServer()->getLevelByName($args[1])) {
+                                                    $sender->sendMessage($this->getMessage("loadworld", array("world" => $args[1])));
+                                                }
                                             } else {
                                                 $sender->sendMessage($this->getMessage("noworld"));
 
