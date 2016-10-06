@@ -21,6 +21,7 @@ class World {
     private $damage;
     private $explode;
     private $drop;
+    private $hunger;
 
     public function __construct(Worlds $worlds, Config $config) {
         $this->worlds = $worlds;
@@ -36,9 +37,12 @@ class World {
         $this->loadValue("damage");
         $this->loadValue("explode");
         $this->loadValue("drop");
+        $this->loadValue("hunger");
     }
 
     /**
+     * Load value from config
+     *
      * @param string $name
      */
     public function loadValue(string $name) {
@@ -64,6 +68,8 @@ class World {
     }
 
     /**
+     * Update a config value
+     *
      * @param string $name
      * @param string $value
      */
@@ -81,56 +87,63 @@ class World {
     /**
      * @return bool
      */
-    public function getDrop() {
+    public function getHunger(): bool {
+        return $this->hunger;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getDrop(): bool {
         return $this->drop;
     }
 
     /**
      * @return bool
      */
-    public function getExplode() {
+    public function getExplode(): bool {
         return $this->explode;
     }
 
     /**
      * @return bool
      */
-    public function getDamage() {
+    public function getDamage(): bool {
         return $this->damage;
     }
 
     /**
      * @return bool
      */
-    public function getPvp() {
+    public function getPvp(): bool {
         return $this->pvp;
     }
 
     /**
      * @return bool
      */
-    public function getBuild() {
+    public function getBuild(): bool {
         return $this->build;
     }
 
     /**
      * @return int
      */
-    public function getGamemode() {
+    public function getGamemode(): int {
         return $this->gamemode;
     }
 
     /**
      * @return Config
      */
-    public function getConfig() {
+    public function getConfig(): Config {
         return $this->config;
     }
 
     /**
      * @return Worlds
      */
-    public function getWorlds() {
+    public function getWorlds(): Worlds {
         return $this->worlds;
     }
 }
