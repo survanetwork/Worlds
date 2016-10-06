@@ -17,6 +17,7 @@ use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\Server;
 use pocketmine\utils\Config;
 
 class Worlds extends PluginBase {
@@ -192,7 +193,7 @@ class Worlds extends PluginBase {
                                 if(count($args) == 3) {
                                     if(in_array($args[1], array("gamemode", "build", "pvp", "damage", "explode", "drop"))) {
                                         if($args[1] == "gamemode") {
-                                            if(in_array($args[2], array("0", "1", "2", "3"))) {
+                                            if(($args[2] = Server::getGamemodeFromString($args[2])) != -1) {
                                                 if($sender instanceof Player) {
                                                     if($world = $this->getWorldByName($sender->getLevel()->getFolderName())) {
                                                         $world->updateValue($args[1], $args[2]);
