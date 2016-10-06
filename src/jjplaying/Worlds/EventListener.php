@@ -39,10 +39,8 @@ class EventListener implements Listener {
         $foldername = $player->getLevel()->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if($player instanceof Player) {
-                if(!$player->hasPermission("worlds.admin.gamemode")) {
-                    $player->setGamemode($world->getGamemode());
-                }
+            if(!$player->hasPermission("worlds.admin.gamemode")) {
+                $player->setGamemode($world->getGamemode());
             }
         }
     }
@@ -65,10 +63,8 @@ class EventListener implements Listener {
         $foldername = $player->getLevel()->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if($player instanceof Player) {
-                if(!$player->hasPermission("worlds.admin.build")) {
-                    $event->setCancelled(!$world->getBuild());
-                }
+            if(!$player->hasPermission("worlds.admin.build")) {
+                $event->setCancelled(!$world->getBuild());
             }
         }
     }
@@ -78,10 +74,8 @@ class EventListener implements Listener {
         $foldername = $player->getLevel()->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if($player instanceof Player) {
-                if(!$player->hasPermission("worlds.admin.build")) {
-                    $event->setCancelled(!$world->getBuild());
-                }
+            if(!$player->hasPermission("worlds.admin.build")) {
+                $event->setCancelled(!$world->getBuild());
             }
         }
     }
@@ -106,9 +100,7 @@ class EventListener implements Listener {
         $foldername = $player->getLevel()->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if($player instanceof Player) {
-                $event->setCancelled(!$world->getExplode());
-            }
+            $event->setCancelled(!$world->getExplode());
         }
     }
 
@@ -117,9 +109,7 @@ class EventListener implements Listener {
         $foldername = $player->getLevel()->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if($player instanceof Player) {
-                $event->setCancelled(!$world->getDrop());
-            }
+            $event->setCancelled(!$world->getDrop());
         }
     }
 
@@ -128,9 +118,7 @@ class EventListener implements Listener {
         $foldername = $player->getLevel()->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if($player instanceof Player) {
-                $event->setCancelled(!$world->getHunger());
-            }
+            $event->setCancelled(!$world->getHunger());
         }
     }
 
