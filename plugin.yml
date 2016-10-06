@@ -1,12 +1,12 @@
 name: Worlds
 main: jjplaying\Worlds\Worlds
-version: 1.0.5
+version: 1.0.6
 api: 2.0.0
 author: jjplaying
 commands:
   worlds:
     description: "Worlds"
-    usage: "/worlds <info|list> | /worlds <create|delete|load|unload|tp> <world> [type] | /worlds set <gamemode|build|pvp|damage|drop> <true|false>"
+    usage: "/worlds <info|list> OR /worlds <create|delete|load|unload|tp> <world> [type] OR /worlds set <gamemode|build|pvp|damage|drop|hunger> <true|false>"
     aliases: ["ws"]
 permissions:
   worlds.list:

@@ -23,6 +23,7 @@ Please report bugs on the issues page.
     - Damage (everything like attacking, fall damage, ...)
     - Explosion
     - Item drop
+    - Hunger
     - You have an idea what to add? Feel free to open an issue.
 - Easy to use, fast and mostly bug-free.
 
@@ -33,7 +34,7 @@ Worlds is really easy to use. Here is the command syntax:
 
 `/worlds <create|delete|load|unload|tp> <world> [type]`
 
-`/worlds set <gamemode|build|pvp|damage|drop> <true|false>`
+`/worlds set <gamemode|build|pvp|damage|drop|hunger> <true|false>`
 
 And for beginners, here are some examples of commands:
 
@@ -55,6 +56,7 @@ Feel free to contribute if you have ideas or found an issue.
 Tested and works on:
 
 - PocketMine
+- Genisys
 - ClearSky
 
 <h2>License & Credits</h2>
