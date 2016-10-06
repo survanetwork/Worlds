@@ -44,12 +44,15 @@ class Worlds extends PluginBase {
     }
 
     public function onCommand(CommandSender $sender, Command $command, $label, array $args) {
-        switch(strtolower($command->getName())) {
+        $name = $command->getName();
+
+        switch(strtolower($name)) {
             case "worlds":
                 if(count($args) >= 1) {
                     switch(strtolower($args[0])) {
                         case "info":
                             $sender->sendMessage("§7This server is using §l§9Worlds §r§fversion 1.0 §7(C) 2016 by §ejjplaying §7(https://github.com/jjplaying)");
+
                             return true;
                         case "list":
                         case "ls":
@@ -64,6 +67,7 @@ class Worlds extends PluginBase {
                             } else {
                                 $sender->sendMessage($this->getMessage("permission"));
                             }
+
                             return true;
                         case "create":
                         case "cr":
@@ -97,6 +101,7 @@ class Worlds extends PluginBase {
                             } else {
                                 $sender->sendMessage($this->getMessage("permission"));
                             }
+
                             return true;
                         case "remove":
                         case "rm":
@@ -115,6 +120,7 @@ class Worlds extends PluginBase {
                             } else {
                                 $sender->sendMessage($this->getMessage("permission"));
                             }
+
                             return true;
                         case "load":
                         case "ld":
@@ -137,6 +143,7 @@ class Worlds extends PluginBase {
                             } else {
                                 $sender->sendMessage($this->getMessage("permission"));
                             }
+
                             return true;
                         case "unload":
                         case "unld":
@@ -156,6 +163,7 @@ class Worlds extends PluginBase {
                             } else {
                                 $sender->sendMessage($this->getMessage("permission"));
                             }
+
                             return true;
                         case "teleport":
                         case "tp":
@@ -187,6 +195,7 @@ class Worlds extends PluginBase {
                             } else {
                                 $sender->sendMessage($this->getMessage("permission"));
                             }
+
                             return true;
                         case "set":
                             if($sender->hasPermission("worlds.admin.set")) {
