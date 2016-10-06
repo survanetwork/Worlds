@@ -228,8 +228,10 @@ class Worlds extends PluginBase {
                                 }
                             } else {
                                 $sender->sendMessage($this->getMessage("permission"));
+
                                 return true;
                             }
+
                             return false;
                     }
                 }
