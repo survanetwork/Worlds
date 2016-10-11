@@ -35,7 +35,9 @@ Worlds is really easy to use. Here is the command syntax:
 
 `/worlds <create|delete|load|unload|tp> <world> [type]`
 
-`/worlds set <gamemode|build|pvp|damage|drop|hunger> <true|false>`
+`/worlds set gamemode <survival|creative|adventure|spectator>`
+
+`/worlds set <build|pvp|damage|drop|hunger|fly> <true|false>`
 
 And for beginners, here are some examples of commands:
 

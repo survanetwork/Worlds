@@ -6,7 +6,7 @@ author: jjplaying
 commands:
   worlds:
     description: "Worlds"
-    usage: "/worlds <info|list> OR /worlds <create|delete|load|unload|tp> <world> [type] OR /worlds set <gamemode|build|pvp|damage|drop|hunger> <true|false>"
+    usage: "/worlds <info|list> OR /worlds <create|delete|load|unload|tp> <world> [type] OR /worlds set gamemode <survival|creative|adventure|spectator> OR /worlds set <|build|pvp|damage|drop|hunger|fly> <true|false>"
     aliases: ["ws"]
 permissions:
   worlds.list:
