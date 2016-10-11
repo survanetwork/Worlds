@@ -24,6 +24,7 @@ Please report bugs on the issues page.
     - Explosion
     - Item drop
     - Hunger
+    - Fly
     - You have an idea what to add? Feel free to open an issue.
 - Easy to use, fast and mostly bug-free.
 
