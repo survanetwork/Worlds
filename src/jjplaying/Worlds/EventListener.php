@@ -42,6 +42,12 @@ class EventListener implements Listener {
             if(!$player->hasPermission("worlds.admin.gamemode")) {
                 $player->setGamemode($world->getGamemode());
             }
+
+            if($world->getFly() OR $player->hasPermission("worlds.admin.fly")) {
+                $player->setAllowFlight(true);
+            } else {
+                $player->setAllowFlight(false);
+            }
         }
     }
 
@@ -53,6 +59,12 @@ class EventListener implements Listener {
             if($player instanceof Player) {
                 if(!$player->hasPermission("worlds.admin.gamemode")) {
                     $player->setGamemode($world->getGamemode());
+                }
+
+                if($world->getFly() OR $player->hasPermission("worlds.admin.fly")) {
+                    $player->setAllowFlight(true);
+                } else {
+                    $player->setAllowFlight(false);
                 }
             }
         }

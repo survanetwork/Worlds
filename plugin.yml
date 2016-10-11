@@ -34,3 +34,6 @@ permissions:
       worlds.admin.gamemode:
         description: "Don't change gamemode to world's gamemode"
         default: false
+      worlds.admin.fly:
+        description: "Fly in every world"
+        default: op

@@ -22,6 +22,7 @@ class World {
     private $explode;
     private $drop;
     private $hunger;
+    private $fly;
 
     public function __construct(Worlds $worlds, Config $config) {
         $this->worlds = $worlds;
@@ -38,6 +39,7 @@ class World {
         $this->loadValue("explode");
         $this->loadValue("drop");
         $this->loadValue("hunger");
+        $this->loadValue("fly");
     }
 
     /**
@@ -82,6 +84,13 @@ class World {
 
         $this->getConfig()->save();
         $this->loadItems();
+    }
+
+    /**
+     * @return bool
+     */
+    public function getFly(): bool {
+        return $this->fly;
     }
 
     /**

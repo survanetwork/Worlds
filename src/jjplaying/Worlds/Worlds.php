@@ -200,7 +200,7 @@ class Worlds extends PluginBase {
                         case "set":
                             if($sender->hasPermission("worlds.admin.set")) {
                                 if(count($args) == 3) {
-                                    if(in_array($args[1], array("gamemode", "build", "pvp", "damage", "explode", "drop", "hunger"))) {
+                                    if(in_array($args[1], array("gamemode", "build", "pvp", "damage", "explode", "drop", "hunger", "fly"))) {
                                         if($args[1] == "gamemode") {
                                             if(($args[2] = Server::getGamemodeFromString($args[2])) != -1) {
                                                 if($sender instanceof Player) {
