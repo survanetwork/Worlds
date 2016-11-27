@@ -101,7 +101,9 @@ class EventListener implements Listener {
                 if($event instanceof EntityDamageByEntityEvent) {
                     $event->setCancelled(!$world->getPvp());
                 } else {
-                    $event->setCancelled(!$world->getDamage());
+                    if($event->getCause() != EntityDamageEvent::CAUSE_VOID) {
+                        $event->setCancelled(!$world->getDamage());
+                    }
                 }
             }
         }
