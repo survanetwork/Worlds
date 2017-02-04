@@ -6,7 +6,7 @@
  * Time: 20:05
  */
 
-namespace jjplaying\Worlds\Types;
+namespace surva\Worlds\Types;
 
 use jjplaying\Worlds\Worlds;
 use pocketmine\utils\Config;

@@ -6,7 +6,7 @@ machine:
 
 checkout:
   post:
-  - git clone https://github.com/jjplaying/Worlds
+  - git clone https://github.com/survanetwork/Worlds
 
 dependencies:
   override:

@@ -1,8 +1,7 @@
 name: Worlds
-main: jjplaying\Worlds\Worlds
+main: surva\Worlds\Worlds
 version: 1.0.7
 api: 2.0.0
-author: jjplaying
 commands:
   worlds:
     description: "Worlds"

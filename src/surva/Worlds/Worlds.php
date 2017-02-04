@@ -6,7 +6,7 @@
  * Time: 16:01
  */
 
-namespace jjplaying\Worlds;
+namespace surva\Worlds;
 
 use jjplaying\Worlds\Types\World;
 use jjplaying\Worlds\Utils\StaticArrayList;
@@ -51,7 +51,7 @@ class Worlds extends PluginBase {
                 if(count($args) >= 1) {
                     switch(strtolower($args[0])) {
                         case "info":
-                            $sender->sendMessage("§7This server is using §l§9Worlds §r§fversion 1.0 §7(C) 2016 by §ejjplaying §7(https://github.com/jjplaying)");
+                            $sender->sendMessage("§7This server is using §l§9Worlds §r§fversion 1.0 §7(C) 2016 by §ejjplaying §7(https://github.com/surva)");
 
                             return true;
                         case "list":

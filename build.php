@@ -30,8 +30,8 @@ echo ' ____        _ _     _ _____         _
 | |_) | |_| | | | (_| | | |  __/\__ \ |_ 
 |____/ \__,_|_|_|\__,_| |_|\___||___/\__|';
 echo "\n\n";
-echo "(C) 2016 by jjplaying\n";
-echo "https://github.com/jjplaying\n\n";
+echo "(C) 2016 by surva network\n";
+echo "https://github.com/survanetwork\n\n";
 
 
 echo "Setting up environment ...\n\n";

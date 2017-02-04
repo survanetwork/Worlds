@@ -6,7 +6,7 @@
  * Time: 09:08
  */
 
-namespace jjplaying\Worlds\Utils;
+namespace surva\Worlds\Utils;
 
 class StaticArrayList {
     private $array;

@@ -1,9 +1,9 @@
 # Worlds
 A simple but feature rich world guard plugin for PocketMine-MP
 
-![](https://circleci.com/gh/pmmpplugins/Worlds.png?style=shield)
+![](https://circleci.com/gh/survanetwork/Worlds.png?style=shield)
 
-[Get the latest Worlds artifacts (PHAR file) here](https://buildtest.yellowlake.net/pmmpplugins/Worlds)
+[Get the latest Worlds artifacts (PHAR file) here](https://buildtest.yellowlake.net/survanetwork/Worlds)
 
 ## Description
 Because there is no plugin to manage all aspects of the game for each world like WorldGuard on Bukkit, I made Worlds.
@@ -65,4 +65,4 @@ Tested and works on:
 [![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-sa/4.0/)
 
 You are free to copy, redistribute, change or expand our work, but you must give credits share it under the same license.
-Worlds by [pmmpplugins](https://github.com/pmmpplugins/Worlds) is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
+Worlds by [surva network](https://github.com/survanetwork/Worlds) is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).

@@ -6,7 +6,7 @@
  * Time: 18:28
  */
 
-namespace jjplaying\Worlds;
+namespace surva\Worlds;
 
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
