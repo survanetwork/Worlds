@@ -8,7 +8,7 @@
 
 namespace surva\Worlds\Types;
 
-use jjplaying\Worlds\Worlds;
+use surva\Worlds\Worlds;
 use pocketmine\utils\Config;
 
 class World {

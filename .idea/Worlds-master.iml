@@ -16,5 +16,15 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library name="PHP" type="php">
+        <CLASSES>
+          <root url="file://$USER_HOME$/Downloads/PocketMine-MP/src" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$USER_HOME$/Downloads/PocketMine-MP/src" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
