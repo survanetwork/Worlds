@@ -1,9 +1,9 @@
 # Worlds
 A simple but feature rich world guard plugin for PocketMine-MP
 
-![](https://circleci.com/gh/survanetwork/Worlds.png?style=shield)
+![](https://poggit.pmmp.io/ci.badge/survanetwork/Worlds/Worlds)
 
-[Get the latest Worlds artifacts (PHAR file) here](https://buildtest.yellowlake.net/survanetwork/Worlds)
+[Get the latest Worlds artifacts (PHAR file) here](https://poggit.pmmp.io/ci/survanetwork/Worlds/Worlds)
 
 ## Description
 Because there is no plugin to manage all aspects of the game for each world like WorldGuard on Bukkit, I made Worlds.
