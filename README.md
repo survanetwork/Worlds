@@ -59,7 +59,6 @@ Feel free to contribute if you have ideas or found an issue.
 Tested and works on:
 
 - PocketMine-MP
-- Genisys
 
 ## License & Credits
 [![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-sa/4.0/)
