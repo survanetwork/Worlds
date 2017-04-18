@@ -17,21 +17,21 @@ class World {
     /* @var Config */
     private $config;
 
-    /* @var int */
+    /* @var int|null */
     private $gamemode;
-    /* @var bool */
+    /* @var bool|null */
     private $build;
-    /* @var bool */
+    /* @var bool|null */
     private $pvp;
-    /* @var bool */
+    /* @var bool|null */
     private $damage;
-    /* @var bool */
+    /* @var bool|null */
     private $explode;
-    /* @var bool */
+    /* @var bool|null */
     private $drop;
-    /* @var bool */
+    /* @var bool|null */
     private $hunger;
-    /* @var bool */
+    /* @var bool|null */
     private $fly;
 
     public function __construct(Worlds $worlds, Config $config) {
@@ -74,7 +74,7 @@ class World {
             if($name == "gamemode") {
                 $this->$name = $this->getWorlds()->getServer()->getDefaultGamemode();
             } else {
-                $this->$name = true;
+                $this->$name = null;
             }
         }
     }
@@ -97,58 +97,58 @@ class World {
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getFly(): bool {
+    public function getFly() {
         return $this->fly;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getHunger(): bool {
+    public function getHunger() {
         return $this->hunger;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getDrop(): bool {
+    public function getDrop() {
         return $this->drop;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getExplode(): bool {
+    public function getExplode() {
         return $this->explode;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getDamage(): bool {
+    public function getDamage() {
         return $this->damage;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getPvp(): bool {
+    public function getPvp() {
         return $this->pvp;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getBuild(): bool {
+    public function getBuild() {
         return $this->build;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getGamemode(): int {
+    public function getGamemode() {
         return $this->gamemode;
     }
 

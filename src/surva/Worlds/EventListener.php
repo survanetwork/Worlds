@@ -44,7 +44,7 @@ class EventListener implements Listener {
                 $player->setGamemode($world->getGamemode());
             }
 
-            if($world->getFly() OR $player->hasPermission("worlds.admin.fly")) {
+            if($world->getFly() === true OR $player->hasPermission("worlds.admin.fly")) {
                 $player->setAllowFlight(true);
             } else {
                 $player->setAllowFlight(false);
@@ -62,7 +62,7 @@ class EventListener implements Listener {
                     $player->setGamemode($world->getGamemode());
                 }
 
-                if($world->getFly() OR $player->hasPermission("worlds.admin.fly")) {
+                if($world->getFly() === true OR $player->hasPermission("worlds.admin.fly")) {
                     $player->setAllowFlight(true);
                 } else {
                     $player->setAllowFlight(false);
@@ -77,7 +77,7 @@ class EventListener implements Listener {
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if(!$player->hasPermission("worlds.admin.build")) {
-                if(!$world->getBuild()) {
+                if($world->getBuild() === false) {
                     $event->setCancelled(true);
                 }
             }
@@ -90,7 +90,7 @@ class EventListener implements Listener {
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if(!$player->hasPermission("worlds.admin.build")) {
-                if(!$world->getBuild()) {
+                if($world->getBuild() === false) {
                     $event->setCancelled(true);
                 }
             }
@@ -104,12 +104,12 @@ class EventListener implements Listener {
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if($player instanceof Player) {
                 if($event instanceof EntityDamageByEntityEvent) {
-                    if(!$world->getPvp()) {
+                    if($world->getPvp() === false) {
                         $event->setCancelled(true);
                     }
                 } else {
                     if($event->getCause() != EntityDamageEvent::CAUSE_VOID) {
-                        if(!$world->getDamage()) {
+                        if($world->getDamage() === false) {
                             $event->setCancelled(true);
                         }
                     }
@@ -123,7 +123,7 @@ class EventListener implements Listener {
         $foldername = $player->getLevel()->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if(!$world->getExplode()) {
+            if($world->getExplode() === false) {
                 $event->setCancelled(true);
             }
         }
@@ -134,7 +134,7 @@ class EventListener implements Listener {
         $foldername = $player->getLevel()->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if(!$world->getDrop()) {
+            if($world->getDrop() === false) {
                 $event->setCancelled(true);
             }
         }
@@ -145,7 +145,7 @@ class EventListener implements Listener {
         $foldername = $player->getLevel()->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if(!$world->getHunger()) {
+            if($world->getHunger() === false) {
                 $event->setCancelled(true);
             }
         }
