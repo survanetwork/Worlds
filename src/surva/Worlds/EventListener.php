@@ -22,6 +22,7 @@ use pocketmine\event\Listener;
 use pocketmine\Player;
 
 class EventListener implements Listener {
+    /* @var Worlds */
     private $worlds;
 
     public function __construct(Worlds $worlds) {

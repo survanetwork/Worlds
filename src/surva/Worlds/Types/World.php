@@ -12,16 +12,26 @@ use surva\Worlds\Worlds;
 use pocketmine\utils\Config;
 
 class World {
+    /* @var Worlds */
     private $worlds;
+    /* @var Config */
     private $config;
 
+    /* @var int */
     private $gamemode;
+    /* @var bool */
     private $build;
+    /* @var bool */
     private $pvp;
+    /* @var bool */
     private $damage;
+    /* @var bool */
     private $explode;
+    /* @var bool */
     private $drop;
+    /* @var bool */
     private $hunger;
+    /* @var bool */
     private $fly;
 
     public function __construct(Worlds $worlds, Config $config) {

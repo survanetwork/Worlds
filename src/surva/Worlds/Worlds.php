@@ -21,7 +21,9 @@ use pocketmine\Server;
 use pocketmine\utils\Config;
 
 class Worlds extends PluginBase {
+    /* @var StaticArrayList */
     private $worlds;
+    /* @var Config */
     private $messages;
 
     public function onEnable() {
