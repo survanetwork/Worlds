@@ -1,5 +1,5 @@
 # Worlds
-A simple but feature rich world guard plugin for PocketMine-MP
+Easy to use but feature rich world guard plugin
 
 ![](https://poggit.pmmp.io/ci.badge/survanetwork/Worlds/Worlds)
 
