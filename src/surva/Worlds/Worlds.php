@@ -36,7 +36,7 @@ class Worlds extends PluginBase {
             $this->loadWorld($level->getFolderName());
         }
 
-        $messagesfile = $this->getServer()->getPluginPath() . "Worlds/messages.yml";
+        $messagesfile = $this->getDataFolder() . "messages.yml";
 
         if(!file_exists($messagesfile)) {
             file_put_contents($messagesfile, $this->getResource("messages.yml"));
