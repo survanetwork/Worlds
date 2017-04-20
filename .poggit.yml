@@ -4,3 +4,4 @@ branches:
 projects:
   Worlds:
     path: ""
+    icon: "icon.png"
