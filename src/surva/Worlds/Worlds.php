@@ -8,6 +8,8 @@
 
 namespace surva\Worlds;
 
+use pocketmine\nbt\NBT;
+use pocketmine\nbt\tag\StringTag;
 use surva\Worlds\Types\World;
 use surva\Worlds\Utils\StaticArrayList;
 use pocketmine\level\generator\Flat;
@@ -53,7 +55,7 @@ class Worlds extends PluginBase {
                 if(count($args) >= 1) {
                     switch(strtolower($args[0])) {
                         case "info":
-                            $sender->sendMessage("§7This server is using §l§9Worlds §r§fversion 1.0 §7(C) 2017 by §esurva network §7(https://github.com/survanetwork)");
+                            $sender->sendMessage("§7This server is using §l§9Worlds §r§fversion 1.0.9 §7(C) 2017 by §esurva network §7(https://github.com/survanetwork)");
 
                             return true;
                         case "list":
@@ -107,7 +109,7 @@ class Worlds extends PluginBase {
                             return true;
                         case "remove":
                         case "rm":
-                            if($sender->hasPermission("worlds.admin.create")) {
+                            if($sender->hasPermission("worlds.admin.remove")) {
                                 if(count($args) == 2) {
                                     if($this->getServer()->isLevelLoaded($args[1])) {
                                         $this->getServer()->unloadLevel($this->getServer()->getLevelByName($args[1]));
@@ -116,6 +118,71 @@ class Worlds extends PluginBase {
                                     $this->delete($this->getServer()->getFilePath() . "worlds/" . $args[1]);
 
                                     $sender->sendMessage($this->getMessage("removed"));
+                                } else {
+                                    return false;
+                                }
+                            } else {
+                                $sender->sendMessage($this->getMessage("permission"));
+                            }
+
+                            return true;
+                        case "copy":
+                        case "cp":
+                            if($sender->hasPermission("worlds.admin.copy")) {
+                                if(count($args) == 3) {
+                                    if($level = $this->getServer()->getLevelByName($args[1])) {
+                                        $fromFolderName = $level->getFolderName();
+                                        $toFolderName = $args[2];
+
+                                        if($fromFolderName != $toFolderName) {
+                                            $this->copy($this->getServer()->getDataPath() . "worlds/" . $fromFolderName, $this->getServer()->getDataPath() . "worlds/" . $toFolderName);
+
+                                            $sender->sendMessage($this->getMessage("copied", array("to" => $toFolderName)));
+                                        }
+                                    } else {
+                                        $sender->sendMessage($this->getMessage("notloaded"));
+                                    }
+                                } else {
+                                    return false;
+                                }
+                            } else {
+                                $sender->sendMessage($this->getMessage("permission"));
+                            }
+
+                            return true;
+                        case "rename":
+                        case "rn":
+                            if($sender->hasPermission("worlds.admin.rename")) {
+                                if(count($args) == 3) {
+                                    if(is_dir($this->getServer()->getDataPath() . "worlds/" . $args[1])) {
+                                        if($this->getServer()->isLevelLoaded($args[1])) {
+                                            $this->getServer()->unloadLevel($this->getServer()->getLevelByName($args[1]));
+                                        }
+
+                                        $fromFolderName = $args[1];
+                                        $toFolderName = $args[2];
+
+                                        if($levelDatContent = file_get_contents($this->getServer()->getDataPath() . "worlds/" . $fromFolderName . "/level.dat")) {
+                                            $nbt = new NBT(NBT::BIG_ENDIAN);
+                                            $nbt->readCompressed($levelDatContent);
+
+                                            $levelData = $nbt->getData();
+                                            $levelData["Data"]["LevelName"] = new StringTag("LevelName", $toFolderName);
+                                            $nbt->setData($levelData);
+
+                                            $buffer = $nbt->writeCompressed();
+                                            file_put_contents($this->getServer()->getDataPath() . "worlds/" . $fromFolderName . "/level.dat", $buffer);
+                                        }
+
+                                        if($fromFolderName != $toFolderName) {
+                                            $this->copy($this->getServer()->getDataPath() . "worlds/" . $fromFolderName, $this->getServer()->getDataPath() . "worlds/" . $toFolderName);
+                                            $this->delete($this->getServer()->getDataPath() . "worlds/" . $fromFolderName);
+
+                                            $sender->sendMessage($this->getMessage("renamed", array("to" => $toFolderName)));
+                                        }
+                                    } else {
+                                        $sender->sendMessage($this->getMessage("notloaded"));
+                                    }
                                 } else {
                                     return false;
                                 }
@@ -304,6 +371,30 @@ class Worlds extends PluginBase {
      */
     public function getWorldFile(string $foldername) {
         return $this->getServer()->getDataPath() . "worlds/" . $foldername . "/worlds.yml";
+    }
+
+    /**
+     * Copy a world
+     *
+     * @param string $from
+     * @param string $to
+     */
+    public function copy(string $from, string $to) {
+        if(is_dir($from)) {
+            $objects = scandir($from);
+
+            mkdir($to);
+
+            foreach($objects as $object) {
+                if($object != "." AND $object != "..") {
+                    if(is_dir($from . "/" . $object)) {
+                        $this->copy($from . "/" . $object, $to . "/" . $object);
+                    } else {
+                        copy($from . "/" . $object, $to . "/" . $object);
+                    }
+                }
+            }
+        }
     }
 
     /**

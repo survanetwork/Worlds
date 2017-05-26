@@ -14,6 +14,7 @@ Please report bugs on the issues page.
 
 ## Features
 - Create and remove worlds
+- Copy and rename worlds
 - Load and unload worlds
 - Teleport to worlds
 - Control nearly every event for each world (it's getting more and more).
@@ -34,6 +35,8 @@ Worlds is really easy to use. Here is the command syntax:
 `/worlds <info|list>`
 
 `/worlds <create|delete|load|unload|tp> <world> [type]`
+
+`/worlds <copy|rename> <from> <to>`
 
 `/worlds set gamemode <survival|creative|adventure|spectator>`
 
