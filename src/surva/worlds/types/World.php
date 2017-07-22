@@ -6,31 +6,39 @@
  * Time: 20:05
  */
 
-namespace surva\Worlds\Types;
+namespace surva\worlds\types;
 
-use surva\Worlds\Worlds;
+use surva\worlds\Worlds;
 use pocketmine\utils\Config;
 
 class World {
     /* @var Worlds */
     private $worlds;
+
     /* @var Config */
     private $config;
 
     /* @var int|null */
     private $gamemode;
+
     /* @var bool|null */
     private $build;
+
     /* @var bool|null */
     private $pvp;
+
     /* @var bool|null */
     private $damage;
+
     /* @var bool|null */
     private $explode;
+
     /* @var bool|null */
     private $drop;
+
     /* @var bool|null */
     private $hunger;
+
     /* @var bool|null */
     private $fly;
 

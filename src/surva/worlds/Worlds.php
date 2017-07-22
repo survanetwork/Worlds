@@ -6,12 +6,12 @@
  * Time: 16:01
  */
 
-namespace surva\Worlds;
+namespace surva\worlds;
 
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\StringTag;
-use surva\Worlds\Types\World;
-use surva\Worlds\Utils\StaticArrayList;
+use surva\worlds\types\World;
+use surva\worlds\utils\ArrayList;
 use pocketmine\level\generator\Flat;
 use pocketmine\level\generator\hell\Nether;
 use pocketmine\level\generator\normal\Normal;
@@ -23,8 +23,9 @@ use pocketmine\Server;
 use pocketmine\utils\Config;
 
 class Worlds extends PluginBase {
-    /* @var StaticArrayList */
+    /* @var ArrayList */
     private $worlds;
+
     /* @var Config */
     private $messages;
 
@@ -32,7 +33,7 @@ class Worlds extends PluginBase {
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $this->saveDefaultConfig();
 
-        $this->worlds = new StaticArrayList();
+        $this->worlds = new ArrayList();
 
         foreach($this->getServer()->getLevels() as $level) {
             $this->loadWorld($level->getFolderName());
@@ -47,17 +48,13 @@ class Worlds extends PluginBase {
         $this->messages = new Config($messagesfile, Config::YAML, []);
     }
 
-    public function onCommand(CommandSender $sender, Command $command, $label, array $args) {
+    public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {
         $name = $command->getName();
 
         switch(strtolower($name)) {
             case "worlds":
                 if(count($args) >= 1) {
                     switch(strtolower($args[0])) {
-                        case "info":
-                            $sender->sendMessage("§7This server is using §l§9Worlds §r§fversion 1.0.9 §7(C) 2017 by §esurva network §7(https://github.com/survanetwork)");
-
-                            return true;
                         case "list":
                         case "ls":
                             if($sender->hasPermission("worlds.list")) {
@@ -325,7 +322,7 @@ class Worlds extends PluginBase {
      * Get a world by name
      *
      * @param string $name
-     * @return World|bool
+     * @return World|false
      */
     public function getWorldByName(string $name) {
         if($this->getWorlds()->containsKey($name)) {
@@ -353,7 +350,7 @@ class Worlds extends PluginBase {
      * @param string $file
      * @return Config
      */
-    public function getCustomConfig(string $file) {
+    public function getCustomConfig(string $file): Config {
         $config = new Config($file, Config::YAML, []);
 
         if(!file_exists($file)) {
@@ -369,7 +366,7 @@ class Worlds extends PluginBase {
      * @param string $foldername
      * @return string
      */
-    public function getWorldFile(string $foldername) {
+    public function getWorldFile(string $foldername): string {
         return $this->getServer()->getDataPath() . "worlds/" . $foldername . "/worlds.yml";
     }
 
@@ -427,7 +424,7 @@ class Worlds extends PluginBase {
      * @param array|null $replaces
      * @return string
      */
-    public function getMessage(string $key, array $replaces = null) {
+    public function getMessage(string $key, array $replaces = null): string {
         $messages = $this->getMessages();
 
         if($messages->exists($key)) {
@@ -455,9 +452,9 @@ class Worlds extends PluginBase {
     }
 
     /**
-     * @return StaticArrayList
+     * @return ArrayList
      */
-    public function getWorlds(): StaticArrayList {
+    public function getWorlds(): ArrayList {
         return $this->worlds;
     }
 }
