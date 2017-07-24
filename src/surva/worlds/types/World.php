@@ -23,6 +23,8 @@ class World {
 
     /* @var bool|null */
     private $build;
+    /* @var bool|null */
+    private $interact;
 
     /* @var bool|null */
     private $pvp;
@@ -153,6 +155,10 @@ class World {
     public function getBuild() {
         return $this->build;
     }
+    
+    /**
+     * @return bool|null
+     */  
     public function getInteract() {
         return $this->interact();
     }
