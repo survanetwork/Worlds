@@ -54,7 +54,7 @@ class World {
     public function loadItems() {
         $this->loadValue("gamemode");
         $this->loadValue("build");
-        $this->loadValuse("interact");
+        $this->loadValue("interact");
         $this->loadValue("pvp");
         $this->loadValue("damage");
         $this->loadValue("explode");
