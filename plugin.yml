@@ -5,7 +5,7 @@ api: 3.0.0-ALPHA7
 commands:
   worlds:
     description: "Worlds"
-    usage: "/worlds <info|list> OR /worlds <create|remove|load|unload|tp> <world> [type] OR /worlds <copy|rename> <from> <to> OR /worlds set gamemode <survival|creative|adventure|spectator> OR /worlds set <|build|pvp|damage|drop|hunger|fly> <true|false>"
+    usage: "/worlds <info|list> OR /worlds <create|remove|load|unload|tp> <world> [type] OR /worlds <copy|rename> <from> <to> OR /worlds set gamemode <survival|creative|adventure|spectator> OR /worlds set <|build|pvp|damage|interact|drop|hunger|fly> <true|false>"
     aliases: ["ws"]
 permissions:
   worlds.list:
@@ -41,6 +41,9 @@ permissions:
         default: op
       worlds.admin.build:
         description: "Allow building in protected worlds"
+        default: op
+      worlds.admin.interact:
+        description: "Allow interacting in protected worlds"
         default: op
       worlds.admin.gamemode:
         description: "Don't change gamemode to world's gamemode"
