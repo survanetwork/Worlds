@@ -181,7 +181,7 @@ class EventListener implements Listener {
     /**
      * @param PlayerInteractEvent $event
      */
-    public function onBlockPlace(PlayerInteractEvent $event) {
+    public function onInteract(PlayerInteractEvent $event) {
         $player = $event->getPlayer();
         $foldername = $player->getLevel()->getFolderName();
 
