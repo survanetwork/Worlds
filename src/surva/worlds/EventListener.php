@@ -17,6 +17,7 @@ use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\event\level\LevelLoadEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerExhaustEvent;
+use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\Listener;
 use pocketmine\Player;
@@ -173,6 +174,19 @@ class EventListener implements Listener {
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if($world->getHunger() === false) {
+                $event->setCancelled(true);
+            }
+        }
+    }
+    /**
+     * @param PlayerInteractEvent $event
+     */
+    public function onInteract(PlayerInteracttEvent $event) {
+        $player = $event->getPlayer();
+        $foldername = $player->getLevel()->getFolderName();
+
+        if($world = $this->getWorlds()->getWorldByName($foldername)) {
+            if($world->getInteract() === false) {
                 $event->setCancelled(true);
             }
         }
