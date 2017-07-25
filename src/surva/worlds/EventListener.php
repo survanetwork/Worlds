@@ -181,13 +181,15 @@ class EventListener implements Listener {
     /**
      * @param PlayerInteractEvent $event
      */
-    public function onInteract(PlayerInteracttEvent $event) {
+    public function onBlockPlace(PlayerInteractEvent $event) {
         $player = $event->getPlayer();
         $foldername = $player->getLevel()->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if($world->getInteract() === false) {
-                $event->setCancelled(true);
+            if(!$player->hasPermission("worlds.admin.interact")) {
+                if($world->getInteract() === false) {
+                    $event->setCancelled(true);
+                }
             }
         }
     }
