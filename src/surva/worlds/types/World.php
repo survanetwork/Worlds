@@ -29,7 +29,10 @@ class World {
 
     /* @var bool|null */
     private $damage;
-
+    
+    /* @var bool|null */
+    private $interact;
+    
     /* @var bool|null */
     private $explode;
 
@@ -54,6 +57,7 @@ class World {
         $this->loadValue("build");
         $this->loadValue("pvp");
         $this->loadValue("damage");
+        $this->loadValue("interact"); 
         $this->loadValue("explode");
         $this->loadValue("drop");
         $this->loadValue("hunger");
@@ -137,6 +141,13 @@ class World {
      */
     public function getDamage() {
         return $this->damage;
+    }
+    
+    /**
+     * @return bool|null
+     */
+    public function getInteract() {
+        return $this->interact;
     }
 
     /**
