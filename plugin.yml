@@ -1,7 +1,7 @@
 name: Worlds
 main: surva\worlds\Worlds
-version: 1.0.11
-api: [3.0.0-ALPHA7, 3.0.0-ALPHA8]
+version: 1.0.12
+api: [3.0.0-ALPHA7, 3.0.0-ALPHA8, 3.0.0-ALPHA9]
 commands:
   worlds:
     description: "Worlds"
