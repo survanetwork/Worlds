@@ -56,15 +56,12 @@ Gamemode 1 in creative world: Go to creative world an run `/worlds set gamemode 
 
 
 ## Development
-
 Feel free to contribute if you have ideas or found an issue.
 
 Tested and works on:
-
 - [PocketMine-MP](https://github.com/pmmp/PocketMine-MP)
 
 ## License & Credits
-[![Creative Commons License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-sa/4.0/)
+[![Creative Commons License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-You are free to copy, redistribute, change or expand our work, but you must give credits share it under the same license.
-[Worlds](https://github.com/survanetwork/Worlds) by [surva network](https://github.com/survanetwork) is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
+[Worlds](https://github.com/survanetwork/Worlds) by [surva network](https://github.com/survanetwork) is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/). Permissions beyond the scope of this license may be available on request.
