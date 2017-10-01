@@ -15,6 +15,7 @@ general:
   world:
     notexist: "§Die Welt §f{name} §cexistiert nicht."
     notloaded: "§Die Welt §f{name} §cist nicht geladen oder existiert nicht."
+  permission: "§6Du hast keine Berechtigung, diese Welt zu betreten."
 
 # List command
 list:
@@ -69,3 +70,7 @@ set:
   gamemode:
     notexist: "§6Dieser Spielmodus existiert nicht."
   notbool: "§6Du kannst §f{key} §6nur auf §atrue §6oder §afalse §6setzen."
+
+# Unset command
+unset:
+  success: "§b{key} §ain §f{world} §awurde zurückgesetzt."

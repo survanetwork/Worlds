@@ -18,6 +18,9 @@ class World {
     /* @var Config */
     private $config;
 
+    /* @var string|null */
+    private $permission;
+
     /* @var int|null */
     private $gamemode;
 
@@ -56,6 +59,7 @@ class World {
      * Load all possible config values
      */
     public function loadItems() {
+        $this->loadValue("permission");
         $this->loadValue("gamemode");
         $this->loadValue("build");
         $this->loadValue("pvp");
@@ -73,24 +77,22 @@ class World {
      * @param string $name
      */
     public function loadValue(string $name) {
-        if($this->getConfig()->exists($name)) {
-            switch($this->getConfig()->get($name)) {
-                case "true":
-                    $this->$name = true;
-                    break;
-                case "false":
-                    $this->$name = false;
-                    break;
-                default:
-                    $this->$name = $this->getConfig()->get($name);
-                    break;
-            }
-        } else {
-            if($name == "gamemode") {
-                $this->$name = $this->getWorlds()->getServer()->getDefaultGamemode();
-            } else {
-                $this->$name = null;
-            }
+        if(!($this->getConfig()->exists($name))) {
+            $this->$name = null;
+
+            return;
+        }
+
+        switch($this->getConfig()->get($name)) {
+            case "true":
+                $this->$name = true;
+                break;
+            case "false":
+                $this->$name = false;
+                break;
+            default:
+                $this->$name = $this->getConfig()->get($name);
+                break;
         }
     }
 
@@ -101,11 +103,23 @@ class World {
      * @param string $value
      */
     public function updateValue(string $name, string $value) {
-        if($value == "true") {
-            $this->getConfig()->remove($name);
-        } else {
-            $this->getConfig()->set($name, $value);
+        $this->getConfig()->set($name, $value);
+
+        $this->getConfig()->save();
+        $this->loadItems();
+    }
+
+    /**
+     * Remove a config value
+     *
+     * @param string $name
+     */
+    public function removeValue(string $name) {
+        if(!$this->getConfig()->exists($name)) {
+            return;
         }
+
+        $this->getConfig()->remove($name);
 
         $this->getConfig()->save();
         $this->loadItems();
@@ -172,6 +186,13 @@ class World {
      */
     public function getGamemode() {
         return $this->gamemode;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPermission() {
+        return $this->permission;
     }
 
     /**

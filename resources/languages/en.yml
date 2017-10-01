@@ -15,6 +15,7 @@ general:
   world:
     notexist: "§cWorld §f{name} §cdoesn't exist."
     notloaded: "§cWorld §f{name} §cisn't loaded or does not exist."
+  permission: "§6You don't have the permission to join this world."
 
 # List command
 list:
@@ -69,3 +70,7 @@ set:
   gamemode:
     notexist: "§6This gamemode does not exist."
   notbool: "§6You can set §f{key} §6only to §atrue §6or §afalse§6."
+
+# Unset command
+unset:
+  success: "§b{key} §ahas been unset in §f{world}§a."

@@ -35,24 +35,15 @@ Worlds is really easy to use. Here is the command syntax:
 ```
 /worlds list
 /worlds create <worldname> [type]
-/worlds <delete|load|unload|tp> <worldname>
+/worlds <remove|load|unload|teleport> <worldname>
 /worlds <copy|rename> <from> <to>
+/worlds set permission <permissionstring>
 /worlds set gamemode <survival|creative|adventure|spectator>
 /worlds set <build|pvp|damage|drop|hunger|fly> <true|false>
+/worlds unset <permission|gamemode|build|pvp|damage|drop|hunger|fly>
 ```
 
-And for beginners, here are some examples of commands:
-
-List all worlds on the server: `/worlds list`
-
-Teleport to world lobby: `/worlds tp lobby`
-
-Generate a flat world named newworld: `/worlds create newworld flat`
-
-No dropping in survival world: Go to survival world an run `/worlds set drop false`
-
-Gamemode 1 in creative world: Go to creative world an run `/worlds set gamemode 1`
-
+For a full list of commands, their usage and a description what they are for, take a look at the [wiki](https://github.com/survanetwork/Worlds/wiki/Commands).
 
 ## Development
 Feel free to contribute if you have ideas or found an issue.

@@ -17,11 +17,21 @@ class SetCommand extends CustomCommand {
             return false;
         }
 
-        if(!(in_array($args[0], array("gamemode", "build", "pvp", "damage", "interact", "explode", "drop", "hunger", "fly")))) {
+        if(!(in_array($args[0], array("permission", "gamemode", "build", "pvp", "damage", "interact", "explode", "drop", "hunger", "fly")))) {
             return false;
         }
 
-        if($args[0] === "gamemode") {
+        if($args[0] === "permission") {
+            if(!($world = $this->getWorlds()->getWorldByName($player->getLevel()->getFolderName()))) {
+                $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
+
+                return true;
+            }
+
+            $world->updateValue($args[0], $args[1]);
+
+            $player->sendMessage($this->getWorlds()->getMessage("set.success", array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])));
+        } elseif($args[0] === "gamemode") {
             if(($args[1] = Server::getGamemodeFromString($args[1])) === -1) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.notexist"));
 

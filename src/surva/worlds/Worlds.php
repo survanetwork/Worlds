@@ -17,6 +17,7 @@ use surva\worlds\commands\RemoveCommand;
 use surva\worlds\commands\RenameCommand;
 use surva\worlds\commands\SetCommand;
 use surva\worlds\commands\TeleportCommand;
+use surva\worlds\commands\UnsetCommand;
 use surva\worlds\types\World;
 use surva\worlds\utils\ArrayList;
 use pocketmine\plugin\PluginBase;
@@ -47,7 +48,7 @@ class Worlds extends PluginBase {
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {
         $name = $command->getName();
 
-        if(strtolower($name) == "worlds") {
+        if(strtolower($name) === "worlds") {
             if(count($args) > 0) {
                 if($customCommand = $this->getCustomCommand($args[0])) {
                     if($customCommand instanceof CustomCommand) {
@@ -93,7 +94,11 @@ class Worlds extends PluginBase {
             case "tp":
                 return new TeleportCommand($this, "teleport", "worlds.admin.teleport");
             case "set":
+            case "st":
                 return new SetCommand($this, "set", "worlds.admin.set");
+            case "unset":
+            case "ust":
+                return new UnsetCommand($this, "unset", "worlds.admin.unset");
             default:
                 return false;
         }
@@ -164,7 +169,7 @@ class Worlds extends PluginBase {
             mkdir($to);
 
             foreach($objects as $object) {
-                if($object != "." AND $object != "..") {
+                if($object !== "." AND $object !== "..") {
                     if(is_dir($from . "/" . $object)) {
                         $this->copy($from . "/" . $object, $to . "/" . $object);
                     } else {
@@ -185,7 +190,7 @@ class Worlds extends PluginBase {
              $objects = scandir($directory);
 
              foreach($objects as $object) {
-                 if($object != "." AND $object != "..") {
+                 if($object !== "." AND $object !== "..") {
                      if(is_dir($directory . "/" . $object)) {
                          $this->delete($directory . "/" . $object);
                      } else {
