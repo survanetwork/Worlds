@@ -32,15 +32,14 @@ Please report bugs on the issues page.
 ## How to use
 Worlds is really easy to use. Here is the command syntax:
 
-`/worlds <info|list>`
-
-`/worlds <create|delete|load|unload|tp> <world> [type]`
-
-`/worlds <copy|rename> <from> <to>`
-
-`/worlds set gamemode <survival|creative|adventure|spectator>`
-
-`/worlds set <build|pvp|damage|drop|hunger|fly> <true|false>`
+```
+/worlds list
+/worlds create <worldname> [type]
+/worlds <delete|load|unload|tp> <worldname>
+/worlds <copy|rename> <from> <to>
+/worlds set gamemode <survival|creative|adventure|spectator>
+/worlds set <build|pvp|damage|drop|hunger|fly> <true|false>
+```
 
 And for beginners, here are some examples of commands:
 
