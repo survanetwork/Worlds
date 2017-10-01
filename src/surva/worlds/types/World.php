@@ -52,6 +52,9 @@ class World {
         $this->loadItems();
     }
 
+    /**
+     * Load all possible config values
+     */
     public function loadItems() {
         $this->loadValue("gamemode");
         $this->loadValue("build");

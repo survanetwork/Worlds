@@ -1,6 +1,6 @@
 name: Worlds
 main: surva\worlds\Worlds
-version: 1.0.12
+version: 2.0.0
 api: [3.0.0-ALPHA7, 3.0.0-ALPHA8, 3.0.0-ALPHA9]
 commands:
   worlds:
@@ -12,7 +12,7 @@ permissions:
     description: "List worlds"
     default: true
   worlds.admin:
-    description: "Create worlds, delete worlds, set parameters"
+    description: "Create worlds, delete worlds, set parameters, ..."
     default: op
     children:
       worlds.admin.create:
@@ -30,7 +30,7 @@ permissions:
       worlds.admin.load:
         description: "Load worlds"
         default: op
-      worlds.admin.load:
+      worlds.admin.unload:
         description: "Unload worlds"
         default: op
       worlds.admin.teleport:
@@ -50,4 +50,4 @@ permissions:
         default: false
       worlds.admin.fly:
         description: "Fly in every world"
-        default: op
+        default: false

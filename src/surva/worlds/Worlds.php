@@ -8,18 +8,20 @@
 
 namespace surva\worlds;
 
-use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\StringTag;
+use surva\worlds\commands\CopyCommand;
+use surva\worlds\commands\CreateCommand;
+use surva\worlds\commands\CustomCommand;
+use surva\worlds\commands\ListCommand;
+use surva\worlds\commands\LoadCommand;
+use surva\worlds\commands\RemoveCommand;
+use surva\worlds\commands\RenameCommand;
+use surva\worlds\commands\SetCommand;
+use surva\worlds\commands\TeleportCommand;
 use surva\worlds\types\World;
 use surva\worlds\utils\ArrayList;
-use pocketmine\level\generator\Flat;
-use pocketmine\level\generator\hell\Nether;
-use pocketmine\level\generator\normal\Normal;
-use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\Server;
 use pocketmine\utils\Config;
 
 class Worlds extends PluginBase {
@@ -39,283 +41,62 @@ class Worlds extends PluginBase {
             $this->loadWorld($level->getFolderName());
         }
 
-        $messagesfile = $this->getDataFolder() . "messages.yml";
-
-        if(!file_exists($messagesfile)) {
-            file_put_contents($messagesfile, $this->getResource("messages.yml"));
-        }
-
-        $this->messages = new Config($messagesfile, Config::YAML, []);
+        $this->messages = new Config($this->getFile() . "resources/languages/" . $this->getConfig()->get("language") . ".yml");
     }
 
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {
         $name = $command->getName();
 
-        switch(strtolower($name)) {
-            case "worlds":
-                if(count($args) >= 1) {
-                    switch(strtolower($args[0])) {
-                        case "list":
-                        case "ls":
-                            if($sender->hasPermission("worlds.list")) {
-                                $levels = array();
-
-                                foreach($this->getServer()->getLevels() as $level) {
-                                    $levels[] = $level->getName();
-                                }
-
-                                $sender->sendMessage($this->getMessage("allworlds", array("worlds" => implode(", ", $levels))));
-                            } else {
-                                $sender->sendMessage($this->getMessage("permission"));
-                            }
-
-                            return true;
-                        case "create":
-                        case "cr":
-                            if($sender->hasPermission("worlds.admin.create")) {
-                                switch(count($args)) {
-                                    case 2:
-                                        $this->getServer()->generateLevel($args[1]);
-                                        $sender->sendMessage($this->getMessage("created"));
-                                        return true;
-                                    case 3:
-                                        switch($args[2]) {
-                                            case "normal":
-                                                $generator = Normal::class;
-                                                break;
-                                            case "flat":
-                                                $generator = Flat::class;
-                                                break;
-                                            case "nether":
-                                                $generator = Nether::class;
-                                                break;
-                                            default:
-                                                $generator = Normal::class;
-                                        }
-
-                                        $this->getServer()->generateLevel($args[1], null, $generator);
-                                        $sender->sendMessage($this->getMessage("created"));
-                                        return true;
-                                    default:
-                                        return false;
-                                }
-                            } else {
-                                $sender->sendMessage($this->getMessage("permission"));
-                            }
-
-                            return true;
-                        case "remove":
-                        case "rm":
-                            if($sender->hasPermission("worlds.admin.remove")) {
-                                if(count($args) == 2) {
-                                    if($this->getServer()->isLevelLoaded($args[1])) {
-                                        $this->getServer()->unloadLevel($this->getServer()->getLevelByName($args[1]));
-                                    }
-
-                                    $this->delete($this->getServer()->getFilePath() . "worlds/" . $args[1]);
-
-                                    $sender->sendMessage($this->getMessage("removed"));
-                                } else {
-                                    return false;
-                                }
-                            } else {
-                                $sender->sendMessage($this->getMessage("permission"));
-                            }
-
-                            return true;
-                        case "copy":
-                        case "cp":
-                            if($sender->hasPermission("worlds.admin.copy")) {
-                                if(count($args) == 3) {
-                                    if($level = $this->getServer()->getLevelByName($args[1])) {
-                                        $fromFolderName = $level->getFolderName();
-                                        $toFolderName = $args[2];
-
-                                        if($fromFolderName != $toFolderName) {
-                                            $this->copy($this->getServer()->getDataPath() . "worlds/" . $fromFolderName, $this->getServer()->getDataPath() . "worlds/" . $toFolderName);
-
-                                            $sender->sendMessage($this->getMessage("copied", array("to" => $toFolderName)));
-                                        }
-                                    } else {
-                                        $sender->sendMessage($this->getMessage("notloaded"));
-                                    }
-                                } else {
-                                    return false;
-                                }
-                            } else {
-                                $sender->sendMessage($this->getMessage("permission"));
-                            }
-
-                            return true;
-                        case "rename":
-                        case "rn":
-                            if($sender->hasPermission("worlds.admin.rename")) {
-                                if(count($args) == 3) {
-                                    if(is_dir($this->getServer()->getDataPath() . "worlds/" . $args[1])) {
-                                        if($this->getServer()->isLevelLoaded($args[1])) {
-                                            $this->getServer()->unloadLevel($this->getServer()->getLevelByName($args[1]));
-                                        }
-
-                                        $fromFolderName = $args[1];
-                                        $toFolderName = $args[2];
-
-                                        if($levelDatContent = file_get_contents($this->getServer()->getDataPath() . "worlds/" . $fromFolderName . "/level.dat")) {
-                                            $nbt = new NBT(NBT::BIG_ENDIAN);
-                                            $nbt->readCompressed($levelDatContent);
-
-                                            $levelData = $nbt->getData();
-                                            $levelData["Data"]["LevelName"] = new StringTag("LevelName", $toFolderName);
-                                            $nbt->setData($levelData);
-
-                                            $buffer = $nbt->writeCompressed();
-                                            file_put_contents($this->getServer()->getDataPath() . "worlds/" . $fromFolderName . "/level.dat", $buffer);
-                                        }
-
-                                        if($fromFolderName != $toFolderName) {
-                                            $this->copy($this->getServer()->getDataPath() . "worlds/" . $fromFolderName, $this->getServer()->getDataPath() . "worlds/" . $toFolderName);
-                                            $this->delete($this->getServer()->getDataPath() . "worlds/" . $fromFolderName);
-
-                                            $sender->sendMessage($this->getMessage("renamed", array("to" => $toFolderName)));
-                                        }
-                                    } else {
-                                        $sender->sendMessage($this->getMessage("notloaded"));
-                                    }
-                                } else {
-                                    return false;
-                                }
-                            } else {
-                                $sender->sendMessage($this->getMessage("permission"));
-                            }
-
-                            return true;
-                        case "load":
-                        case "ld":
-                            if($sender->hasPermission("worlds.admin.load")) {
-                                if(count($args) == 2) {
-                                    if(!$this->getServer()->isLevelLoaded($args[1])) {
-                                        if($this->getServer()->loadLevel($args[1])) {
-                                            if($level = $this->getServer()->getLevelByName($args[1])) {
-                                                $sender->sendMessage($this->getMessage("loadworld", array("world" => $args[1])));
-                                            }
-                                        } else {
-                                            $sender->sendMessage($this->getMessage("noworld"));
-                                        }
-                                    } else {
-                                        $sender->sendMessage($this->getMessage("alreadyloaded"));
-                                    }
-                                } else {
-                                    return false;
-                                }
-                            } else {
-                                $sender->sendMessage($this->getMessage("permission"));
-                            }
-
-                            return true;
-                        case "unload":
-                        case "unld":
-                            if($sender->hasPermission("worlds.admin.load")) {
-                                if(count($args) == 2) {
-                                    if($this->getServer()->isLevelLoaded($args[1])) {
-                                        $this->getServer()->unloadLevel($this->getServer()->getLevelByName($args[1]));
-                                        $sender->sendMessage($this->getMessage("unloadworld", array("world" => $args[1])));
-
-                                        $this->getWorlds()->remove($args[1]);
-                                    } else {
-                                        $sender->sendMessage($this->getMessage("notloaded"));
-                                    }
-                                } else {
-                                    return false;
-                                }
-                            } else {
-                                $sender->sendMessage($this->getMessage("permission"));
-                            }
-
-                            return true;
-                        case "teleport":
-                        case "tp":
-                            if($sender->hasPermission("worlds.admin.teleport")) {
-                                if($sender instanceof Player) {
-                                    if(count($args) == 2) {
-                                        if(!$this->getServer()->isLevelLoaded($args[1])) {
-                                            if($this->getServer()->loadLevel($args[1])) {
-                                                if($level = $this->getServer()->getLevelByName($args[1])) {
-                                                    $sender->sendMessage($this->getMessage("loadworld", array("world" => $args[1])));
-                                                }
-                                            } else {
-                                                $sender->sendMessage($this->getMessage("noworld"));
-
-                                                return true;
-                                            }
-                                        }
-
-                                        $world = $this->getServer()->getLevelByName($args[1]);
-
-                                        $sender->teleport($world->getSafeSpawn());
-                                        $sender->sendMessage($this->getMessage("teleported", array("world" => $args[1])));
-                                    } else {
-                                        return false;
-                                    }
-                                } else {
-                                    $sender->sendMessage($this->getMessage("ingame"));
-                                }
-                            } else {
-                                $sender->sendMessage($this->getMessage("permission"));
-                            }
-
-                            return true;
-                        case "set":
-                            if($sender->hasPermission("worlds.admin.set")) {
-                                if(count($args) == 3) {
-                                    if(in_array($args[1], array("gamemode", "build", "pvp", "damage", "interact", "explode", "drop", "hunger", "fly"))) {
-                                        if($args[1] == "gamemode") {
-                                            if(($args[2] = Server::getGamemodeFromString($args[2])) != -1) {
-                                                if($sender instanceof Player) {
-                                                    if($world = $this->getWorldByName($sender->getLevel()->getFolderName())) {
-                                                        $world->updateValue($args[1], $args[2]);
-
-                                                        $sender->sendMessage($this->getMessage("set", array("world" => $sender->getLevel()->getFolderName(), "key" => $args[1], "value" => $args[2])));
-                                                    } else {
-                                                        $sender->sendMessage($this->getMessage("noworld"));
-                                                    }
-                                                } else {
-                                                    $sender->sendMessage($this->getMessage("ingame"));
-                                                }
-
-                                                return true;
-                                            }
-                                        } else {
-                                            if(in_array($args[2], array("true", "false"))) {
-                                                if($sender instanceof Player) {
-                                                    if($world = $this->getWorldByName($sender->getLevel()->getFolderName())) {
-                                                        $world->updateValue($args[1], $args[2]);
-
-                                                        $sender->sendMessage($this->getMessage("set", array("world" => $sender->getLevel()->getFolderName(), "key" => $args[1], "value" => $args[2])));
-                                                    } else {
-                                                        $sender->sendMessage($this->getMessage("noworld"));
-                                                    }
-                                                } else {
-                                                    $sender->sendMessage($this->getMessage("ingame"));
-                                                }
-
-                                                return true;
-                                            }
-                                        }
-                                    }
-                                }
-                            } else {
-                                $sender->sendMessage($this->getMessage("permission"));
-
-                                return true;
-                            }
-
-                            return false;
+        if(strtolower($name) == "worlds") {
+            if(count($args) > 0) {
+                if($customCommand = $this->getCustomCommand($args[0])) {
+                    if($customCommand instanceof CustomCommand) {
+                        return $customCommand->execute($sender, $name, $args);
                     }
                 }
-
-                return false;
+            }
         }
 
         return false;
+    }
+
+    /**
+     * Get a custom command by its name
+     *
+     * @param string $name
+     * @return CustomCommand|false
+     */
+    public function getCustomCommand(string $name) {
+        switch($name) {
+            case "list":
+            case "ls":
+                return new ListCommand($this, "list", "worlds.list");
+            case "create":
+            case "cr":
+                return new CreateCommand($this, "create", "worlds.admin.create");
+            case "remove":
+            case "rm":
+                return new RemoveCommand($this, "remove", "worlds.admin.remove");
+            case "copy":
+            case "cp":
+                return new CopyCommand($this, "copy", "worlds.admin.copy");
+            case "rename":
+            case "rn":
+                return new RenameCommand($this, "rename", "worlds.admin.rename");
+            case "load":
+            case "ld":
+                return new LoadCommand($this, "load", "worlds.admin.load");
+            case "unload":
+            case "uld":
+                return new UnloadCommand($this, "unload", "worlds.admin.unload");
+            case "teleport":
+            case "tp":
+                return new TeleportCommand($this, "teleport", "worlds.admin.teleport");
+            case "set":
+                return new SetCommand($this, "set", "worlds.admin.set");
+            default:
+                return false;
+        }
     }
 
     /**
@@ -345,22 +126,6 @@ class Worlds extends PluginBase {
     }
 
     /**
-     * Create a custom config file
-     *
-     * @param string $file
-     * @return Config
-     */
-    public function getCustomConfig(string $file): Config {
-        $config = new Config($file, Config::YAML, []);
-
-        if(!file_exists($file)) {
-            $config->save();
-        }
-
-        return $config;
-    }
-
-    /**
      * Get the worlds.yml file of a world
      *
      * @param string $foldername
@@ -368,6 +133,22 @@ class Worlds extends PluginBase {
      */
     public function getWorldFile(string $foldername): string {
         return $this->getServer()->getDataPath() . "worlds/" . $foldername . "/worlds.yml";
+    }
+
+    /**
+     * Create a custom config file
+     *
+     * @param string $file
+     * @return Config
+     */
+    public function getCustomConfig(string $file): Config {
+        $config = new Config($file);
+
+        if(!file_exists($file)) {
+            $config->save();
+        }
+
+        return $config;
     }
 
     /**
