@@ -67,6 +67,8 @@ teleported:
 # Set command
 set:
   success: "§aDu hast §b{key} §ain §f{world} §aauf §c{value} §agesetzt."
+  permission:
+    notdefault: "§cDu kannst keine Berechtigung für die Standard-Welt setzen."
   gamemode:
     notexist: "§6Dieser Spielmodus existiert nicht."
   notbool: "§6Du kannst §f{key} §6nur auf §atrue §6oder §afalse §6setzen."

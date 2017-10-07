@@ -49,7 +49,7 @@ class EventListener implements Listener {
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if($world->getPermission() !== null) {
                 if(!$player->hasPermission($world->getPermission())) {
-                    $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.notexist"));
+                    $player->sendMessage($this->getWorlds()->getMessage("general.permission"));
 
                     $player->teleport($this->getWorlds()->getServer()->getDefaultLevel()->getSafeSpawn());
                 }
@@ -80,7 +80,7 @@ class EventListener implements Listener {
             if($player instanceof Player) {
                 if($world->getPermission() !== null) {
                     if(!$player->hasPermission($world->getPermission())) {
-                        $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.notexist"));
+                        $player->sendMessage($this->getWorlds()->getMessage("general.permission"));
 
                         $event->setCancelled();
                         return;

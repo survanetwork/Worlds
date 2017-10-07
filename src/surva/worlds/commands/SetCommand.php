@@ -28,6 +28,12 @@ class SetCommand extends CustomCommand {
                 return true;
             }
 
+            if($this->getWorlds()->getServer()->getDefaultLevel()->getFolderName() === $player->getLevel()->getFolderName()) {
+                $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
+
+                return true;
+            }
+
             $world->updateValue($args[0], $args[1]);
 
             $player->sendMessage($this->getWorlds()->getMessage("set.success", array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])));
