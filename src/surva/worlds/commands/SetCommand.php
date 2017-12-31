@@ -54,8 +54,8 @@ class SetCommand extends CustomCommand {
 
             $player->sendMessage($this->getWorlds()->getMessage("set.success", array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])));
         } else {
-            if(!(in_array($args[0], array("true", "false")))) {
-                $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.notbool", array("key" => $args[0])));
+            if(!(in_array($args[1], array("true", "false")))) {
+                $player->sendMessage($this->getWorlds()->getMessage("set.notbool", array("key" => $args[0])));
 
                 return true;
             }
