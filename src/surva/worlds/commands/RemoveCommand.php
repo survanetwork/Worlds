@@ -12,7 +12,7 @@ use pocketmine\Player;
 
 class RemoveCommand extends CustomCommand {
     public function do(Player $player, array $args) {
-        if(!(count($args) === 2)) {
+        if(!(count($args) === 1)) {
             return false;
         }
 

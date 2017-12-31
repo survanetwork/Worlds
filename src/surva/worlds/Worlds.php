@@ -17,6 +17,7 @@ use surva\worlds\commands\RemoveCommand;
 use surva\worlds\commands\RenameCommand;
 use surva\worlds\commands\SetCommand;
 use surva\worlds\commands\TeleportCommand;
+use surva\worlds\commands\UnloadCommand;
 use surva\worlds\commands\UnsetCommand;
 use surva\worlds\types\World;
 use surva\worlds\utils\ArrayList;
@@ -65,9 +66,9 @@ class Worlds extends PluginBase {
      * Get a custom command by its name
      *
      * @param string $name
-     * @return CustomCommand|false
+     * @return CustomCommand|null
      */
-    public function getCustomCommand(string $name) {
+    public function getCustomCommand(string $name): ?CustomCommand {
         switch($name) {
             case "list":
             case "ls":
@@ -100,7 +101,7 @@ class Worlds extends PluginBase {
             case "ust":
                 return new UnsetCommand($this, "unset", "worlds.admin.unset");
             default:
-                return false;
+                return null;
         }
     }
 
@@ -108,14 +109,14 @@ class Worlds extends PluginBase {
      * Get a world by name
      *
      * @param string $name
-     * @return World|false
+     * @return World|null
      */
-    public function getWorldByName(string $name) {
+    public function getWorldByName(string $name): ?World {
         if($this->getWorlds()->containsKey($name)) {
             return $this->getWorlds()->get($name);
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -123,7 +124,7 @@ class Worlds extends PluginBase {
      *
      * @param string $foldername
      */
-    public function loadWorld(string $foldername) {
+    public function loadWorld(string $foldername): void {
         $file = $this->getWorldFile($foldername);
         $config = $this->getCustomConfig($file);
 
@@ -162,7 +163,7 @@ class Worlds extends PluginBase {
      * @param string $from
      * @param string $to
      */
-    public function copy(string $from, string $to) {
+    public function copy(string $from, string $to): void {
         if(is_dir($from)) {
             $objects = scandir($from);
 
@@ -185,7 +186,7 @@ class Worlds extends PluginBase {
      *
      * @param string $directory
      */
-    public function delete(string $directory) {
+    public function delete(string $directory): void {
          if(is_dir($directory)) {
              $objects = scandir($directory);
 
@@ -207,24 +208,18 @@ class Worlds extends PluginBase {
      * Get a translated message
      *
      * @param string $key
-     * @param array|null $replaces
+     * @param array $replaces
      * @return string
      */
-    public function getMessage(string $key, array $replaces = null): string {
-        $messages = $this->getMessages();
-
-        if($messages->exists($key)) {
-            if(isset($replaces)) {
-                $get = $messages->get($key);
-
+    public function getMessage(string $key, array $replaces = array()): string {
+        if($rawMessage = $this->getMessages()->getNested($key)) {
+            if(is_array($replaces)) {
                 foreach($replaces as $replace => $value) {
-                    $get = str_replace("{" . $replace . "}", $value, $get);
+                    $rawMessage = str_replace("{" . $replace . "}", $value, $rawMessage);
                 }
-
-                return $get;
-            } else {
-                return $messages->get($key);
             }
+
+            return $rawMessage;
         }
 
         return $key;

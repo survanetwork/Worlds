@@ -24,7 +24,7 @@ class CreateCommand extends CustomCommand {
                 $player->sendMessage($this->getWorlds()->getMessage("create.success", array("name" => $args[0])));
                 return true;
             case 2:
-                switch($args[1]) {
+                switch(strtolower($args[1])) {
                     case "normal":
                         $generator = Normal::class;
                         break;

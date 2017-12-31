@@ -34,7 +34,7 @@ class LoadCommand extends CustomCommand {
             return true;
         }
 
-        $player->sendMessage($this->getWorlds()->getMessage("load.success", array("world" => $args[1])));
+        $player->sendMessage($this->getWorlds()->getMessage("load.success", array("world" => $args[0])));
 
         return true;
     }

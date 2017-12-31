@@ -6,10 +6,9 @@
  * Time: 11:58
  */
 
-namespace surva\worlds;
+namespace surva\worlds\commands;
 
 use pocketmine\Player;
-use surva\worlds\commands\CustomCommand;
 
 class UnloadCommand extends CustomCommand {
     public function do(Player $player, array $args) {
@@ -31,7 +30,7 @@ class UnloadCommand extends CustomCommand {
 
         $this->getWorlds()->getWorlds()->remove($args[0]);
 
-        $player->sendMessage($this->getWorlds()->getMessage("unload.success", array("world" => $args[1])));
+        $player->sendMessage($this->getWorlds()->getMessage("unload.success", array("world" => $args[0])));
 
         return true;
     }

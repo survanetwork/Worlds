@@ -30,7 +30,7 @@ create:
 
 # Remove command
 remove:
- success: "§eWorld §f{name} §ahas been removed."
+ success: "§aWorld §f{name} §ahas been removed."
 
 # Copy command
 copy:
@@ -56,11 +56,11 @@ load:
 
 # Unload command
 unload:
-  success: "§eWorld §f{world} §ahas been unloaded successfully."
+  success: "§aWorld §f{world} §ahas been unloaded successfully."
   failed: "§cThe world could not be unloaded."
 
 # Teleport command
-teleported:
+teleport:
   success: "§aYou've been teleported to §f{world}§a."
   failed: "§cUnable to teleport you to the world."
 

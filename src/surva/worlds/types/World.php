@@ -58,7 +58,7 @@ class World {
     /**
      * Load all possible config values
      */
-    public function loadItems() {
+    public function loadItems(): void {
         $this->loadValue("permission");
         $this->loadValue("gamemode");
         $this->loadValue("build");
@@ -76,7 +76,7 @@ class World {
      *
      * @param string $name
      */
-    public function loadValue(string $name) {
+    public function loadValue(string $name): void {
         if(!($this->getConfig()->exists($name))) {
             $this->$name = null;
 
@@ -102,7 +102,7 @@ class World {
      * @param string $name
      * @param string $value
      */
-    public function updateValue(string $name, string $value) {
+    public function updateValue(string $name, string $value): void {
         $this->getConfig()->set($name, $value);
 
         $this->getConfig()->save();
@@ -114,7 +114,7 @@ class World {
      *
      * @param string $name
      */
-    public function removeValue(string $name) {
+    public function removeValue(string $name): void {
         if(!$this->getConfig()->exists($name)) {
             return;
         }
@@ -128,70 +128,70 @@ class World {
     /**
      * @return bool|null
      */
-    public function getFly() {
+    public function getFly(): ?bool {
         return $this->fly;
     }
 
     /**
      * @return bool|null
      */
-    public function getHunger() {
+    public function getHunger(): ?bool {
         return $this->hunger;
     }
 
     /**
      * @return bool|null
      */
-    public function getDrop() {
+    public function getDrop(): ?bool {
         return $this->drop;
     }
 
     /**
      * @return bool|null
      */
-    public function getExplode() {
+    public function getExplode(): ?bool {
         return $this->explode;
     }
 
     /**
      * @return bool|null
      */
-    public function getDamage() {
+    public function getDamage(): ?bool {
         return $this->damage;
     }
     
     /**
      * @return bool|null
      */
-    public function getInteract() {
+    public function getInteract(): ?bool {
         return $this->interact;
     }
 
     /**
      * @return bool|null
      */
-    public function getPvp() {
+    public function getPvp(): ?bool {
         return $this->pvp;
     }
 
     /**
      * @return bool|null
      */
-    public function getBuild() {
+    public function getBuild(): ?bool {
         return $this->build;
     }
 
     /**
      * @return int|null
      */
-    public function getGamemode() {
+    public function getGamemode(): ?int {
         return $this->gamemode;
     }
 
     /**
      * @return string|null
      */
-    public function getPermission() {
+    public function getPermission(): ?string {
         return $this->permission;
     }
 

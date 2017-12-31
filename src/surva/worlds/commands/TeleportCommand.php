@@ -17,7 +17,7 @@ class TeleportCommand extends CustomCommand {
         }
 
         if(!($this->getWorlds()->getServer()->isLevelLoaded($args[0]))) {
-            $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
+            $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded", array("name" => $args[0])));
 
             return true;
         }

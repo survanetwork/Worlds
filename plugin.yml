@@ -1,11 +1,11 @@
 name: Worlds
 main: surva\worlds\Worlds
 version: 2.0.0
-api: [3.0.0-ALPHA7, 3.0.0-ALPHA8, 3.0.0-ALPHA9]
+api: [3.0.0-ALPHA7, 3.0.0-ALPHA8, 3.0.0-ALPHA9, 3.0.0-ALPHA10]
 commands:
   worlds:
     description: "Worlds"
-    usage: "/worlds list\n/worlds create <worldname> [type]\n/worlds <delete|load|unload|tp> <worldname>\n/worlds <copy|rename> <from> <to>\n/worlds set permission <permissionstring>\n/worlds set gamemode <survival|creative|adventure|spectator>\n/worlds set <build|pvp|damage|drop|hunger|fly> <true|false>\n/worlds unset <permission|gamemode|build|pvp|damage|drop|hunger|fly>"
+    usage: "/worlds list\n/worlds create <worldname> [type]\n/worlds <remove|load|unload|tp> <worldname>\n/worlds <copy|rename> <from> <to>\n/worlds set permission <permissionstring>\n/worlds set gamemode <survival|creative|adventure|spectator>\n/worlds set <build|pvp|damage|drop|hunger|fly> <true|false>\n/worlds unset <permission|gamemode|build|pvp|damage|drop|hunger|fly>"
     aliases: ["ws"]
 permissions:
   worlds.list:

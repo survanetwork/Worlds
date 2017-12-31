@@ -8,7 +8,7 @@
 
 namespace surva\worlds\commands;
 
-use pocketmine\nbt\NBT;
+use pocketmine\nbt\BigEndianNBTStream;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\Player;
 
@@ -50,7 +50,7 @@ class RenameCommand extends CustomCommand {
             return true;
         }
 
-        $nbt = new NBT(NBT::BIG_ENDIAN);
+        $nbt = new BigEndianNBTStream();
         $nbt->readCompressed($levelDatContent);
 
         $levelData = $nbt->getData();

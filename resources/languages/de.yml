@@ -13,8 +13,8 @@ general:
   command:
     ingame: "§6Du kannst diesen Befehl nur im Spiel ausführen."
   world:
-    notexist: "§Die Welt §f{name} §cexistiert nicht."
-    notloaded: "§Die Welt §f{name} §cist nicht geladen oder existiert nicht."
+    notexist: "§cDie Welt §f{name} §cexistiert nicht."
+    notloaded: "§cDie Welt §f{name} §cist nicht geladen oder existiert nicht."
   permission: "§6Du hast keine Berechtigung, diese Welt zu betreten."
 
 # List command
@@ -23,18 +23,18 @@ list:
 
 # Create command
 create:
-  success: "§Die Welt §f{name} §awurde erfolgreich erstellt."
+  success: "§aDie Welt §f{name} §awurde erfolgreich erstellt."
   failed: "§cDie Welt konnte aufgrund eines unbekannten Fehlers nicht erstellt werden."
   generator:
     notexist: "§6Es gibt keinen Generator namens §f{name} §6- benutze den Standard-Generator."
 
 # Remove command
 remove:
- success: "§Die Welt §f{name} §awurde erfolgreich gelöscht."
+ success: "§aDie Welt §f{name} §awurde erfolgreich gelöscht."
 
 # Copy command
 copy:
- success: "§Die Welt §f{name} §wurde erfolgreich nach §f{to} §akopiert."
+ success: "§aDie Welt §f{name} §wurde erfolgreich nach §f{to} §akopiert."
  same: "§cDu kannst eine Welt nicht in sich selbst kopieren."
  datfile:
      notexist: "§cDie DAT-Datei der Welt konnte nicht gefunden werden."
@@ -42,7 +42,7 @@ copy:
 
 # Rename command
 rename:
-  success: "§Die Welt §f{name} §awurde zu §f{to} §aumbenannt."
+  success: "§aDie Welt §f{name} §awurde zu §f{to} §aumbenannt."
   same: "§cDu kannst eine Welt nicht in den gleichen Namen umbenennen."
   datfile:
     notexist: "§cDie DAT-Datei der Welt konnte nicht gefunden werden."
@@ -50,17 +50,17 @@ rename:
 
 # Load command
 load:
-  success: "§Die Welt §f{world} §awurde erfolgreich geladen."
-  already: "§Die Welt §f{name} §eist bereits geladen."
+  success: "§aDie Welt §f{world} §awurde erfolgreich geladen."
+  already: "§eDie Welt §f{name} §eist bereits geladen."
   failed: "§cDie Welt konnte nicht geladen werden."
 
 # Unload command
 unload:
-  success: "§eDie Welt §f{world} §awurde erfolgreich entladen."
+  success: "§aDie Welt §f{world} §awurde erfolgreich entladen."
   failed: "§cDie Welt konnte nicht entladen werden."
 
 # Teleport command
-teleported:
+teleport:
   success: "§aDu wurdest nach §f{world} §ateleportiert."
   failed: "§cDu konntest nicht teleportiert werden."
 

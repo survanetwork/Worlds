@@ -55,7 +55,7 @@ class ArrayList {
      * @param $value
      * @param string|int|null $key
      */
-    public function add($value, $key = null) {
+    public function add($value, $key = null): void {
         if(isset($key)) {
             $this->array[$key] = $value;
         } else {
@@ -72,7 +72,7 @@ class ArrayList {
      *
      * @param string|int $key
      */
-    public function remove($key) {
+    public function remove($key): void {
         unset($this->array[$key]);
 
         if($this->isSortValues()) {
@@ -85,7 +85,7 @@ class ArrayList {
      *
      * @param $value
      */
-    public function removeByValue($value) {
+    public function removeByValue($value): void {
         if(($key = array_search($value, $this->array)) !== false) {
             unset($this->array[$key]);
 
@@ -131,14 +131,14 @@ class ArrayList {
     /**
      * Reset the array
      */
-    public function reset() {
+    public function reset(): void {
         $this->array = array();
     }
 
     /**
      * @param array $array
      */
-    public function setArray(array $array) {
+    public function setArray(array $array): void {
         $this->array = $array;
     }
 
@@ -152,7 +152,7 @@ class ArrayList {
     /**
      * @param bool $sortValues
      */
-    public function setSortValues(bool $sortValues) {
+    public function setSortValues(bool $sortValues): void {
         $this->sortValues = $sortValues;
     }
 
