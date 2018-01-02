@@ -35,13 +35,13 @@ class CustomCommand extends PluginCommand {
         if(!($sender instanceof Player)) {
             $sender->sendMessage($this->getWorlds()->getMessage("general.command.ingame"));
 
-            return false;
+            return true;
         }
 
         if(!($sender->hasPermission($this->getPermission()))) {
-            $sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.permission"));
+            $sender->sendMessage($this->getWorlds()->getServer()->getLanguage()->translateString(TextFormat::RED . "%commands.generic.permission"));
 
-            return false;
+            return true;
         }
 
         return $this->do($sender, $args);

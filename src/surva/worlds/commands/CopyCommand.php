@@ -19,7 +19,7 @@ class CopyCommand extends CustomCommand {
         }
 
         if(!(is_dir($this->getWorlds()->getServer()->getDataPath() . "worlds/" . $args[0]))) {
-            $player->sendMessage($this->getWorlds()->getMessage("general.world.notexist"));
+            $player->sendMessage($this->getWorlds()->getMessage("general.world.notexist", array("name" => $args[0])));
 
             return true;
         }
