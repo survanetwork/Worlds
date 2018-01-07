@@ -19,8 +19,9 @@ Please report bugs on the issues page.
 - Teleport to worlds
 - Control nearly every event for each world (it's getting more and more).
     - World's gamemode
+    - Permission to join a world
     - Block breaking and placing
-    - PVP
+    - PvP
     - Damage (everything like attacking, fall damage, ...)
     - Explosion
     - Item drop
@@ -37,6 +38,7 @@ Worlds is really easy to use. Here is the command syntax:
 /worlds create <worldname> [type]
 /worlds <remove|load|unload|teleport> <worldname>
 /worlds <copy|rename> <from> <to>
+/worlds set
 /worlds set permission <permissionstring>
 /worlds set gamemode <survival|creative|adventure|spectator>
 /worlds set <build|pvp|damage|drop|hunger|fly> <true|false>
