@@ -1,0 +1,81 @@
+# __        __         _     _
+# \ \      / /__  _ __| | __| |___
+#  \ \ /\ / / _ \| '__| |/ _` / __|
+#   \ V  V / (_) | |  | | (_| \__ \
+#    \_/\_/ \___/|_|  |_|\__,_|___/
+#
+# (C) 2017 by surva network | https://github.com/survanetwork
+
+# German language
+
+# General
+general:
+  command:
+    ingame: "§6Du kannst diesen Befehl nur im Spiel ausführen."
+  world:
+    notexist: "§cDie Welt §f{name} §cexistiert nicht."
+    notloaded: "§cDie Welt §f{name} §cist nicht geladen oder existiert nicht."
+  permission: "§6Du hast keine Berechtigung, diese Welt zu betreten."
+
+# List command
+list:
+  worlds: "§eWelten auf diesem Server: §f{worlds}§e."
+
+# Create command
+create:
+  success: "§aDie Welt §f{name} §awurde erfolgreich erstellt."
+  failed: "§cDie Welt konnte aufgrund eines unbekannten Fehlers nicht erstellt werden."
+  generator:
+    notexist: "§6Es gibt keinen Generator namens §f{name} §6- benutze den Standard-Generator."
+
+# Remove command
+remove:
+ success: "§aDie Welt §f{name} §awurde erfolgreich gelöscht."
+
+# Copy command
+copy:
+ success: "§aDie Welt §f{name} §wurde erfolgreich nach §f{to} §akopiert."
+ same: "§cDu kannst eine Welt nicht in sich selbst kopieren."
+ datfile:
+     notexist: "§cDie DAT-Datei der Welt konnte nicht gefunden werden."
+     notsave: "§cDie aktualisierte DAT-Datei der Welt konnte nicht gespeichert werden."
+
+# Rename command
+rename:
+  success: "§aDie Welt §f{name} §awurde zu §f{to} §aumbenannt."
+  same: "§cDu kannst eine Welt nicht in den gleichen Namen umbenennen."
+  datfile:
+    notexist: "§cDie DAT-Datei der Welt konnte nicht gefunden werden."
+    notsave: "§cDie aktualisierte DAT-Datei der Welt konnte nicht gespeichert werden."
+
+# Load command
+load:
+  success: "§aDie Welt §f{world} §awurde erfolgreich geladen."
+  already: "§eDie Welt §f{name} §eist bereits geladen."
+  failed: "§cDie Welt konnte nicht geladen werden."
+
+# Unload command
+unload:
+  success: "§aDie Welt §f{world} §awurde erfolgreich entladen."
+  failed: "§cDie Welt konnte nicht entladen werden."
+
+# Teleport command
+teleport:
+  success: "§aDu wurdest nach §f{world} §ateleportiert."
+  failed: "§cDu konntest nicht teleportiert werden."
+
+# Set command
+set:
+  success: "§aDu hast §b{key} §ain §f{world} §aauf §c{value} §agesetzt."
+  list:
+      values: "§Einstellungen für die Welt §f{name}\n\n§eberechtigung: {permission}\n§egamemode: {gamemode}\n§ebauen: {build}\n§epvp: {pvp}\n§eschaden: {damage}\n§einteragieren: {interact}\n§eexplosionen: {explode}\n§edrop: {drop}\n§ehunger: {hunger}\n§efliegen: {fly}\n"
+      notset: "§7nicht gesetzt"
+  permission:
+    notdefault: "§cDu kannst keine Berechtigung für die Standard-Welt setzen."
+  gamemode:
+    notexist: "§6Dieser Spielmodus existiert nicht."
+  notbool: "§6Du kannst §f{key} §6nur auf §atrue §6oder §afalse §6setzen."
+
+# Unset command
+unset:
+  success: "§b{key} §ain §f{world} §awurde zurückgesetzt."

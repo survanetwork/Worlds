@@ -1,18 +1,18 @@
 name: Worlds
 main: surva\worlds\Worlds
-version: 1.0.13
-api: [3.0.0-ALPHA7, 3.0.0-ALPHA8, 3.0.0-ALPHA9, 3.0.0-ALPHA10]
+version: 2.0.0
+api: 3.0.0-ALPHA10
 commands:
   worlds:
     description: "Worlds"
-    usage: "/worlds <info|list> OR /worlds <create|remove|load|unload|tp> <world> [type] OR /worlds <copy|rename> <from> <to> OR /worlds set gamemode <survival|creative|adventure|spectator> OR /worlds set <build|pvp|damage|interact|drop|hunger|fly> <true|false>"
+    usage: "/worlds list\n/worlds create <worldname> [type]\n/worlds <remove|load|unload|tp> <worldname>\n/worlds <copy|rename> <from> <to>\n/worlds set permission <permissionstring>\n/worlds set gamemode <survival|creative|adventure|spectator>\n/worlds set <build|pvp|damage|drop|hunger|fly> <true|false>\n/worlds unset <permission|gamemode|build|pvp|damage|drop|hunger|fly>"
     aliases: ["ws"]
 permissions:
   worlds.list:
     description: "List worlds"
     default: true
   worlds.admin:
-    description: "Create worlds, delete worlds, set parameters"
+    description: "Create worlds, delete worlds, set parameters, ..."
     default: op
     children:
       worlds.admin.create:
@@ -30,7 +30,7 @@ permissions:
       worlds.admin.load:
         description: "Load worlds"
         default: op
-      worlds.admin.load:
+      worlds.admin.unload:
         description: "Unload worlds"
         default: op
       worlds.admin.teleport:
@@ -38,6 +38,9 @@ permissions:
         default: op
       worlds.admin.set:
         description: "Set parameters"
+        default: op
+      worlds.admin.unset:
+        description: "Unset parameters"
         default: op
       worlds.admin.build:
         description: "Allow building in protected worlds"
@@ -50,4 +53,4 @@ permissions:
         default: false
       worlds.admin.fly:
         description: "Fly in every world"
-        default: op
+        default: false

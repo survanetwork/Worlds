@@ -18,6 +18,9 @@ class World {
     /* @var Config */
     private $config;
 
+    /* @var string|null */
+    private $permission;
+
     /* @var int|null */
     private $gamemode;
 
@@ -52,7 +55,11 @@ class World {
         $this->loadItems();
     }
 
-    public function loadItems() {
+    /**
+     * Load all possible config values
+     */
+    public function loadItems(): void {
+        $this->loadValue("permission");
         $this->loadValue("gamemode");
         $this->loadValue("build");
         $this->loadValue("pvp");
@@ -69,25 +76,23 @@ class World {
      *
      * @param string $name
      */
-    public function loadValue(string $name) {
-        if($this->getConfig()->exists($name)) {
-            switch($this->getConfig()->get($name)) {
-                case "true":
-                    $this->$name = true;
-                    break;
-                case "false":
-                    $this->$name = false;
-                    break;
-                default:
-                    $this->$name = $this->getConfig()->get($name);
-                    break;
-            }
-        } else {
-            if($name == "gamemode") {
-                $this->$name = $this->getWorlds()->getServer()->getDefaultGamemode();
-            } else {
-                $this->$name = null;
-            }
+    public function loadValue(string $name): void {
+        if(!($this->getConfig()->exists($name))) {
+            $this->$name = null;
+
+            return;
+        }
+
+        switch($this->getConfig()->get($name)) {
+            case "true":
+                $this->$name = true;
+                break;
+            case "false":
+                $this->$name = false;
+                break;
+            default:
+                $this->$name = $this->getConfig()->get($name);
+                break;
         }
     }
 
@@ -97,12 +102,24 @@ class World {
      * @param string $name
      * @param string $value
      */
-    public function updateValue(string $name, string $value) {
-        if($value == "true") {
-            $this->getConfig()->remove($name);
-        } else {
-            $this->getConfig()->set($name, $value);
+    public function updateValue(string $name, string $value): void {
+        $this->getConfig()->set($name, $value);
+
+        $this->getConfig()->save();
+        $this->loadItems();
+    }
+
+    /**
+     * Remove a config value
+     *
+     * @param string $name
+     */
+    public function removeValue(string $name): void {
+        if(!$this->getConfig()->exists($name)) {
+            return;
         }
+
+        $this->getConfig()->remove($name);
 
         $this->getConfig()->save();
         $this->loadItems();
@@ -111,64 +128,71 @@ class World {
     /**
      * @return bool|null
      */
-    public function getFly() {
+    public function getFly(): ?bool {
         return $this->fly;
     }
 
     /**
      * @return bool|null
      */
-    public function getHunger() {
+    public function getHunger(): ?bool {
         return $this->hunger;
     }
 
     /**
      * @return bool|null
      */
-    public function getDrop() {
+    public function getDrop(): ?bool {
         return $this->drop;
     }
 
     /**
      * @return bool|null
      */
-    public function getExplode() {
+    public function getExplode(): ?bool {
         return $this->explode;
     }
 
     /**
      * @return bool|null
      */
-    public function getDamage() {
+    public function getDamage(): ?bool {
         return $this->damage;
     }
     
     /**
      * @return bool|null
      */
-    public function getInteract() {
+    public function getInteract(): ?bool {
         return $this->interact;
     }
 
     /**
      * @return bool|null
      */
-    public function getPvp() {
+    public function getPvp(): ?bool {
         return $this->pvp;
     }
 
     /**
      * @return bool|null
      */
-    public function getBuild() {
+    public function getBuild(): ?bool {
         return $this->build;
     }
 
     /**
      * @return int|null
      */
-    public function getGamemode() {
+    public function getGamemode(): ?int {
         return $this->gamemode;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPermission(): ?string {
+        return $this->permission;
     }
 
     /**

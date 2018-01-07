@@ -1,0 +1,81 @@
+# __        __         _     _
+# \ \      / /__  _ __| | __| |___
+#  \ \ /\ / / _ \| '__| |/ _` / __|
+#   \ V  V / (_) | |  | | (_| \__ \
+#    \_/\_/ \___/|_|  |_|\__,_|___/
+#
+# (C) 2017 by surva network | https://github.com/survanetwork
+
+# English language
+
+# General
+general:
+  command:
+    ingame: "§6You can only run this command in game."
+  world:
+    notexist: "§cWorld §f{name} §cdoesn't exist."
+    notloaded: "§cWorld §f{name} §cisn't loaded or does not exist."
+  permission: "§6You don't have the permission to join this world."
+
+# List command
+list:
+  worlds: "§eWorlds on this server: §f{worlds}§e."
+
+# Create command
+create:
+  success: "§aWorld §f{name} §ahas been created."
+  failed: "§cAn unknown error occurred while creating the world."
+  generator:
+    notexist: "§6There is no generated called §f{name} §6- using the default one."
+
+# Remove command
+remove:
+ success: "§aWorld §f{name} §ahas been removed."
+
+# Copy command
+copy:
+ success: "§aWorld §f{name} §ahas been copied to §f{to}§a."
+ same: "§cYou can't copy the world into itself."
+ datfile:
+     notexist: "§cThe world's data file does not exist."
+     notsave: "§cFailed saving the updated dat file of the world."
+
+# Rename command
+rename:
+  success: "§aWorld §f{name} §ahas been renamed to §f{to}§a."
+  same: "§cYou can't rename the world to the same name."
+  datfile:
+    notexist: "§cThe world's data file does not exist."
+    notsave: "§cFailed saving the updated dat file of the world."
+
+# Load command
+load:
+  success: "§aWorld §f{world} §ahas been loaded successfully."
+  already: "§eWorld §f{name} §eis already loaded."
+  failed: "§cThe world could not be loaded."
+
+# Unload command
+unload:
+  success: "§aWorld §f{world} §ahas been unloaded successfully."
+  failed: "§cThe world could not be unloaded."
+
+# Teleport command
+teleport:
+  success: "§aYou've been teleported to §f{world}§a."
+  failed: "§cUnable to teleport you to the world."
+
+# Set command
+set:
+  success: "§aYou've set §b{key} §ain §f{world} §ato §c{value}§a."
+  list:
+    values: "§cSettings for world §f{name}\n\n§epermission: {permission}\n§egamemode: {gamemode}\n§ebuild: {build}\n§epvp: {pvp}\n§edamage: {damage}\n§einteract: {interact}\n§eexplode: {explode}\n§edrop: {drop}\n§ehunger: {hunger}\n§efly: {fly}\n"
+    notset: "§7not set"
+  permission:
+    notdefault: "§cYou can't set a permission on the default world."
+  gamemode:
+    notexist: "§6This gamemode does not exist."
+  notbool: "§6You can set §f{key} §6only to §atrue §6or §afalse§6."
+
+# Unset command
+unset:
+  success: "§b{key} §ahas been unset in §f{world}§a."

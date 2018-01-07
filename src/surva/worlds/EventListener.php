@@ -47,13 +47,23 @@ class EventListener implements Listener {
         $foldername = $player->getLevel()->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if(!$player->hasPermission("worlds.admin.gamemode")) {
-                $player->setGamemode($world->getGamemode());
+            if($world->getPermission() !== null) {
+                if(!$player->hasPermission($world->getPermission())) {
+                    $player->sendMessage($this->getWorlds()->getMessage("general.permission"));
+
+                    $player->teleport($this->getWorlds()->getServer()->getDefaultLevel()->getSafeSpawn());
+                }
+            }
+
+            if($world->getGamemode() !== null)  {
+                if(!$player->hasPermission("worlds.admin.gamemode")) {
+                    $player->setGamemode($world->getGamemode());
+                }
             }
 
             if($world->getFly() === true OR $player->hasPermission("worlds.admin.fly")) {
                 $player->setAllowFlight(true);
-            } else {
+            } elseif($world->getFly() === false) {
                 $player->setAllowFlight(false);
             }
         }
@@ -64,17 +74,28 @@ class EventListener implements Listener {
      */
     public function onEntityLevelChange(EntityLevelChangeEvent $event) {
         $player = $event->getEntity();
-        $foldername = $player->getLevel()->getFolderName();
+        $foldername = $event->getTarget()->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if($player instanceof Player) {
-                if(!$player->hasPermission("worlds.admin.gamemode")) {
-                    $player->setGamemode($world->getGamemode());
+                if($world->getPermission() !== null) {
+                    if(!$player->hasPermission($world->getPermission())) {
+                        $player->sendMessage($this->getWorlds()->getMessage("general.permission"));
+
+                        $event->setCancelled();
+                        return;
+                    }
+                }
+
+                if($world->getGamemode() !== null)  {
+                    if(!$player->hasPermission("worlds.admin.gamemode")) {
+                        $player->setGamemode($world->getGamemode());
+                    }
                 }
 
                 if($world->getFly() === true OR $player->hasPermission("worlds.admin.fly")) {
                     $player->setAllowFlight(true);
-                } else {
+                } elseif($world->getFly() === false) {
                     $player->setAllowFlight(false);
                 }
             }
@@ -91,7 +112,7 @@ class EventListener implements Listener {
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if(!$player->hasPermission("worlds.admin.build")) {
                 if($world->getBuild() === false) {
-                    $event->setCancelled(true);
+                    $event->setCancelled();
                 }
             }
         }
@@ -107,7 +128,7 @@ class EventListener implements Listener {
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if(!$player->hasPermission("worlds.admin.build")) {
                 if($world->getBuild() === false) {
-                    $event->setCancelled(true);
+                    $event->setCancelled();
                 }
             }
         }
@@ -124,12 +145,12 @@ class EventListener implements Listener {
             if($player instanceof Player) {
                 if($event instanceof EntityDamageByEntityEvent) {
                     if($world->getPvp() === false) {
-                        $event->setCancelled(true);
+                        $event->setCancelled();
                     }
                 } else {
-                    if($event->getCause() != EntityDamageEvent::CAUSE_VOID) {
+                    if($event->getCause() !== EntityDamageEvent::CAUSE_VOID) {
                         if($world->getDamage() === false) {
-                            $event->setCancelled(true);
+                            $event->setCancelled();
                         }
                     }
                 }
@@ -146,7 +167,7 @@ class EventListener implements Listener {
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if($world->getExplode() === false) {
-                $event->setCancelled(true);
+                $event->setCancelled();
             }
         }
     }
@@ -160,7 +181,7 @@ class EventListener implements Listener {
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if($world->getDrop() === false) {
-                $event->setCancelled(true);
+                $event->setCancelled();
             }
         }
     }
@@ -174,7 +195,7 @@ class EventListener implements Listener {
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if($world->getHunger() === false) {
-                $event->setCancelled(true);
+                $event->setCancelled();
             }
         }
     }
@@ -189,7 +210,7 @@ class EventListener implements Listener {
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if(!$player->hasPermission("worlds.admin.interact")) {
                 if($world->getInteract() === false) {
-                    $event->setCancelled(true);
+                    $event->setCancelled();
                 }
             }
         }
