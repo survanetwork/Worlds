@@ -74,7 +74,7 @@ class EventListener implements Listener {
      */
     public function onEntityLevelChange(EntityLevelChangeEvent $event) {
         $player = $event->getEntity();
-        $foldername = $player->getLevel()->getFolderName();
+        $foldername = $event->getTarget()->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if($player instanceof Player) {
