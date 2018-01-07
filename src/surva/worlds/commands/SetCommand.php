@@ -10,9 +10,32 @@ namespace surva\worlds\commands;
 
 use pocketmine\Player;
 use pocketmine\Server;
+use pocketmine\utils\TextFormat;
 
 class SetCommand extends CustomCommand {
     public function do(Player $player, array $args) {
+        if(count($args) === 0) {
+            $foldername = $player->getLevel()->getFolderName();
+
+            if($world = $this->getWorlds()->getWorldByName($foldername)) {
+                $player->sendMessage($this->getWorlds()->getMessage("set.list.values", array(
+                    "name" => $foldername,
+                    "permission" => $this->formatText($world->getPermission()),
+                    "gamemode" => $this->formatGamemode($world->getGamemode()),
+                    "build" => $this->formatBool($world->getBuild()),
+                    "pvp" => $this->formatBool($world->getPvp()),
+                    "damage" => $this->formatBool($world->getDamage()),
+                    "interact" => $this->formatBool($world->getInteract()),
+                    "explode" => $this->formatBool($world->getExplode()),
+                    "drop" => $this->formatBool($world->getDrop()),
+                    "hunger" => $this->formatBool($world->getHunger()),
+                    "fly" => $this->formatBool($world->getFly())
+                )));
+            }
+
+            return true;
+        }
+
         if(!(count($args) === 2)) {
             return false;
         }
@@ -72,5 +95,49 @@ class SetCommand extends CustomCommand {
         }
 
         return true;
+    }
+
+    /**
+     * Format a text for showing its value
+     *
+     * @param string|null $value
+     * @return string
+     */
+    private function formatText(?string $value): string {
+        if($value === null) {
+            return $this->getWorlds()->getMessage("set.list.notset");
+        }
+
+        return TextFormat::WHITE . $value;
+    }
+
+    /**
+     * Format a gamemode for showing its value
+     *
+     * @param int|null $value
+     * @return string
+     */
+    private function formatGamemode(?int $value): string {
+        if($value === null) {
+            return $this->getWorlds()->getMessage("set.list.notset");
+        }
+
+        return $this->getWorlds()->getServer()->getLanguage()->translateString(TextFormat::WHITE . Server::getGamemodeString($value));
+    }
+
+    /**
+     * Format a boolean for showing its value
+     *
+     * @param bool|null $value
+     * @return string
+     */
+    private function formatBool(?bool $value): string {
+        if($value === true) {
+            return TextFormat::GREEN . "true";
+        } elseif($value === false) {
+            return TextFormat::RED . "false";
+        } else {
+            return $this->getWorlds()->getMessage("set.list.notset");
+        }
     }
 }

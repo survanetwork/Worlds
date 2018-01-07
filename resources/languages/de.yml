@@ -67,6 +67,9 @@ teleport:
 # Set command
 set:
   success: "§aDu hast §b{key} §ain §f{world} §aauf §c{value} §agesetzt."
+  list:
+      values: "§Einstellungen für die Welt §f{name}\n\n§eberechtigung: {permission}\n§egamemode: {gamemode}\n§ebauen: {build}\n§epvp: {pvp}\n§eschaden: {damage}\n§einteragieren: {interact}\n§eexplosionen: {explode}\n§edrop: {drop}\n§ehunger: {hunger}\n§efliegen: {fly}\n"
+      notset: "§7nicht gesetzt"
   permission:
     notdefault: "§cDu kannst keine Berechtigung für die Standard-Welt setzen."
   gamemode:
