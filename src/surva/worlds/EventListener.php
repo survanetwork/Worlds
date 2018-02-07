@@ -33,7 +33,7 @@ class EventListener implements Listener {
     /**
      * @param LevelLoadEvent $event
      */
-    public function onLevelLoad(LevelLoadEvent $event) {
+    public function onLevelLoad(LevelLoadEvent $event): void {
         $foldername = $event->getLevel()->getFolderName();
 
         $this->getWorlds()->loadWorld($foldername);
@@ -42,7 +42,7 @@ class EventListener implements Listener {
     /**
      * @param PlayerJoinEvent $event
      */
-    public function onPlayerJoin(PlayerJoinEvent $event) {
+    public function onPlayerJoin(PlayerJoinEvent $event): void {
         $player = $event->getPlayer();
         $foldername = $player->getLevel()->getFolderName();
 
@@ -72,7 +72,7 @@ class EventListener implements Listener {
     /**
      * @param EntityLevelChangeEvent $event
      */
-    public function onEntityLevelChange(EntityLevelChangeEvent $event) {
+    public function onEntityLevelChange(EntityLevelChangeEvent $event): void {
         $player = $event->getEntity();
         $foldername = $event->getTarget()->getFolderName();
 
@@ -105,7 +105,7 @@ class EventListener implements Listener {
     /**
      * @param BlockBreakEvent $event
      */
-    public function onBlockBreak(BlockBreakEvent $event) {
+    public function onBlockBreak(BlockBreakEvent $event): void {
         $player = $event->getPlayer();
         $foldername = $player->getLevel()->getFolderName();
 
@@ -121,7 +121,7 @@ class EventListener implements Listener {
     /**
      * @param BlockPlaceEvent $event
      */
-    public function onBlockPlace(BlockPlaceEvent $event) {
+    public function onBlockPlace(BlockPlaceEvent $event): void {
         $player = $event->getPlayer();
         $foldername = $player->getLevel()->getFolderName();
 
@@ -137,7 +137,7 @@ class EventListener implements Listener {
     /**
      * @param EntityDamageEvent $event
      */
-    public function onEntityDamage(EntityDamageEvent $event) {
+    public function onEntityDamage(EntityDamageEvent $event): void {
         $player = $event->getEntity();
         $foldername = $player->getLevel()->getFolderName();
 
@@ -161,7 +161,7 @@ class EventListener implements Listener {
     /**
      * @param ExplosionPrimeEvent $event
      */
-    public function onExplosionPrime(ExplosionPrimeEvent $event) {
+    public function onExplosionPrime(ExplosionPrimeEvent $event): void {
         $player = $event->getEntity();
         $foldername = $player->getLevel()->getFolderName();
 
@@ -175,7 +175,7 @@ class EventListener implements Listener {
     /**
      * @param PlayerDropItemEvent $event
      */
-    public function onPlayerDropItem(PlayerDropItemEvent $event) {
+    public function onPlayerDropItem(PlayerDropItemEvent $event): void {
         $player = $event->getPlayer();
         $foldername = $player->getLevel()->getFolderName();
 
@@ -189,7 +189,7 @@ class EventListener implements Listener {
     /**
      * @param PlayerExhaustEvent $event
      */
-    public function onPlayerExhaust(PlayerExhaustEvent $event) {
+    public function onPlayerExhaust(PlayerExhaustEvent $event): void {
         $player = $event->getPlayer();
         $foldername = $player->getLevel()->getFolderName();
 
@@ -203,7 +203,7 @@ class EventListener implements Listener {
     /**
      * @param PlayerInteractEvent $event
      */
-    public function onInteract(PlayerInteractEvent $event) {
+    public function onInteract(PlayerInteractEvent $event): void {
         $player = $event->getPlayer();
         $foldername = $player->getLevel()->getFolderName();
 

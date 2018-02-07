@@ -43,7 +43,7 @@ class Worlds extends PluginBase {
             $this->loadWorld($level->getFolderName());
         }
 
-        $this->messages = new Config($this->getFile() . "resources/languages/" . $this->getConfig()->get("language") . ".yml");
+        $this->messages = new Config($this->getFile() . "resources/languages/" . $this->getConfig()->get("language", "en") . ".yml");
     }
 
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {

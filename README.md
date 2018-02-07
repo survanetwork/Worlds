@@ -9,8 +9,8 @@ Easy to use but feature rich world guard plugin
 Because there is no plugin to manage all aspects of the game for each world like WorldGuard on Bukkit, I made Worlds.
 With Worlds, you can control events like breaking blocks, dropping items, and many more.
 
-If you want to help or you have ideas to make my plugin better, feel free to make a commit or open an issue.
-Please report bugs on the issues page.
+If you want to help or you have ideas to make our plugin better, feel free to make a commit or open an issue.
+Please report bugs on the issues page on GitHub.
 
 ## Features
 - Create and remove worlds
@@ -30,7 +30,7 @@ Please report bugs on the issues page.
     - You have an idea what to add? Feel free to open an issue.
 - Easy to use, fast and mostly bug-free.
 
-## How to use
+## Usage
 Worlds is really easy to use. Here is the command syntax:
 
 ```
@@ -47,11 +47,13 @@ Worlds is really easy to use. Here is the command syntax:
 
 For a full list of commands, their usage and a description what they are for, take a look at the [wiki](https://github.com/survanetwork/Worlds/wiki/Commands).
 
-## Development
+## Contribution
 Feel free to contribute if you have ideas or found an issue.
 
-Tested and works on:
-- [PocketMine-MP](https://github.com/pmmp/PocketMine-MP)
+You can:
+- [open an issue](https://github.com/survanetwork/Worlds/issues) (problems, bugs or feature requests)
+- [create a pull request](https://github.com/survanetwork/Worlds/pulls) (code contributions like fixed bugs or added features)
+- [help translating the plugin](https://github.com/survanetwork/Worlds/tree/master/resources/languages) (create a new language file or correct an existing one)
 
 ## License & Credits
 [![Creative Commons License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
