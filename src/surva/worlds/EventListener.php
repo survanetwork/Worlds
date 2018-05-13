@@ -55,7 +55,7 @@ class EventListener implements Listener {
                 }
             }
 
-            if($world->getGamemode() !== null)  {
+            if($world->getGamemode() !== null) {
                 if(!$player->hasPermission("worlds.admin.gamemode")) {
                     $player->setGamemode($world->getGamemode());
                 }
@@ -83,11 +83,12 @@ class EventListener implements Listener {
                         $player->sendMessage($this->getWorlds()->getMessage("general.permission"));
 
                         $event->setCancelled();
+
                         return;
                     }
                 }
 
-                if($world->getGamemode() !== null)  {
+                if($world->getGamemode() !== null) {
                     if(!$player->hasPermission("worlds.admin.gamemode")) {
                         $player->setGamemode($world->getGamemode());
                     }
@@ -199,7 +200,7 @@ class EventListener implements Listener {
             }
         }
     }
-    
+
     /**
      * @param PlayerInteractEvent $event
      */

@@ -16,7 +16,10 @@ class UnsetCommand extends CustomCommand {
             return false;
         }
 
-        if(!(in_array($args[0], array("permission", "gamemode", "build", "pvp", "damage", "interact", "explode", "drop", "hunger", "fly")))) {
+        if(!(in_array(
+            $args[0],
+            array("permission", "gamemode", "build", "pvp", "damage", "interact", "explode", "drop", "hunger", "fly")
+        ))) {
             return false;
         }
 
@@ -28,7 +31,12 @@ class UnsetCommand extends CustomCommand {
 
         $world->removeValue($args[0]);
 
-        $player->sendMessage($this->getWorlds()->getMessage("unset.success", array("world" => $player->getLevel()->getFolderName(), "key" => $args[0])));
+        $player->sendMessage(
+            $this->getWorlds()->getMessage(
+                "unset.success",
+                array("world" => $player->getLevel()->getFolderName(), "key" => $args[0])
+            )
+        );
 
         return true;
     }

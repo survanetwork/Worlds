@@ -22,6 +22,7 @@ class CreateCommand extends CustomCommand {
                 }
 
                 $player->sendMessage($this->getWorlds()->getMessage("create.success", array("name" => $args[0])));
+
                 return true;
             case 2:
                 switch(strtolower($args[1])) {
@@ -35,7 +36,9 @@ class CreateCommand extends CustomCommand {
                         $generator = Nether::class;
                         break;
                     default:
-                        $player->sendMessage($this->getWorlds()->getMessage("create.generator.notexist", array("name" => $args[1])));
+                        $player->sendMessage(
+                            $this->getWorlds()->getMessage("create.generator.notexist", array("name" => $args[1]))
+                        );
 
                         $generator = Normal::class;
                         break;
@@ -46,6 +49,7 @@ class CreateCommand extends CustomCommand {
                 }
 
                 $player->sendMessage($this->getWorlds()->getMessage("create.success", array("name" => $args[0])));
+
                 return true;
             default:
                 return false;

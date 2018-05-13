@@ -38,6 +38,7 @@ copy:
  same: "§cDu kannst eine Welt nicht in sich selbst kopieren."
  datfile:
      notexist: "§cDie DAT-Datei der Welt konnte nicht gefunden werden."
+     damaged: "§cDie DAT-Datei der Welt ist beschädigt."
      notsave: "§cDie aktualisierte DAT-Datei der Welt konnte nicht gespeichert werden."
 
 # Rename command
@@ -46,6 +47,7 @@ rename:
   same: "§cDu kannst eine Welt nicht in den gleichen Namen umbenennen."
   datfile:
     notexist: "§cDie DAT-Datei der Welt konnte nicht gefunden werden."
+    damaged: "§cDie DAT-Datei der Welt ist beschädigt."
     notsave: "§cDie aktualisierte DAT-Datei der Welt konnte nicht gespeichert werden."
 
 # Load command

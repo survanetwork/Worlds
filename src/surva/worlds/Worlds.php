@@ -43,7 +43,9 @@ class Worlds extends PluginBase {
             $this->loadWorld($level->getFolderName());
         }
 
-        $this->messages = new Config($this->getFile() . "resources/languages/" . $this->getConfig()->get("language", "en") . ".yml");
+        $this->messages = new Config(
+            $this->getFile() . "resources/languages/" . $this->getConfig()->get("language", "en") . ".yml"
+        );
     }
 
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {
@@ -187,21 +189,21 @@ class Worlds extends PluginBase {
      * @param string $directory
      */
     public function delete(string $directory): void {
-         if(is_dir($directory)) {
-             $objects = scandir($directory);
+        if(is_dir($directory)) {
+            $objects = scandir($directory);
 
-             foreach($objects as $object) {
-                 if($object !== "." AND $object !== "..") {
-                     if(is_dir($directory . "/" . $object)) {
-                         $this->delete($directory . "/" . $object);
-                     } else {
-                         unlink($directory . "/" . $object);
-                     }
-                 }
-             }
+            foreach($objects as $object) {
+                if($object !== "." AND $object !== "..") {
+                    if(is_dir($directory . "/" . $object)) {
+                        $this->delete($directory . "/" . $object);
+                    } else {
+                        unlink($directory . "/" . $object);
+                    }
+                }
+            }
 
-             rmdir($directory);
-         }
+            rmdir($directory);
+        }
     }
 
     /**

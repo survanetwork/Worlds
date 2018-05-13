@@ -17,7 +17,9 @@ class RemoveCommand extends CustomCommand {
         }
 
         if($this->getWorlds()->getServer()->isLevelLoaded($args[0])) {
-            if(!($this->getWorlds()->getServer()->unloadLevel($this->getWorlds()->getServer()->getLevelByName($args[0])))) {
+            if(!($this->getWorlds()->getServer()->unloadLevel(
+                $this->getWorlds()->getServer()->getLevelByName($args[0])
+            ))) {
                 $player->sendMessage($this->getWorlds()->getMessage("unload.failed"));
 
                 return true;

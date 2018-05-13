@@ -18,19 +18,24 @@ class SetCommand extends CustomCommand {
             $foldername = $player->getLevel()->getFolderName();
 
             if($world = $this->getWorlds()->getWorldByName($foldername)) {
-                $player->sendMessage($this->getWorlds()->getMessage("set.list.values", array(
-                    "name" => $foldername,
-                    "permission" => $this->formatText($world->getPermission()),
-                    "gamemode" => $this->formatGamemode($world->getGamemode()),
-                    "build" => $this->formatBool($world->getBuild()),
-                    "pvp" => $this->formatBool($world->getPvp()),
-                    "damage" => $this->formatBool($world->getDamage()),
-                    "interact" => $this->formatBool($world->getInteract()),
-                    "explode" => $this->formatBool($world->getExplode()),
-                    "drop" => $this->formatBool($world->getDrop()),
-                    "hunger" => $this->formatBool($world->getHunger()),
-                    "fly" => $this->formatBool($world->getFly())
-                )));
+                $player->sendMessage(
+                    $this->getWorlds()->getMessage(
+                        "set.list.values",
+                        array(
+                            "name" => $foldername,
+                            "permission" => $this->formatText($world->getPermission()),
+                            "gamemode" => $this->formatGamemode($world->getGamemode()),
+                            "build" => $this->formatBool($world->getBuild()),
+                            "pvp" => $this->formatBool($world->getPvp()),
+                            "damage" => $this->formatBool($world->getDamage()),
+                            "interact" => $this->formatBool($world->getInteract()),
+                            "explode" => $this->formatBool($world->getExplode()),
+                            "drop" => $this->formatBool($world->getDrop()),
+                            "hunger" => $this->formatBool($world->getHunger()),
+                            "fly" => $this->formatBool($world->getFly()),
+                        )
+                    )
+                );
             }
 
             return true;
@@ -40,7 +45,10 @@ class SetCommand extends CustomCommand {
             return false;
         }
 
-        if(!(in_array($args[0], array("permission", "gamemode", "build", "pvp", "damage", "interact", "explode", "drop", "hunger", "fly")))) {
+        if(!(in_array(
+            $args[0],
+            array("permission", "gamemode", "build", "pvp", "damage", "interact", "explode", "drop", "hunger", "fly")
+        ))) {
             return false;
         }
 
@@ -51,7 +59,8 @@ class SetCommand extends CustomCommand {
                 return true;
             }
 
-            if($this->getWorlds()->getServer()->getDefaultLevel()->getFolderName() === $player->getLevel()->getFolderName()) {
+            if($this->getWorlds()->getServer()->getDefaultLevel()->getFolderName() === $player->getLevel(
+                )->getFolderName()) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
 
                 return true;
@@ -59,7 +68,12 @@ class SetCommand extends CustomCommand {
 
             $world->updateValue($args[0], $args[1]);
 
-            $player->sendMessage($this->getWorlds()->getMessage("set.success", array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])));
+            $player->sendMessage(
+                $this->getWorlds()->getMessage(
+                    "set.success",
+                    array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])
+                )
+            );
         } elseif($args[0] === "gamemode") {
             if(($args[1] = Server::getGamemodeFromString($args[1])) === -1) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.notexist"));
@@ -75,7 +89,12 @@ class SetCommand extends CustomCommand {
 
             $world->updateValue($args[0], $args[1]);
 
-            $player->sendMessage($this->getWorlds()->getMessage("set.success", array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])));
+            $player->sendMessage(
+                $this->getWorlds()->getMessage(
+                    "set.success",
+                    array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])
+                )
+            );
         } else {
             if(!(in_array($args[1], array("true", "false")))) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.notbool", array("key" => $args[0])));
@@ -91,7 +110,12 @@ class SetCommand extends CustomCommand {
 
             $world->updateValue($args[0], $args[1]);
 
-            $player->sendMessage($this->getWorlds()->getMessage("set.success", array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])));
+            $player->sendMessage(
+                $this->getWorlds()->getMessage(
+                    "set.success",
+                    array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])
+                )
+            );
         }
 
         return true;
@@ -122,7 +146,9 @@ class SetCommand extends CustomCommand {
             return $this->getWorlds()->getMessage("set.list.notset");
         }
 
-        return $this->getWorlds()->getServer()->getLanguage()->translateString(TextFormat::WHITE . Server::getGamemodeString($value));
+        return $this->getWorlds()->getServer()->getLanguage()->translateString(
+            TextFormat::WHITE . Server::getGamemodeString($value)
+        );
     }
 
     /**

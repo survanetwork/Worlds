@@ -9,6 +9,7 @@
 namespace surva\worlds\commands;
 
 use pocketmine\nbt\BigEndianNBTStream;
+use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\Player;
 
@@ -25,7 +26,9 @@ class RenameCommand extends CustomCommand {
         }
 
         if($this->getWorlds()->getServer()->isLevelLoaded($args[0])) {
-            if(!($this->getWorlds()->getServer()->unloadLevel($this->getWorlds()->getServer()->getLevelByName($args[0])))) {
+            if(!($this->getWorlds()->getServer()->unloadLevel(
+                $this->getWorlds()->getServer()->getLevelByName($args[0])
+            ))) {
                 $player->sendMessage($this->getWorlds()->getMessage("unload.failed"));
 
                 return true;
@@ -51,13 +54,28 @@ class RenameCommand extends CustomCommand {
         }
 
         $nbt = new BigEndianNBTStream();
-        $nbt->readCompressed($levelDatContent);
+        $levelData = $nbt->readCompressed($levelDatContent);
 
-        $levelData = $nbt->getData();
-        $levelData["Data"]["LevelName"] = new StringTag("LevelName", $toFolderName);
-        $nbt->setData($levelData);
+        if(!($levelData instanceof CompoundTag) OR !$levelData->hasTag("Data", CompoundTag::class)) {
+            $player->sendMessage($this->getWorlds()->getMessage("rename.datfile.damaged"));
 
-        if(!(file_put_contents($fromPath . "/level.dat", $nbt->writeCompressed()))) {
+            return true;
+        }
+
+        $dataWorkingWith = $levelData->getCompoundTag("Data");
+
+        if(!$dataWorkingWith->hasTag("LevelName", StringTag::class)) {
+            $player->sendMessage($this->getWorlds()->getMessage("rename.datfile.damaged"));
+
+            return true;
+        }
+
+        $dataWorkingWith->setString("LevelName", $toFolderName);
+
+        if(!(file_put_contents(
+            $fromPath . "/level.dat",
+            $nbt->writeCompressed(new CompoundTag("", array($dataWorkingWith)))
+        ))) {
             $player->sendMessage($this->getWorlds()->getMessage("rename.datfile.notsave"));
 
             return true;
@@ -66,7 +84,9 @@ class RenameCommand extends CustomCommand {
         $this->getWorlds()->copy($fromPath, $toPath);
         $this->getWorlds()->delete($fromPath);
 
-        $player->sendMessage($this->getWorlds()->getMessage("rename.success", array("name" => $fromFolderName, "to" => $toFolderName)));
+        $player->sendMessage(
+            $this->getWorlds()->getMessage("rename.success", array("name" => $fromFolderName, "to" => $toFolderName))
+        );
 
         return true;
     }

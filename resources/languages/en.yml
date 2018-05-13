@@ -38,6 +38,7 @@ copy:
  same: "§cYou can't copy the world into itself."
  datfile:
      notexist: "§cThe world's data file does not exist."
+     damaged: "§cThe world's data file is damaged."
      notsave: "§cFailed saving the updated dat file of the world."
 
 # Rename command
@@ -46,6 +47,7 @@ rename:
   same: "§cYou can't rename the world to the same name."
   datfile:
     notexist: "§cThe world's data file does not exist."
+    damaged: "§cThe world's data file is damaged."
     notsave: "§cFailed saving the updated dat file of the world."
 
 # Load command

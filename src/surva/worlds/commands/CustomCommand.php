@@ -10,7 +10,6 @@ namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
 use pocketmine\command\PluginCommand;
-use pocketmine\event\TranslationContainer;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use surva\worlds\Worlds;
@@ -39,7 +38,11 @@ class CustomCommand extends PluginCommand {
         }
 
         if(!($sender->hasPermission($this->getPermission()))) {
-            $sender->sendMessage($this->getWorlds()->getServer()->getLanguage()->translateString(TextFormat::RED . "%commands.generic.permission"));
+            $sender->sendMessage(
+                $this->getWorlds()->getServer()->getLanguage()->translateString(
+                    TextFormat::RED . "%commands.generic.permission"
+                )
+            );
 
             return true;
         }
@@ -47,7 +50,8 @@ class CustomCommand extends PluginCommand {
         return $this->do($sender, $args);
     }
 
-    public function do(Player $player, array $args) {}
+    public function do(Player $player, array $args) {
+    }
 
     /**
      * @return string
