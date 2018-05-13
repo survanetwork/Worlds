@@ -140,7 +140,13 @@ class EventListener implements Listener {
      */
     public function onEntityDamage(EntityDamageEvent $event): void {
         $player = $event->getEntity();
-        $foldername = $player->getLevel()->getFolderName();
+        $level = $player->getLevel();
+
+        if($level === null) {
+            return;
+        }
+
+        $foldername = $level->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if($player instanceof Player) {
