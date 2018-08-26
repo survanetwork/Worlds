@@ -15,6 +15,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
 use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\event\level\LevelLoadEvent;
+use pocketmine\event\player\PlayerBucketEmptyEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerExhaustEvent;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -123,6 +124,22 @@ class EventListener implements Listener {
      * @param BlockPlaceEvent $event
      */
     public function onBlockPlace(BlockPlaceEvent $event): void {
+        $player = $event->getPlayer();
+        $foldername = $player->getLevel()->getFolderName();
+
+        if($world = $this->getWorlds()->getWorldByName($foldername)) {
+            if(!$player->hasPermission("worlds.admin.build")) {
+                if($world->getBuild() === false) {
+                    $event->setCancelled();
+                }
+            }
+        }
+    }
+
+    /**
+     * @param PlayerBucketEmptyEvent $event
+     */
+    public function onPlayerBucketEmpty(PlayerBucketEmptyEvent $event) {
         $player = $event->getPlayer();
         $foldername = $player->getLevel()->getFolderName();
 
