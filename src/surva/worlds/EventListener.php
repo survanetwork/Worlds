@@ -8,6 +8,8 @@
 
 namespace surva\worlds;
 
+use pocketmine\block\ItemFrame;
+use pocketmine\entity\object\Painting;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
@@ -21,6 +23,7 @@ use pocketmine\event\player\PlayerExhaustEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\Listener;
+use pocketmine\item\PaintingItem;
 use pocketmine\Player;
 
 class EventListener implements Listener {
@@ -156,8 +159,8 @@ class EventListener implements Listener {
      * @param EntityDamageEvent $event
      */
     public function onEntityDamage(EntityDamageEvent $event): void {
-        $player = $event->getEntity();
-        $level = $player->getLevel();
+        $entity = $event->getEntity();
+        $level = $entity->getLevel();
 
         if($level === null) {
             return;
@@ -166,7 +169,7 @@ class EventListener implements Listener {
         $foldername = $level->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if($player instanceof Player) {
+            if($entity instanceof Player) {
                 if($event instanceof EntityDamageByEntityEvent) {
                     if($world->getPvp() === false) {
                         $event->setCancelled();
@@ -176,6 +179,26 @@ class EventListener implements Listener {
                         if($world->getDamage() === false) {
                             $event->setCancelled();
                         }
+                    }
+                }
+            } elseif($entity instanceof Painting) {
+                if($event instanceof EntityDamageByEntityEvent) {
+                    $damager = $event->getDamager();
+
+                    if($damager instanceof Player) {
+                        if(!$damager->hasPermission("worlds.admin.build")) {
+                            if($world->getBuild() === false) {
+                                $event->setCancelled();
+                            }
+                        }
+                    } else {
+                        if($world->getBuild() === false) {
+                            $event->setCancelled();
+                        }
+                    }
+                } else {
+                    if($world->getBuild() === false) {
+                        $event->setCancelled();
                     }
                 }
             }
@@ -227,14 +250,33 @@ class EventListener implements Listener {
     /**
      * @param PlayerInteractEvent $event
      */
-    public function onInteract(PlayerInteractEvent $event): void {
+    public function onPlayerInteract(PlayerInteractEvent $event): void {
         $player = $event->getPlayer();
+        $item = $event->getItem();
+        $block = $event->getBlock();
+
         $foldername = $player->getLevel()->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if(!$player->hasPermission("worlds.admin.interact")) {
                 if($world->getInteract() === false) {
                     $event->setCancelled();
+                }
+            }
+
+            if($item instanceof PaintingItem) {
+                if(!$player->hasPermission("worlds.admin.build")) {
+                    if($world->getBuild() === false) {
+                        $event->setCancelled();
+                    }
+                }
+            }
+
+            if($block instanceof ItemFrame) {
+                if(!$player->hasPermission("worlds.admin.build")) {
+                    if($world->getBuild() === false) {
+                        $event->setCancelled();
+                    }
                 }
             }
         }
