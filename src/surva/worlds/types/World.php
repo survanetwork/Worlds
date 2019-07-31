@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Jarne
- * Date: 24.07.16
- * Time: 20:05
+ * Worlds | world config class file
  */
 
 namespace surva\worlds\types;
@@ -71,32 +68,32 @@ class World {
         $this->loadValue("fly");
     }
 
-	/**
-	 * Load value from config
-	 *
-	 * @param string $name
-	 */
-	public function loadValue(string $name): void {
-		if(!$this->getConfig()->exists($name)) {
-			$defVal = $this->getWorlds()->getDefaults()->getValue($name);
+    /**
+     * Load value from config
+     *
+     * @param string $name
+     */
+    public function loadValue(string $name): void {
+        if(!$this->getConfig()->exists($name)) {
+            $defVal = $this->getWorlds()->getDefaults()->getValue($name);
 
-			$this->$name = $defVal;
+            $this->$name = $defVal;
 
-			return;
-		}
+            return;
+        }
 
-		switch($this->getConfig()->get($name)) {
-			case "true":
-				$this->$name = true;
-				break;
-			case "false":
-				$this->$name = false;
-				break;
-			default:
-				$this->$name = $this->getConfig()->get($name);
-				break;
-		}
-	}
+        switch($this->getConfig()->get($name)) {
+            case "true":
+                $this->$name = true;
+                break;
+            case "false":
+                $this->$name = false;
+                break;
+            default:
+                $this->$name = $this->getConfig()->get($name);
+                break;
+        }
+    }
 
     /**
      * Update a config value

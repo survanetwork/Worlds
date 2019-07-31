@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 01.10.17
- * Time: 12:39
+ * Worlds | set parameter command
  */
 
 namespace surva\worlds\commands;
@@ -32,7 +29,7 @@ class SetCommand extends CustomCommand {
                             "explode" => $this->formatBool($world->getExplode()),
                             "drop" => $this->formatBool($world->getDrop()),
                             "hunger" => $this->formatBool($world->getHunger()),
-                            "fly" => $this->formatBool($world->getFly())
+                            "fly" => $this->formatBool($world->getFly()),
                         )
                     )
                 );
@@ -42,8 +39,8 @@ class SetCommand extends CustomCommand {
         }
 
         if(!(count($args) === 2)) {
-			return false;
-		}
+            return false;
+        }
 
         if(!(in_array(
             $args[0],
@@ -53,70 +50,70 @@ class SetCommand extends CustomCommand {
         }
 
         if($args[0] === "permission") {
-			if(!($world = $this->getWorlds()->getWorldByName($player->getLevel()->getFolderName()))) {
-				$player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
+            if(!($world = $this->getWorlds()->getWorldByName($player->getLevel()->getFolderName()))) {
+                $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
 
-				return true;
-			}
+                return true;
+            }
 
-			if($this->getWorlds()->getServer()->getDefaultLevel()->getFolderName() === $player->getLevel(
-				)->getFolderName()) {
-				$player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
+            if($this->getWorlds()->getServer()->getDefaultLevel()->getFolderName() === $player->getLevel(
+                )->getFolderName()) {
+                $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
 
-				return true;
-			}
+                return true;
+            }
 
-			$world->updateValue($args[0], $args[1]);
+            $world->updateValue($args[0], $args[1]);
 
-			$player->sendMessage(
-				$this->getWorlds()->getMessage(
-					"set.success",
-					array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])
-				)
-			);
-		} elseif($args[0] === "gamemode") {
-			if(($args[1] = Server::getGamemodeFromString($args[1])) === -1) {
-				$player->sendMessage($this->getWorlds()->getMessage("set.gamemode.notexist"));
+            $player->sendMessage(
+                $this->getWorlds()->getMessage(
+                    "set.success",
+                    array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])
+                )
+            );
+        } elseif($args[0] === "gamemode") {
+            if(($args[1] = Server::getGamemodeFromString($args[1])) === -1) {
+                $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.notexist"));
 
-				return true;
-			}
+                return true;
+            }
 
-			if(!($world = $this->getWorlds()->getWorldByName($player->getLevel()->getFolderName()))) {
-				$player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
+            if(!($world = $this->getWorlds()->getWorldByName($player->getLevel()->getFolderName()))) {
+                $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
 
-				return true;
-			}
+                return true;
+            }
 
-			$world->updateValue($args[0], $args[1]);
+            $world->updateValue($args[0], $args[1]);
 
-			$player->sendMessage(
-				$this->getWorlds()->getMessage(
-					"set.success",
-					array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])
-				)
-			);
-		} else {
-			if(!(in_array($args[1], array("true", "false")))) {
-				$player->sendMessage($this->getWorlds()->getMessage("set.notbool", array("key" => $args[0])));
+            $player->sendMessage(
+                $this->getWorlds()->getMessage(
+                    "set.success",
+                    array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])
+                )
+            );
+        } else {
+            if(!(in_array($args[1], array("true", "false")))) {
+                $player->sendMessage($this->getWorlds()->getMessage("set.notbool", array("key" => $args[0])));
 
-				return true;
-			}
+                return true;
+            }
 
-			if(!($world = $this->getWorlds()->getWorldByName($player->getLevel()->getFolderName()))) {
-				$player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
+            if(!($world = $this->getWorlds()->getWorldByName($player->getLevel()->getFolderName()))) {
+                $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
 
-				return true;
-			}
+                return true;
+            }
 
-			$world->updateValue($args[0], $args[1]);
+            $world->updateValue($args[0], $args[1]);
 
-			$player->sendMessage(
-				$this->getWorlds()->getMessage(
-					"set.success",
-					array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])
-				)
-			);
-		}
+            $player->sendMessage(
+                $this->getWorlds()->getMessage(
+                    "set.success",
+                    array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])
+                )
+            );
+        }
 
         return true;
     }

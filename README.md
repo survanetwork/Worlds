@@ -58,6 +58,7 @@ Please report bugs on the issues page on GitHub.
     - Hunger
     - Fly
     - You have an idea what to add? Feel free to open an issue.
+- **DEFAULT VALUES** Set default values for worlds without settings
 - **SOPHISTICATED** Easy to use, fast and mostly bug-free.
 
 ## ⛏ Usage
@@ -71,8 +72,13 @@ Worlds is really easy to use. Here is the command syntax:
 /worlds set
 /worlds set permission <permissionstring>
 /worlds set gamemode <survival|creative|adventure|spectator>
-/worlds set <build|pvp|damage|drop|hunger|fly> <true|false>
-/worlds unset <permission|gamemode|build|pvp|damage|drop|hunger|fly>
+/worlds set <build|pvp|damage|interact|explode|drop|hunger|fly> <true|false>
+/worlds unset <permission|gamemode|build|pvp|damage|interact|explode|drop|hunger|fly>
+/worlds defaults
+/worlds defaults set permission <permissionstring>
+/worlds defaults set gamemode <survival|creative|adventure|spectator>
+/worlds defaults set <build|pvp|damage|interact|explode|drop|hunger|fly> <true|false>
+/worlds defaults unset <permission|gamemode|build|pvp|damage|interact|explode|drop|hunger|fly>
 ```
 
 For a full list of commands, their usage and a description what they are for, take a look at the [wiki](https://github.com/survanetwork/Worlds/wiki/Commands).

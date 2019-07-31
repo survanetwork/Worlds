@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 01.10.17
- * Time: 12:39
+ * Worlds | teleport command
  */
 
 namespace surva\worlds\commands;

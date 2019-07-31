@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Jarne
- * Date: 03.04.16
- * Time: 18:28
+ * Worlds | EventListener
  */
 
 namespace surva\worlds;

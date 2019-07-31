@@ -1,27 +1,27 @@
 name: Worlds
 main: surva\worlds\Worlds
-version: 2.0.3
+version: 2.1.0
 api: 3.0.0
 
 author: survanetwork
 description: Easy to use but feature rich World Guard Plugin
-website: https://github.com/survanetwork/Worlds
+website: https://plugins.surva.network/#worlds
 
 commands:
   worlds:
-    description: "Worlds"
-    usage: "/worlds list\n/worlds create <worldname> [type]\n/worlds <remove|load|unload|tp> <worldname>\n/worlds <copy|rename> <from> <to>\n/worlds set\n/worlds set permission <permissionstring>\n/worlds set gamemode <survival|creative|adventure|spectator>\n/worlds set <build|pvp|damage|drop|hunger|fly> <true|false>\n/worlds unset <permission|gamemode|build|pvp|damage|drop|hunger|fly>"
+    description: "Worlds plugin main command"
+    usage: "/worlds list\n/worlds create <worldname> [type]\n/worlds <remove|load|unload|tp> <worldname>\n/worlds <copy|rename> <from> <to>\n/worlds set\n/worlds set permission <permissionstring>\n/worlds set gamemode <survival|creative|adventure|spectator>\n/worlds set <build|pvp|damage|interact|explode|drop|hunger|fly> <true|false>\n/worlds unset <permission|gamemode|build|pvp|damage|interact|explode|drop|hunger|fly>\n/worlds defaults\n/worlds defaults set permission <permissionstring>\n/worlds defaults set gamemode <survival|creative|adventure|spectator>\n/worlds defaults set <build|pvp|damage|interact|explode|drop|hunger|fly> <true|false>\n/worlds defaults unset <permission|gamemode|build|pvp|damage|interact|explode|drop|hunger|fly>"
     aliases: ["ws"]
 permissions:
   worlds.list:
-    description: "List worlds"
+    description: "List existing worlds on the server"
     default: true
   worlds.admin:
     description: "Create worlds, delete worlds, set parameters, ..."
     default: op
     children:
       worlds.admin.create:
-        description: "Create worlds"
+        description: "Create new worlds"
         default: op
       worlds.admin.remove:
         description: "Remove worlds"
@@ -39,16 +39,16 @@ permissions:
         description: "Unload worlds"
         default: op
       worlds.admin.teleport:
-        description: "Teleport to worlds"
+        description: "Teleport to another world"
         default: op
       worlds.admin.set:
-        description: "Set parameters"
+        description: "Set parameters (like gamemode, damage, ...)"
         default: op
       worlds.admin.unset:
-        description: "Unset parameters"
+        description: "Unset parameters (like gamemode, damage, ...)"
         default: op
       worlds.admin.defaults:
-        description: "Set / unset world default values"
+        description: "Set / unset world default values / parameters"
         default: op
       worlds.admin.build:
         description: "Allow building in protected worlds"
@@ -57,7 +57,7 @@ permissions:
         description: "Allow interacting in protected worlds"
         default: op
       worlds.admin.gamemode:
-        description: "Don't change gamemode to world's gamemode"
+        description: "Don't change gamemode to world's gamemode (keep it)"
         default: false
       worlds.admin.fly:
         description: "Fly in every world"

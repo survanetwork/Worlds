@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 22.07.16
- * Time: 13:41
+ * Worlds | ArrayList util class
  */
 
 namespace surva\worlds\utils;

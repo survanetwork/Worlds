@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 01.10.17
- * Time: 11:36
+ * Worlds | list worlds command
  */
 
 namespace surva\worlds\commands;

@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 01.10.17
- * Time: 11:58
+ * Worlds | load world command
  */
 
 namespace surva\worlds\commands;

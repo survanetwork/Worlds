@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Jarne
- * Date: 19.03.16
- * Time: 16:01
+ * Worlds | plugin main class
  */
 
 namespace surva\worlds;
@@ -29,8 +26,8 @@ use pocketmine\command\CommandSender;
 use pocketmine\utils\Config;
 
 class Worlds extends PluginBase {
-	/* @var Defaults */
-	private $defaults;
+    /* @var Defaults */
+    private $defaults;
 
     /* @var ArrayList */
     private $worlds;
@@ -42,7 +39,7 @@ class Worlds extends PluginBase {
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $this->saveDefaultConfig();
 
-		$this->defaults = new Defaults($this, $this->getCustomConfig($this->getDataFolder() . "defaults.yml"));
+        $this->defaults = new Defaults($this, $this->getCustomConfig($this->getDataFolder() . "defaults.yml"));
 
         $this->worlds = new ArrayList();
 
@@ -109,9 +106,9 @@ class Worlds extends PluginBase {
             case "unset":
             case "ust":
                 return new UnsetCommand($this, "unset", "worlds.admin.unset");
-			case "defaults":
-			case "df":
-				return new DefaultsCommand($this, "defaults", "worlds.admin.defaults");
+            case "defaults":
+            case "df":
+                return new DefaultsCommand($this, "defaults", "worlds.admin.defaults");
             default:
                 return null;
         }
@@ -251,10 +248,10 @@ class Worlds extends PluginBase {
         return $this->worlds;
     }
 
-	/**
-	 * @return Defaults
-	 */
-	public function getDefaults(): Defaults {
-		return $this->defaults;
-	}
+    /**
+     * @return Defaults
+     */
+    public function getDefaults(): Defaults {
+        return $this->defaults;
+    }
 }

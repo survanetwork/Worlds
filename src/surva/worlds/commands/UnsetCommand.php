@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: jarne
- * Date: 01.10.17
- * Time: 13:35
+ * Worlds | unset parameter command
  */
 
 namespace surva\worlds\commands;
