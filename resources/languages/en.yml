@@ -4,7 +4,7 @@
 #   \ V  V / (_) | |  | | (_| \__ \
 #    \_/\_/ \___/|_|  |_|\__,_|___/
 #
-# (C) 2018 by surva network | https://github.com/survanetwork
+# (C) 2019 by surva network | https://github.com/survanetwork
 
 # English language
 
@@ -30,16 +30,16 @@ create:
 
 # Remove command
 remove:
- success: "§aWorld §f{name} §ahas been removed."
+  success: "§aWorld §f{name} §ahas been removed."
 
 # Copy command
 copy:
- success: "§aWorld §f{name} §ahas been copied to §f{to}§a."
- same: "§cYou can't copy the world into itself."
- datfile:
-     notexist: "§cThe world's data file does not exist."
-     damaged: "§cThe world's data file is damaged."
-     notsave: "§cFailed saving the updated dat file of the world."
+  success: "§aWorld §f{name} §ahas been copied to §f{to}§a."
+  same: "§cYou can't copy the world into itself."
+  datfile:
+    notexist: "§cThe world's data file does not exist."
+    damaged: "§cThe world's data file is damaged."
+    notsave: "§cFailed saving the updated dat file of the world."
 
 # Rename command
 rename:
@@ -81,3 +81,13 @@ set:
 # Unset command
 unset:
   success: "§b{key} §ahas been unset in §f{world}§a."
+
+# Defaults command
+defaults:
+  list:
+    values: "§cDefault settings for worlds on this server\n\n§epermission: {permission}\n§egamemode: {gamemode}\n§ebuild: {build}\n§epvp: {pvp}\n§edamage: {damage}\n§einteract: {interact}\n§eexplode: {explode}\n§edrop: {drop}\n§ehunger: {hunger}\n§efly: {fly}\n"
+    notset: "§7not set"
+  set:
+    success: "§aYou've set §b{key} §ato §c{value} §aas default value."
+  unset:
+    success: "§b{key} §ahas been unset as default value."

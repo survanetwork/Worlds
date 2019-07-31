@@ -4,7 +4,7 @@
 #   \ V  V / (_) | |  | | (_| \__ \
 #    \_/\_/ \___/|_|  |_|\__,_|___/
 #
-# (C) 2018 by surva network | https://github.com/survanetwork
+# (C) 2019 by surva network | https://github.com/survanetwork
 
 # German language
 
@@ -30,16 +30,16 @@ create:
 
 # Remove command
 remove:
- success: "§aDie Welt §f{name} §awurde erfolgreich gelöscht."
+  success: "§aDie Welt §f{name} §awurde erfolgreich gelöscht."
 
 # Copy command
 copy:
- success: "§aDie Welt §f{name} §wurde erfolgreich nach §f{to} §akopiert."
- same: "§cDu kannst eine Welt nicht in sich selbst kopieren."
- datfile:
-     notexist: "§cDie DAT-Datei der Welt konnte nicht gefunden werden."
-     damaged: "§cDie DAT-Datei der Welt ist beschädigt."
-     notsave: "§cDie aktualisierte DAT-Datei der Welt konnte nicht gespeichert werden."
+  success: "§aDie Welt §f{name} §wurde erfolgreich nach §f{to} §akopiert."
+  same: "§cDu kannst eine Welt nicht in sich selbst kopieren."
+  datfile:
+    notexist: "§cDie DAT-Datei der Welt konnte nicht gefunden werden."
+    damaged: "§cDie DAT-Datei der Welt ist beschädigt."
+    notsave: "§cDie aktualisierte DAT-Datei der Welt konnte nicht gespeichert werden."
 
 # Rename command
 rename:
@@ -70,8 +70,8 @@ teleport:
 set:
   success: "§aDu hast §b{key} §ain §f{world} §aauf §c{value} §agesetzt."
   list:
-      values: "§Einstellungen für die Welt §f{name}\n\n§eberechtigung: {permission}\n§egamemode: {gamemode}\n§ebauen: {build}\n§epvp: {pvp}\n§eschaden: {damage}\n§einteragieren: {interact}\n§eexplosionen: {explode}\n§edrop: {drop}\n§ehunger: {hunger}\n§efliegen: {fly}\n"
-      notset: "§7nicht gesetzt"
+    values: "§Einstellungen für die Welt §f{name}\n\n§eberechtigung: {permission}\n§egamemode: {gamemode}\n§ebauen: {build}\n§epvp: {pvp}\n§eschaden: {damage}\n§einteragieren: {interact}\n§eexplosionen: {explode}\n§edrop: {drop}\n§ehunger: {hunger}\n§efliegen: {fly}\n"
+    notset: "§7nicht gesetzt"
   permission:
     notdefault: "§cDu kannst keine Berechtigung für die Standard-Welt setzen."
   gamemode:
@@ -81,3 +81,13 @@ set:
 # Unset command
 unset:
   success: "§b{key} §ain §f{world} §awurde zurückgesetzt."
+
+# Defaults command
+defaults:
+  list:
+    values: "§Einstellungen für Welten auf diesem Server\n\n§eberechtigung: {permission}\n§egamemode: {gamemode}\n§ebauen: {build}\n§epvp: {pvp}\n§eschaden: {damage}\n§einteragieren: {interact}\n§eexplosionen: {explode}\n§edrop: {drop}\n§ehunger: {hunger}\n§efliegen: {fly}\n"
+    notset: "§7nicht gesetzt"
+  set:
+    success: "§aDu hast §b{key} §aauf §c{value} §aals Standard-Wert gesetzt."
+  unset:
+    success: "§b{key} §awurde als Standard-Wert zurückgesetzt."

@@ -11,6 +11,7 @@ namespace surva\worlds;
 use surva\worlds\commands\CopyCommand;
 use surva\worlds\commands\CreateCommand;
 use surva\worlds\commands\CustomCommand;
+use surva\worlds\commands\DefaultsCommand;
 use surva\worlds\commands\ListCommand;
 use surva\worlds\commands\LoadCommand;
 use surva\worlds\commands\RemoveCommand;
@@ -19,6 +20,7 @@ use surva\worlds\commands\SetCommand;
 use surva\worlds\commands\TeleportCommand;
 use surva\worlds\commands\UnloadCommand;
 use surva\worlds\commands\UnsetCommand;
+use surva\worlds\types\Defaults;
 use surva\worlds\types\World;
 use surva\worlds\utils\ArrayList;
 use pocketmine\plugin\PluginBase;
@@ -27,6 +29,9 @@ use pocketmine\command\CommandSender;
 use pocketmine\utils\Config;
 
 class Worlds extends PluginBase {
+	/* @var Defaults */
+	private $defaults;
+
     /* @var ArrayList */
     private $worlds;
 
@@ -36,6 +41,8 @@ class Worlds extends PluginBase {
     public function onEnable() {
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $this->saveDefaultConfig();
+
+		$this->defaults = new Defaults($this, $this->getCustomConfig($this->getDataFolder() . "defaults.yml"));
 
         $this->worlds = new ArrayList();
 
@@ -102,6 +109,9 @@ class Worlds extends PluginBase {
             case "unset":
             case "ust":
                 return new UnsetCommand($this, "unset", "worlds.admin.unset");
+			case "defaults":
+			case "df":
+				return new DefaultsCommand($this, "defaults", "worlds.admin.defaults");
             default:
                 return null;
         }
@@ -240,4 +250,11 @@ class Worlds extends PluginBase {
     public function getWorlds(): ArrayList {
         return $this->worlds;
     }
+
+	/**
+	 * @return Defaults
+	 */
+	public function getDefaults(): Defaults {
+		return $this->defaults;
+	}
 }

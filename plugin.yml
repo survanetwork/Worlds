@@ -47,6 +47,9 @@ permissions:
       worlds.admin.unset:
         description: "Unset parameters"
         default: op
+      worlds.admin.defaults:
+        description: "Set / unset world default values"
+        default: op
       worlds.admin.build:
         description: "Allow building in protected worlds"
         default: op

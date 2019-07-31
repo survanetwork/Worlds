@@ -19,34 +19,34 @@ class World {
     private $config;
 
     /* @var string|null */
-    private $permission;
+    protected $permission;
 
     /* @var int|null */
-    private $gamemode;
+    protected $gamemode;
 
     /* @var bool|null */
-    private $build;
+    protected $build;
 
     /* @var bool|null */
-    private $pvp;
+    protected $pvp;
 
     /* @var bool|null */
-    private $damage;
+    protected $damage;
 
     /* @var bool|null */
-    private $interact;
+    protected $interact;
 
     /* @var bool|null */
-    private $explode;
+    protected $explode;
 
     /* @var bool|null */
-    private $drop;
+    protected $drop;
 
     /* @var bool|null */
-    private $hunger;
+    protected $hunger;
 
     /* @var bool|null */
-    private $fly;
+    protected $fly;
 
     public function __construct(Worlds $worlds, Config $config) {
         $this->worlds = $worlds;
@@ -71,30 +71,32 @@ class World {
         $this->loadValue("fly");
     }
 
-    /**
-     * Load value from config
-     *
-     * @param string $name
-     */
-    public function loadValue(string $name): void {
-        if(!($this->getConfig()->exists($name))) {
-            $this->$name = null;
+	/**
+	 * Load value from config
+	 *
+	 * @param string $name
+	 */
+	public function loadValue(string $name): void {
+		if(!$this->getConfig()->exists($name)) {
+			$defVal = $this->getWorlds()->getDefaults()->getValue($name);
 
-            return;
-        }
+			$this->$name = $defVal;
 
-        switch($this->getConfig()->get($name)) {
-            case "true":
-                $this->$name = true;
-                break;
-            case "false":
-                $this->$name = false;
-                break;
-            default:
-                $this->$name = $this->getConfig()->get($name);
-                break;
-        }
-    }
+			return;
+		}
+
+		switch($this->getConfig()->get($name)) {
+			case "true":
+				$this->$name = true;
+				break;
+			case "false":
+				$this->$name = false;
+				break;
+			default:
+				$this->$name = $this->getConfig()->get($name);
+				break;
+		}
+	}
 
     /**
      * Update a config value
