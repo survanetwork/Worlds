@@ -91,3 +91,24 @@ defaults:
     success: "§aYou've set §b{key} §ato §c{value} §aas default value."
   unset:
     success: "§b{key} §ahas been unset as default value."
+
+# Forms
+forms:
+  # World settings
+  world:
+    title: "§aWorld settings for §f{name}"
+    params:
+      permission: "World join permission"
+      gamemode: "World gamemode"
+      build: "Allow building"
+      pvp: "Allow PvP"
+      damage: "Allow player damage"
+      interact: "Allow player interactions (e.g. chests)"
+      explode: "Allow explosions"
+      drop: "Players may drop items"
+      hunger: "Hunger"
+      fly: "Flying"
+    options:
+      notset: "§7not set (null)"
+      true: "§aenabled"
+      false: "§cdisabled"

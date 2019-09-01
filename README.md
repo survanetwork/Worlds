@@ -61,6 +61,10 @@ Please report bugs on the issues page on GitHub.
 - **DEFAULT VALUES** Set default values for worlds without settings
 - **SOPHISTICATED** Easy to use, fast and mostly bug-free.
 
+**NEW** Edit the settings of a world (gamemode, building, damage, and so on) using a super-easy form GUI!
+
+<img src=".github/.media/world-settings-form.png" alt="Screenshot of world settings form">
+
 ## ⛏ Usage
 Worlds is really easy to use. Here is the command syntax:
 
@@ -73,6 +77,7 @@ Worlds is really easy to use. Here is the command syntax:
 /worlds set permission <permissionstring>
 /worlds set gamemode <survival|creative|adventure|spectator>
 /worlds set <build|pvp|damage|interact|explode|drop|hunger|fly> <true|false>
+/worlds unset
 /worlds unset <permission|gamemode|build|pvp|damage|interact|explode|drop|hunger|fly>
 /worlds defaults
 /worlds defaults set permission <permissionstring>
