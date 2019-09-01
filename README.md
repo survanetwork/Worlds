@@ -63,7 +63,7 @@ Please report bugs on the issues page on GitHub.
 
 **NEW** Edit the settings of a world (gamemode, building, damage, and so on) using a super-easy form GUI!
 
-<img src=".github/.media/world-settings-form.png" alt="Screenshot of world settings form">
+<img src=".github/.media/world-settings-form.png" width="540px" alt="Screenshot of world settings form">
 
 ## ⛏ Usage
 Worlds is really easy to use. Here is the command syntax:
