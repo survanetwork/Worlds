@@ -11,8 +11,6 @@ use pocketmine\utils\TextFormat;
 use surva\worlds\form\WorldSettingsForm;
 
 class SetCommand extends CustomCommand {
-    // TODO: also implement settings form for the default settings
-
     public function do(Player $player, array $args) {
         $folderName = $player->getLevel()->getFolderName();
 

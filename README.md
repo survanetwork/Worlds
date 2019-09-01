@@ -81,6 +81,7 @@ Worlds is really easy to use. Here is the command syntax:
 /worlds unset
 /worlds unset <permission|gamemode|build|pvp|damage|interact|explode|drop|hunger|fly>
 /worlds defaults
+/worlds defaults legacy
 /worlds defaults set permission <permissionstring>
 /worlds defaults set gamemode <survival|creative|adventure|spectator>
 /worlds defaults set <build|pvp|damage|interact|explode|drop|hunger|fly> <true|false>

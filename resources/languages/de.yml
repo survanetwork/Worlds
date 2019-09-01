@@ -112,3 +112,6 @@ forms:
       notset: "§7nicht eingestellt (kein Wert)"
       true: "§aaktiviert"
       false: "§cdeaktiviert"
+  # Default settings
+  default:
+    title: "§aStandard Welt-Einstellungen"

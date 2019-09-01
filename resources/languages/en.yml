@@ -112,3 +112,6 @@ forms:
       notset: "§7not set (null)"
       true: "§aenabled"
       false: "§cdisabled"
+  # Default settings
+  default:
+    title: "§aDefault world settings"
