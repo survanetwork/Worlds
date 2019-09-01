@@ -74,6 +74,7 @@ Worlds is really easy to use. Here is the command syntax:
 /worlds <remove|load|unload|teleport> <worldname>
 /worlds <copy|rename> <from> <to>
 /worlds set
+/worlds set legacy
 /worlds set permission <permissionstring>
 /worlds set gamemode <survival|creative|adventure|spectator>
 /worlds set <build|pvp|damage|interact|explode|drop|hunger|fly> <true|false>

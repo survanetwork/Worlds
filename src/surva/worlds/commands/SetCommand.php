@@ -11,27 +11,6 @@ use pocketmine\utils\TextFormat;
 use surva\worlds\form\WorldSettingsForm;
 
 class SetCommand extends CustomCommand {
-    /*
-                $player->sendMessage(
-                    $this->getWorlds()->getMessage(
-                        "set.list.values",
-                        array(
-                            "name" => $foldername,
-                            "permission" => $this->formatText($world->getPermission()),
-                            "gamemode" => $this->formatGamemode($world->getGamemode()),
-                            "build" => $this->formatBool($world->getBuild()),
-                            "pvp" => $this->formatBool($world->getPvp()),
-                            "damage" => $this->formatBool($world->getDamage()),
-                            "interact" => $this->formatBool($world->getInteract()),
-                            "explode" => $this->formatBool($world->getExplode()),
-                            "drop" => $this->formatBool($world->getDrop()),
-                            "hunger" => $this->formatBool($world->getHunger()),
-                            "fly" => $this->formatBool($world->getFly()),
-                        )
-                    )
-                );
-                */ // TODO: move into a seperate command (e.g. /ws set show)
-
     // TODO: also implement settings form for the default settings
 
     public function do(Player $player, array $args) {
@@ -47,6 +26,33 @@ class SetCommand extends CustomCommand {
             $wsForm = new WorldSettingsForm($this->getWorlds(), $folderName, $world);
 
             $player->sendForm($wsForm);
+
+            return true;
+        }
+
+        if(!(count($args) === 1)) {
+            return false;
+        }
+
+        if($args[0] === "legacy") {
+            $player->sendMessage(
+                $this->getWorlds()->getMessage(
+                    "set.list.values",
+                    array(
+                        "name" => $folderName,
+                        "permission" => $this->formatText($world->getPermission()),
+                        "gamemode" => $this->formatGamemode($world->getGamemode()),
+                        "build" => $this->formatBool($world->getBuild()),
+                        "pvp" => $this->formatBool($world->getPvp()),
+                        "damage" => $this->formatBool($world->getDamage()),
+                        "interact" => $this->formatBool($world->getInteract()),
+                        "explode" => $this->formatBool($world->getExplode()),
+                        "drop" => $this->formatBool($world->getDrop()),
+                        "hunger" => $this->formatBool($world->getHunger()),
+                        "fly" => $this->formatBool($world->getFly()),
+                    )
+                )
+            );
 
             return true;
         }
