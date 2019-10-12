@@ -14,8 +14,6 @@ class DefaultsCommand extends CustomCommand {
     public function do(Player $player, array $args) {
         $defaults = $this->getWorlds()->getDefaults();
 
-        // TODO: directly reload world conf changes after saving, not after world reload !!
-
         if(count($args) === 0) {
             $dfForm = new DefaultSettingsForm($this->getWorlds(), $defaults);
 
