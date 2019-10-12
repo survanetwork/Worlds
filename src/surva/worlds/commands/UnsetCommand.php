@@ -6,9 +6,26 @@
 namespace surva\worlds\commands;
 
 use pocketmine\Player;
+use surva\worlds\form\WorldSettingsForm;
 
 class UnsetCommand extends CustomCommand {
     public function do(Player $player, array $args) {
+        $folderName = $player->getLevel()->getFolderName();
+
+        if(!($world = $this->getWorlds()->getWorldByName($folderName))) {
+            $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
+
+            return true;
+        }
+
+        if(count($args) === 0) {
+            $wsForm = new WorldSettingsForm($this->getWorlds(), $folderName, $world);
+
+            $player->sendForm($wsForm);
+
+            return true;
+        }
+
         if(!(count($args) === 1)) {
             return false;
         }
@@ -18,12 +35,6 @@ class UnsetCommand extends CustomCommand {
             array("permission", "gamemode", "build", "pvp", "damage", "interact", "explode", "drop", "hunger", "fly")
         ))) {
             return false;
-        }
-
-        if(!($world = $this->getWorlds()->getWorldByName($player->getLevel()->getFolderName()))) {
-            $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
-
-            return true;
         }
 
         $world->removeValue($args[0]);

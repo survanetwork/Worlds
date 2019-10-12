@@ -91,3 +91,29 @@ defaults:
     success: "§aDu hast §b{key} §aauf §c{value} §aals Standard-Wert gesetzt."
   unset:
     success: "§b{key} §awurde als Standard-Wert zurückgesetzt."
+
+# Forms
+forms:
+  # World settings
+  world:
+    title: "§aWelt-Einstellungen für §f{name}"
+    params:
+      permission: "Beitritts-Berechtigung der Welt"
+      gamemode: "Welt-Gamemode"
+      build: "Bauen erlaubt"
+      pvp: "PvP erlaubt"
+      damage: "Schaden aktiviert"
+      interact: "Interagieren erlaubt (z.B. mit Kisten)"
+      explode: "Explosionen aktiviert"
+      drop: "Items droppen"
+      hunger: "Hunger"
+      fly: "Fliegen"
+    options:
+      notset: "§7nicht eingestellt (kein Wert)"
+      true: "§aaktiviert"
+      false: "§cdeaktiviert"
+  # Default settings
+  default:
+    title: "§aStandard Welt-Einstellungen"
+  # Settings saved message
+  saved: "§aEinstellungen erfolgreich gespeichert!"

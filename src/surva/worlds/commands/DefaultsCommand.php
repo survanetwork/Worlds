@@ -8,34 +8,41 @@ namespace surva\worlds\commands;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
+use surva\worlds\form\DefaultSettingsForm;
 
 class DefaultsCommand extends CustomCommand {
     public function do(Player $player, array $args) {
         $defaults = $this->getWorlds()->getDefaults();
 
         if(count($args) === 0) {
-            $player->sendMessage(
-                $this->getWorlds()->getMessage(
-                    "defaults.list.values",
-                    array(
-                        "permission" => $this->formatText($defaults->getPermission()),
-                        "gamemode" => $this->formatGamemode($defaults->getGamemode()),
-                        "build" => $this->formatBool($defaults->getBuild()),
-                        "pvp" => $this->formatBool($defaults->getPvp()),
-                        "damage" => $this->formatBool($defaults->getDamage()),
-                        "interact" => $this->formatBool($defaults->getInteract()),
-                        "explode" => $this->formatBool($defaults->getExplode()),
-                        "drop" => $this->formatBool($defaults->getDrop()),
-                        "hunger" => $this->formatBool($defaults->getHunger()),
-                        "fly" => $this->formatBool($defaults->getFly()),
-                    )
-                )
-            );
+            $dfForm = new DefaultSettingsForm($this->getWorlds(), $defaults);
+
+            $player->sendForm($dfForm);
 
             return true;
         }
 
         switch($args[0]) {
+            case "legacy":
+                $player->sendMessage(
+                    $this->getWorlds()->getMessage(
+                        "defaults.list.values",
+                        array(
+                            "permission" => $this->formatText($defaults->getPermission()),
+                            "gamemode" => $this->formatGamemode($defaults->getGamemode()),
+                            "build" => $this->formatBool($defaults->getBuild()),
+                            "pvp" => $this->formatBool($defaults->getPvp()),
+                            "damage" => $this->formatBool($defaults->getDamage()),
+                            "interact" => $this->formatBool($defaults->getInteract()),
+                            "explode" => $this->formatBool($defaults->getExplode()),
+                            "drop" => $this->formatBool($defaults->getDrop()),
+                            "hunger" => $this->formatBool($defaults->getHunger()),
+                            "fly" => $this->formatBool($defaults->getFly()),
+                        )
+                    )
+                );
+
+                return true;
             case "set":
                 if(!(count($args) === 3)) {
                     return false;

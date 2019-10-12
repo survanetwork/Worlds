@@ -8,32 +8,49 @@ namespace surva\worlds\commands;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
+use surva\worlds\form\WorldSettingsForm;
 
 class SetCommand extends CustomCommand {
     public function do(Player $player, array $args) {
-        if(count($args) === 0) {
-            $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getLevel()->getFolderName();
 
-            if($world = $this->getWorlds()->getWorldByName($foldername)) {
-                $player->sendMessage(
-                    $this->getWorlds()->getMessage(
-                        "set.list.values",
-                        array(
-                            "name" => $foldername,
-                            "permission" => $this->formatText($world->getPermission()),
-                            "gamemode" => $this->formatGamemode($world->getGamemode()),
-                            "build" => $this->formatBool($world->getBuild()),
-                            "pvp" => $this->formatBool($world->getPvp()),
-                            "damage" => $this->formatBool($world->getDamage()),
-                            "interact" => $this->formatBool($world->getInteract()),
-                            "explode" => $this->formatBool($world->getExplode()),
-                            "drop" => $this->formatBool($world->getDrop()),
-                            "hunger" => $this->formatBool($world->getHunger()),
-                            "fly" => $this->formatBool($world->getFly()),
-                        )
+        if(!($world = $this->getWorlds()->getWorldByName($folderName))) {
+            $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
+
+            return true;
+        }
+
+        if(count($args) === 0) {
+            $wsForm = new WorldSettingsForm($this->getWorlds(), $folderName, $world);
+
+            $player->sendForm($wsForm);
+
+            return true;
+        }
+
+        if(!(count($args) === 1)) {
+            return false;
+        }
+
+        if($args[0] === "legacy") {
+            $player->sendMessage(
+                $this->getWorlds()->getMessage(
+                    "set.list.values",
+                    array(
+                        "name" => $folderName,
+                        "permission" => $this->formatText($world->getPermission()),
+                        "gamemode" => $this->formatGamemode($world->getGamemode()),
+                        "build" => $this->formatBool($world->getBuild()),
+                        "pvp" => $this->formatBool($world->getPvp()),
+                        "damage" => $this->formatBool($world->getDamage()),
+                        "interact" => $this->formatBool($world->getInteract()),
+                        "explode" => $this->formatBool($world->getExplode()),
+                        "drop" => $this->formatBool($world->getDrop()),
+                        "hunger" => $this->formatBool($world->getHunger()),
+                        "fly" => $this->formatBool($world->getFly()),
                     )
-                );
-            }
+                )
+            );
 
             return true;
         }
@@ -50,14 +67,7 @@ class SetCommand extends CustomCommand {
         }
 
         if($args[0] === "permission") {
-            if(!($world = $this->getWorlds()->getWorldByName($player->getLevel()->getFolderName()))) {
-                $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
-
-                return true;
-            }
-
-            if($this->getWorlds()->getServer()->getDefaultLevel()->getFolderName() === $player->getLevel(
-                )->getFolderName()) {
+            if($this->getWorlds()->getServer()->getDefaultLevel()->getFolderName() === $folderName) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
 
                 return true;
@@ -78,12 +88,6 @@ class SetCommand extends CustomCommand {
                 return true;
             }
 
-            if(!($world = $this->getWorlds()->getWorldByName($player->getLevel()->getFolderName()))) {
-                $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
-
-                return true;
-            }
-
             $world->updateValue($args[0], $args[1]);
 
             $player->sendMessage(
@@ -95,12 +99,6 @@ class SetCommand extends CustomCommand {
         } else {
             if(!(in_array($args[1], array("true", "false")))) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.notbool", array("key" => $args[0])));
-
-                return true;
-            }
-
-            if(!($world = $this->getWorlds()->getWorldByName($player->getLevel()->getFolderName()))) {
-                $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
 
                 return true;
             }
