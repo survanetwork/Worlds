@@ -135,5 +135,7 @@ class DefaultSettingsForm extends SettingsForm {
         $this->procBool("drop", $data[6]);
         $this->procBool("hunger", $data[7]);
         $this->procBool("fly", $data[8]);
+
+        $player->sendMessage($this->getWorlds()->getMessage("forms.saved"));
     }
 }

@@ -146,6 +146,8 @@ class WorldSettingsForm extends SettingsForm {
         $this->procBool("drop", $data[7]);
         $this->procBool("hunger", $data[8]);
         $this->procBool("fly", $data[9]);
+
+        $player->sendMessage($this->getWorlds()->getMessage("forms.saved"));
     }
 
     /**

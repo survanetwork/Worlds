@@ -115,3 +115,5 @@ forms:
   # Default settings
   default:
     title: "§aDefault world settings"
+  # Settings saved message
+  saved: "§aSettings saved successfully!"
