@@ -71,7 +71,7 @@ class DefaultsCommand extends CustomCommand {
 
                     return true;
                 } elseif($args[1] === "gamemode") {
-                    if(($args[2] = Server::getGamemodeFromString($args[1])) === -1) {
+                    if(($args[2] = Server::getGamemodeFromString($args[2])) === -1) {
                         $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.notexist"));
 
                         return true;
