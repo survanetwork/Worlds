@@ -28,10 +28,6 @@ class SetCommand extends CustomCommand {
             return true;
         }
 
-        if(!(count($args) === 1)) {
-            return false;
-        }
-
         if($args[0] === "legacy") {
             $player->sendMessage(
                 $this->getWorlds()->getMessage(
