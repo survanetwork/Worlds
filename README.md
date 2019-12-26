@@ -1,8 +1,6 @@
 <p align="center">
-    <img src=".github/.media/logo.png" width="96px" height="96px">
+    <img src=".github/.media/logo.png" width="144px" height="144px">
 </p>
-
-<br>
 
 <h1 align="center">Worlds</h1>
 <p align="center">Easy to use but feature rich World Guard plugin</p>
