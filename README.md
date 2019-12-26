@@ -25,6 +25,9 @@
     <a href="https://gitter.im/survanetwork/Worlds">
         <img src="https://img.shields.io/gitter/room/survanetwork/Worlds.svg" alt="Gitter">
     </a>
+    <a href="https://twitter.com/survanetwork">
+        <img src="https://img.shields.io/twitter/url?label=SURVA%20network%20on%20Twitter&style=social&url=https%3A%2F%2Ftwitter.com%2Fsurvanetwork" alt="Twitter">
+    </a>
 </p>
 
 ##
