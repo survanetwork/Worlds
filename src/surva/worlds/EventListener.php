@@ -5,6 +5,7 @@
 
 namespace surva\worlds;
 
+use pocketmine\block\Grass;
 use pocketmine\block\ItemFrame;
 use pocketmine\entity\object\Painting;
 use pocketmine\event\block\BlockBreakEvent;
@@ -21,6 +22,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\Listener;
 use pocketmine\item\PaintingItem;
+use pocketmine\item\TieredTool;
 use pocketmine\Player;
 
 class EventListener implements Listener {
@@ -261,15 +263,11 @@ class EventListener implements Listener {
                 }
             }
 
-            if($item instanceof PaintingItem) {
-                if(!$player->hasPermission("worlds.admin.build")) {
-                    if($world->getBuild() === false) {
-                        $event->setCancelled();
-                    }
-                }
-            }
-
-            if($block instanceof ItemFrame) {
+            if(
+                $item instanceof PaintingItem OR
+                $block instanceof ItemFrame OR
+                ($item instanceof TieredTool AND $block instanceof Grass)
+            ) {
                 if(!$player->hasPermission("worlds.admin.build")) {
                     if($world->getBuild() === false) {
                         $event->setCancelled();
