@@ -1,6 +1,6 @@
 name: Worlds
 main: surva\worlds\Worlds
-version: 3.0.1
+version: 3.0.2
 api: 3.0.0
 
 author: survanetwork
@@ -56,9 +56,9 @@ permissions:
       worlds.admin.interact:
         description: "Allow interacting in protected worlds"
         default: op
-      worlds.admin.gamemode:
-        description: "Don't change gamemode to world's gamemode (keep it)"
-        default: false
-      worlds.admin.fly:
-        description: "Fly in every world"
-        default: false
+  worlds.special.gamemode:
+    description: "Don't change gamemode to world's gamemode (keep it)"
+    default: false
+  worlds.special.fly:
+    description: "Fly in every world"
+    default: false
