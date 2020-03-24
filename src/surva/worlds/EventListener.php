@@ -59,12 +59,12 @@ class EventListener implements Listener {
             }
 
             if($world->getGamemode() !== null) {
-                if(!$player->hasPermission("worlds.admin.gamemode")) {
+                if(!$player->hasPermission("worlds.special.gamemode")) {
                     $player->setGamemode($world->getGamemode());
                 }
             }
 
-            if($world->getFly() === true OR $player->hasPermission("worlds.admin.fly")) {
+            if($world->getFly() === true OR $player->hasPermission("worlds.special.fly")) {
                 $player->setAllowFlight(true);
             } elseif($world->getFly() === false) {
                 $player->setAllowFlight(false);
@@ -92,12 +92,12 @@ class EventListener implements Listener {
                 }
 
                 if($world->getGamemode() !== null) {
-                    if(!$player->hasPermission("worlds.admin.gamemode")) {
+                    if(!$player->hasPermission("worlds.special.gamemode")) {
                         $player->setGamemode($world->getGamemode());
                     }
                 }
 
-                if($world->getFly() === true OR $player->hasPermission("worlds.admin.fly")) {
+                if($world->getFly() === true OR $player->hasPermission("worlds.special.fly")) {
                     $player->setAllowFlight(true);
                 } elseif($world->getFly() === false) {
                     $player->setAllowFlight(false);
