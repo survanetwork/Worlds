@@ -107,6 +107,16 @@ class DefaultSettingsForm extends SettingsForm {
                     $this->getWorlds()->getMessage("forms.world.options.true")
                 ),
                 "default" => $this->convBool($defaults->getFly())
+            ),
+            array(
+                "type" => "dropdown",
+                "text" => $this->getWorlds()->getMessage("forms.world.params.daylightcycle"),
+                "options" => array(
+                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    $this->getWorlds()->getMessage("forms.world.options.false"),
+                    $this->getWorlds()->getMessage("forms.world.options.true")
+                ),
+                "default" => $this->convBool($defaults->getDaylightCycle())
             )
         );
     }

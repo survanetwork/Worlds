@@ -38,6 +38,7 @@ class DefaultsCommand extends CustomCommand {
                             "drop" => $this->formatBool($defaults->getDrop()),
                             "hunger" => $this->formatBool($defaults->getHunger()),
                             "fly" => $this->formatBool($defaults->getFly()),
+                            "daylightcycle" => $this->formatBool($defaults->getDaylightCycle()),
                         )
                     )
                 );
@@ -61,6 +62,7 @@ class DefaultsCommand extends CustomCommand {
                         "drop",
                         "hunger",
                         "fly",
+                        "daylightcycle"
                     )
                 ))) {
                     return false;
@@ -121,6 +123,7 @@ class DefaultsCommand extends CustomCommand {
                         "drop",
                         "hunger",
                         "fly",
+                        "daylightcycle",
                     )
                 ))) {
                     return false;

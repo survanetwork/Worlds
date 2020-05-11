@@ -40,6 +40,12 @@ class EventListener implements Listener {
         $foldername = $event->getLevel()->getFolderName();
 
         $this->getWorlds()->loadWorld($foldername);
+        $world = $this->getWorlds()->getWorldByName($foldername);
+        $level = $event->getLevel();
+
+        // DaylightCycle
+        $level->setTime(0);
+        $level->stopTime = !$world->getDaylightCycle();
     }
 
     /**

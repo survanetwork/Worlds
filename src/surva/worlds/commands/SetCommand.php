@@ -44,6 +44,7 @@ class SetCommand extends CustomCommand {
                         "drop" => $this->formatBool($world->getDrop()),
                         "hunger" => $this->formatBool($world->getHunger()),
                         "fly" => $this->formatBool($world->getFly()),
+                        "daylightcycle" => $this->formatBool($world->getDaylightCycle()),
                     )
                 )
             );
@@ -57,7 +58,7 @@ class SetCommand extends CustomCommand {
 
         if(!(in_array(
             $args[0],
-            array("permission", "gamemode", "build", "pvp", "damage", "interact", "explode", "drop", "hunger", "fly")
+            array("permission", "gamemode", "build", "pvp", "damage", "interact", "explode", "drop", "hunger", "fly", "daylightcycle")
         ))) {
             return false;
         }

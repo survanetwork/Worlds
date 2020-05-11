@@ -108,6 +108,7 @@ forms:
       drop: "Players may drop items"
       hunger: "Hunger"
       fly: "Flying"
+      daylightcycle: "Daylight cycling"
     options:
       notset: "§7not set (null)"
       true: "§aenabled"

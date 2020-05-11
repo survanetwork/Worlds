@@ -112,6 +112,16 @@ class WorldSettingsForm extends SettingsForm {
                     $this->getWorlds()->getMessage("forms.world.options.true")
                 ),
                 "default" => $this->convBool($world->getFly())
+            ),
+            array(
+                "type" => "dropdown",
+                "text" => $this->getWorlds()->getMessage("forms.world.params.daylightcycle"),
+                "options" => array(
+                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    $this->getWorlds()->getMessage("forms.world.options.false"),
+                    $this->getWorlds()->getMessage("forms.world.options.true")
+                ),
+                "default" => $this->convBool($world->getDaylightCycle())
             )
         );
     }
@@ -146,6 +156,7 @@ class WorldSettingsForm extends SettingsForm {
         $this->procBool("drop", $data[7]);
         $this->procBool("hunger", $data[8]);
         $this->procBool("fly", $data[9]);
+        $this->procBool("daylightcycle", $data[10]);
 
         $player->sendMessage($this->getWorlds()->getMessage("forms.saved"));
     }

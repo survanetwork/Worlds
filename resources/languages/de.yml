@@ -108,6 +108,7 @@ forms:
       drop: "Items droppen"
       hunger: "Hunger"
       fly: "Fliegen"
+      daylightcycle: "Radfahren bei tageslicht"
     options:
       notset: "§7nicht eingestellt (kein Wert)"
       true: "§aaktiviert"
