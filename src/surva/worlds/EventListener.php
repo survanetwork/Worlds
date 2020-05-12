@@ -34,21 +34,6 @@ class EventListener implements Listener {
     }
 
     /**
-     * @param LevelLoadEvent $event
-     */
-    public function onLevelLoad(LevelLoadEvent $event): void {
-        $foldername = $event->getLevel()->getFolderName();
-
-        $this->getWorlds()->loadWorld($foldername);
-        $world = $this->getWorlds()->getWorldByName($foldername);
-        $level = $event->getLevel();
-
-        // DaylightCycle
-        $level->setTime(0);
-        $level->stopTime = !$world->getDaylightCycle();
-    }
-
-    /**
      * @param PlayerJoinEvent $event
      */
     public function onPlayerJoin(PlayerJoinEvent $event): void {
@@ -108,6 +93,12 @@ class EventListener implements Listener {
                 } elseif($world->getFly() === false) {
                     $player->setAllowFlight(false);
                 }
+
+                if($world->getDaylightCycle() === true) {
+                    $event->getTarget()->startTime();
+                } else {
+                    $event->getTarget()->stopTime();
+                }        
             }
         }
     }
