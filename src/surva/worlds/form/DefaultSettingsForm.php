@@ -132,7 +132,7 @@ class DefaultSettingsForm extends SettingsForm {
             return;
         }
 
-        if(count($data) !== 9) {
+        if(count($data) !== 10) {
             return;
         }
 
@@ -145,6 +145,7 @@ class DefaultSettingsForm extends SettingsForm {
         $this->procBool("drop", $data[6]);
         $this->procBool("hunger", $data[7]);
         $this->procBool("fly", $data[8]);
+        $this->procBool("daylightcycle", $data[9]);
 
         $player->sendMessage($this->getWorlds()->getMessage("forms.saved"));
     }

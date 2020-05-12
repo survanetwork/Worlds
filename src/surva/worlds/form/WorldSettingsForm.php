@@ -137,7 +137,7 @@ class WorldSettingsForm extends SettingsForm {
             return;
         }
 
-        if(count($data) !== 10) {
+        if(count($data) !== 11) {
             return;
         }
 
