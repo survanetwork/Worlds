@@ -47,7 +47,7 @@ class EventListener implements Listener {
      */
     public function onPlayerJoin(PlayerJoinEvent $event): void {
         $player = $event->getPlayer();
-        $targetLvl = $event->getTarget();
+        $targetLvl = $player->getLevel();
         $foldername = $targetLvl->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
