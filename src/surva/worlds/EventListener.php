@@ -47,7 +47,8 @@ class EventListener implements Listener {
      */
     public function onPlayerJoin(PlayerJoinEvent $event): void {
         $player = $event->getPlayer();
-        $foldername = $player->getLevel()->getFolderName();
+        $targetLvl = $event->getTarget();
+        $foldername = $targetLvl->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if($world->getPermission() !== null) {
@@ -69,6 +70,12 @@ class EventListener implements Listener {
             } elseif($world->getFly() === false) {
                 $player->setAllowFlight(false);
             }
+
+            if($world->getDaylightCycle() === true) {
+                $targetLvl->startTime();
+            } elseif($world->getDaylightCycle() === false) {
+                $targetLvl->stopTime();
+            }
         }
     }
 
@@ -77,7 +84,8 @@ class EventListener implements Listener {
      */
     public function onEntityLevelChange(EntityLevelChangeEvent $event): void {
         $player = $event->getEntity();
-        $foldername = $event->getTarget()->getFolderName();
+        $targetLvl = $event->getTarget();
+        $foldername = $targetLvl->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if($player instanceof Player) {
@@ -101,6 +109,12 @@ class EventListener implements Listener {
                     $player->setAllowFlight(true);
                 } elseif($world->getFly() === false) {
                     $player->setAllowFlight(false);
+                }
+
+                if($world->getDaylightCycle() === true) {
+                    $targetLvl->startTime();
+                } elseif($world->getDaylightCycle() === false) {
+                    $targetLvl->stopTime();
                 }
             }
         }

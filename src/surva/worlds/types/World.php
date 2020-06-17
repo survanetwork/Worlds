@@ -45,6 +45,9 @@ class World {
     /* @var bool|null */
     protected $fly;
 
+    /* @var bool|null */
+    protected $daylightcycle;
+
     public function __construct(Worlds $worlds, Config $config) {
         $this->worlds = $worlds;
         $this->config = $config;
@@ -66,6 +69,7 @@ class World {
         $this->loadValue("drop");
         $this->loadValue("hunger");
         $this->loadValue("fly");
+        $this->loadValue("daylightcycle");
     }
 
     /**
@@ -122,6 +126,13 @@ class World {
 
         $this->getConfig()->save();
         $this->loadItems();
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getDaylightCycle(): ?bool {
+        return $this->daylightcycle;
     }
 
     /**
