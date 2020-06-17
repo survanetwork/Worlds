@@ -34,6 +34,15 @@ class EventListener implements Listener {
     }
 
     /**
+     * @param LevelLoadEvent $event
+     */
+    public function onLevelLoad(LevelLoadEvent $event): void {
+        $foldername = $event->getLevel()->getFolderName();
+
+        $this->getWorlds()->loadWorld($foldername);
+    }
+
+    /**
      * @param PlayerJoinEvent $event
      */
     public function onPlayerJoin(PlayerJoinEvent $event): void {
@@ -68,7 +77,8 @@ class EventListener implements Listener {
      */
     public function onEntityLevelChange(EntityLevelChangeEvent $event): void {
         $player = $event->getEntity();
-        $foldername = $event->getTarget()->getFolderName();
+        $targetLvl = $event->getTarget();
+        $foldername = $targetLvl->getFolderName();
 
         if($world = $this->getWorlds()->getWorldByName($foldername)) {
             if($player instanceof Player) {
@@ -95,10 +105,10 @@ class EventListener implements Listener {
                 }
 
                 if($world->getDaylightCycle() === true) {
-                    $event->getTarget()->startTime();
-                } else {
-                    $event->getTarget()->stopTime();
-                }        
+                    $targetLvl->startTime();
+                } elseif($world->getDaylightCycle() === false) {
+                    $targetLvl->stopTime();
+                }
             }
         }
     }
