@@ -6,35 +6,35 @@
 #
 # (C) 2019 by surva network | https://github.com/survanetwork
 
-# English language
+# Chinese language
 
-# General
+# 常规
 general:
   command:
-    ingame: "§6You can only run this command in game."
+    ingame: "§6你只能在游戏中运行该指令。"
   world:
-    notexist: "§cWorld §f{name} §cdoesn't exist."
-    notloaded: "§cWorld §f{name} §cisn't loaded or does not exist."
+    notexist: "§c世界 §f{name} §c不存在。"
+    notloaded: "§c世界 §f{name} §c未载入或不存在。"
   permission: "§6You don't have the permission to join this world."
 
-# List command
+# 列表指令
 list:
-  worlds: "§eWorlds on this server: §f{worlds}§e."
+  worlds: "§e该服务器中的世界: §f{worlds}§e."
 
-# Create command
+# 创建指令
 create:
-  success: "§aWorld §f{name} §ahas been created."
-  failed: "§cAn unknown error occurred while creating the world."
+  success: "§a世界 §f{name} §a已创建"
+  failed: "§c创建世界时发生了一个未知的错误。"
   generator:
-    notexist: "§6There is no generated called §f{name} §6- using the default one."
+    notexist: "§6没有已生成世界名为 §f{name} §6- 使用默认世界。"
 
-# Remove command
+# 移除指令
 remove:
-  success: "§aWorld §f{name} §ahas been removed."
+  success: "§a世界 §f{name} §a已移除"
 
-# Copy command
+# 复制指令
 copy:
-  success: "§aWorld §f{name} §ahas been copied to §f{to}§a."
+  success: "§a世界 §f{name} §a已被复制至 §f{to}§a."
   same: "§cYou can't copy the world into itself."
   datfile:
     notexist: "§cThe world's data file does not exist."
