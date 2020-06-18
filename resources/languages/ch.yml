@@ -15,7 +15,7 @@ general:
   world:
     notexist: "§c世界 §f{name} §c不存在。"
     notloaded: "§c世界 §f{name} §c未载入或不存在。"
-  permission: "§6You don't have the permission to join this world."
+  permission: "§6你没有进入该世界的权限。"
 
 # 列表指令
 list:
@@ -35,15 +35,15 @@ remove:
 # 复制指令
 copy:
   success: "§a世界 §f{name} §a已被复制至 §f{to}§a."
-  same: "§cYou can't copy the world into itself."
+  same: "§c你不能把这个世界复制到它本身。"
   datfile:
-    notexist: "§cThe world's data file does not exist."
-    damaged: "§cThe world's data file is damaged."
-    notsave: "§cFailed saving the updated dat file of the world."
+    notexist: "§c该世界的数据文件不存在。"
+    damaged: "§c该世界的数据文件已被破坏。"
+    notsave: "§c保存更新后的世界数据文件失败。"
 
 # Rename command
 rename:
-  success: "§aWorld §f{name} §ahas been renamed to §f{to}§a."
+  success: "§a世界 §f{name} §a已被重命名为 §f{to}§a."
   same: "§cYou can't rename the world to the same name."
   datfile:
     notexist: "§cThe world's data file does not exist."
