@@ -70,19 +70,19 @@ teleport:
 set:
   success: "§a你已将 §f{world} §a中的 §b{key} §a值设置为 §c{value}§a。"
   list:
-    values: "§cSettings for world §f{name}\n\n§epermission: {permission}\n§egamemode: {gamemode}\n§ebuild: {build}\n§epvp: {pvp}\n§edamage: {damage}\n§einteract: {interact}\n§eexplode: {explode}\n§edrop: {drop}\n§ehunger: {hunger}\n§efly: {fly}\n"
-    notset: "§7not set"
+    values: "§c世界 §f{name} §c的配置\n\n§e权限: {permission}\n§e游戏模式: {gamemode}\n§e建筑: {build}\n§ePVP: {pvp}\n§e破坏: {damage}\n§e交互: {interact}\n§e爆炸: {explode}\n§e掉落: {drop}\n§e饥饿: {hunger}\n§e飞行: {fly}\n"
+    notset: "§7未设置"
   permission:
-    notdefault: "§cYou can't set a permission on the default world."
+    notdefault: "§c你不能给默认世界设置权限。"
   gamemode:
-    notexist: "§6This gamemode does not exist."
-  notbool: "§6You can set §f{key} §6only to §atrue §6or §afalse§6."
+    notexist: "§6这个游戏模式并不存在"
+  notbool: "§6你只能将 §f{key} §6设置为 §atrue §6或者 §afalse§6。"
 
-# Unset command
+# 重置指令
 unset:
-  success: "§b{key} §ahas been unset in §f{world}§a."
+  success: "§a世界 §f{world} §a的 §b{key} §a已被重置。"
 
-# Defaults command
+# 默认指令
 defaults:
   list:
     values: "§c这个服务器世界的默认配置\n\n§e权限: {permission}\n§e游戏模式: {gamemode}\n§e建筑: {build}\n§ePVP: {pvp}\n§e破坏: {damage}\n§e交互: {interact}\n§e爆炸: {explode}\n§e掉落: {drop}\n§e饥饿: {hunger}\n§e飞行: {fly}\n"
