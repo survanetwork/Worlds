@@ -1,0 +1,120 @@
+# __        __         _     _
+# \ \      / /__  _ __| | __| |___
+#  \ \ /\ / / _ \| '__| |/ _` / __|
+#   \ V  V / (_) | |  | | (_| \__ \
+#    \_/\_/ \___/|_|  |_|\__,_|___/
+#
+# (C) 2019 by surva network | https://github.com/survanetwork
+
+# Chinese language
+
+# 常规
+general:
+  command:
+    ingame: "§6你只能在游戏中运行该指令。"
+  world:
+    notexist: "§c世界 §f{name} §c不存在。"
+    notloaded: "§c世界 §f{name} §c未载入或不存在。"
+  permission: "§6你没有进入该世界的权限。"
+
+# 列表指令
+list:
+  worlds: "§e该服务器中的世界: §f{worlds}§e。"
+
+# 创建指令
+create:
+  success: "§a世界 §f{name} §a已创建。"
+  failed: "§c创建世界时发生了一个未知的错误。"
+  generator:
+    notexist: "§6没有已生成世界名为 §f{name} §6- 使用默认世界。"
+
+# 移除指令
+remove:
+  success: "§a世界 §f{name} §a已移除"
+
+# 复制指令
+copy:
+  success: "§a世界 §f{name} §a已被复制至 §f{to}§a。"
+  same: "§c你不能把这个世界复制到它本身。"
+  datfile:
+    notexist: "§c该世界的数据文件不存在。"
+    damaged: "§c该世界的数据文件已被破坏。"
+    notsave: "§c保存更新后的世界数据文件失败。"
+
+# 重命名指令
+rename:
+  success: "§a世界 §f{name} §a已被重命名为 §f{to}§a。"
+  same: "§c你不能将该世界重命名为相同的名称。"
+  datfile:
+    notexist: "§c该世界的数据文件不存在。"
+    damaged: "§c该世界的数据文件已被破坏。"
+    notsave: "§c保存更新后的世界数据文件失败。"
+
+# 加载指令
+load:
+  success: "§a世界 §f{world} §a已成功被加载。"
+  already: "§e世界 §f{name} §e已被加载。"
+  failed: "§c该世界无法被加载。"
+
+# 卸载指令
+unload:
+  success: "§a世界 §f{world} §a已被成功卸载。"
+  failed: "§c该世界无法被卸载"
+
+# 传送指令
+teleport:
+  success: "§a你已被传送至 §f{world}§a。"
+  failed: "§c无法将你传送至指定世界。"
+
+# 设置指令
+set:
+  success: "§a你已将 §f{world} §a中的 §b{key} §a值设置为 §c{value}§a。"
+  list:
+    values: "§c世界 §f{name} §c的配置\n\n§e权限: {permission}\n§e游戏模式: {gamemode}\n§e建筑: {build}\n§ePVP: {pvp}\n§e破坏: {damage}\n§e交互: {interact}\n§e爆炸: {explode}\n§e掉落: {drop}\n§e饥饿: {hunger}\n§e飞行: {fly}\n"
+    notset: "§7未设置"
+  permission:
+    notdefault: "§c你不能给默认世界设置权限。"
+  gamemode:
+    notexist: "§6这个游戏模式并不存在"
+  notbool: "§6你只能将 §f{key} §6设置为 §atrue §6或者 §afalse§6。"
+
+# 重置指令
+unset:
+  success: "§a世界 §f{world} §a的 §b{key} §a已被重置。"
+
+# 默认指令
+defaults:
+  list:
+    values: "§c这个服务器世界的默认配置\n\n§e权限: {permission}\n§e游戏模式: {gamemode}\n§e建筑: {build}\n§ePVP: {pvp}\n§e破坏: {damage}\n§e交互: {interact}\n§e爆炸: {explode}\n§e掉落: {drop}\n§e饥饿: {hunger}\n§e飞行: {fly}\n"
+    notset: "§7未设置"
+  set:
+    success: "§a你已将 §c{value} §a设置为 §b{key} §a的默认值。"
+  unset:
+    success: "§b{key} §a已被重置为默认值。"
+
+# 表格
+forms:
+  # 世界设置
+  world:
+    title: "§a世界 §f{name} §a的设置"
+    params:
+      permission: "世界进入权限"
+      gamemode: "世界游戏模式"
+      build: "允许建筑"
+      pvp: "允许PVP"
+      damage: "允许玩家破坏"
+      interact: "允许玩家互动（例如箱子）"
+      explode: "允许爆炸"
+      drop: "玩家掉落物品"
+      hunger: "饥饿"
+      fly: "飞行"
+      daylightcycle: "昼夜交替"
+    options:
+      notset: "§7无设置（空值）"
+      true: "§a已启用"
+      false: "§c已禁用"
+  # 默认设置
+  default:
+    title: "§a默认世界设置"
+  # 发送已保存信息
+  saved: "§a设置已成功保存！"
