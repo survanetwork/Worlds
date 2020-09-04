@@ -1,0 +1,120 @@
+# __        __         _     _
+# \ \      / /__  _ __| | __| |___
+#  \ \ /\ / / _ \| '__| |/ _` / __|
+#   \ V  V / (_) | |  | | (_| \__ \
+#    \_/\_/ \___/|_|  |_|\__,_|___/
+#
+# (C) 2020 by surva network | https://github.com/survanetwork
+
+# Latviešu valoda (Translated by EEHoveckis)
+
+# Vispārīgi
+general:
+  command:
+    ingame: "§6Šo komandu var izmantot tikai spēlē."
+  world:
+    notexist: "§cPasaule ar vārdu §f{name} §cneeksistē."
+    notloaded: "§cPasaule ar vārdu §f{name} §cnav ielādēta vai neeksistē."
+  permission: "§6Jums nav atļauts pievienoties šajai pasaulei."
+
+# List Komanda
+list:
+  worlds: "§ePasaules šajā serverī: §f{worlds}§e."
+
+# Create Komanda
+create:
+  success: "§aPasaule ar vārdu §f{name} §air izveidota."
+  failed: "§cNezināma kļūda veidojot pasauli."
+  generator:
+    notexist: "§6Ģenerators ar vārdu §f{name} neeksistē §6- izmantoju noklusēto ģeneratoru."
+
+# Remove Komanda
+remove:
+  success: "§aPasaule ar vārdu §f{name} §air noņemta."
+
+# Copy Komanda
+copy:
+  success: "§aPasaule ar vārdu §f{name} §air nokopēta uz §f{to}§a."
+  same: "§cJūs nevarat kopēt pasauli sevī."
+  datfile:
+    notexist: "§cPasaules datu fails neeksistē."
+    damaged: "§cPasaules datu fails ir bojāts."
+    notsave: "§cNeizdevās saglabāt atjaunoto pasaules .dat failu."
+
+# Rename Komanda
+rename:
+  success: "§aPasaule §f{name} §air pārdēvēta uz §f{to}§a."
+  same: "§cJūs nevarat pārdēvēt pasauli ar tādu pašu vārdu."
+  datfile:
+    notexist: "§cPasaules datu fails neeksistē."
+    damaged: "§cPasaules datu fails ir bojāts."
+    notsave: "§cNeizdevās saglabāt atjaunoto pasaules .dat failu."
+
+# Load Komanda
+load:
+  success: "§aPasaule ar vārdu §f{world} §air veiksmīgi ielādēta."
+  already: "§ePasaule ar vārdu §f{name} §eir jau ielādēta."
+  failed: "§cPasauli nevarēja ielādēt."
+
+# Unload Komanda
+unload:
+  success: "§aPasaule ar vārdu §f{world} §air veiksmīgi izlādēta."
+  failed: "§cPasauli nevarēja izlādēt."
+
+# Teleport Komanda
+teleport:
+  success: "§aJūs tikāt teleportēts uz pasauli ar vārdu §f{world}§a."
+  failed: "§cNeizdevās jūs teleportēt uz pasauli."
+
+# Set Komanda
+set:
+  success: "§aJūs uzstādījāt §b{key} §apasaulē §f{world} §auz §c{value}§a."
+  list:
+    values: "§cIestatījumi pasaulei ar vārdu §f{name}\n\n§eAtļaujas: {permission}\n§eSpēles Režīms: {gamemode}\n§eBūvēšana: {build}\n§ePvP: {pvp}\n§eBojājumi: {damage}\n§eDarbības: {interact}\n§eSprādzieni: {explode}\n§eKrišana: {drop}\n§eIzsalkums: {hunger}\n§eLidošana: {fly}\n"
+    notset: "§7Nav Iestatīts"
+  permission:
+    notdefault: "§cJūs nevarat uzstādīt atļaujas pamata pasaulei."
+  gamemode:
+    notexist: "§6Šāds spēles režims neeksistē."
+  notbool: "§6Jūs varat uzstādīt §f{key} §6tikai uz §atrue §6vai §afalse§6."
+
+# Unset Komanda
+unset:
+  success: "§b{key} §atika atiestatīta pasaulē §f{world}§a."
+
+# Defaults Komanda
+defaults:
+  list:
+    values: "§cIestatījumi pasaulei ar vārdu §f{name}\n\n§eAtļaujas: {permission}\n§eSpēles Režīms: {gamemode}\n§eBūvēšana: {build}\n§ePvP: {pvp}\n§eBojājumi: {damage}\n§eDarbības: {interact}\n§eSprādzieni: {explode}\n§eKrišana: {drop}\n§eIzsalkums: {hunger}\n§eLidošana: {fly}\n"
+    notset: "§7Nav Iestatīts"
+  set:
+    success: "§aJūs uzstādījāt §b{key} §auz §c{value} §akā noklusējuma vērtību."
+  unset:
+    success: "§b{key} §atika atiestatīta kā noklusējuma vērtība."
+
+# Formas
+forms:
+  # Pasaules Iestatījumi
+  world:
+    title: "§aIestatījumi pasaulei ar vārdu §f{name}"
+    params:
+      permission: "Atļauja pievienoties"
+      gamemode: "Pasaules spēles režīms"
+      build: "Atļaut būvēšanu"
+      pvp: "Atļaut PvP"
+      damage: "Atļaut spēlētājam saņemt bojājumu"
+      interact: "Atļaut darbības (piem. Atvērt lādes)"
+      explode: "Atļaut sprādzienus"
+      drop: "Spēlētāji var nomest rīkus/blokus"
+      hunger: "Izsalkums"
+      fly: "Lidošana"
+      daylightcycle: "Diennakts ciklēšana"
+    options:
+      notset: "§7Nav iestatīts (nulle)"
+      true: "§aieslēgts"
+      false: "§cizslēgts"
+  # Noklusējuma iestatījumi
+  default:
+    title: "§aNoklusējuma pasaules iestatījumi"
+  # Iestatījumu saglabāšanas ziņa
+  saved: "§aIestatījumi ir veiksmīgi saglabāti!"
