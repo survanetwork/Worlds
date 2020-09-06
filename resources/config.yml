@@ -7,5 +7,5 @@
 # (C) 2019 by surva network | https://github.com/survanetwork
 
 # Language of the plugin messages
-# Possible options are: en (English), de (German), zh (Chinese), id (Indonesian)
+# Possible options are: en (English), de (German), zh (Chinese), id (Indonesian), lv (Latvian)
 language: "en"
