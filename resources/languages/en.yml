@@ -59,6 +59,7 @@ load:
 # Unload command
 unload:
   success: "§aWorld §f{world} §ahas been unloaded successfully."
+  default: "§cCannot unload the default world!"
   failed: "§cThe world could not be unloaded."
 
 # Teleport command

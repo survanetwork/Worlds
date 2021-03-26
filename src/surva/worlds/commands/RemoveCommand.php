@@ -14,6 +14,14 @@ class RemoveCommand extends CustomCommand {
         }
 
         if($this->getWorlds()->getServer()->isLevelLoaded($args[0])) {
+            if($defLvl = $this->getWorlds()->getServer()->getDefaultLevel()) {
+                if($defLvl->getName() === $args[0]) {
+                    $player->sendMessage($this->getWorlds()->getMessage("unload.default"));
+
+                    return true;
+                }
+            }
+
             if(!($this->getWorlds()->getServer()->unloadLevel(
                 $this->getWorlds()->getServer()->getLevelByName($args[0])
             ))) {

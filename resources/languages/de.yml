@@ -59,6 +59,7 @@ load:
 # Unload command
 unload:
   success: "§aDie Welt §f{world} §awurde erfolgreich entladen."
+  default: "§cDie Standard-Welt kann nicht entladen werden!"
   failed: "§cDie Welt konnte nicht entladen werden."
 
 # Teleport command
