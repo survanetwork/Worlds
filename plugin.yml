@@ -39,7 +39,7 @@ permissions:
         description: "Unload worlds"
         default: op
       worlds.admin.teleport:
-        description: "Teleport to another world"
+        description: "Teleport to any world"
         default: op
       worlds.admin.set:
         description: "Set parameters (like gamemode, damage, ...)"
@@ -56,6 +56,9 @@ permissions:
       worlds.admin.interact:
         description: "Allow interacting in protected worlds"
         default: op
+  worlds.teleport.general:
+    description: "Allow teleporting to worlds when having the permission of the specific world"
+    default: true
   worlds.special.gamemode:
     description: "Don't change gamemode to world's gamemode (keep it)"
     default: false

@@ -99,7 +99,7 @@ class Worlds extends PluginBase {
                 return new UnloadCommand($this, "unload", "worlds.admin.unload");
             case "teleport":
             case "tp":
-                return new TeleportCommand($this, "teleport", "worlds.admin.teleport");
+                return new TeleportCommand($this, "teleport", "worlds.teleport.general");
             case "set":
             case "st":
                 return new SetCommand($this, "set", "worlds.admin.set");

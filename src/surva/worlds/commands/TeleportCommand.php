@@ -7,6 +7,7 @@ namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
+use pocketmine\utils\TextFormat;
 
 class TeleportCommand extends CustomCommand {
     public function do(CommandSender $sender, array $args): bool {
@@ -20,6 +21,22 @@ class TeleportCommand extends CustomCommand {
 
         if(!(count($args) === 1)) {
             return false;
+        }
+
+        $isAllowed = $sender->hasPermission("worlds.admin.teleport") OR
+        (
+            $sender->hasPermission("worlds.teleport.general") AND
+            $sender->hasPermission("worlds.teleport.world." . strtolower($args[0]))
+        );
+
+        if(!$isAllowed) {
+            $sender->sendMessage(
+                $this->getWorlds()->getServer()->getLanguage()->translateString(
+                    TextFormat::RED . "%commands.generic.permission"
+                )
+            );
+
+            return true;
         }
 
         if(!($this->getWorlds()->getServer()->isLevelLoaded($args[0]))) {
