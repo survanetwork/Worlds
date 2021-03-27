@@ -1,11 +1,11 @@
 name: Worlds
 main: surva\worlds\Worlds
-version: 3.0.6
+version: 3.0.7
 api: 3.0.0
 
 author: survanetwork
 description: Easy to use but feature rich World Guard Plugin
-website: https://plugins.surva.network/#worlds
+website: https://plugins.surva.net/#worlds
 
 commands:
   worlds:
