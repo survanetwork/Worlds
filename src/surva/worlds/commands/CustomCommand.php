@@ -7,7 +7,6 @@ namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
 use pocketmine\command\PluginCommand;
-use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use surva\worlds\Worlds;
 
@@ -28,12 +27,6 @@ class CustomCommand extends PluginCommand {
     public function execute(CommandSender $sender, string $commandLabel, array $args) {
         array_shift($args);
 
-        if(!($sender instanceof Player)) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.command.ingame"));
-
-            return true;
-        }
-
         if(!($sender->hasPermission($this->getPermission()))) {
             $sender->sendMessage(
                 $this->getWorlds()->getServer()->getLanguage()->translateString(
@@ -47,7 +40,8 @@ class CustomCommand extends PluginCommand {
         return $this->do($sender, $args);
     }
 
-    public function do(Player $player, array $args) {
+    public function do(CommandSender $sender, array $args): bool {
+        return false;
     }
 
     /**

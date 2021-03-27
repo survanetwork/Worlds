@@ -5,11 +5,11 @@
 
 namespace surva\worlds\commands;
 
-use pocketmine\Player;
+use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
 
 class ListCommand extends CustomCommand {
-    public function do(Player $player, array $args) {
+    public function do(CommandSender $sender, array $args): bool {
         $levels = array();
 
         foreach($this->getWorlds()->getServer()->getLevels() as $level) {
@@ -28,7 +28,7 @@ class ListCommand extends CustomCommand {
             }
         }
 
-        $player->sendMessage($this->getWorlds()->getMessage("list.worlds", array("worlds" => implode(", ", $levels))));
+        $sender->sendMessage($this->getWorlds()->getMessage("list.worlds", array("worlds" => implode(", ", $levels))));
 
         return true;
     }

@@ -5,6 +5,7 @@
 
 namespace surva\worlds\commands;
 
+use pocketmine\command\CommandSender;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
@@ -12,7 +13,15 @@ use surva\worlds\form\DefaultSettingsForm;
 use surva\worlds\logic\WorldActions;
 
 class DefaultsCommand extends CustomCommand {
-    public function do(Player $player, array $args) {
+    public function do(CommandSender $sender, array $args): bool {
+        if(!($sender instanceof Player)) {
+            $sender->sendMessage($this->getWorlds()->getMessage("general.command.ingame"));
+
+            return true;
+        }
+
+        $player = $sender;
+
         $defaults = $this->getWorlds()->getDefaults();
 
         if(count($args) === 0) {

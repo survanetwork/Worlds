@@ -5,10 +5,19 @@
 
 namespace surva\worlds\commands;
 
+use pocketmine\command\CommandSender;
 use pocketmine\Player;
 
 class TeleportCommand extends CustomCommand {
-    public function do(Player $player, array $args) {
+    public function do(CommandSender $sender, array $args): bool {
+        if(!($sender instanceof Player)) {
+            $sender->sendMessage($this->getWorlds()->getMessage("general.command.ingame"));
+
+            return true;
+        }
+
+        $player = $sender;
+
         if(!(count($args) === 1)) {
             return false;
         }

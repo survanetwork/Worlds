@@ -5,12 +5,21 @@
 
 namespace surva\worlds\commands;
 
+use pocketmine\command\CommandSender;
 use pocketmine\Player;
 use surva\worlds\form\WorldSettingsForm;
 use surva\worlds\logic\WorldActions;
 
 class UnsetCommand extends CustomCommand {
-    public function do(Player $player, array $args) {
+    public function do(CommandSender $sender, array $args): bool {
+        if(!($sender instanceof Player)) {
+            $sender->sendMessage($this->getWorlds()->getMessage("general.command.ingame"));
+
+            return true;
+        }
+
+        $player = $sender;
+
         $folderName = $player->getLevel()->getFolderName();
 
         if(!($world = $this->getWorlds()->getWorldByName($folderName))) {

@@ -5,20 +5,20 @@
 
 namespace surva\worlds\commands;
 
+use pocketmine\command\CommandSender;
 use pocketmine\level\generator\Flat;
 use pocketmine\level\generator\hell\Nether;
 use pocketmine\level\generator\normal\Normal;
-use pocketmine\Player;
 
 class CreateCommand extends CustomCommand {
-    public function do(Player $player, array $args) {
+    public function do(CommandSender $sender, array $args): bool {
         switch(count($args)) {
             case 1:
                 if(!$this->getWorlds()->getServer()->generateLevel($args[0])) {
-                    $player->sendMessage($this->getWorlds()->getMessage("create.failed"));
+                    $sender->sendMessage($this->getWorlds()->getMessage("create.failed"));
                 }
 
-                $player->sendMessage($this->getWorlds()->getMessage("create.success", array("name" => $args[0])));
+                $sender->sendMessage($this->getWorlds()->getMessage("create.success", array("name" => $args[0])));
 
                 return true;
             case 2:
@@ -33,7 +33,7 @@ class CreateCommand extends CustomCommand {
                         $generator = Nether::class;
                         break;
                     default:
-                        $player->sendMessage(
+                        $sender->sendMessage(
                             $this->getWorlds()->getMessage("create.generator.notexist", array("name" => $args[1]))
                         );
 
@@ -42,10 +42,10 @@ class CreateCommand extends CustomCommand {
                 }
 
                 if(!$this->getWorlds()->getServer()->generateLevel($args[0], null, $generator)) {
-                    $player->sendMessage($this->getWorlds()->getMessage("create.failed"));
+                    $sender->sendMessage($this->getWorlds()->getMessage("create.failed"));
                 }
 
-                $player->sendMessage($this->getWorlds()->getMessage("create.success", array("name" => $args[0])));
+                $sender->sendMessage($this->getWorlds()->getMessage("create.success", array("name" => $args[0])));
 
                 return true;
             default:
