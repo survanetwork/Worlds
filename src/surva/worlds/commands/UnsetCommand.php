@@ -23,7 +23,7 @@ class UnsetCommand extends CustomCommand {
         $folderName = $player->getLevel()->getFolderName();
 
         if(!($world = $this->getWorlds()->getWorldByName($folderName))) {
-            $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
+            $sender->sendMessage($this->getWorlds()->getMessage("general.world.notloaded", array("name" => $folderName)));
 
             return true;
         }

@@ -14,7 +14,7 @@ class UnloadCommand extends CustomCommand {
         }
 
         if(!($this->getWorlds()->getServer()->isLevelLoaded($args[0]))) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.world.notloaded"));
+            $sender->sendMessage($this->getWorlds()->getMessage("general.world.notloaded", array("name" => $args[0])));
 
             return true;
         }
