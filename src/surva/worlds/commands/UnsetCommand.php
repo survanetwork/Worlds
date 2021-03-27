@@ -7,6 +7,7 @@ namespace surva\worlds\commands;
 
 use pocketmine\Player;
 use surva\worlds\form\WorldSettingsForm;
+use surva\worlds\logic\WorldActions;
 
 class UnsetCommand extends CustomCommand {
     public function do(Player $player, array $args) {
@@ -30,10 +31,7 @@ class UnsetCommand extends CustomCommand {
             return false;
         }
 
-        if(!(in_array(
-            $args[0],
-            array("permission", "gamemode", "build", "pvp", "damage", "interact", "explode", "drop", "hunger", "fly", "daylightcycle")
-        ))) {
+        if(!WorldActions::isValidFlag($args[0])) {
             return false;
         }
 

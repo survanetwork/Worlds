@@ -6,6 +6,7 @@
 namespace surva\worlds\commands;
 
 use pocketmine\Player;
+use surva\worlds\logic\WorldActions;
 
 class LoadCommand extends CustomCommand {
     public function do(Player $player, array $args) {
@@ -19,7 +20,7 @@ class LoadCommand extends CustomCommand {
             return true;
         }
 
-        if(!(is_dir($this->getWorlds()->getServer()->getDataPath() . "worlds/" . $args[0]))) {
+        if(!WorldActions::worldPathExists($this->getWorlds(), $args[0])) {
             $player->sendMessage($this->getWorlds()->getMessage("general.world.notexist", array("name" => $args[0])));
 
             return true;

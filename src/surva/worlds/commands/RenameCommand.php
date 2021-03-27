@@ -9,6 +9,7 @@ use pocketmine\nbt\BigEndianNBTStream;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\Player;
+use surva\worlds\logic\WorldActions;
 
 class RenameCommand extends CustomCommand {
     public function do(Player $player, array $args) {
@@ -16,28 +17,21 @@ class RenameCommand extends CustomCommand {
             return false;
         }
 
-        if(!(is_dir($this->getWorlds()->getServer()->getDataPath() . "worlds/" . $args[0]))) {
+        if(!WorldActions::worldPathExists($this->getWorlds(), $args[0])) {
             $player->sendMessage($this->getWorlds()->getMessage("general.world.notexist", array("name" => $args[0])));
 
             return true;
         }
 
-        if($this->getWorlds()->getServer()->isLevelLoaded($args[0])) {
-            if($defLvl = $this->getWorlds()->getServer()->getDefaultLevel()) {
-                if($defLvl->getName() === $args[0]) {
-                    $player->sendMessage($this->getWorlds()->getMessage("unload.default"));
+        switch(WorldActions::unloadIfLoaded($this->getWorlds(), $args[0])) {
+            case WorldActions::UNLOAD_DEFAULT:
+                $player->sendMessage($this->getWorlds()->getMessage("unload.default"));
 
-                    return true;
-                }
-            }
-
-            if(!($this->getWorlds()->getServer()->unloadLevel(
-                $this->getWorlds()->getServer()->getLevelByName($args[0])
-            ))) {
+                return true;
+            case WorldActions::UNLOAD_FAILED:
                 $player->sendMessage($this->getWorlds()->getMessage("unload.failed"));
 
                 return true;
-            }
         }
 
         $fromFolderName = $args[0];

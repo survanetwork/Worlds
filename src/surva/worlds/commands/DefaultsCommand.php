@@ -9,6 +9,7 @@ use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 use surva\worlds\form\DefaultSettingsForm;
+use surva\worlds\logic\WorldActions;
 
 class DefaultsCommand extends CustomCommand {
     public function do(Player $player, array $args) {
@@ -49,22 +50,7 @@ class DefaultsCommand extends CustomCommand {
                     return false;
                 }
 
-                if(!(in_array(
-                    $args[1],
-                    array(
-                        "permission",
-                        "gamemode",
-                        "build",
-                        "pvp",
-                        "damage",
-                        "interact",
-                        "explode",
-                        "drop",
-                        "hunger",
-                        "fly",
-                        "daylightcycle"
-                    )
-                ))) {
+                if(!WorldActions::isValidFlag($args[1])) {
                     return false;
                 }
 
@@ -110,22 +96,7 @@ class DefaultsCommand extends CustomCommand {
                     return false;
                 }
 
-                if(!(in_array(
-                    $args[1],
-                    array(
-                        "permission",
-                        "gamemode",
-                        "build",
-                        "pvp",
-                        "damage",
-                        "interact",
-                        "explode",
-                        "drop",
-                        "hunger",
-                        "fly",
-                        "daylightcycle",
-                    )
-                ))) {
+                if(!WorldActions::isValidFlag($args[1])) {
                     return false;
                 }
 

@@ -6,6 +6,7 @@
 namespace surva\worlds\commands;
 
 use pocketmine\Player;
+use surva\worlds\logic\WorldActions;
 
 class RemoveCommand extends CustomCommand {
     public function do(Player $player, array $args) {
@@ -13,25 +14,18 @@ class RemoveCommand extends CustomCommand {
             return false;
         }
 
-        if($this->getWorlds()->getServer()->isLevelLoaded($args[0])) {
-            if($defLvl = $this->getWorlds()->getServer()->getDefaultLevel()) {
-                if($defLvl->getName() === $args[0]) {
-                    $player->sendMessage($this->getWorlds()->getMessage("unload.default"));
+        switch(WorldActions::unloadIfLoaded($this->getWorlds(), $args[0])) {
+            case WorldActions::UNLOAD_DEFAULT:
+                $player->sendMessage($this->getWorlds()->getMessage("unload.default"));
 
-                    return true;
-                }
-            }
-
-            if(!($this->getWorlds()->getServer()->unloadLevel(
-                $this->getWorlds()->getServer()->getLevelByName($args[0])
-            ))) {
+                return true;
+            case WorldActions::UNLOAD_FAILED:
                 $player->sendMessage($this->getWorlds()->getMessage("unload.failed"));
 
                 return true;
-            }
         }
 
-        $this->getWorlds()->delete($this->getWorlds()->getServer()->getFilePath() . "worlds/" . $args[0]);
+        $this->getWorlds()->delete($this->getWorlds()->getServer()->getDataPath() . "worlds/" . $args[0]);
 
         $player->sendMessage($this->getWorlds()->getMessage("remove.success", array("name" => $args[0])));
 

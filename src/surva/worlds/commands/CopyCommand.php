@@ -9,6 +9,7 @@ use pocketmine\nbt\BigEndianNBTStream;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\Player;
+use surva\worlds\logic\WorldActions;
 
 class CopyCommand extends CustomCommand {
     public function do(Player $player, array $args) {
@@ -16,7 +17,7 @@ class CopyCommand extends CustomCommand {
             return false;
         }
 
-        if(!(is_dir($this->getWorlds()->getServer()->getDataPath() . "worlds/" . $args[0]))) {
+        if(!WorldActions::worldPathExists($this->getWorlds(), $args[0])) {
             $player->sendMessage($this->getWorlds()->getMessage("general.world.notexist", array("name" => $args[0])));
 
             return true;
