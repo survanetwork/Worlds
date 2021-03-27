@@ -1,5 +1,5 @@
 <p align="center">
-    <img src=".github/.media/logo.png" width="144px" height="144px">
+    <img src=".github/.media/logo.png" width="144" height="144" alt="Worlds plugin Logo">
 </p>
 
 <h1 align="center">Worlds</h1>
@@ -29,6 +29,10 @@
 </p>
 
 ##
+
+<p align="center">
+    <img src=".github/.media/feature-banner.png" width="650" height="366" alt="World plugin features">
+</p>
 
 [• Description](#-description)  
 [• Features](#-features)  
