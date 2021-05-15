@@ -1,0 +1,121 @@
+# __        __         _     _
+# \ \      / /__  _ __| | __| |___
+#  \ \ /\ / / _ \| '__| |/ _` / __|
+#   \ V  V / (_) | |  | | (_| \__ \
+#    \_/\_/ \___/|_|  |_|\__,_|___/
+#
+# (C) 2019 by surva network | https://github.com/survanetwork
+
+# French language
+
+# General
+general:
+  command:
+    ingame: "§6Vous ne pouvez exécuter cette commande que dans le jeu."
+  world:
+    notexist: "§cLe monde §f{name} §cn'existe pas."
+    notloaded: "§cLe monde §f{name} §cn'est pas chargé ou n'existe pas."
+  permission: "§6Vous n'avez pas la permission de rejoindre ce monde."
+
+# List command
+list:
+  worlds: "§eMondes de ce serveur: §f{worlds}§e."
+
+# Create command
+create:
+  success: "§aLe Monde §f{name} §aa été créé."
+  failed: "§cUne erreur inconnue s'est produite lors de la création du monde."
+  generator:
+    notexist: "§6Il n'y a pas de générateur nommé §f{name} §6- utilisation du générateur par défaut."
+
+# Remove command
+remove:
+  success: "§aLe Monde §f{name} §aa été supprimé."
+
+# Copy command
+copy:
+  success: "§aLe Monde §f{name} §aa été copié vers §f{to}§a."
+  same: "§cVous ne pouvez pas copié le monde dans son propre dossier."
+  datfile:
+    notexist: "§cLe fichier de données du monde n'existe pas."
+    damaged: "§cLe fichier de données du monde est endommagé."
+    notsave: "§cÉchec de l'enregistrement du fichier de mise à jour du monde dat."
+
+# Rename command
+rename:
+  success: "§aLe Monde §f{name} §aa été renommé en §f{to}§a."
+  same: "§cVous ne pouvez pas utiliser le même nom pour renommer le monde."
+  datfile:
+    notexist: "§cLe fichier de données du monde n'existe pas."
+    damaged: "§cLe fichier de données du monde est endommagé."
+    notsave: "§cÉchec de l'enregistrement du fichier de mise à jour du monde dat."
+
+# Load command
+load:
+  success: "§aLe Monde §f{world} §aa été chargé avec succès."
+  already: "§eLe Monde §f{name} §eest déjà chargé."
+  failed: "§cLe Monde n'a pas pu être chargé."
+
+# Unload command
+unload:
+  success: "§aLe Monde §f{world} §aa été correctement déchargé."
+  default: "§cImpossible de décharger le monde par défaut!"
+  failed: "§cLe Monde n'a pas pu être déchargé."
+
+# Teleport command
+teleport:
+  success: "§aVous avez été téléporté vers §f{world}§a."
+  failed: "§cImpossible de vous téléporter dans le monde."
+
+# Set command
+set:
+  success: "§aVous avez défini §b{key} §adans §f{world} §asur §c{value}§a."
+  list:
+    values: "§cParamètres du monde §f{name}\n\n§epermission: {permission}\n§emode de jeu:gamemode}\n§econstruire\n§epvp: {pvp}\n§edommage: {damage}\n§einteraction: {interact}\n§eexplosion: {explode}\n§edrop: {drop}\n§efaim: {hunger}\n§evol{fly}\n"
+    notset: "§7non défini"
+  permission:
+    notdefault: "§cVous ne pouvez pas définir une permission sur le monde par défaut."
+  gamemode:
+    notexist: "§6Ce gamemode n'existe pas."
+  notbool: "§6Vous ne pouvez définir §f{key} §6que sur §atrue §6ou §afalse§6."
+
+# Unset command
+unset:
+  success: "§b{key} §aa été non défini dans §f{world}§a."
+
+# Defaults command
+defaults:
+  list:
+    values: "§cParamètres par défaut des mondes sur ce serveur\n\n§epermission: {permission}\n§emode de jeu: {gamemode}\n§econstruire: {build}\n§epvp: {pvp}\n§edommage: {damage}\n§einteraction: {interact}\n§eexplosion: {explode}\n§edrop: {drop}\n§efaim: {hunger}\n§evol{fly}\n"
+    notset: "§7non défini"
+  set:
+    success: "§aVous avez défini §b{key} §asur §c{value} §acomme valeur par défaut."
+  unset:
+    success: "§b{key} §aa été retiré comme valeur par défaut."
+
+# Forms
+forms:
+  # World settings
+  world:
+    title: "§aParamètre du monde pour §f{name}"
+    params:
+      permission: "Autorisation de rejoindre le monde"
+      gamemode: "Mode de jeu du monde"
+      build: "Autoriser les constructions"
+      pvp: "Autoriser PvP"
+      damage: "Autoriser les dégâts sur le joueur"
+      interact: "Autoriser les interactions du joueur (ex coffres)"
+      explode: "Autoriser les explosions"
+      drop: "Les joueurs peuvent jeter des objets"
+      hunger: "Faim"
+      fly: "Vol"
+      daylightcycle: "Cycle jour/nuit"
+    options:
+      notset: "§7non défini (null)"
+      true: "§aactivé"
+      false: "§cdésactivé"
+  # Default settings
+  default:
+    title: "§aParamètres par défaut du monde"
+  # Settings saved message
+  saved: "§aParamètres enregistrés avec succès!"
