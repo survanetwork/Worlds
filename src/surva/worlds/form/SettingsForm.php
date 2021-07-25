@@ -10,7 +10,9 @@ use pocketmine\Player;
 use surva\worlds\types\World;
 use surva\worlds\Worlds;
 
-abstract class SettingsForm implements Form {
+abstract class SettingsForm implements Form
+{
+
     /* @var Worlds */
     private $worlds;
 
@@ -26,8 +28,9 @@ abstract class SettingsForm implements Form {
     /* @var array */
     protected $content;
 
-    public function __construct(Worlds $wsInstance, World $storage) {
-        $this->worlds = $wsInstance;
+    public function __construct(Worlds $wsInstance, World $storage)
+    {
+        $this->worlds  = $wsInstance;
         $this->storage = $storage;
     }
 
@@ -36,30 +39,33 @@ abstract class SettingsForm implements Form {
      *
      * @return array
      */
-    public function jsonSerialize(): array {
-        return array(
-            "type" => $this->type,
-            "title" => $this->title,
-            "content" => $this->content
-        );
+    public function jsonSerialize(): array
+    {
+        return [
+          "type"    => $this->type,
+          "title"   => $this->title,
+          "content" => $this->content,
+        ];
     }
 
     /**
      * Getting a response from the client form
      *
-     * @param Player $player
-     * @param mixed $data
+     * @param  Player  $player
+     * @param  mixed  $data
      */
     public abstract function handleResponse(Player $player, $data): void;
 
     /**
      * Convert stored bool to form option index
      *
-     * @param bool|null $val
+     * @param  bool|null  $val
+     *
      * @return int
      */
-    protected function convBool(?bool $val): int {
-        if($val === null) {
+    protected function convBool(?bool $val): int
+    {
+        if ($val === null) {
             return 0;
         }
 
@@ -69,11 +75,13 @@ abstract class SettingsForm implements Form {
     /**
      * Convert stored bool to form option index
      *
-     * @param int|null $gm
+     * @param  int|null  $gm
+     *
      * @return int
      */
-    protected function convGamemode(?int $gm): int {
-        if($gm === null) {
+    protected function convGamemode(?int $gm): int
+    {
+        if ($gm === null) {
             return 0;
         }
 
@@ -83,11 +91,12 @@ abstract class SettingsForm implements Form {
     /**
      * Evaluate bool form response value
      *
-     * @param string $name
+     * @param  string  $name
      * @param $data
      */
-    protected function procBool(string $name, $data): void {
-        switch($data) {
+    protected function procBool(string $name, $data): void
+    {
+        switch ($data) {
             case 1:
                 $this->storage->updateValue($name, "false");
                 break;
@@ -103,11 +112,12 @@ abstract class SettingsForm implements Form {
     /**
      * Evaluate gamemode form response value
      *
-     * @param string $name
+     * @param  string  $name
      * @param $data
      */
-    protected function procGamemode(string $name, $data): void {
-        switch($data) {
+    protected function procGamemode(string $name, $data): void
+    {
+        switch ($data) {
             case 1:
                 $this->storage->updateValue($name, Player::SURVIVAL);
                 break;
@@ -129,14 +139,17 @@ abstract class SettingsForm implements Form {
     /**
      * @return World
      */
-    protected function getStorage(): World {
+    protected function getStorage(): World
+    {
         return $this->storage;
     }
 
     /**
      * @return Worlds
      */
-    protected function getWorlds(): Worlds {
+    protected function getWorlds(): Worlds
+    {
         return $this->worlds;
     }
+
 }

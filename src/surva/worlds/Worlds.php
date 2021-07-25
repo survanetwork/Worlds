@@ -5,6 +5,10 @@
 
 namespace surva\worlds;
 
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
+use pocketmine\plugin\PluginBase;
+use pocketmine\utils\Config;
 use surva\worlds\commands\CopyCommand;
 use surva\worlds\commands\CreateCommand;
 use surva\worlds\commands\CustomCommand;
@@ -20,12 +24,10 @@ use surva\worlds\commands\UnsetCommand;
 use surva\worlds\types\Defaults;
 use surva\worlds\types\World;
 use surva\worlds\utils\ArrayList;
-use pocketmine\plugin\PluginBase;
-use pocketmine\command\Command;
-use pocketmine\command\CommandSender;
-use pocketmine\utils\Config;
 
-class Worlds extends PluginBase {
+class Worlds extends PluginBase
+{
+
     /* @var Defaults */
     private $defaults;
 
@@ -35,7 +37,8 @@ class Worlds extends PluginBase {
     /* @var Config */
     private $messages;
 
-    public function onEnable() {
+    public function onEnable()
+    {
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $this->saveDefaultConfig();
 
@@ -43,22 +46,23 @@ class Worlds extends PluginBase {
 
         $this->worlds = new ArrayList();
 
-        foreach($this->getServer()->getLevels() as $level) {
+        foreach ($this->getServer()->getLevels() as $level) {
             $this->loadWorld($level->getFolderName());
         }
 
         $this->messages = new Config(
-            $this->getFile() . "resources/languages/" . $this->getConfig()->get("language", "en") . ".yml"
+          $this->getFile() . "resources/languages/" . $this->getConfig()->get("language", "en") . ".yml"
         );
     }
 
-    public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {
+    public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool
+    {
         $name = $command->getName();
 
-        if(strtolower($name) === "worlds") {
-            if(count($args) > 0) {
-                if($customCommand = $this->getCustomCommand($args[0])) {
-                    if($customCommand instanceof CustomCommand) {
+        if (strtolower($name) === "worlds") {
+            if (count($args) > 0) {
+                if ($customCommand = $this->getCustomCommand($args[0])) {
+                    if ($customCommand instanceof CustomCommand) {
                         return $customCommand->execute($sender, $name, $args);
                     }
                 }
@@ -71,11 +75,13 @@ class Worlds extends PluginBase {
     /**
      * Get a custom command by its name
      *
-     * @param string $name
+     * @param  string  $name
+     *
      * @return CustomCommand|null
      */
-    public function getCustomCommand(string $name): ?CustomCommand {
-        switch($name) {
+    public function getCustomCommand(string $name): ?CustomCommand
+    {
+        switch ($name) {
             case "list":
             case "ls":
                 return new ListCommand($this, "list", "worlds.list");
@@ -117,11 +123,13 @@ class Worlds extends PluginBase {
     /**
      * Get a world by name
      *
-     * @param string $name
+     * @param  string  $name
+     *
      * @return World|null
      */
-    public function getWorldByName(string $name): ?World {
-        if($this->getWorlds()->containsKey($name)) {
+    public function getWorldByName(string $name): ?World
+    {
+        if ($this->getWorlds()->containsKey($name)) {
             return $this->getWorlds()->get($name);
         }
 
@@ -131,10 +139,11 @@ class Worlds extends PluginBase {
     /**
      * Register a world load
      *
-     * @param string $foldername
+     * @param  string  $foldername
      */
-    public function loadWorld(string $foldername): void {
-        $file = $this->getWorldFile($foldername);
+    public function loadWorld(string $foldername): void
+    {
+        $file   = $this->getWorldFile($foldername);
         $config = $this->getCustomConfig($file);
 
         $this->getWorlds()->add(new World($this, $config), $foldername);
@@ -143,23 +152,27 @@ class Worlds extends PluginBase {
     /**
      * Get the worlds.yml file of a world
      *
-     * @param string $foldername
+     * @param  string  $foldername
+     *
      * @return string
      */
-    public function getWorldFile(string $foldername): string {
+    public function getWorldFile(string $foldername): string
+    {
         return $this->getServer()->getDataPath() . "worlds/" . $foldername . "/worlds.yml";
     }
 
     /**
      * Create a custom config file
      *
-     * @param string $file
+     * @param  string  $file
+     *
      * @return Config
      */
-    public function getCustomConfig(string $file): Config {
+    public function getCustomConfig(string $file): Config
+    {
         $config = new Config($file);
 
-        if(!file_exists($file)) {
+        if (!file_exists($file)) {
             $config->save();
         }
 
@@ -169,18 +182,19 @@ class Worlds extends PluginBase {
     /**
      * Copy a world
      *
-     * @param string $from
-     * @param string $to
+     * @param  string  $from
+     * @param  string  $to
      */
-    public function copy(string $from, string $to): void {
-        if(is_dir($from)) {
+    public function copy(string $from, string $to): void
+    {
+        if (is_dir($from)) {
             $objects = scandir($from);
 
             mkdir($to);
 
-            foreach($objects as $object) {
-                if($object !== "." AND $object !== "..") {
-                    if(is_dir($from . "/" . $object)) {
+            foreach ($objects as $object) {
+                if ($object !== "." and $object !== "..") {
+                    if (is_dir($from . "/" . $object)) {
                         $this->copy($from . "/" . $object, $to . "/" . $object);
                     } else {
                         copy($from . "/" . $object, $to . "/" . $object);
@@ -193,15 +207,16 @@ class Worlds extends PluginBase {
     /**
      * Delete a world
      *
-     * @param string $directory
+     * @param  string  $directory
      */
-    public function delete(string $directory): void {
-        if(is_dir($directory)) {
+    public function delete(string $directory): void
+    {
+        if (is_dir($directory)) {
             $objects = scandir($directory);
 
-            foreach($objects as $object) {
-                if($object !== "." AND $object !== "..") {
-                    if(is_dir($directory . "/" . $object)) {
+            foreach ($objects as $object) {
+                if ($object !== "." and $object !== "..") {
+                    if (is_dir($directory . "/" . $object)) {
                         $this->delete($directory . "/" . $object);
                     } else {
                         unlink($directory . "/" . $object);
@@ -216,14 +231,16 @@ class Worlds extends PluginBase {
     /**
      * Get a translated message
      *
-     * @param string $key
-     * @param array $replaces
+     * @param  string  $key
+     * @param  array  $replaces
+     *
      * @return string
      */
-    public function getMessage(string $key, array $replaces = array()): string {
-        if($rawMessage = $this->getMessages()->getNested($key)) {
-            if(is_array($replaces)) {
-                foreach($replaces as $replace => $value) {
+    public function getMessage(string $key, array $replaces = []): string
+    {
+        if ($rawMessage = $this->getMessages()->getNested($key)) {
+            if (is_array($replaces)) {
+                foreach ($replaces as $replace => $value) {
                     $rawMessage = str_replace("{" . $replace . "}", $value, $rawMessage);
                 }
             }
@@ -237,21 +254,25 @@ class Worlds extends PluginBase {
     /**
      * @return Config
      */
-    public function getMessages(): Config {
+    public function getMessages(): Config
+    {
         return $this->messages;
     }
 
     /**
      * @return ArrayList
      */
-    public function getWorlds(): ArrayList {
+    public function getWorlds(): ArrayList
+    {
         return $this->worlds;
     }
 
     /**
      * @return Defaults
      */
-    public function getDefaults(): Defaults {
+    public function getDefaults(): Defaults
+    {
         return $this->defaults;
     }
+
 }

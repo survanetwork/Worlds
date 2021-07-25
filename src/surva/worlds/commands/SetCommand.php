@@ -12,9 +12,12 @@ use pocketmine\utils\TextFormat;
 use surva\worlds\form\WorldSettingsForm;
 use surva\worlds\logic\WorldActions;
 
-class SetCommand extends CustomCommand {
-    public function do(CommandSender $sender, array $args): bool {
-        if(!($sender instanceof Player)) {
+class SetCommand extends CustomCommand
+{
+
+    public function do(CommandSender $sender, array $args): bool
+    {
+        if (!($sender instanceof Player)) {
             $sender->sendMessage($this->getWorlds()->getMessage("general.command.ingame"));
 
             return true;
@@ -24,13 +27,13 @@ class SetCommand extends CustomCommand {
 
         $folderName = $player->getLevel()->getFolderName();
 
-        if(!($world = $this->getWorlds()->getWorldByName($folderName))) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.world.notloaded", array("name" => $folderName)));
+        if (!($world = $this->getWorlds()->getWorldByName($folderName))) {
+            $sender->sendMessage($this->getWorlds()->getMessage("general.world.notloaded", ["name" => $folderName]));
 
             return true;
         }
 
-        if(count($args) === 0) {
+        if (count($args) === 0) {
             $wsForm = new WorldSettingsForm($this->getWorlds(), $folderName, $world);
 
             $player->sendForm($wsForm);
@@ -38,40 +41,40 @@ class SetCommand extends CustomCommand {
             return true;
         }
 
-        if($args[0] === "legacy") {
+        if ($args[0] === "legacy") {
             $player->sendMessage(
-                $this->getWorlds()->getMessage(
-                    "set.list.values",
-                    array(
-                        "name" => $folderName,
-                        "permission" => $this->formatText($world->getPermission()),
-                        "gamemode" => $this->formatGamemode($world->getGamemode()),
-                        "build" => $this->formatBool($world->getBuild()),
-                        "pvp" => $this->formatBool($world->getPvp()),
-                        "damage" => $this->formatBool($world->getDamage()),
-                        "interact" => $this->formatBool($world->getInteract()),
-                        "explode" => $this->formatBool($world->getExplode()),
-                        "drop" => $this->formatBool($world->getDrop()),
-                        "hunger" => $this->formatBool($world->getHunger()),
-                        "fly" => $this->formatBool($world->getFly()),
-                        "daylightcycle" => $this->formatBool($world->getDaylightCycle()),
-                    )
-                )
+              $this->getWorlds()->getMessage(
+                "set.list.values",
+                [
+                  "name"          => $folderName,
+                  "permission"    => $this->formatText($world->getPermission()),
+                  "gamemode"      => $this->formatGamemode($world->getGamemode()),
+                  "build"         => $this->formatBool($world->getBuild()),
+                  "pvp"           => $this->formatBool($world->getPvp()),
+                  "damage"        => $this->formatBool($world->getDamage()),
+                  "interact"      => $this->formatBool($world->getInteract()),
+                  "explode"       => $this->formatBool($world->getExplode()),
+                  "drop"          => $this->formatBool($world->getDrop()),
+                  "hunger"        => $this->formatBool($world->getHunger()),
+                  "fly"           => $this->formatBool($world->getFly()),
+                  "daylightcycle" => $this->formatBool($world->getDaylightCycle()),
+                ]
+              )
             );
 
             return true;
         }
 
-        if(!(count($args) === 2)) {
+        if (!(count($args) === 2)) {
             return false;
         }
 
-        if(!WorldActions::isValidFlag($args[0])) {
+        if (!WorldActions::isValidFlag($args[0])) {
             return false;
         }
 
-        if($args[0] === "permission") {
-            if($this->getWorlds()->getServer()->getDefaultLevel()->getFolderName() === $folderName) {
+        if ($args[0] === "permission") {
+            if ($this->getWorlds()->getServer()->getDefaultLevel()->getFolderName() === $folderName) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
 
                 return true;
@@ -80,13 +83,13 @@ class SetCommand extends CustomCommand {
             $world->updateValue($args[0], $args[1]);
 
             $player->sendMessage(
-                $this->getWorlds()->getMessage(
-                    "set.success",
-                    array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])
-                )
+              $this->getWorlds()->getMessage(
+                "set.success",
+                ["world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1]]
+              )
             );
-        } elseif($args[0] === "gamemode") {
-            if(($args[1] = Server::getGamemodeFromString($args[1])) === -1) {
+        } elseif ($args[0] === "gamemode") {
+            if (($args[1] = Server::getGamemodeFromString($args[1])) === -1) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.notexist"));
 
                 return true;
@@ -95,14 +98,14 @@ class SetCommand extends CustomCommand {
             $world->updateValue($args[0], $args[1]);
 
             $player->sendMessage(
-                $this->getWorlds()->getMessage(
-                    "set.success",
-                    array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])
-                )
+              $this->getWorlds()->getMessage(
+                "set.success",
+                ["world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1]]
+              )
             );
         } else {
-            if(!(in_array($args[1], array("true", "false")))) {
-                $player->sendMessage($this->getWorlds()->getMessage("set.notbool", array("key" => $args[0])));
+            if (!(in_array($args[1], ["true", "false"]))) {
+                $player->sendMessage($this->getWorlds()->getMessage("set.notbool", ["key" => $args[0]]));
 
                 return true;
             }
@@ -110,10 +113,10 @@ class SetCommand extends CustomCommand {
             $world->updateValue($args[0], $args[1]);
 
             $player->sendMessage(
-                $this->getWorlds()->getMessage(
-                    "set.success",
-                    array("world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1])
-                )
+              $this->getWorlds()->getMessage(
+                "set.success",
+                ["world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1]]
+              )
             );
         }
 
@@ -123,11 +126,13 @@ class SetCommand extends CustomCommand {
     /**
      * Format a text for showing its value
      *
-     * @param string|null $value
+     * @param  string|null  $value
+     *
      * @return string
      */
-    private function formatText(?string $value): string {
-        if($value === null) {
+    private function formatText(?string $value): string
+    {
+        if ($value === null) {
             return $this->getWorlds()->getMessage("set.list.notset");
         }
 
@@ -137,32 +142,37 @@ class SetCommand extends CustomCommand {
     /**
      * Format a gamemode for showing its value
      *
-     * @param int|null $value
+     * @param  int|null  $value
+     *
      * @return string
      */
-    private function formatGamemode(?int $value): string {
-        if($value === null) {
+    private function formatGamemode(?int $value): string
+    {
+        if ($value === null) {
             return $this->getWorlds()->getMessage("set.list.notset");
         }
 
         return $this->getWorlds()->getServer()->getLanguage()->translateString(
-            TextFormat::WHITE . Server::getGamemodeString($value)
+          TextFormat::WHITE . Server::getGamemodeString($value)
         );
     }
 
     /**
      * Format a boolean for showing its value
      *
-     * @param bool|null $value
+     * @param  bool|null  $value
+     *
      * @return string
      */
-    private function formatBool(?bool $value): string {
-        if($value === true) {
+    private function formatBool(?bool $value): string
+    {
+        if ($value === true) {
             return TextFormat::GREEN . "true";
-        } elseif($value === false) {
+        } elseif ($value === false) {
             return TextFormat::RED . "false";
         } else {
             return $this->getWorlds()->getMessage("set.list.notset");
         }
     }
+
 }

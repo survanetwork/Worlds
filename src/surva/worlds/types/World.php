@@ -5,10 +5,12 @@
 
 namespace surva\worlds\types;
 
-use surva\worlds\Worlds;
 use pocketmine\utils\Config;
+use surva\worlds\Worlds;
 
-class World {
+class World
+{
+
     /* @var Worlds */
     private $worlds;
 
@@ -48,7 +50,8 @@ class World {
     /* @var bool|null */
     protected $daylightcycle;
 
-    public function __construct(Worlds $worlds, Config $config) {
+    public function __construct(Worlds $worlds, Config $config)
+    {
         $this->worlds = $worlds;
         $this->config = $config;
 
@@ -58,7 +61,8 @@ class World {
     /**
      * Load all possible config values
      */
-    public function loadItems(): void {
+    public function loadItems(): void
+    {
         $this->loadValue("permission");
         $this->loadValue("gamemode");
         $this->loadValue("build");
@@ -75,10 +79,11 @@ class World {
     /**
      * Load value from config
      *
-     * @param string $name
+     * @param  string  $name
      */
-    public function loadValue(string $name): void {
-        if(!$this->getConfig()->exists($name)) {
+    public function loadValue(string $name): void
+    {
+        if (!$this->getConfig()->exists($name)) {
             $defVal = $this->getWorlds()->getDefaults()->getValue($name);
 
             $this->$name = $defVal;
@@ -86,7 +91,7 @@ class World {
             return;
         }
 
-        switch($this->getConfig()->get($name)) {
+        switch ($this->getConfig()->get($name)) {
             case "true":
                 $this->$name = true;
                 break;
@@ -102,10 +107,11 @@ class World {
     /**
      * Update a config value
      *
-     * @param string $name
-     * @param string $value
+     * @param  string  $name
+     * @param  string  $value
      */
-    public function updateValue(string $name, string $value): void {
+    public function updateValue(string $name, string $value): void
+    {
         $this->getConfig()->set($name, $value);
 
         $this->getConfig()->save();
@@ -115,10 +121,11 @@ class World {
     /**
      * Remove a config value
      *
-     * @param string $name
+     * @param  string  $name
      */
-    public function removeValue(string $name): void {
-        if(!$this->getConfig()->exists($name)) {
+    public function removeValue(string $name): void
+    {
+        if (!$this->getConfig()->exists($name)) {
             return;
         }
 
@@ -131,91 +138,105 @@ class World {
     /**
      * @return bool|null
      */
-    public function getDaylightCycle(): ?bool {
+    public function getDaylightCycle(): ?bool
+    {
         return $this->daylightcycle;
     }
 
     /**
      * @return bool|null
      */
-    public function getFly(): ?bool {
+    public function getFly(): ?bool
+    {
         return $this->fly;
     }
 
     /**
      * @return bool|null
      */
-    public function getHunger(): ?bool {
+    public function getHunger(): ?bool
+    {
         return $this->hunger;
     }
 
     /**
      * @return bool|null
      */
-    public function getDrop(): ?bool {
+    public function getDrop(): ?bool
+    {
         return $this->drop;
     }
 
     /**
      * @return bool|null
      */
-    public function getExplode(): ?bool {
+    public function getExplode(): ?bool
+    {
         return $this->explode;
     }
 
     /**
      * @return bool|null
      */
-    public function getDamage(): ?bool {
+    public function getDamage(): ?bool
+    {
         return $this->damage;
     }
 
     /**
      * @return bool|null
      */
-    public function getInteract(): ?bool {
+    public function getInteract(): ?bool
+    {
         return $this->interact;
     }
 
     /**
      * @return bool|null
      */
-    public function getPvp(): ?bool {
+    public function getPvp(): ?bool
+    {
         return $this->pvp;
     }
 
     /**
      * @return bool|null
      */
-    public function getBuild(): ?bool {
+    public function getBuild(): ?bool
+    {
         return $this->build;
     }
 
     /**
      * @return int|null
      */
-    public function getGamemode(): ?int {
+    public function getGamemode(): ?int
+    {
         return $this->gamemode;
     }
 
     /**
      * @return string|null
      */
-    public function getPermission(): ?string {
+    public function getPermission(): ?string
+    {
         return $this->permission;
     }
 
     /**
      * @return Config
      */
-    public function getConfig(): Config {
+    public function getConfig(): Config
+    {
         return $this->config;
     }
 
     /**
      * @return Worlds
      */
-    public function getWorlds(): Worlds {
+    public function getWorlds(): Worlds
+    {
         return $this->worlds;
     }
+
 }
