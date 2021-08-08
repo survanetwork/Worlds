@@ -34,6 +34,11 @@ class Worlds extends PluginBase
     /* @var ArrayList */
     private $worlds;
 
+    /**
+     * @var Config
+     */
+    private $defaultMessages;
+
     /* @var Config */
     private $messages;
 
@@ -50,7 +55,8 @@ class Worlds extends PluginBase
             $this->loadWorld($level->getFolderName());
         }
 
-        $this->messages = new Config(
+        $this->defaultMessages = new Config($this->getFile() . "resources/languages/en.yml");
+        $this->messages        = new Config(
           $this->getFile() . "resources/languages/" . $this->getConfig()->get("language", "en") . ".yml"
         );
     }
@@ -238,17 +244,19 @@ class Worlds extends PluginBase
      */
     public function getMessage(string $key, array $replaces = []): string
     {
-        if ($rawMessage = $this->getMessages()->getNested($key)) {
-            if (is_array($replaces)) {
-                foreach ($replaces as $replace => $value) {
-                    $rawMessage = str_replace("{" . $replace . "}", $value, $rawMessage);
-                }
-            }
-
-            return $rawMessage;
+        if (($rawMessage = $this->messages->getNested($key)) === null) {
+            $rawMessage = $this->defaultMessages->getNested($key);
         }
 
-        return $key;
+        if ($rawMessage === null) {
+            return $key;
+        }
+
+        foreach ($replaces as $replace => $value) {
+            $rawMessage = str_replace("{" . $replace . "}", $value, $rawMessage);
+        }
+
+        return $rawMessage;
     }
 
     /**
