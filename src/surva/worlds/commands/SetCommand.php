@@ -58,6 +58,7 @@ class SetCommand extends CustomCommand
                   "hunger"        => $this->formatBool($world->getHunger()),
                   "fly"           => $this->formatBool($world->getFly()),
                   "daylightcycle" => $this->formatBool($world->getDaylightCycle()),
+                  "leavesdecay" => $this->formatBool($world->getLeavesDecay()),
                 ]
               )
             );

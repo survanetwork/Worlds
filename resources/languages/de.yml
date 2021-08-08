@@ -110,6 +110,7 @@ forms:
       hunger: "Hunger"
       fly: "Fliegen"
       daylightcycle: "Tag-Nacht-Zyklus"
+      leavesdecay: "Blätter verwesen"
     options:
       notset: "§7nicht eingestellt (kein Wert)"
       true: "§aaktiviert"

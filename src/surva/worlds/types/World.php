@@ -50,6 +50,9 @@ class World
     /* @var bool|null */
     protected $daylightcycle;
 
+    /* @var bool|null */
+    protected $leavesdecay;
+
     public function __construct(Worlds $worlds, Config $config)
     {
         $this->worlds = $worlds;
@@ -74,6 +77,7 @@ class World
         $this->loadValue("hunger");
         $this->loadValue("fly");
         $this->loadValue("daylightcycle");
+        $this->loadValue("leavesdecay");
     }
 
     /**
@@ -133,6 +137,14 @@ class World
 
         $this->getConfig()->save();
         $this->loadItems();
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getLeavesDecay(): ?bool
+    {
+        return $this->leavesdecay;
     }
 
     /**

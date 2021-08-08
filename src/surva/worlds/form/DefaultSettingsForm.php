@@ -121,6 +121,16 @@ class DefaultSettingsForm extends SettingsForm
             ],
             "default" => $this->convBool($defaults->getDaylightCycle()),
           ],
+          [
+            "type"    => "dropdown",
+            "text"    => $this->getWorlds()->getMessage("forms.world.params.leavesdecay"),
+            "options" => [
+              $this->getWorlds()->getMessage("forms.world.options.notset"),
+              $this->getWorlds()->getMessage("forms.world.options.false"),
+              $this->getWorlds()->getMessage("forms.world.options.true"),
+            ],
+            "default" => $this->convBool($defaults->getLeavesDecay()),
+          ],
         ];
     }
 
@@ -136,7 +146,7 @@ class DefaultSettingsForm extends SettingsForm
             return;
         }
 
-        if (count($data) !== 10) {
+        if (count($data) !== 11) {
             return;
         }
 
@@ -150,6 +160,7 @@ class DefaultSettingsForm extends SettingsForm
         $this->procBool("hunger", $data[7]);
         $this->procBool("fly", $data[8]);
         $this->procBool("daylightcycle", $data[9]);
+        $this->procBool("leavesdecay", $data[10]);
 
         $player->sendMessage($this->getWorlds()->getMessage("forms.saved"));
     }

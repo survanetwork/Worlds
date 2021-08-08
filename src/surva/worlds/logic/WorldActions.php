@@ -52,6 +52,7 @@ class WorldActions
             "hunger",
             "fly",
             "daylightcycle",
+            "leavesdecay",
           ]
         );
     }

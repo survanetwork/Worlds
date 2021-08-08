@@ -10,6 +10,7 @@ use pocketmine\block\ItemFrame;
 use pocketmine\entity\object\Painting;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\block\LeavesDecayEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
@@ -301,6 +302,20 @@ class EventListener implements Listener
                         $event->setCancelled();
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * @param  \pocketmine\event\block\LeavesDecayEvent  $event
+     */
+    public function onLeavesDecay(LeavesDecayEvent $event): void
+    {
+        $foldername = $event->getBlock()->getLevel()->getFolderName();
+
+        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
+            if ($world->getLeavesDecay() === false) {
+                $event->setCancelled();
             }
         }
     }

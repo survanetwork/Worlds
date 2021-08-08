@@ -110,6 +110,7 @@ forms:
       hunger: "Hunger"
       fly: "Flying"
       daylightcycle: "Daylight cycling"
+      leavesdecay: "Leaves decay"
     options:
       notset: "§7not set (null)"
       true: "§aenabled"
