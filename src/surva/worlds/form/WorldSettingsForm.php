@@ -8,6 +8,7 @@ namespace surva\worlds\form;
 use pocketmine\Player;
 use pocketmine\Server;
 use surva\worlds\types\World;
+use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
 
 class WorldSettingsForm extends SettingsForm
@@ -18,125 +19,45 @@ class WorldSettingsForm extends SettingsForm
         parent::__construct($wsInstance, $world);
 
         $this->title   = $this->getWorlds()->getMessage("forms.world.title", ["name" => $worldName]);
-        $this->content = [
-          [
-            "type"    => "input",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.permission"),
-            "default" => $world->getPermission(),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.gamemode"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              Server::getGamemodeString(Player::SURVIVAL),
-              Server::getGamemodeString(Player::CREATIVE),
-              Server::getGamemodeString(Player::ADVENTURE),
-              Server::getGamemodeString(Player::SPECTATOR),
-            ],
-            "default" => $this->convGamemode($world->getGamemode()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.build"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($world->getBuild()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.pvp"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($world->getPvp()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.damage"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($world->getDamage()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.interact"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($world->getInteract()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.explode"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($world->getExplode()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.drop"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($world->getDrop()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.hunger"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($world->getHunger()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.fly"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($world->getFly()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.daylightcycle"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($world->getDaylightCycle()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.leavesdecay"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($world->getLeavesDecay()),
-          ],
-        ];
+        $this->content = [];
+
+        foreach (Flags::AVAILABLE_WORLD_FLAGS as $flagName => $flagDetails) {
+            switch ($flagDetails["type"]) {
+                case Flags::TYPE_BOOL:
+                    $this->content[] = [
+                      "type"    => "dropdown",
+                      "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
+                      "options" => [
+                        $this->getWorlds()->getMessage("forms.world.options.notset"),
+                        $this->getWorlds()->getMessage("forms.world.options.false"),
+                        $this->getWorlds()->getMessage("forms.world.options.true"),
+                      ],
+                      "default" => $this->convBool($world->loadValue($flagName)),
+                    ];
+                    break;
+                case Flags::TYPE_PERMISSION:
+                    $this->content[] = [
+                      "type"    => "input",
+                      "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
+                      "default" => $world->loadValue($flagName),
+                    ];
+                    break;
+                case Flags::TYPE_GAMEMODE:
+                    $this->content[] = [
+                      "type"    => "dropdown",
+                      "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
+                      "options" => [
+                        $this->getWorlds()->getMessage("forms.world.options.notset"),
+                        Server::getGamemodeString(Player::SURVIVAL),
+                        Server::getGamemodeString(Player::CREATIVE),
+                        Server::getGamemodeString(Player::ADVENTURE),
+                        Server::getGamemodeString(Player::SPECTATOR),
+                      ],
+                      "default" => $this->convGamemode($world->loadValue($flagName)),
+                    ];
+                    break;
+            }
+        }
     }
 
     /**
@@ -151,7 +72,7 @@ class WorldSettingsForm extends SettingsForm
             return;
         }
 
-        if (count($data) !== 12) {
+        if (count($data) !== count(Flags::AVAILABLE_WORLD_FLAGS)) {
             return;
         }
 
@@ -160,18 +81,22 @@ class WorldSettingsForm extends SettingsForm
 
         $isDefLvl = $defFolderName === $plFolderName;
 
-        $this->procPerm("permission", $data[0], $isDefLvl, $player);
-        $this->procGamemode("gamemode", $data[1]);
-        $this->procBool("build", $data[2]);
-        $this->procBool("pvp", $data[3]);
-        $this->procBool("damage", $data[4]);
-        $this->procBool("interact", $data[5]);
-        $this->procBool("explode", $data[6]);
-        $this->procBool("drop", $data[7]);
-        $this->procBool("hunger", $data[8]);
-        $this->procBool("fly", $data[9]);
-        $this->procBool("daylightcycle", $data[10]);
-        $this->procBool("leavesdecay", $data[11]);
+        $i = 0;
+        foreach (Flags::AVAILABLE_WORLD_FLAGS as $flagName => $flagDetails) {
+            switch ($flagDetails["type"]) {
+                case Flags::TYPE_BOOL:
+                    $this->procBool($flagName, $data[$i]);
+                    break;
+                case Flags::TYPE_PERMISSION:
+                    $this->procPerm($flagName, $data[$i], $isDefLvl, $player);
+                    break;
+                case Flags::TYPE_GAMEMODE:
+                    $this->procGamemode($flagName, $data[$i]);
+                    break;
+            }
+
+            $i++;
+        }
 
         $player->sendMessage($this->getWorlds()->getMessage("forms.saved"));
     }

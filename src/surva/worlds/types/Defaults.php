@@ -35,26 +35,30 @@ class Defaults extends World
      * Load value from config
      *
      * @param  string  $name
+     *
+     * @return mixed|null
      */
-    public function loadValue(string $name): void
+    public function loadValue(string $name)
     {
         if (!$this->getConfig()->exists($name)) {
             $this->$name = null;
-
-            return;
+            return null;
         }
 
         switch ($this->getConfig()->get($name)) {
             case "true":
-                $this->$name = true;
+                $val = true;
                 break;
             case "false":
-                $this->$name = false;
+                $val = false;
                 break;
             default:
-                $this->$name = $this->getConfig()->get($name);
+                $val = $this->getConfig()->get($name);
                 break;
         }
+
+        $this->$name = $val;
+        return $val;
     }
 
 }

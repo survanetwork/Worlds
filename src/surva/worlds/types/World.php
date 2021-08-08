@@ -6,6 +6,7 @@
 namespace surva\worlds\types;
 
 use pocketmine\utils\Config;
+use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
 
 class World
@@ -66,46 +67,41 @@ class World
      */
     public function loadItems(): void
     {
-        $this->loadValue("permission");
-        $this->loadValue("gamemode");
-        $this->loadValue("build");
-        $this->loadValue("pvp");
-        $this->loadValue("damage");
-        $this->loadValue("interact");
-        $this->loadValue("explode");
-        $this->loadValue("drop");
-        $this->loadValue("hunger");
-        $this->loadValue("fly");
-        $this->loadValue("daylightcycle");
-        $this->loadValue("leavesdecay");
+        foreach (array_keys(Flags::AVAILABLE_WORLD_FLAGS) as $flagName) {
+            $this->loadValue($flagName);
+        }
     }
 
     /**
      * Load value from config
      *
      * @param  string  $name
+     *
+     * @return mixed|null
      */
-    public function loadValue(string $name): void
+    public function loadValue(string $name)
     {
         if (!$this->getConfig()->exists($name)) {
             $defVal = $this->getWorlds()->getDefaults()->getValue($name);
 
             $this->$name = $defVal;
-
-            return;
+            return $defVal;
         }
 
         switch ($this->getConfig()->get($name)) {
             case "true":
-                $this->$name = true;
+                $val = true;
                 break;
             case "false":
-                $this->$name = false;
+                $val = false;
                 break;
             default:
-                $this->$name = $this->getConfig()->get($name);
+                $val = $this->getConfig()->get($name);
                 break;
         }
+
+        $this->$name = $val;
+        return $val;
     }
 
     /**

@@ -5,6 +5,7 @@
 
 namespace surva\worlds\logic;
 
+use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
 
 class WorldActions
@@ -38,23 +39,7 @@ class WorldActions
      */
     public static function isValidFlag(string $flagName): bool
     {
-        return in_array(
-          $flagName,
-          [
-            "permission",
-            "gamemode",
-            "build",
-            "pvp",
-            "damage",
-            "interact",
-            "explode",
-            "drop",
-            "hunger",
-            "fly",
-            "daylightcycle",
-            "leavesdecay",
-          ]
-        );
+        return in_array($flagName, array_keys(Flags::AVAILABLE_WORLD_FLAGS));
     }
 
     /**

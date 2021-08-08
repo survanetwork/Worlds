@@ -8,6 +8,7 @@ namespace surva\worlds\form;
 use pocketmine\Player;
 use pocketmine\Server;
 use surva\worlds\types\Defaults;
+use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
 
 class DefaultSettingsForm extends SettingsForm
@@ -18,120 +19,38 @@ class DefaultSettingsForm extends SettingsForm
         parent::__construct($wsInstance, $defaults);
 
         $this->title   = $this->getWorlds()->getMessage("forms.default.title");
-        $this->content = [
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.gamemode"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              Server::getGamemodeString(Player::SURVIVAL),
-              Server::getGamemodeString(Player::CREATIVE),
-              Server::getGamemodeString(Player::ADVENTURE),
-              Server::getGamemodeString(Player::SPECTATOR),
-            ],
-            "default" => $this->convGamemode($defaults->getGamemode()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.build"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($defaults->getBuild()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.pvp"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($defaults->getPvp()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.damage"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($defaults->getDamage()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.interact"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($defaults->getInteract()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.explode"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($defaults->getExplode()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.drop"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($defaults->getDrop()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.hunger"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($defaults->getHunger()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.fly"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($defaults->getFly()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.daylightcycle"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($defaults->getDaylightCycle()),
-          ],
-          [
-            "type"    => "dropdown",
-            "text"    => $this->getWorlds()->getMessage("forms.world.params.leavesdecay"),
-            "options" => [
-              $this->getWorlds()->getMessage("forms.world.options.notset"),
-              $this->getWorlds()->getMessage("forms.world.options.false"),
-              $this->getWorlds()->getMessage("forms.world.options.true"),
-            ],
-            "default" => $this->convBool($defaults->getLeavesDecay()),
-          ],
-        ];
+        $this->content = [];
+
+        foreach (Flags::AVAILABLE_DEFAULT_FLAGS as $flagName => $flagDetails) {
+            switch ($flagDetails["type"]) {
+                case Flags::TYPE_BOOL:
+                    $this->content[] = [
+                      "type"    => "dropdown",
+                      "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
+                      "options" => [
+                        $this->getWorlds()->getMessage("forms.world.options.notset"),
+                        $this->getWorlds()->getMessage("forms.world.options.false"),
+                        $this->getWorlds()->getMessage("forms.world.options.true"),
+                      ],
+                      "default" => $this->convBool($defaults->loadValue($flagName)),
+                    ];
+                    break;
+                case Flags::TYPE_GAMEMODE:
+                    $this->content[] = [
+                      "type"    => "dropdown",
+                      "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
+                      "options" => [
+                        $this->getWorlds()->getMessage("forms.world.options.notset"),
+                        Server::getGamemodeString(Player::SURVIVAL),
+                        Server::getGamemodeString(Player::CREATIVE),
+                        Server::getGamemodeString(Player::ADVENTURE),
+                        Server::getGamemodeString(Player::SPECTATOR),
+                      ],
+                      "default" => $this->convGamemode($defaults->loadValue($flagName)),
+                    ];
+                    break;
+            }
+        }
     }
 
     /**
@@ -146,21 +65,23 @@ class DefaultSettingsForm extends SettingsForm
             return;
         }
 
-        if (count($data) !== 11) {
+        if (count($data) !== count(Flags::AVAILABLE_DEFAULT_FLAGS)) {
             return;
         }
 
-        $this->procGamemode("gamemode", $data[0]);
-        $this->procBool("build", $data[1]);
-        $this->procBool("pvp", $data[2]);
-        $this->procBool("damage", $data[3]);
-        $this->procBool("interact", $data[4]);
-        $this->procBool("explode", $data[5]);
-        $this->procBool("drop", $data[6]);
-        $this->procBool("hunger", $data[7]);
-        $this->procBool("fly", $data[8]);
-        $this->procBool("daylightcycle", $data[9]);
-        $this->procBool("leavesdecay", $data[10]);
+        $i = 0;
+        foreach (Flags::AVAILABLE_DEFAULT_FLAGS as $flagName => $flagDetails) {
+            switch ($flagDetails["type"]) {
+                case Flags::TYPE_BOOL:
+                    $this->procBool($flagName, $data[$i]);
+                    break;
+                case Flags::TYPE_GAMEMODE:
+                    $this->procGamemode($flagName, $data[$i]);
+                    break;
+            }
+
+            $i++;
+        }
 
         $player->sendMessage($this->getWorlds()->getMessage("forms.saved"));
     }
