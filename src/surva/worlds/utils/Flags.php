@@ -52,6 +52,9 @@ class Flags
         "leavesdecay"   => [
           "type" => self::TYPE_BOOL,
         ],
+        "potion"        => [
+          "type" => self::TYPE_BOOL,
+        ],
       ];
 
     public const AVAILABLE_DEFAULT_FLAGS
@@ -87,6 +90,9 @@ class Flags
           "type" => self::TYPE_BOOL,
         ],
         "leavesdecay"   => [
+          "type" => self::TYPE_BOOL,
+        ],
+        "potion"        => [
           "type" => self::TYPE_BOOL,
         ],
       ];

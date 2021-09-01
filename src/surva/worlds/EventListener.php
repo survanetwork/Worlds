@@ -21,8 +21,10 @@ use pocketmine\event\player\PlayerBucketEmptyEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerExhaustEvent;
 use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\item\PaintingItem;
+use pocketmine\item\Potion;
 use pocketmine\item\TieredTool;
 use pocketmine\Player;
 
@@ -315,6 +317,26 @@ class EventListener implements Listener
 
         if ($world = $this->getWorlds()->getWorldByName($foldername)) {
             if ($world->getLeavesDecay() === false) {
+                $event->setCancelled();
+            }
+        }
+    }
+
+    /**
+     * @param  \pocketmine\event\player\PlayerItemConsumeEvent  $event
+     */
+    public function onPlayerItemConsume(PlayerItemConsumeEvent $event): void
+    {
+        $player     = $event->getPlayer();
+        $item       = $event->getItem();
+        $foldername = $player->getLevel()->getFolderName();
+
+        if (!($item instanceof Potion)) {
+            return;
+        }
+
+        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
+            if ($world->getPotion() === false) {
                 $event->setCancelled();
             }
         }

@@ -54,6 +54,9 @@ class World
     /* @var bool|null */
     protected $leavesdecay;
 
+    /* @var bool|null */
+    protected $potion;
+
     public function __construct(Worlds $worlds, Config $config)
     {
         $this->worlds = $worlds;
@@ -133,6 +136,14 @@ class World
 
         $this->getConfig()->save();
         $this->loadItems();
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getPotion(): ?bool
+    {
+        return $this->potion;
     }
 
     /**

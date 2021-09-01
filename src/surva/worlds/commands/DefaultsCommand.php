@@ -53,6 +53,7 @@ class DefaultsCommand extends CustomCommand
                       "fly" => $this->formatBool($defaults->getFly()),
                       "daylightcycle" => $this->formatBool($defaults->getDaylightCycle()),
                       "leavesdecay" => $this->formatBool($defaults->getLeavesDecay()),
+                      "potion" => $this->formatBool($defaults->getPotion()),
                     ]
                   )
                 );

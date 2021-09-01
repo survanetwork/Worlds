@@ -71,7 +71,7 @@ teleport:
 set:
   success: "§aDu hast §b{key} §ain §f{world} §aauf §c{value} §agesetzt."
   list:
-    values: "§Einstellungen für die Welt §f{name}\n\n§eberechtigung: {permission}\n§egamemode: {gamemode}\n§ebauen: {build}\n§epvp: {pvp}\n§eschaden: {damage}\n§einteragieren: {interact}\n§eexplosionen: {explode}\n§edrop: {drop}\n§ehunger: {hunger}\n§efliegen: {fly}\n§etag-nacht-zyklus: {daylightcycle}\n§eblätter verwesen: {leavesdecay}\n"
+    values: "§Einstellungen für die Welt §f{name}\n\n§eberechtigung: {permission}\n§egamemode: {gamemode}\n§ebauen: {build}\n§epvp: {pvp}\n§eschaden: {damage}\n§einteragieren: {interact}\n§eexplosionen: {explode}\n§edrop: {drop}\n§ehunger: {hunger}\n§efliegen: {fly}\n§etag-nacht-zyklus: {daylightcycle}\n§eblätter verwesen: {leavesdecay}\n§ezaubertränke: {potion}\n"
     notset: "§7nicht gesetzt"
   permission:
     notdefault: "§cDu kannst keine Berechtigung für die Standard-Welt setzen."
@@ -86,7 +86,7 @@ unset:
 # Defaults command
 defaults:
   list:
-    values: "§Einstellungen für Welten auf diesem Server\n\n§eberechtigung: {permission}\n§egamemode: {gamemode}\n§ebauen: {build}\n§epvp: {pvp}\n§eschaden: {damage}\n§einteragieren: {interact}\n§eexplosionen: {explode}\n§edrop: {drop}\n§ehunger: {hunger}\n§efliegen: {fly}\n§etag-nacht-zyklus: {daylightcycle}\n§eblätter verwesen: {leavesdecay}\n"
+    values: "§Einstellungen für Welten auf diesem Server\n\n§eberechtigung: {permission}\n§egamemode: {gamemode}\n§ebauen: {build}\n§epvp: {pvp}\n§eschaden: {damage}\n§einteragieren: {interact}\n§eexplosionen: {explode}\n§edrop: {drop}\n§ehunger: {hunger}\n§efliegen: {fly}\n§etag-nacht-zyklus: {daylightcycle}\n§eblätter verwesen: {leavesdecay}\n§ezaubertränke: {potion}\n"
     notset: "§7nicht gesetzt"
   set:
     success: "§aDu hast §b{key} §aauf §c{value} §aals Standard-Wert gesetzt."
@@ -111,6 +111,7 @@ forms:
       fly: "Fliegen"
       daylightcycle: "Tag-Nacht-Zyklus"
       leavesdecay: "Blätter verwesen"
+      potion: "Zaubertränke"
     options:
       notset: "§7nicht eingestellt (kein Wert)"
       true: "§aaktiviert"
