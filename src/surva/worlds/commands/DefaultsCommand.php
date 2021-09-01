@@ -11,6 +11,7 @@ use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 use surva\worlds\form\DefaultSettingsForm;
 use surva\worlds\logic\WorldActions;
+use surva\worlds\utils\Flags;
 
 class DefaultsCommand extends CustomCommand
 {
@@ -37,26 +38,25 @@ class DefaultsCommand extends CustomCommand
 
         switch ($args[0]) {
             case "legacy":
-                $player->sendMessage(
-                  $this->getWorlds()->getMessage(
-                    "defaults.list.values",
-                    [
-                      "permission" => $this->formatText($defaults->getPermission()),
-                      "gamemode" => $this->formatGamemode($defaults->getGamemode()),
-                      "build" => $this->formatBool($defaults->getBuild()),
-                      "pvp" => $this->formatBool($defaults->getPvp()),
-                      "damage" => $this->formatBool($defaults->getDamage()),
-                      "interact" => $this->formatBool($defaults->getInteract()),
-                      "explode" => $this->formatBool($defaults->getExplode()),
-                      "drop" => $this->formatBool($defaults->getDrop()),
-                      "hunger" => $this->formatBool($defaults->getHunger()),
-                      "fly" => $this->formatBool($defaults->getFly()),
-                      "daylightcycle" => $this->formatBool($defaults->getDaylightCycle()),
-                      "leavesdecay" => $this->formatBool($defaults->getLeavesDecay()),
-                      "potion" => $this->formatBool($defaults->getPotion()),
-                    ]
-                  )
-                );
+                $msg = $this->getWorlds()->getMessage("defaults.list.info") . "\n\n";
+
+                foreach (Flags::AVAILABLE_DEFAULT_FLAGS as $flagName => $flagDetails) {
+                    $flagStr = $this->getWorlds()->getMessage("forms.world.params." . $flagName);
+                    $flagVal = "null";
+
+                    switch ($flagDetails["type"]) {
+                        case Flags::TYPE_BOOL:
+                            $flagVal = $this->formatBool($defaults->loadValue($flagName));
+                            break;
+                        case Flags::TYPE_GAMEMODE:
+                            $flagVal = $this->formatGamemode($defaults->loadValue($flagName));
+                            break;
+                    }
+
+                    $msg .= "§e" . $flagStr . " (§7" . $flagName . "§e): " . $flagVal . "\n";
+                }
+
+                $player->sendMessage($msg);
 
                 return true;
             case "set":

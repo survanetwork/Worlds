@@ -85,15 +85,33 @@ Worlds is really easy to use. Here is the command syntax:
 /worlds set legacy
 /worlds set permission <permissionstring>
 /worlds set gamemode <survival|creative|adventure|spectator>
-/worlds set <build|pvp|damage|interact|explode|drop|hunger|fly|daylightcycle|leavesdecay|potion> <true|false>
+/worlds set <rulename> <true|false>
 /worlds unset
-/worlds unset <permission|gamemode|build|pvp|damage|interact|explode|drop|hunger|fly|daylightcycle|leavesdecay|potion>
+/worlds unset <rulename>
 /worlds defaults
 /worlds defaults legacy
 /worlds defaults set permission <permissionstring>
 /worlds defaults set gamemode <survival|creative|adventure|spectator>
-/worlds defaults set <build|pvp|damage|interact|explode|drop|hunger|fly|daylightcycle|leavesdecay|potion> <true|false>
-/worlds defaults unset <permission|gamemode|build|pvp|damage|interact|explode|drop|hunger|fly|daylightcycle|leavesdecay|potion>
+/worlds defaults set <rulename> <true|false>
+/worlds defaults unset <rulename>
+```
+
+Available world rules are:
+
+```
+permission (not available as default rule)
+gamemode
+build
+pvp
+damage
+interact
+explode
+drop
+hunger
+fly
+daylightcycle
+leavesdecay
+potion
 ```
 
 For a full list of commands, their usage and a description what they are for, take a look at the [wiki](https://plugins.surva.net/docs/Worlds#commands).

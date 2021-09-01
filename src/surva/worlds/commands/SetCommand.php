@@ -11,6 +11,7 @@ use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 use surva\worlds\form\WorldSettingsForm;
 use surva\worlds\logic\WorldActions;
+use surva\worlds\utils\Flags;
 
 class SetCommand extends CustomCommand
 {
@@ -42,27 +43,28 @@ class SetCommand extends CustomCommand
         }
 
         if ($args[0] === "legacy") {
-            $player->sendMessage(
-              $this->getWorlds()->getMessage(
-                "set.list.values",
-                [
-                  "name"          => $folderName,
-                  "permission"    => $this->formatText($world->getPermission()),
-                  "gamemode"      => $this->formatGamemode($world->getGamemode()),
-                  "build"         => $this->formatBool($world->getBuild()),
-                  "pvp"           => $this->formatBool($world->getPvp()),
-                  "damage"        => $this->formatBool($world->getDamage()),
-                  "interact"      => $this->formatBool($world->getInteract()),
-                  "explode"       => $this->formatBool($world->getExplode()),
-                  "drop"          => $this->formatBool($world->getDrop()),
-                  "hunger"        => $this->formatBool($world->getHunger()),
-                  "fly"           => $this->formatBool($world->getFly()),
-                  "daylightcycle" => $this->formatBool($world->getDaylightCycle()),
-                  "leavesdecay"   => $this->formatBool($world->getLeavesDecay()),
-                  "potion"        => $this->formatBool($world->getPotion()),
-                ]
-              )
-            );
+            $msg = $this->getWorlds()->getMessage("set.list.info", ["name" => $folderName]) . "\n\n";
+
+            foreach (Flags::AVAILABLE_WORLD_FLAGS as $flagName => $flagDetails) {
+                $flagStr = $this->getWorlds()->getMessage("forms.world.params." . $flagName);
+                $flagVal = "null";
+
+                switch ($flagDetails["type"]) {
+                    case Flags::TYPE_BOOL:
+                        $flagVal = $this->formatBool($world->loadValue($flagName));
+                        break;
+                    case Flags::TYPE_PERMISSION:
+                        $flagVal = $this->formatText($world->loadValue($flagName));
+                        break;
+                    case Flags::TYPE_GAMEMODE:
+                        $flagVal = $this->formatGamemode($world->loadValue($flagName));
+                        break;
+                }
+
+                $msg .= "§e" . $flagStr . " (§7" . $flagName . "§e): " . $flagVal . "\n";
+            }
+
+            $player->sendMessage($msg);
 
             return true;
         }
