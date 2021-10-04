@@ -1,0 +1,123 @@
+# __        __         _     _
+# \ \      / /__  _ __| | __| |___
+#  \ \ /\ / / _ \| '__| |/ _` / __|
+#   \ V  V / (_) | |  | | (_| \__ \
+#    \_/\_/ \___/|_|  |_|\__,_|___/
+#
+# (C) 2019 by surva network | https://github.com/survanetwork
+
+# Turkish language
+
+# General
+general:
+  command:
+    ingame: "§6Bu komutu sadece oyun içinde çalıştırabilirsiniz."
+  world:
+    notexist: "§cDünya §f{name} §cmevcut değil."
+    notloaded: "§cDünya §f{name} §cyüklü değil veya mevcut değil."
+  permission: "§6Bu dünyaya katılma izniniz yok."
+
+# List command
+list:
+  worlds: "§eBu sunucudaki dünyalar: §f{worlds}§e."
+
+# Create command
+create:
+  success: "§aDünya §f{name} §aoluşturuldu."
+  failed: "§cDünya oluşturulurken bilinmeyen bir hata oluştu."
+  generator:
+    notexist: "§6Varsayılan olanı kullanarak §f{name} §6- adlı bir oluşturulan yok."
+
+# Remove command
+remove:
+  success: "§aDünya §f{name} §kaldırıldı."
+
+# Copy command
+copy:
+  success: "§aDünya §f{name}, §f{to}§a dünyasına kopyalandı."
+  same: "§cdünyayı kendi içine kopyalayamazsın."
+  datfile:
+    notexist: "§cDünyanın veri dosyası mevcut değil."
+    damaged: "§cDünyanın veri dosyası zarar görmüş."
+    notsave: "§cDünyanın güncellenmiş dat dosyası kaydedilemedi."
+
+# Rename command
+rename:
+  success: "§aDünya §f{name} §aolarak yeniden adlandırıldı §f{to}§a."
+  same: "§cDünyayı aynı adla yeniden adlandıramazsınız."
+  datfile:
+    notexist: "§cDünyanın veri dosyası mevcut değil."
+    damaged: "§cDünyanın veri dosyası zarar görmüş."
+    notsave: "§cDünyanın güncellenmiş dat dosyası kaydedilemedi."
+
+# Load command
+load:
+  success: "§aDünya §f{world} §abaşarıyla yüklendi."
+  already: "§eDünya §f{name} §ezaten yüklendi."
+  failed: "§cDünya yüklenemedi."
+
+# Unload command
+unload:
+  success: "§aWorld §f{world} §abaşarıyla yüklenmesi kaldırıldı."
+  default: "§cVarsayılan dünya yüklenmesi kaldırılamaz!"
+  failed: "§cDünya yüklenmesi kaldırılamadı."
+
+# Teleport command
+teleport:
+  success: "§f{world}§a dünyasına ışınlandınız."
+  failed: "§cSeni dünyaya ışınlayamıyorum."
+
+# Set command
+set:
+  success: "§b{key} §aiçinde §f{world} §aile §c{value}§a arasında ayarladınız."
+  list:
+    info: "§cAyarlar Menüsü - Dünya §f{name}"
+    notset: "§7ayarlanamadı"
+  permission:
+    notdefault: "§cVarsayılan dünyada bir izin ayarlayamazsınız."
+  gamemode:
+    notexist: "§6Bu gamemode mevcut değil."
+  notbool: "§f{key} değerini yalnızca §adoğru §6veya §ayanlış§6 olarak ayarlayabilirsiniz."
+
+# Unset command
+unset:
+  success: "§b{key} §f{world}§adünyasına gönderilmedi."
+
+# Defaults command
+defaults:
+  list:
+    info: "§cBu sunucudaki dünyalar için varsayılan ayarlar menüsü"
+    notset: "§7ayarlanamadı"
+  set:
+    success: "§b{key} §avarsayılan değer olarak §c{value}§a ayarladınız."
+  unset:
+    success: "§b{key} §avarsayılan değer olarak ayarlandı."
+
+# Forms
+forms:
+  # World settings
+  world:
+    title: "§a§fDünya Ayarlar Menüsü - Dünya {name}"
+    params:
+      permission: "Dünyaya katılma izni"
+      gamemode: "Dünya gamemode'u"
+      build: "İnşa etme izni"
+      pvp: "PvP izni"
+      damage: "Oyuncular arasında hasar vurma izni"
+      interact: "Oyuncuların etkileşime girme izni (örn. sandıkları açmak)"
+      explode: "Patlama izni"
+      drop: "Oyuncuların eşya düşürme izni"
+      hunger: "Açlık"
+      fly: "Uçma"
+      daylightcycle: "Gece-gündüz döngüsü"
+      leavesdecay: "Yaprakların çürümesi"
+      potion: "İksir"
+    options:
+      notset: "§7(null) ayarlanmadı"
+      true: "§aaktif et"
+      false: "§cde-aktif et"
+  # Default settings
+  default:
+    title: "§aVarsayılan Dünya Ayarları"
+  # Settings saved message
+  saved: "§aAyarlar başarıyla kaydedildi!"
