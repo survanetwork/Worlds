@@ -13,6 +13,7 @@ use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\LeavesDecayEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerBucketEmptyEvent;
@@ -94,47 +95,55 @@ class EventListener implements Listener
     }
 
     /**
-     * @param  EntityLevelChangeEvent  $event
+     * Apply world policies when a player changes its world on teleportation
+     *
+     * @param  \pocketmine\event\entity\EntityTeleportEvent  $event
      */
-    // TODO: find new event name
-    /*public function onEntityLevelChange(EntityLevelChangeEvent $event): void
+    public function onEntityTeleport(EntityTeleportEvent $event): void
     {
         $player     = $event->getEntity();
-        $targetLvl  = $event->getTarget();
+        $originLvl  = $event->getFrom()->getWorld();
+        $targetLvl  = $event->getTo()->getWorld();
         $folderName = $targetLvl->getFolderName();
 
+        if (!($player instanceof Player)) {
+            return;
+        }
+
+        if ($originLvl->getId() === $targetLvl->getId()) {
+            return;
+        }
+
         if ($world = $this->getWorlds()->getWorldByName($folderName)) {
-            if ($player instanceof Player) {
-                if ($world->getPermission() !== null) {
-                    if (!$player->hasPermission($world->getPermission())) {
-                        $player->sendMessage($this->getWorlds()->getMessage("general.permission"));
+            if ($world->getPermission() !== null) {
+                if (!$player->hasPermission($world->getPermission())) {
+                    $player->sendMessage($this->getWorlds()->getMessage("general.permission"));
 
-                        $event->setCancelled();
+                    $event->cancel();
 
-                        return;
-                    }
-                }
-
-                if ($world->getGamemode() !== null) {
-                    if (!$player->hasPermission("worlds.special.gamemode")) {
-                        $player->setGamemode(GameMode::fromString($world->getGamemode()));
-                    }
-                }
-
-                if ($world->getFly() === true or $player->hasPermission("worlds.special.fly")) {
-                    $player->setAllowFlight(true);
-                } elseif ($world->getFly() === false) {
-                    $player->setAllowFlight(false);
-                }
-
-                if ($world->getDaylightCycle() === true) {
-                    $targetLvl->startTime();
-                } elseif ($world->getDaylightCycle() === false) {
-                    $targetLvl->stopTime();
+                    return;
                 }
             }
+
+            if ($world->getGamemode() !== null) {
+                if (!$player->hasPermission("worlds.special.gamemode")) {
+                    $player->setGamemode(GameMode::fromString($world->getGamemode()));
+                }
+            }
+
+            if ($world->getFly() === true or $player->hasPermission("worlds.special.fly")) {
+                $player->setAllowFlight(true);
+            } elseif ($world->getFly() === false) {
+                $player->setAllowFlight(false);
+            }
+
+            if ($world->getDaylightCycle() === true) {
+                $targetLvl->startTime();
+            } elseif ($world->getDaylightCycle() === false) {
+                $targetLvl->stopTime();
+            }
         }
-    }*/
+    }
 
     /**
      * @param  BlockBreakEvent  $event
