@@ -13,9 +13,7 @@ use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\LeavesDecayEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityLevelChangeEvent;
 use pocketmine\event\entity\ExplosionPrimeEvent;
-use pocketmine\event\level\LevelLoadEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerBucketEmptyEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
@@ -23,10 +21,12 @@ use pocketmine\event\player\PlayerExhaustEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\world\WorldLoadEvent;
 use pocketmine\item\PaintingItem;
 use pocketmine\item\Potion;
 use pocketmine\item\TieredTool;
-use pocketmine\Player;
+use pocketmine\player\GameMode;
+use pocketmine\player\Player;
 
 class EventListener implements Listener
 {
@@ -40,13 +40,13 @@ class EventListener implements Listener
     }
 
     /**
-     * @param  LevelLoadEvent  $event
+     * @param  \pocketmine\event\world\WorldLoadEvent  $event
      */
-    public function onLevelLoad(LevelLoadEvent $event): void
+    public function onWorldLoad(WorldLoadEvent $event): void
     {
-        $foldername = $event->getLevel()->getFolderName();
+        $folderName = $event->getWorld()->getFolderName();
 
-        $this->getWorlds()->loadWorld($foldername);
+        $this->getWorlds()->loadWorld($folderName);
     }
 
     /**
@@ -55,21 +55,27 @@ class EventListener implements Listener
     public function onPlayerJoin(PlayerJoinEvent $event): void
     {
         $player     = $event->getPlayer();
-        $targetLvl  = $player->getLevel();
-        $foldername = $targetLvl->getFolderName();
+        $targetLvl  = $player->getWorld();
+        $folderName = $targetLvl->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
+        if ($world = $this->getWorlds()->getWorldByName($folderName)) {
             if ($world->getPermission() !== null) {
                 if (!$player->hasPermission($world->getPermission())) {
                     $player->sendMessage($this->getWorlds()->getMessage("general.permission"));
 
-                    $player->teleport($this->getWorlds()->getServer()->getDefaultLevel()->getSafeSpawn());
+                    $defaultWorld = $this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld();
+
+                    if ($defaultWorld === null) {
+                        return;
+                    }
+
+                    $player->teleport($defaultWorld->getSafeSpawn());
                 }
             }
 
             if ($world->getGamemode() !== null) {
                 if (!$player->hasPermission("worlds.special.gamemode")) {
-                    $player->setGamemode($world->getGamemode());
+                    $player->setGamemode(GameMode::fromString($world->getGamemode()));
                 }
             }
 
@@ -90,13 +96,14 @@ class EventListener implements Listener
     /**
      * @param  EntityLevelChangeEvent  $event
      */
-    public function onEntityLevelChange(EntityLevelChangeEvent $event): void
+    // TODO: find new event name
+    /*public function onEntityLevelChange(EntityLevelChangeEvent $event): void
     {
         $player     = $event->getEntity();
         $targetLvl  = $event->getTarget();
-        $foldername = $targetLvl->getFolderName();
+        $folderName = $targetLvl->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
+        if ($world = $this->getWorlds()->getWorldByName($folderName)) {
             if ($player instanceof Player) {
                 if ($world->getPermission() !== null) {
                     if (!$player->hasPermission($world->getPermission())) {
@@ -110,7 +117,7 @@ class EventListener implements Listener
 
                 if ($world->getGamemode() !== null) {
                     if (!$player->hasPermission("worlds.special.gamemode")) {
-                        $player->setGamemode($world->getGamemode());
+                        $player->setGamemode(GameMode::fromString($world->getGamemode()));
                     }
                 }
 
@@ -127,7 +134,7 @@ class EventListener implements Listener
                 }
             }
         }
-    }
+    }*/
 
     /**
      * @param  BlockBreakEvent  $event
@@ -135,12 +142,12 @@ class EventListener implements Listener
     public function onBlockBreak(BlockBreakEvent $event): void
     {
         $player     = $event->getPlayer();
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
+        if ($world = $this->getWorlds()->getWorldByName($folderName)) {
             if (!$player->hasPermission("worlds.admin.build")) {
                 if ($world->getBuild() === false) {
-                    $event->setCancelled();
+                    $event->cancel();
                 }
             }
         }
@@ -152,12 +159,12 @@ class EventListener implements Listener
     public function onBlockPlace(BlockPlaceEvent $event): void
     {
         $player     = $event->getPlayer();
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
+        if ($world = $this->getWorlds()->getWorldByName($folderName)) {
             if (!$player->hasPermission("worlds.admin.build")) {
                 if ($world->getBuild() === false) {
-                    $event->setCancelled();
+                    $event->cancel();
                 }
             }
         }
@@ -169,12 +176,12 @@ class EventListener implements Listener
     public function onPlayerBucketEmpty(PlayerBucketEmptyEvent $event)
     {
         $player     = $event->getPlayer();
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
+        if ($world = $this->getWorlds()->getWorldByName($folderName)) {
             if (!$player->hasPermission("worlds.admin.build")) {
                 if ($world->getBuild() === false) {
-                    $event->setCancelled();
+                    $event->cancel();
                 }
             }
         }
@@ -186,25 +193,23 @@ class EventListener implements Listener
     public function onEntityDamage(EntityDamageEvent $event): void
     {
         $entity = $event->getEntity();
-        $level  = $entity->getLevel();
+        $level  = $entity->getWorld();
 
         if ($level === null) {
             return;
         }
 
-        $foldername = $level->getFolderName();
+        $folderName = $level->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
+        if ($world = $this->getWorlds()->getWorldByName($folderName)) {
             if ($entity instanceof Player) {
                 if ($event instanceof EntityDamageByEntityEvent) {
                     if ($world->getPvp() === false) {
-                        $event->setCancelled();
+                        $event->cancel();
                     }
-                } else {
-                    if ($event->getCause() !== EntityDamageEvent::CAUSE_VOID) {
-                        if ($world->getDamage() === false) {
-                            $event->setCancelled();
-                        }
+                } elseif ($event->getCause() !== EntityDamageEvent::CAUSE_VOID) {
+                    if ($world->getDamage() === false) {
+                        $event->cancel();
                     }
                 }
             } elseif ($entity instanceof Painting) {
@@ -214,18 +219,14 @@ class EventListener implements Listener
                     if ($damager instanceof Player) {
                         if (!$damager->hasPermission("worlds.admin.build")) {
                             if ($world->getBuild() === false) {
-                                $event->setCancelled();
+                                $event->cancel();
                             }
                         }
-                    } else {
-                        if ($world->getBuild() === false) {
-                            $event->setCancelled();
-                        }
+                    } elseif ($world->getBuild() === false) {
+                        $event->cancel();
                     }
-                } else {
-                    if ($world->getBuild() === false) {
-                        $event->setCancelled();
-                    }
+                } elseif ($world->getBuild() === false) {
+                    $event->cancel();
                 }
             }
         }
@@ -237,11 +238,11 @@ class EventListener implements Listener
     public function onExplosionPrime(ExplosionPrimeEvent $event): void
     {
         $player     = $event->getEntity();
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
+        if ($world = $this->getWorlds()->getWorldByName($folderName)) {
             if ($world->getExplode() === false) {
-                $event->setCancelled();
+                $event->cancel();
             }
         }
     }
@@ -252,11 +253,11 @@ class EventListener implements Listener
     public function onPlayerDropItem(PlayerDropItemEvent $event): void
     {
         $player     = $event->getPlayer();
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
+        if ($world = $this->getWorlds()->getWorldByName($folderName)) {
             if ($world->getDrop() === false) {
-                $event->setCancelled();
+                $event->cancel();
             }
         }
     }
@@ -267,11 +268,11 @@ class EventListener implements Listener
     public function onPlayerExhaust(PlayerExhaustEvent $event): void
     {
         $player     = $event->getPlayer();
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
+        if ($world = $this->getWorlds()->getWorldByName($folderName)) {
             if ($world->getHunger() === false) {
-                $event->setCancelled();
+                $event->cancel();
             }
         }
     }
@@ -285,12 +286,12 @@ class EventListener implements Listener
         $item   = $event->getItem();
         $block  = $event->getBlock();
 
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
+        if ($world = $this->getWorlds()->getWorldByName($folderName)) {
             if (!$player->hasPermission("worlds.admin.interact")) {
                 if ($world->getInteract() === false) {
-                    $event->setCancelled();
+                    $event->cancel();
                 }
             }
 
@@ -301,7 +302,7 @@ class EventListener implements Listener
             ) {
                 if (!$player->hasPermission("worlds.admin.build")) {
                     if ($world->getBuild() === false) {
-                        $event->setCancelled();
+                        $event->cancel();
                     }
                 }
             }
@@ -313,11 +314,11 @@ class EventListener implements Listener
      */
     public function onLeavesDecay(LeavesDecayEvent $event): void
     {
-        $foldername = $event->getBlock()->getLevel()->getFolderName();
+        $folderName = $event->getBlock()->getPosition()->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
+        if ($world = $this->getWorlds()->getWorldByName($folderName)) {
             if ($world->getLeavesDecay() === false) {
-                $event->setCancelled();
+                $event->cancel();
             }
         }
     }
@@ -329,15 +330,15 @@ class EventListener implements Listener
     {
         $player     = $event->getPlayer();
         $item       = $event->getItem();
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
         if (!($item instanceof Potion)) {
             return;
         }
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
+        if ($world = $this->getWorlds()->getWorldByName($folderName)) {
             if ($world->getPotion() === false) {
-                $event->setCancelled();
+                $event->cancel();
             }
         }
     }

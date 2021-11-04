@@ -5,8 +5,8 @@
 
 namespace surva\worlds\form;
 
-use pocketmine\Player;
-use pocketmine\Server;
+use pocketmine\player\GameMode;
+use pocketmine\player\Player;
 use surva\worlds\types\Defaults;
 use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
@@ -41,10 +41,10 @@ class DefaultSettingsForm extends SettingsForm
                       "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
                       "options" => [
                         $this->getWorlds()->getMessage("forms.world.options.notset"),
-                        Server::getGamemodeString(Player::SURVIVAL),
-                        Server::getGamemodeString(Player::CREATIVE),
-                        Server::getGamemodeString(Player::ADVENTURE),
-                        Server::getGamemodeString(Player::SPECTATOR),
+                        GameMode::SURVIVAL()->getEnglishName(),
+                        GameMode::CREATIVE()->getEnglishName(),
+                        GameMode::ADVENTURE()->getEnglishName(),
+                        GameMode::SPECTATOR()->getEnglishName(),
                       ],
                       "default" => $this->convGamemode($defaults->loadValue($flagName)),
                     ];

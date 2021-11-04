@@ -42,7 +42,10 @@ class Worlds extends PluginBase
     /* @var Config */
     private $messages;
 
-    public function onEnable()
+    /**
+     * Initialize plugin, config, languages
+     */
+    protected function onEnable(): void
     {
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $this->saveDefaultConfig();
@@ -51,8 +54,8 @@ class Worlds extends PluginBase
 
         $this->worlds = new ArrayList();
 
-        foreach ($this->getServer()->getLevels() as $level) {
-            $this->loadWorld($level->getFolderName());
+        foreach ($this->getServer()->getWorldManager()->getWorlds() as $world) {
+            $this->loadWorld($world->getFolderName());
         }
 
         $this->defaultMessages = new Config($this->getFile() . "resources/languages/en.yml");

@@ -6,7 +6,8 @@
 namespace surva\worlds\form;
 
 use pocketmine\form\Form;
-use pocketmine\Player;
+use pocketmine\player\GameMode;
+use pocketmine\player\Player;
 use surva\worlds\types\World;
 use surva\worlds\Worlds;
 
@@ -119,16 +120,16 @@ abstract class SettingsForm implements Form
     {
         switch ($data) {
             case 1:
-                $this->storage->updateValue($name, Player::SURVIVAL);
+                $this->storage->updateValue($name, GameMode::SURVIVAL()->id());
                 break;
             case 2:
-                $this->storage->updateValue($name, Player::CREATIVE);
+                $this->storage->updateValue($name, GameMode::CREATIVE()->id());
                 break;
             case 3:
-                $this->storage->updateValue($name, Player::ADVENTURE);
+                $this->storage->updateValue($name, GameMode::ADVENTURE()->id());
                 break;
             case 4:
-                $this->storage->updateValue($name, Player::SPECTATOR);
+                $this->storage->updateValue($name, GameMode::SPECTATOR()->id());
                 break;
             default:
                 $this->storage->removeValue($name);
