@@ -5,6 +5,7 @@
 
 namespace surva\worlds\logic;
 
+use pocketmine\player\GameMode;
 use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
 
@@ -72,6 +73,24 @@ class WorldActions
         $worlds->unregisterWorld($worldName);
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Get the ID int value of a game mode
+     *
+     * @param  \pocketmine\player\GameMode  $gameMode
+     *
+     * @return int|null
+     */
+    public static function getGameModeId(GameMode $gameMode): ?int
+    {
+        return match ($gameMode->name()) {
+            "survival" => 0,
+            "creative" => 1,
+            "adventure" => 2,
+            "spectator" => 3,
+            default => null
+        };
     }
 
 }

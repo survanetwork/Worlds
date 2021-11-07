@@ -77,7 +77,7 @@ class DefaultsCommand extends CustomCommand
                         return true;
                     }
 
-                    $defaults->updateValue("gamemode", $gm->id());
+                    $defaults->updateValue("gamemode", WorldActions::getGameModeId($gm));
 
                     $player->sendMessage(
                       $this->getWorlds()->getMessage(

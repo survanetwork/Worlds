@@ -90,7 +90,7 @@ class SetCommand extends CustomCommand
                 return true;
             }
 
-            $world->updateValue("gamemode", $gm->id());
+            $world->updateValue("gamemode", WorldActions::getGameModeId($gm));
         } else {
             if (!(in_array($args[1], ["true", "false"]))) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.notbool", ["key" => $args[0]]));
