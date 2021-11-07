@@ -21,13 +21,13 @@ class WorldActions
      * Check if the directory of a world exists
      *
      * @param  \surva\worlds\Worlds  $worlds
-     * @param  string  $levelName
+     * @param  string  $worldName
      *
      * @return bool
      */
-    public static function worldPathExists(Worlds $worlds, string $levelName): bool
+    public static function worldPathExists(Worlds $worlds, string $worldName): bool
     {
-        return is_dir($worlds->getServer()->getDataPath() . "worlds/" . $levelName);
+        return is_dir($worlds->getServer()->getDataPath() . "worlds/" . $worldName);
     }
 
     /**

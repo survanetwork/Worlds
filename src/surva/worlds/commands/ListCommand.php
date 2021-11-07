@@ -27,7 +27,7 @@ class ListCommand extends CustomCommand
               is_file($worldsStoragePath . "/" . $unloadedWorld . "/level.dat") and
               !in_array(TextFormat::WHITE . $unloadedWorld, $worlds)
             ) {
-                $levels[] = TextFormat::GRAY . $unloadedWorld;
+                $worlds[] = TextFormat::GRAY . $unloadedWorld;
             }
         }
 
