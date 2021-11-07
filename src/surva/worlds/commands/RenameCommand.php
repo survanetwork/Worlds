@@ -6,8 +6,8 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
-use pocketmine\nbt\BigEndianNBTStream;
 use surva\worlds\logic\WorldActions;
+use surva\worlds\utils\FileUtils;
 
 class RenameCommand extends CustomCommand
 {
@@ -47,8 +47,11 @@ class RenameCommand extends CustomCommand
         $fromPath = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $fromFolderName;
         $toPath   = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $toFolderName;
 
-        $this->getWorlds()->copy($fromPath, $toPath);
-        $this->getWorlds()->delete($fromPath);
+        $copyRes = FileUtils::copyRecursive($fromPath, $toPath);
+
+        if ($copyRes === true) {
+            FileUtils::deleteRecursive($fromPath);
+        }
 
         $sender->sendMessage(
           $this->getWorlds()->getMessage("rename.success", ["name" => $fromFolderName, "to" => $toFolderName])

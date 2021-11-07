@@ -14,20 +14,15 @@ use surva\worlds\Worlds;
 abstract class SettingsForm implements Form
 {
 
-    /* @var Worlds */
-    private $worlds;
+    private Worlds $worlds;
 
-    /* @var World */
-    private $storage;
+    private World $storage;
 
-    /* @var string */
-    private $type = "custom_form";
+    private string $type = "custom_form";
 
-    /* @var string */
-    protected $title;
+    protected string $title;
 
-    /* @var array */
-    protected $content;
+    protected array $content;
 
     public function __construct(Worlds $wsInstance, World $storage)
     {
@@ -55,7 +50,7 @@ abstract class SettingsForm implements Form
      * @param  Player  $player
      * @param  mixed  $data
      */
-    public abstract function handleResponse(Player $player, $data): void;
+    abstract public function handleResponse(Player $player, $data): void;
 
     /**
      * Convert stored bool to form option index
@@ -74,13 +69,13 @@ abstract class SettingsForm implements Form
     }
 
     /**
-     * Convert stored bool to form option index
+     * Convert stored game mode to form option index
      *
      * @param  int|null  $gm
      *
      * @return int
      */
-    protected function convGamemode(?int $gm): int
+    protected function convGameMode(?int $gm): int
     {
         if ($gm === null) {
             return 0;
@@ -111,12 +106,12 @@ abstract class SettingsForm implements Form
     }
 
     /**
-     * Evaluate gamemode form response value
+     * Evaluate game mode form response value
      *
      * @param  string  $name
      * @param $data
      */
-    protected function procGamemode(string $name, $data): void
+    protected function procGameMode(string $name, $data): void
     {
         switch ($data) {
             case 1:
@@ -138,7 +133,7 @@ abstract class SettingsForm implements Form
     }
 
     /**
-     * @return World
+     * @return \surva\worlds\types\World
      */
     protected function getStorage(): World
     {
@@ -146,7 +141,7 @@ abstract class SettingsForm implements Form
     }
 
     /**
-     * @return Worlds
+     * @return \surva\worlds\Worlds
      */
     protected function getWorlds(): Worlds
     {

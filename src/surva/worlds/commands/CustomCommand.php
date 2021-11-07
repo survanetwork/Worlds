@@ -15,20 +15,25 @@ use surva\worlds\Worlds;
 class CustomCommand extends Command implements PluginOwned
 {
 
-    /* @var Worlds */
-    private $worlds;
-
-    /* @var string */
-    private $permission;
+    private Worlds $worlds;
 
     public function __construct(Worlds $worlds, string $name, string $permission)
     {
-        $this->worlds     = $worlds;
-        $this->permission = $permission;
+        $this->worlds = $worlds;
+        $this->setPermission($permission);
 
         parent::__construct($name);
     }
 
+    /**
+     * Execute this sub command, check permissions before
+     *
+     * @param  \pocketmine\command\CommandSender  $sender
+     * @param  string  $commandLabel
+     * @param  array  $args
+     *
+     * @return bool
+     */
     public function execute(CommandSender $sender, string $commandLabel, array $args)
     {
         array_shift($args);
@@ -46,6 +51,14 @@ class CustomCommand extends Command implements PluginOwned
         return $this->do($sender, $args);
     }
 
+    /**
+     * Execution method of the sub command
+     *
+     * @param  \pocketmine\command\CommandSender  $sender
+     * @param  array  $args
+     *
+     * @return bool
+     */
     public function do(CommandSender $sender, array $args): bool
     {
         return false;
@@ -57,17 +70,9 @@ class CustomCommand extends Command implements PluginOwned
     }
 
     /**
-     * @return string
+     * @return \surva\worlds\Worlds
      */
-    public function getPermission(): string
-    {
-        return $this->permission;
-    }
-
-    /**
-     * @return Worlds
-     */
-    public function getWorlds(): Worlds
+    protected function getWorlds(): Worlds
     {
         return $this->worlds;
     }

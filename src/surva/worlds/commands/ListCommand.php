@@ -13,25 +13,25 @@ class ListCommand extends CustomCommand
 
     public function do(CommandSender $sender, array $args): bool
     {
-        $levels = [];
+        $worlds = [];
 
-        foreach ($this->getWorlds()->getServer()->getWorldManager()->getWorlds() as $level) {
-            $levels[] = TextFormat::WHITE . $level->getFolderName();
+        foreach ($this->getWorlds()->getServer()->getWorldManager()->getWorlds() as $pmWorld) {
+            $worlds[] = TextFormat::WHITE . $pmWorld->getFolderName();
         }
 
-        $worldsPath = $this->getWorlds()->getServer()->getDataPath() . "worlds";
+        $worldsStoragePath = $this->getWorlds()->getServer()->getDataPath() . "worlds";
 
-        foreach (scandir($worldsPath) as $unloadedLevel) {
+        foreach (scandir($worldsStoragePath) as $unloadedWorld) {
             if (
-              is_dir($worldsPath . "/" . $unloadedLevel) and
-              is_file($worldsPath . "/" . $unloadedLevel . "/level.dat") and
-              !in_array(TextFormat::WHITE . $unloadedLevel, $levels)
+              is_dir($worldsStoragePath . "/" . $unloadedWorld) and
+              is_file($worldsStoragePath . "/" . $unloadedWorld . "/level.dat") and
+              !in_array(TextFormat::WHITE . $unloadedWorld, $worlds)
             ) {
-                $levels[] = TextFormat::GRAY . $unloadedLevel;
+                $levels[] = TextFormat::GRAY . $unloadedWorld;
             }
         }
 
-        $sender->sendMessage($this->getWorlds()->getMessage("list.worlds", ["worlds" => implode(", ", $levels)]));
+        $sender->sendMessage($this->getWorlds()->getMessage("list.worlds", ["worlds" => implode(", ", $worlds)]));
 
         return true;
     }

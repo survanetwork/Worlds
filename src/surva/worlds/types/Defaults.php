@@ -21,14 +21,11 @@ class Defaults extends World
             return null;
         }
 
-        switch ($this->getConfig()->get($name)) {
-            case "true":
-                return true;
-            case "false":
-                return false;
-            default:
-                return $this->getConfig()->get($name);
-        }
+        return match ($this->getConfig()->get($name)) {
+            "true" => true,
+            "false" => false,
+            default => $this->getConfig()->get($name),
+        };
     }
 
     /**
@@ -45,17 +42,11 @@ class Defaults extends World
             return null;
         }
 
-        switch ($this->getConfig()->get($name)) {
-            case "true":
-                $val = true;
-                break;
-            case "false":
-                $val = false;
-                break;
-            default:
-                $val = $this->getConfig()->get($name);
-                break;
-        }
+        $val = match ($this->getConfig()->get($name)) {
+            "true" => true,
+            "false" => false,
+            default => $this->getConfig()->get($name),
+        };
 
         $this->$name = $val;
         return $val;

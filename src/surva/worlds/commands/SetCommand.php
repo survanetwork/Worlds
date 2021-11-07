@@ -47,19 +47,13 @@ class SetCommand extends CustomCommand
 
             foreach (Flags::AVAILABLE_WORLD_FLAGS as $flagName => $flagDetails) {
                 $flagStr = $this->getWorlds()->getMessage("forms.world.params." . $flagName);
-                $flagVal = "null";
 
-                switch ($flagDetails["type"]) {
-                    case Flags::TYPE_BOOL:
-                        $flagVal = $this->formatBool($world->loadValue($flagName));
-                        break;
-                    case Flags::TYPE_PERMISSION:
-                        $flagVal = $this->formatText($world->loadValue($flagName));
-                        break;
-                    case Flags::TYPE_GAMEMODE:
-                        $flagVal = $this->formatGamemode($world->loadValue($flagName));
-                        break;
-                }
+                $flagVal = match ($flagDetails["type"]) {
+                    Flags::TYPE_BOOL => $this->formatBool($world->loadValue($flagName)),
+                    Flags::TYPE_PERMISSION => $this->formatText($world->loadValue($flagName)),
+                    Flags::TYPE_GAMEMODE => $this->formatGameMode($world->loadValue($flagName)),
+                    default => "null",
+                };
 
                 $msg .= "§e" . $flagStr . " (§7" . $flagName . "§e): " . $flagVal . "\n";
             }
@@ -87,13 +81,6 @@ class SetCommand extends CustomCommand
             }
 
             $world->updateValue($args[0], $args[1]);
-
-            $player->sendMessage(
-              $this->getWorlds()->getMessage(
-                "set.success",
-                ["world" => $player->getWorld()->getFolderName(), "key" => $args[0], "value" => $args[1]]
-              )
-            );
         } elseif ($args[0] === "gamemode") {
             $gm = GameMode::fromString($args[1]);
 
@@ -104,13 +91,6 @@ class SetCommand extends CustomCommand
             }
 
             $world->updateValue("gamemode", $gm->id());
-
-            $player->sendMessage(
-              $this->getWorlds()->getMessage(
-                "set.success",
-                ["world" => $player->getWorld()->getFolderName(), "key" => $args[0], "value" => $args[1]]
-              )
-            );
         } else {
             if (!(in_array($args[1], ["true", "false"]))) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.notbool", ["key" => $args[0]]));
@@ -119,14 +99,14 @@ class SetCommand extends CustomCommand
             }
 
             $world->updateValue($args[0], $args[1]);
-
-            $player->sendMessage(
-              $this->getWorlds()->getMessage(
-                "set.success",
-                ["world" => $player->getWorld()->getFolderName(), "key" => $args[0], "value" => $args[1]]
-              )
-            );
         }
+
+        $player->sendMessage(
+          $this->getWorlds()->getMessage(
+            "set.success",
+            ["world" => $player->getWorld()->getFolderName(), "key" => $args[0], "value" => $args[1]]
+          )
+        );
 
         return true;
     }
@@ -148,13 +128,13 @@ class SetCommand extends CustomCommand
     }
 
     /**
-     * Format a gamemode for showing its value
+     * Format a game mode for showing its value
      *
      * @param  int|null  $value
      *
      * @return string
      */
-    private function formatGamemode(?int $value): string
+    private function formatGameMode(?int $value): string
     {
         if ($value === null) {
             return $this->getWorlds()->getMessage("set.list.notset");

@@ -12,63 +12,54 @@ use surva\worlds\Worlds;
 class World
 {
 
-    /* @var Worlds */
-    private $worlds;
+    private Worlds $worlds;
 
-    /* @var Config */
-    private $config;
+    private Config $config;
 
-    /* @var string|null */
-    protected $permission;
+    protected ?string $permission;
 
-    /* @var int|null */
-    protected $gamemode;
+    protected ?int $gamemode;
 
-    /* @var bool|null */
-    protected $build;
+    protected ?bool $build;
 
-    /* @var bool|null */
-    protected $pvp;
+    protected ?bool $pvp;
 
-    /* @var bool|null */
-    protected $damage;
+    protected ?bool $damage;
 
-    /* @var bool|null */
-    protected $interact;
+    protected ?bool $interact;
 
-    /* @var bool|null */
-    protected $explode;
+    protected ?bool $explode;
 
-    /* @var bool|null */
-    protected $drop;
+    protected ?bool $drop;
 
-    /* @var bool|null */
-    protected $hunger;
+    protected ?bool $hunger;
 
-    /* @var bool|null */
-    protected $fly;
+    protected ?bool $fly;
 
-    /* @var bool|null */
-    protected $daylightcycle;
+    protected ?bool $daylightcycle;
 
-    /* @var bool|null */
-    protected $leavesdecay;
+    protected ?bool $leavesdecay;
 
-    /* @var bool|null */
-    protected $potion;
+    protected ?bool $potion;
 
+    /**
+     * Load world options on class creation
+     *
+     * @param  \surva\worlds\Worlds  $worlds
+     * @param  \pocketmine\utils\Config  $config
+     */
     public function __construct(Worlds $worlds, Config $config)
     {
         $this->worlds = $worlds;
         $this->config = $config;
 
-        $this->loadItems();
+        $this->loadOptions();
     }
 
     /**
      * Load all possible config values
      */
-    public function loadItems(): void
+    public function loadOptions(): void
     {
         foreach (array_keys(Flags::AVAILABLE_WORLD_FLAGS) as $flagName) {
             $this->loadValue($flagName);
@@ -84,24 +75,18 @@ class World
      */
     public function loadValue(string $name)
     {
-        if (!$this->getConfig()->exists($name)) {
-            $defVal = $this->getWorlds()->getDefaults()->getValue($name);
+        if (!$this->config->exists($name)) {
+            $defVal = $this->worlds->getDefaults()->getValue($name);
 
             $this->$name = $defVal;
             return $defVal;
         }
 
-        switch ($this->getConfig()->get($name)) {
-            case "true":
-                $val = true;
-                break;
-            case "false":
-                $val = false;
-                break;
-            default:
-                $val = $this->getConfig()->get($name);
-                break;
-        }
+        $val = match ($this->config->get($name)) {
+            "true" => true,
+            "false" => false,
+            default => $this->config->get($name),
+        };
 
         $this->$name = $val;
         return $val;
@@ -115,10 +100,10 @@ class World
      */
     public function updateValue(string $name, string $value): void
     {
-        $this->getConfig()->set($name, $value);
+        $this->config->set($name, $value);
 
-        $this->getConfig()->save();
-        $this->loadItems();
+        $this->config->save();
+        $this->loadOptions();
     }
 
     /**
@@ -128,14 +113,14 @@ class World
      */
     public function removeValue(string $name): void
     {
-        if (!$this->getConfig()->exists($name)) {
+        if (!$this->config->exists($name)) {
             return;
         }
 
-        $this->getConfig()->remove($name);
+        $this->config->remove($name);
 
-        $this->getConfig()->save();
-        $this->loadItems();
+        $this->config->save();
+        $this->loadOptions();
     }
 
     /**
@@ -243,19 +228,11 @@ class World
     }
 
     /**
-     * @return Config
+     * @return \pocketmine\utils\Config
      */
-    public function getConfig(): Config
+    protected function getConfig(): Config
     {
         return $this->config;
-    }
-
-    /**
-     * @return Worlds
-     */
-    public function getWorlds(): Worlds
-    {
-        return $this->worlds;
     }
 
 }

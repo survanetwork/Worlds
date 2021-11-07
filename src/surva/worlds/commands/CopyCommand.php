@@ -6,8 +6,8 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
-use pocketmine\nbt\BigEndianNBTStream;
 use surva\worlds\logic\WorldActions;
+use surva\worlds\utils\FileUtils;
 
 class CopyCommand extends CustomCommand
 {
@@ -36,7 +36,7 @@ class CopyCommand extends CustomCommand
         $fromPath = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $fromFolderName;
         $toPath   = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $toFolderName;
 
-        $this->getWorlds()->copy($fromPath, $toPath);
+        FileUtils::copyRecursive($fromPath, $toPath);
 
         $sender->sendMessage(
           $this->getWorlds()->getMessage("copy.success", ["name" => $fromFolderName, "to" => $toFolderName])

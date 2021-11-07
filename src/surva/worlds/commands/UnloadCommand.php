@@ -39,7 +39,7 @@ class UnloadCommand extends CustomCommand
             return true;
         }
 
-        $this->getWorlds()->getWorlds()->remove($args[0]);
+        $this->getWorlds()->unregisterWorld($args[0]);
 
         $sender->sendMessage($this->getWorlds()->getMessage("unload.success", ["world" => $args[0]]));
 

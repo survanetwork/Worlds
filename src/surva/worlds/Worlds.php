@@ -7,6 +7,8 @@ namespace surva\worlds;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\player\GameMode;
+use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use surva\worlds\commands\CopyCommand;
@@ -23,24 +25,29 @@ use surva\worlds\commands\UnloadCommand;
 use surva\worlds\commands\UnsetCommand;
 use surva\worlds\types\Defaults;
 use surva\worlds\types\World;
-use surva\worlds\utils\ArrayList;
 
 class Worlds extends PluginBase
 {
 
-    /* @var Defaults */
-    private $defaults;
-
-    /* @var ArrayList */
-    private $worlds;
+    /**
+     * @var \surva\worlds\types\Defaults default world options
+     */
+    private Defaults $defaults;
 
     /**
-     * @var Config
+     * @var array loaded worlds array
      */
-    private $defaultMessages;
+    private array $worlds;
 
-    /* @var Config */
-    private $messages;
+    /**
+     * @var \pocketmine\utils\Config default language config
+     */
+    private Config $defaultMessages;
+
+    /**
+     * @var \pocketmine\utils\Config selected language config
+     */
+    private Config $messages;
 
     /**
      * Initialize plugin, config, languages
@@ -52,10 +59,10 @@ class Worlds extends PluginBase
 
         $this->defaults = new Defaults($this, $this->getCustomConfig($this->getDataFolder() . "defaults.yml"));
 
-        $this->worlds = new ArrayList();
+        $this->worlds = [];
 
         foreach ($this->getServer()->getWorldManager()->getWorlds() as $world) {
-            $this->loadWorld($world->getFolderName());
+            $this->registerWorld($world->getFolderName());
         }
 
         $this->defaultMessages = new Config($this->getFile() . "resources/languages/en.yml");
@@ -64,6 +71,16 @@ class Worlds extends PluginBase
         );
     }
 
+    /**
+     * Main command (/worlds) execution, calling sub commands
+     *
+     * @param  \pocketmine\command\CommandSender  $sender
+     * @param  \pocketmine\command\Command  $command
+     * @param  string  $label
+     * @param  array  $args
+     *
+     * @return bool
+     */
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool
     {
         $name = $command->getName();
@@ -82,100 +99,116 @@ class Worlds extends PluginBase
     }
 
     /**
-     * Get a custom command by its name
+     * Get a custom command by its name or alias
      *
      * @param  string  $name
      *
-     * @return CustomCommand|null
+     * @return \surva\worlds\commands\CustomCommand|null
      */
     public function getCustomCommand(string $name): ?CustomCommand
     {
-        switch ($name) {
-            case "list":
-            case "ls":
-                return new ListCommand($this, "list", "worlds.list");
-            case "create":
-            case "cr":
-                return new CreateCommand($this, "create", "worlds.admin.create");
-            case "remove":
-            case "rm":
-                return new RemoveCommand($this, "remove", "worlds.admin.remove");
-            case "copy":
-            case "cp":
-                return new CopyCommand($this, "copy", "worlds.admin.copy");
-            case "rename":
-            case "rn":
-                return new RenameCommand($this, "rename", "worlds.admin.rename");
-            case "load":
-            case "ld":
-                return new LoadCommand($this, "load", "worlds.admin.load");
-            case "unload":
-            case "uld":
-                return new UnloadCommand($this, "unload", "worlds.admin.unload");
-            case "teleport":
-            case "tp":
-                return new TeleportCommand($this, "teleport", "worlds.teleport.general");
-            case "set":
-            case "st":
-                return new SetCommand($this, "set", "worlds.admin.set");
-            case "unset":
-            case "ust":
-                return new UnsetCommand($this, "unset", "worlds.admin.unset");
-            case "defaults":
-            case "df":
-                return new DefaultsCommand($this, "defaults", "worlds.admin.defaults");
-            default:
-                return null;
-        }
+        return match ($name) {
+            "list", "ls" => new ListCommand($this, "list", "worlds.list"),
+            "create", "cr" => new CreateCommand($this, "create", "worlds.admin.create"),
+            "remove", "rm" => new RemoveCommand($this, "remove", "worlds.admin.remove"),
+            "copy", "cp" => new CopyCommand($this, "copy", "worlds.admin.copy"),
+            "rename", "rn" => new RenameCommand($this, "rename", "worlds.admin.rename"),
+            "load", "ld" => new LoadCommand($this, "load", "worlds.admin.load"),
+            "unload", "uld" => new UnloadCommand($this, "unload", "worlds.admin.unload"),
+            "teleport", "tp" => new TeleportCommand($this, "teleport", "worlds.teleport.general"),
+            "set", "st" => new SetCommand($this, "set", "worlds.admin.set"),
+            "unset", "ust" => new UnsetCommand($this, "unset", "worlds.admin.unset"),
+            "defaults", "df" => new DefaultsCommand($this, "defaults", "worlds.admin.defaults"),
+            default => null,
+        };
     }
 
     /**
-     * Get a world by name
+     * Get a world by its name
      *
      * @param  string  $name
      *
-     * @return World|null
+     * @return \surva\worlds\types\World|null
      */
     public function getWorldByName(string $name): ?World
     {
-        if ($this->getWorlds()->containsKey($name)) {
-            return $this->getWorlds()->get($name);
+        if (!isset($this->worlds[$name])) {
+            return null;
         }
 
-        return null;
+        return $this->worlds[$name];
     }
 
     /**
-     * Register a world load
+     * Register a new server world
      *
-     * @param  string  $foldername
+     * @param  string  $folderName
      */
-    public function loadWorld(string $foldername): void
+    public function registerWorld(string $folderName): void
     {
-        $file   = $this->getWorldFile($foldername);
-        $config = $this->getCustomConfig($file);
+        $settingsFile = $this->getWorldSettingsFilePath($folderName);
+        $worldConfig  = $this->getCustomConfig($settingsFile);
 
-        $this->getWorlds()->add(new World($this, $config), $foldername);
+        $this->worlds[$folderName] = new World($this, $worldConfig);
     }
 
     /**
-     * Get the worlds.yml file of a world
+     * Unregister a world, e.g. if it's unloaded
      *
-     * @param  string  $foldername
+     * @param  string  $folderName
+     *
+     * @return bool
+     */
+    public function unregisterWorld(string $folderName): bool
+    {
+        if (!isset($this->worlds[$folderName])) {
+            return false;
+        }
+
+        unset($this->worlds[$folderName]);
+
+        return true;
+    }
+
+    /**
+     * Get the path to the worlds.yml file of a world
+     *
+     * @param  string  $folderName
      *
      * @return string
      */
-    public function getWorldFile(string $foldername): string
+    public function getWorldSettingsFilePath(string $folderName): string
     {
-        return $this->getServer()->getDataPath() . "worlds/" . $foldername . "/worlds.yml";
+        return $this->getServer()->getDataPath() . "worlds/" . $folderName . "/worlds.yml";
     }
 
     /**
-     * Create a custom config file
+     * Apply options of a world to a player
+     *
+     * @param  \surva\worlds\types\World  $world
+     * @param  \pocketmine\player\Player  $pl
+     */
+    public function applyWorldOptions(World $world, Player $pl): void
+    {
+        if ($world->getGamemode() !== null) {
+            if (!$pl->hasPermission("worlds.special.gamemode")) {
+                $pl->setGamemode(GameMode::fromString($world->getGamemode()));
+            }
+        }
+
+        if ($world->getFly() === true or $pl->hasPermission("worlds.special.fly")) {
+            $pl->setAllowFlight(true);
+        } elseif ($world->getFly() === false) {
+            $pl->setAllowFlight(false);
+        }
+    }
+
+    /**
+     * Get a custom world settings config file or create if it doesn't exist
      *
      * @param  string  $file
      *
-     * @return Config
+     * @return \pocketmine\utils\Config
      */
     public function getCustomConfig(string $file): Config
     {
@@ -186,55 +219,6 @@ class Worlds extends PluginBase
         }
 
         return $config;
-    }
-
-    /**
-     * Copy a world
-     *
-     * @param  string  $from
-     * @param  string  $to
-     */
-    public function copy(string $from, string $to): void
-    {
-        if (is_dir($from)) {
-            $objects = scandir($from);
-
-            mkdir($to);
-
-            foreach ($objects as $object) {
-                if ($object !== "." and $object !== "..") {
-                    if (is_dir($from . "/" . $object)) {
-                        $this->copy($from . "/" . $object, $to . "/" . $object);
-                    } else {
-                        copy($from . "/" . $object, $to . "/" . $object);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Delete a world
-     *
-     * @param  string  $directory
-     */
-    public function delete(string $directory): void
-    {
-        if (is_dir($directory)) {
-            $objects = scandir($directory);
-
-            foreach ($objects as $object) {
-                if ($object !== "." and $object !== "..") {
-                    if (is_dir($directory . "/" . $object)) {
-                        $this->delete($directory . "/" . $object);
-                    } else {
-                        unlink($directory . "/" . $object);
-                    }
-                }
-            }
-
-            rmdir($directory);
-        }
     }
 
     /**
@@ -263,7 +247,7 @@ class Worlds extends PluginBase
     }
 
     /**
-     * @return Config
+     * @return \pocketmine\utils\Config
      */
     public function getMessages(): Config
     {
@@ -271,15 +255,7 @@ class Worlds extends PluginBase
     }
 
     /**
-     * @return ArrayList
-     */
-    public function getWorlds(): ArrayList
-    {
-        return $this->worlds;
-    }
-
-    /**
-     * @return Defaults
+     * @return \surva\worlds\types\Defaults
      */
     public function getDefaults(): Defaults
     {
