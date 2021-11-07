@@ -15,8 +15,8 @@ class ListCommand extends CustomCommand
     {
         $levels = [];
 
-        foreach ($this->getWorlds()->getServer()->getLevels() as $level) {
-            $levels[] = TextFormat::WHITE . $level->getName();
+        foreach ($this->getWorlds()->getServer()->getWorldManager()->getWorlds() as $level) {
+            $levels[] = TextFormat::WHITE . $level->getFolderName();
         }
 
         $worldsPath = $this->getWorlds()->getServer()->getDataPath() . "worlds";

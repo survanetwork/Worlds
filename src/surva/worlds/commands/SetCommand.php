@@ -6,8 +6,8 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
-use pocketmine\Player;
-use pocketmine\Server;
+use pocketmine\player\GameMode;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 use surva\worlds\form\WorldSettingsForm;
 use surva\worlds\logic\WorldActions;
@@ -26,7 +26,7 @@ class SetCommand extends CustomCommand
 
         $player = $sender;
 
-        $folderName = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
         if (!($world = $this->getWorlds()->getWorldByName($folderName))) {
             $sender->sendMessage($this->getWorlds()->getMessage("general.world.notloaded", ["name" => $folderName]));
@@ -78,7 +78,9 @@ class SetCommand extends CustomCommand
         }
 
         if ($args[0] === "permission") {
-            if ($this->getWorlds()->getServer()->getDefaultLevel()->getFolderName() === $folderName) {
+            if ($this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld()->getFolderName()
+                === $folderName
+            ) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
 
                 return true;
@@ -89,22 +91,24 @@ class SetCommand extends CustomCommand
             $player->sendMessage(
               $this->getWorlds()->getMessage(
                 "set.success",
-                ["world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1]]
+                ["world" => $player->getWorld()->getFolderName(), "key" => $args[0], "value" => $args[1]]
               )
             );
         } elseif ($args[0] === "gamemode") {
-            if (($args[1] = Server::getGamemodeFromString($args[1])) === -1) {
+            $gm = GameMode::fromString($args[1]);
+
+            if ($gm === null) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.notexist"));
 
                 return true;
             }
 
-            $world->updateValue($args[0], $args[1]);
+            $world->updateValue("gamemode", $gm->id());
 
             $player->sendMessage(
               $this->getWorlds()->getMessage(
                 "set.success",
-                ["world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1]]
+                ["world" => $player->getWorld()->getFolderName(), "key" => $args[0], "value" => $args[1]]
               )
             );
         } else {
@@ -119,7 +123,7 @@ class SetCommand extends CustomCommand
             $player->sendMessage(
               $this->getWorlds()->getMessage(
                 "set.success",
-                ["world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1]]
+                ["world" => $player->getWorld()->getFolderName(), "key" => $args[0], "value" => $args[1]]
               )
             );
         }
@@ -157,7 +161,7 @@ class SetCommand extends CustomCommand
         }
 
         return $this->getWorlds()->getServer()->getLanguage()->translateString(
-          TextFormat::WHITE . Server::getGamemodeString($value)
+          TextFormat::WHITE . GameMode::fromString($value)->getEnglishName()
         );
     }
 

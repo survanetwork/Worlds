@@ -6,7 +6,7 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use surva\worlds\form\WorldSettingsForm;
 use surva\worlds\logic\WorldActions;
 
@@ -23,7 +23,7 @@ class UnsetCommand extends CustomCommand
 
         $player = $sender;
 
-        $folderName = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
         if (!($world = $this->getWorlds()->getWorldByName($folderName))) {
             $sender->sendMessage($this->getWorlds()->getMessage("general.world.notloaded", ["name" => $folderName]));
@@ -52,7 +52,7 @@ class UnsetCommand extends CustomCommand
         $player->sendMessage(
           $this->getWorlds()->getMessage(
             "unset.success",
-            ["world" => $player->getLevel()->getFolderName(), "key" => $args[0]]
+            ["world" => $player->getWorld()->getFolderName(), "key" => $args[0]]
           )
         );
 

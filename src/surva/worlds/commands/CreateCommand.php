@@ -6,7 +6,8 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
-use pocketmine\level\generator\GeneratorManager;
+use pocketmine\world\generator\GeneratorManager;
+use pocketmine\world\WorldCreationOptions;
 
 class CreateCommand extends CustomCommand
 {
@@ -15,7 +16,11 @@ class CreateCommand extends CustomCommand
     {
         switch (count($args)) {
             case 1:
-                if (!$this->getWorlds()->getServer()->generateLevel($args[0])) {
+                if (!$this->getWorlds()->getServer()->getWorldManager()->generateWorld(
+                  $args[0],
+                  WorldCreationOptions::create()
+                )
+                ) {
                     $sender->sendMessage($this->getWorlds()->getMessage("create.failed"));
 
                     return true;
@@ -26,16 +31,22 @@ class CreateCommand extends CustomCommand
                 return true;
             case 2:
                 $givenGenName = strtolower($args[1]);
+                $gm           = GeneratorManager::getInstance();
+                $worldOpt     = WorldCreationOptions::create();
 
-                if (!in_array($givenGenName, GeneratorManager::getGeneratorList())) {
+                $gmEntry = $gm->getGenerator($givenGenName);
+
+                if ($gmEntry === null) {
                     $sender->sendMessage(
                       $this->getWorlds()->getMessage("create.generator.notexist", ["name" => $args[1]])
                     );
+
+                    return true;
                 }
 
-                $generator = GeneratorManager::getGenerator($givenGenName);
+                $worldOpt->setGeneratorClass($gmEntry->getGeneratorClass());
 
-                if (!$this->getWorlds()->getServer()->generateLevel($args[0], null, $generator)) {
+                if (!$this->getWorlds()->getServer()->getWorldManager()->generateWorld($args[0], $worldOpt)) {
                     $sender->sendMessage($this->getWorlds()->getMessage("create.failed"));
 
                     return true;

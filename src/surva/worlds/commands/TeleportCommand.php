@@ -6,7 +6,7 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
 class TeleportCommand extends CustomCommand
@@ -42,13 +42,13 @@ class TeleportCommand extends CustomCommand
             return true;
         }
 
-        if (!($this->getWorlds()->getServer()->isLevelLoaded($args[0]))) {
+        if (!($this->getWorlds()->getServer()->getWorldManager()->isWorldLoaded($args[0]))) {
             $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded", ["name" => $args[0]]));
 
             return true;
         }
 
-        $targetWorld = $this->getWorlds()->getServer()->getLevelByName($args[0]);
+        $targetWorld = $this->getWorlds()->getServer()->getWorldManager()->getWorldByName($args[0]);
 
         if (!$player->teleport($targetWorld->getSafeSpawn())) {
             $player->sendMessage($this->getWorlds()->getMessage("teleport.failed"));

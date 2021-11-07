@@ -5,12 +5,14 @@
 
 namespace surva\worlds\commands;
 
+use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\command\PluginCommand;
+use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginOwned;
 use pocketmine\utils\TextFormat;
 use surva\worlds\Worlds;
 
-class CustomCommand extends PluginCommand
+class CustomCommand extends Command implements PluginOwned
 {
 
     /* @var Worlds */
@@ -24,7 +26,7 @@ class CustomCommand extends PluginCommand
         $this->worlds     = $worlds;
         $this->permission = $permission;
 
-        parent::__construct($name, $worlds);
+        parent::__construct($name);
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args)
@@ -47,6 +49,11 @@ class CustomCommand extends PluginCommand
     public function do(CommandSender $sender, array $args): bool
     {
         return false;
+    }
+
+    public function getOwningPlugin(): Plugin
+    {
+        return $this->worlds;
     }
 
     /**
