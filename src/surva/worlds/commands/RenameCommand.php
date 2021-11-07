@@ -47,10 +47,16 @@ class RenameCommand extends CustomCommand
         $fromPath = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $fromFolderName;
         $toPath   = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $toFolderName;
 
-        $copyRes = FileUtils::copyRecursive($fromPath, $toPath);
+        $res = FileUtils::copyRecursive($fromPath, $toPath);
 
-        if ($copyRes === true) {
-            FileUtils::deleteRecursive($fromPath);
+        if ($res === true) {
+            $res = FileUtils::deleteRecursive($fromPath);
+        }
+
+        if(!$res) {
+            $sender->sendMessage($this->getWorlds()->getMessage("rename.error"));
+
+            return true;
         }
 
         $sender->sendMessage(

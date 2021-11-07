@@ -31,24 +31,19 @@ create:
 # Remove command
 remove:
   success: "§aWorld §f{name} §ahas been removed."
+  error: "§cWorld couldn't be removed, please check the world files."
 
 # Copy command
 copy:
   success: "§aWorld §f{name} §ahas been copied to §f{to}§a."
   same: "§cYou can't copy the world into itself."
-  datfile:
-    notexist: "§cThe world's data file does not exist."
-    damaged: "§cThe world's data file is damaged."
-    notsave: "§cFailed saving the updated dat file of the world."
+  error: "§cWorld couldn't be copied, please check the world files."
 
 # Rename command
 rename:
   success: "§aWorld §f{name} §ahas been renamed to §f{to}§a."
   same: "§cYou can't rename the world to the same name."
-  datfile:
-    notexist: "§cThe world's data file does not exist."
-    damaged: "§cThe world's data file is damaged."
-    notsave: "§cFailed saving the updated dat file of the world."
+  error: "§cWorld couldn't be renamed, please check the world files."
 
 # Load command
 load:

@@ -36,7 +36,13 @@ class CopyCommand extends CustomCommand
         $fromPath = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $fromFolderName;
         $toPath   = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $toFolderName;
 
-        FileUtils::copyRecursive($fromPath, $toPath);
+        $res = FileUtils::copyRecursive($fromPath, $toPath);
+
+        if(!$res) {
+            $sender->sendMessage($this->getWorlds()->getMessage("copy.error"));
+
+            return true;
+        }
 
         $sender->sendMessage(
           $this->getWorlds()->getMessage("copy.success", ["name" => $fromFolderName, "to" => $toFolderName])

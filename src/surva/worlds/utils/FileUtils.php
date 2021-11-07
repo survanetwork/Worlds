@@ -22,11 +22,15 @@ class FileUtils
             return false;
         }
 
+        if (is_dir($to)) {
+            return false;
+        }
+
         mkdir($to);
 
         foreach (scandir($from) as $obj) {
             if ($obj === "." or $obj === "..") {
-                break;
+                continue;
             }
 
             $fromObj = $from . "/" . $obj;
@@ -53,7 +57,7 @@ class FileUtils
 
         foreach (scandir($dir) as $obj) {
             if ($obj === "." or $obj === "..") {
-                break;
+                continue;
             }
 
             $dirObj = $dir . "/" . $obj;

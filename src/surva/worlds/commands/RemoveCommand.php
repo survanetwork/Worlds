@@ -29,7 +29,13 @@ class RemoveCommand extends CustomCommand
                 return true;
         }
 
-        FileUtils::deleteRecursive($this->getWorlds()->getServer()->getDataPath() . "worlds/" . $args[0]);
+        $res = FileUtils::deleteRecursive($this->getWorlds()->getServer()->getDataPath() . "worlds/" . $args[0]);
+
+        if(!$res) {
+            $sender->sendMessage($this->getWorlds()->getMessage("remove.error"));
+
+            return true;
+        }
 
         $sender->sendMessage($this->getWorlds()->getMessage("remove.success", ["name" => $args[0]]));
 
