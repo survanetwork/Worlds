@@ -34,7 +34,7 @@
     <img src=".github/.media/feature-banner.png" width="650" height="366" alt="World plugin features">
 </p>
 
-✅ Ready for PocketMine-MP version 4.0 (PM4): checkout the [pm4 branch](https://github.com/survanetwork/Worlds/tree/pm4) (still in beta).
+✅ Ready for PocketMine-MP version 4.0 (PM4).
 
 [• Description](#-description)  
 [• Features](#-features)  
