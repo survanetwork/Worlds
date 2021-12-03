@@ -1,10 +1,11 @@
 <?php
 /**
- * Worlds | level functions
+ * Worlds | PM world functions
  */
 
 namespace surva\worlds\logic;
 
+use pocketmine\player\GameMode;
 use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
 
@@ -18,16 +19,16 @@ class WorldActions
     public const UNLOAD_FAILED = 2;
 
     /**
-     * Check if the directory of a level exists
+     * Check if the directory of a world exists
      *
      * @param  \surva\worlds\Worlds  $worlds
-     * @param  string  $levelName
+     * @param  string  $worldName
      *
      * @return bool
      */
-    public static function worldPathExists(Worlds $worlds, string $levelName): bool
+    public static function worldPathExists(Worlds $worlds, string $worldName): bool
     {
-        return is_dir($worlds->getServer()->getDataPath() . "worlds/" . $levelName);
+        return is_dir($worlds->getServer()->getDataPath() . "worlds/" . $worldName);
     }
 
     /**
@@ -43,35 +44,53 @@ class WorldActions
     }
 
     /**
-     * Try to unload a level if it's loaded
+     * Try to unload a world if it's loaded
      *
      * @param  \surva\worlds\Worlds  $worlds
-     * @param  string  $levelName
+     * @param  string  $worldName
      *
      * @return int
      */
-    public static function unloadIfLoaded(Worlds $worlds, string $levelName): int
+    public static function unloadIfLoaded(Worlds $worlds, string $worldName): int
     {
-        if (!$worlds->getServer()->isLevelLoaded($levelName)) {
+        if (!$worlds->getServer()->getWorldManager()->isWorldLoaded($worldName)) {
             return self::SUCCESS;
         }
 
-        if ($defLvl = $worlds->getServer()->getDefaultLevel()) {
-            if ($defLvl->getName() === $levelName) {
+        if ($defLvl = $worlds->getServer()->getWorldManager()->getDefaultWorld()) {
+            if ($defLvl->getFolderName() === $worldName) {
                 return self::UNLOAD_DEFAULT;
             }
         }
 
-        if (!($worlds->getServer()->unloadLevel(
-          $worlds->getServer()->getLevelByName($levelName)
+        if (!($worlds->getServer()->getWorldManager()->unloadWorld(
+          $worlds->getServer()->getWorldManager()->getWorldByName($worldName)
         ))
         ) {
             return self::UNLOAD_FAILED;
         }
 
-        $worlds->getWorlds()->remove($levelName);
+        $worlds->unregisterWorld($worldName);
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Get the ID int value of a game mode
+     *
+     * @param  \pocketmine\player\GameMode  $gameMode
+     *
+     * @return int|null
+     */
+    public static function getGameModeId(GameMode $gameMode): ?int
+    {
+        return match ($gameMode->name()) {
+            "survival" => 0,
+            "creative" => 1,
+            "adventure" => 2,
+            "spectator" => 3,
+            default => null
+        };
     }
 
 }

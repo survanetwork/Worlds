@@ -6,8 +6,8 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
-use pocketmine\Player;
-use pocketmine\Server;
+use pocketmine\player\GameMode;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 use surva\worlds\form\DefaultSettingsForm;
 use surva\worlds\logic\WorldActions;
@@ -42,16 +42,12 @@ class DefaultsCommand extends CustomCommand
 
                 foreach (Flags::AVAILABLE_DEFAULT_FLAGS as $flagName => $flagDetails) {
                     $flagStr = $this->getWorlds()->getMessage("forms.world.params." . $flagName);
-                    $flagVal = "null";
 
-                    switch ($flagDetails["type"]) {
-                        case Flags::TYPE_BOOL:
-                            $flagVal = $this->formatBool($defaults->loadValue($flagName));
-                            break;
-                        case Flags::TYPE_GAMEMODE:
-                            $flagVal = $this->formatGamemode($defaults->loadValue($flagName));
-                            break;
-                    }
+                    $flagVal = match ($flagDetails["type"]) {
+                        Flags::TYPE_BOOL => $this->formatBool($defaults->loadValue($flagName)),
+                        Flags::TYPE_GAMEMODE => $this->formatGameMode($defaults->loadValue($flagName)),
+                        default => "null",
+                    };
 
                     $msg .= "§e" . $flagStr . " (§7" . $flagName . "§e): " . $flagVal . "\n";
                 }
@@ -73,13 +69,15 @@ class DefaultsCommand extends CustomCommand
 
                     return true;
                 } elseif ($args[1] === "gamemode") {
-                    if (($args[2] = Server::getGamemodeFromString($args[2])) === -1) {
+                    $gm = GameMode::fromString($args[2]);
+
+                    if ($gm === null) {
                         $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.notexist"));
 
                         return true;
                     }
 
-                    $defaults->updateValue($args[1], $args[2]);
+                    $defaults->updateValue("gamemode", WorldActions::getGameModeId($gm));
 
                     $player->sendMessage(
                       $this->getWorlds()->getMessage(
@@ -146,20 +144,20 @@ class DefaultsCommand extends CustomCommand
     }
 
     /**
-     * Format a gamemode for showing its value
+     * Format a game mode for showing its value
      *
      * @param  int|null  $value
      *
      * @return string
      */
-    private function formatGamemode(?int $value): string
+    private function formatGameMode(?int $value): string
     {
         if ($value === null) {
             return $this->getWorlds()->getMessage("set.list.notset");
         }
 
         return $this->getWorlds()->getServer()->getLanguage()->translateString(
-          TextFormat::WHITE . Server::getGamemodeString($value)
+          TextFormat::WHITE . GameMode::fromString($value)->getEnglishName()
         );
     }
 

@@ -5,8 +5,8 @@
 
 namespace surva\worlds\form;
 
-use pocketmine\Player;
-use pocketmine\Server;
+use pocketmine\player\GameMode;
+use pocketmine\player\Player;
 use surva\worlds\types\World;
 use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
@@ -22,41 +22,35 @@ class WorldSettingsForm extends SettingsForm
         $this->content = [];
 
         foreach (Flags::AVAILABLE_WORLD_FLAGS as $flagName => $flagDetails) {
-            switch ($flagDetails["type"]) {
-                case Flags::TYPE_BOOL:
-                    $this->content[] = [
-                      "type"    => "dropdown",
-                      "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
-                      "options" => [
-                        $this->getWorlds()->getMessage("forms.world.options.notset"),
-                        $this->getWorlds()->getMessage("forms.world.options.false"),
-                        $this->getWorlds()->getMessage("forms.world.options.true"),
-                      ],
-                      "default" => $this->convBool($world->loadValue($flagName)),
-                    ];
-                    break;
-                case Flags::TYPE_PERMISSION:
-                    $this->content[] = [
-                      "type"    => "input",
-                      "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
-                      "default" => $world->loadValue($flagName),
-                    ];
-                    break;
-                case Flags::TYPE_GAMEMODE:
-                    $this->content[] = [
-                      "type"    => "dropdown",
-                      "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
-                      "options" => [
-                        $this->getWorlds()->getMessage("forms.world.options.notset"),
-                        Server::getGamemodeString(Player::SURVIVAL),
-                        Server::getGamemodeString(Player::CREATIVE),
-                        Server::getGamemodeString(Player::ADVENTURE),
-                        Server::getGamemodeString(Player::SPECTATOR),
-                      ],
-                      "default" => $this->convGamemode($world->loadValue($flagName)),
-                    ];
-                    break;
-            }
+            $this->content[] = match ($flagDetails["type"]) {
+                Flags::TYPE_BOOL => [
+                  "type"    => "dropdown",
+                  "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
+                  "options" => [
+                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    $this->getWorlds()->getMessage("forms.world.options.false"),
+                    $this->getWorlds()->getMessage("forms.world.options.true"),
+                  ],
+                  "default" => $this->convBool($world->loadValue($flagName)),
+                ],
+                Flags::TYPE_PERMISSION => [
+                  "type"    => "input",
+                  "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
+                  "default" => $world->loadValue($flagName),
+                ],
+                Flags::TYPE_GAMEMODE => [
+                  "type"    => "dropdown",
+                  "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
+                  "options" => [
+                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    GameMode::SURVIVAL()->getEnglishName(),
+                    GameMode::CREATIVE()->getEnglishName(),
+                    GameMode::ADVENTURE()->getEnglishName(),
+                    GameMode::SPECTATOR()->getEnglishName(),
+                  ],
+                  "default" => $this->convGameMode($world->loadValue($flagName)),
+                ],
+            };
         }
     }
 
@@ -76,8 +70,8 @@ class WorldSettingsForm extends SettingsForm
             return;
         }
 
-        $defFolderName = $this->getWorlds()->getServer()->getDefaultLevel()->getFolderName();
-        $plFolderName  = $player->getLevel()->getFolderName();
+        $defFolderName = $this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld()->getFolderName();
+        $plFolderName  = $player->getWorld()->getFolderName();
 
         $isDefLvl = $defFolderName === $plFolderName;
 
@@ -91,7 +85,7 @@ class WorldSettingsForm extends SettingsForm
                     $this->procPerm($flagName, $data[$i], $isDefLvl, $player);
                     break;
                 case Flags::TYPE_GAMEMODE:
-                    $this->procGamemode($flagName, $data[$i]);
+                    $this->procGameMode($flagName, $data[$i]);
                     break;
             }
 

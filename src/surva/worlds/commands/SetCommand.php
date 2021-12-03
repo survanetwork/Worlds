@@ -6,8 +6,8 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
-use pocketmine\Player;
-use pocketmine\Server;
+use pocketmine\player\GameMode;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 use surva\worlds\form\WorldSettingsForm;
 use surva\worlds\logic\WorldActions;
@@ -26,7 +26,7 @@ class SetCommand extends CustomCommand
 
         $player = $sender;
 
-        $folderName = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
         if (!($world = $this->getWorlds()->getWorldByName($folderName))) {
             $sender->sendMessage($this->getWorlds()->getMessage("general.world.notloaded", ["name" => $folderName]));
@@ -47,19 +47,13 @@ class SetCommand extends CustomCommand
 
             foreach (Flags::AVAILABLE_WORLD_FLAGS as $flagName => $flagDetails) {
                 $flagStr = $this->getWorlds()->getMessage("forms.world.params." . $flagName);
-                $flagVal = "null";
 
-                switch ($flagDetails["type"]) {
-                    case Flags::TYPE_BOOL:
-                        $flagVal = $this->formatBool($world->loadValue($flagName));
-                        break;
-                    case Flags::TYPE_PERMISSION:
-                        $flagVal = $this->formatText($world->loadValue($flagName));
-                        break;
-                    case Flags::TYPE_GAMEMODE:
-                        $flagVal = $this->formatGamemode($world->loadValue($flagName));
-                        break;
-                }
+                $flagVal = match ($flagDetails["type"]) {
+                    Flags::TYPE_BOOL => $this->formatBool($world->loadValue($flagName)),
+                    Flags::TYPE_PERMISSION => $this->formatText($world->loadValue($flagName)),
+                    Flags::TYPE_GAMEMODE => $this->formatGameMode($world->loadValue($flagName)),
+                    default => "null",
+                };
 
                 $msg .= "§e" . $flagStr . " (§7" . $flagName . "§e): " . $flagVal . "\n";
             }
@@ -78,35 +72,25 @@ class SetCommand extends CustomCommand
         }
 
         if ($args[0] === "permission") {
-            if ($this->getWorlds()->getServer()->getDefaultLevel()->getFolderName() === $folderName) {
+            if ($this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld()->getFolderName()
+                === $folderName
+            ) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
 
                 return true;
             }
 
             $world->updateValue($args[0], $args[1]);
-
-            $player->sendMessage(
-              $this->getWorlds()->getMessage(
-                "set.success",
-                ["world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1]]
-              )
-            );
         } elseif ($args[0] === "gamemode") {
-            if (($args[1] = Server::getGamemodeFromString($args[1])) === -1) {
+            $gm = GameMode::fromString($args[1]);
+
+            if ($gm === null) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.notexist"));
 
                 return true;
             }
 
-            $world->updateValue($args[0], $args[1]);
-
-            $player->sendMessage(
-              $this->getWorlds()->getMessage(
-                "set.success",
-                ["world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1]]
-              )
-            );
+            $world->updateValue("gamemode", WorldActions::getGameModeId($gm));
         } else {
             if (!(in_array($args[1], ["true", "false"]))) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.notbool", ["key" => $args[0]]));
@@ -115,14 +99,14 @@ class SetCommand extends CustomCommand
             }
 
             $world->updateValue($args[0], $args[1]);
-
-            $player->sendMessage(
-              $this->getWorlds()->getMessage(
-                "set.success",
-                ["world" => $player->getLevel()->getFolderName(), "key" => $args[0], "value" => $args[1]]
-              )
-            );
         }
+
+        $player->sendMessage(
+          $this->getWorlds()->getMessage(
+            "set.success",
+            ["world" => $player->getWorld()->getFolderName(), "key" => $args[0], "value" => $args[1]]
+          )
+        );
 
         return true;
     }
@@ -144,20 +128,20 @@ class SetCommand extends CustomCommand
     }
 
     /**
-     * Format a gamemode for showing its value
+     * Format a game mode for showing its value
      *
      * @param  int|null  $value
      *
      * @return string
      */
-    private function formatGamemode(?int $value): string
+    private function formatGameMode(?int $value): string
     {
         if ($value === null) {
             return $this->getWorlds()->getMessage("set.list.notset");
         }
 
         return $this->getWorlds()->getServer()->getLanguage()->translateString(
-          TextFormat::WHITE . Server::getGamemodeString($value)
+          TextFormat::WHITE . GameMode::fromString($value)->getEnglishName()
         );
     }
 

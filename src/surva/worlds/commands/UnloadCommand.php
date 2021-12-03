@@ -16,22 +16,22 @@ class UnloadCommand extends CustomCommand
             return false;
         }
 
-        if (!($this->getWorlds()->getServer()->isLevelLoaded($args[0]))) {
+        if (!($this->getWorlds()->getServer()->getWorldManager()->isWorldLoaded($args[0]))) {
             $sender->sendMessage($this->getWorlds()->getMessage("general.world.notloaded", ["name" => $args[0]]));
 
             return true;
         }
 
-        if ($defLvl = $this->getWorlds()->getServer()->getDefaultLevel()) {
-            if ($defLvl->getName() === $args[0]) {
+        if ($defLvl = $this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld()) {
+            if ($defLvl->getFolderName() === $args[0]) {
                 $sender->sendMessage($this->getWorlds()->getMessage("unload.default"));
 
                 return true;
             }
         }
 
-        if (!($this->getWorlds()->getServer()->unloadLevel(
-          $this->getWorlds()->getServer()->getLevelByName($args[0])
+        if (!($this->getWorlds()->getServer()->getWorldManager()->unloadWorld(
+          $this->getWorlds()->getServer()->getWorldManager()->getWorldByName($args[0])
         ))
         ) {
             $sender->sendMessage($this->getWorlds()->getMessage("unload.failed"));
@@ -39,7 +39,7 @@ class UnloadCommand extends CustomCommand
             return true;
         }
 
-        $this->getWorlds()->getWorlds()->remove($args[0]);
+        $this->getWorlds()->unregisterWorld($args[0]);
 
         $sender->sendMessage($this->getWorlds()->getMessage("unload.success", ["world" => $args[0]]));
 

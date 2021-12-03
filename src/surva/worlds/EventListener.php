@@ -13,9 +13,8 @@ use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\LeavesDecayEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityLevelChangeEvent;
+use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\entity\ExplosionPrimeEvent;
-use pocketmine\event\level\LevelLoadEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerBucketEmptyEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
@@ -23,16 +22,16 @@ use pocketmine\event\player\PlayerExhaustEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\world\WorldLoadEvent;
 use pocketmine\item\PaintingItem;
 use pocketmine\item\Potion;
 use pocketmine\item\TieredTool;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 class EventListener implements Listener
 {
 
-    /* @var Worlds */
-    private $worlds;
+    private Worlds $worlds;
 
     public function __construct(Worlds $worlds)
     {
@@ -40,314 +39,337 @@ class EventListener implements Listener
     }
 
     /**
-     * @param  LevelLoadEvent  $event
+     * Register world in the plugin when loading
+     *
+     * @param  \pocketmine\event\world\WorldLoadEvent  $event
      */
-    public function onLevelLoad(LevelLoadEvent $event): void
+    public function onWorldLoad(WorldLoadEvent $event): void
     {
-        $foldername = $event->getLevel()->getFolderName();
+        $folderName = $event->getWorld()->getFolderName();
 
-        $this->getWorlds()->loadWorld($foldername);
+        $this->worlds->registerWorld($folderName);
     }
 
     /**
-     * @param  PlayerJoinEvent  $event
+     * Apply world options when a player joins the game
+     *
+     * @param  \pocketmine\event\player\PlayerJoinEvent  $event
      */
     public function onPlayerJoin(PlayerJoinEvent $event): void
     {
         $player     = $event->getPlayer();
-        $targetLvl  = $player->getLevel();
-        $foldername = $targetLvl->getFolderName();
+        $pmWorld    = $player->getWorld();
+        $folderName = $pmWorld->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if ($world->getPermission() !== null) {
-                if (!$player->hasPermission($world->getPermission())) {
-                    $player->sendMessage($this->getWorlds()->getMessage("general.permission"));
+        if (($world = $this->worlds->getWorldByName($folderName)) === null) {
+            return;
+        }
 
-                    $player->teleport($this->getWorlds()->getServer()->getDefaultLevel()->getSafeSpawn());
+        if ($world->getPermission() !== null) {
+            if (!$player->hasPermission($world->getPermission())) {
+                $player->sendMessage($this->worlds->getMessage("general.permission"));
+
+                $defaultWorld = $this->worlds->getServer()->getWorldManager()->getDefaultWorld();
+
+                if ($defaultWorld === null) {
+                    return;
                 }
-            }
 
-            if ($world->getGamemode() !== null) {
-                if (!$player->hasPermission("worlds.special.gamemode")) {
-                    $player->setGamemode($world->getGamemode());
-                }
-            }
-
-            if ($world->getFly() === true or $player->hasPermission("worlds.special.fly")) {
-                $player->setAllowFlight(true);
-            } elseif ($world->getFly() === false) {
-                $player->setAllowFlight(false);
-            }
-
-            if ($world->getDaylightCycle() === true) {
-                $targetLvl->startTime();
-            } elseif ($world->getDaylightCycle() === false) {
-                $targetLvl->stopTime();
+                $player->teleport($defaultWorld->getSafeSpawn());
             }
         }
+
+        $this->worlds->applyWorldOptions($world, $player);
     }
 
     /**
-     * @param  EntityLevelChangeEvent  $event
+     * Apply world options when a player changes its world on teleportation
+     *
+     * @param  \pocketmine\event\entity\EntityTeleportEvent  $event
      */
-    public function onEntityLevelChange(EntityLevelChangeEvent $event): void
+    public function onEntityTeleport(EntityTeleportEvent $event): void
     {
         $player     = $event->getEntity();
-        $targetLvl  = $event->getTarget();
-        $foldername = $targetLvl->getFolderName();
+        $origin     = $event->getFrom()->getWorld();
+        $target     = $event->getTo()->getWorld();
+        $folderName = $target->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if ($player instanceof Player) {
-                if ($world->getPermission() !== null) {
-                    if (!$player->hasPermission($world->getPermission())) {
-                        $player->sendMessage($this->getWorlds()->getMessage("general.permission"));
+        if (!($player instanceof Player)) {
+            return;
+        }
 
-                        $event->setCancelled();
+        if ($origin->getId() === $target->getId()) {
+            return;
+        }
 
-                        return;
-                    }
-                }
+        if (($world = $this->worlds->getWorldByName($folderName)) === null) {
+            return;
+        }
 
-                if ($world->getGamemode() !== null) {
-                    if (!$player->hasPermission("worlds.special.gamemode")) {
-                        $player->setGamemode($world->getGamemode());
-                    }
-                }
+        if ($world->getPermission() !== null) {
+            if (!$player->hasPermission($world->getPermission())) {
+                $player->sendMessage($this->worlds->getMessage("general.permission"));
 
-                if ($world->getFly() === true or $player->hasPermission("worlds.special.fly")) {
-                    $player->setAllowFlight(true);
-                } elseif ($world->getFly() === false) {
-                    $player->setAllowFlight(false);
-                }
+                $event->cancel();
 
-                if ($world->getDaylightCycle() === true) {
-                    $targetLvl->startTime();
-                } elseif ($world->getDaylightCycle() === false) {
-                    $targetLvl->stopTime();
-                }
+                return;
             }
+        }
+
+        $this->worlds->applyWorldOptions($world, $player);
+
+        if ($world->getDaylightCycle() === true) {
+            $target->startTime();
+        } elseif ($world->getDaylightCycle() === false) {
+            $target->stopTime();
         }
     }
 
     /**
-     * @param  BlockBreakEvent  $event
+     * Prevent breaking blocks if option is set
+     *
+     * @param  \pocketmine\event\block\BlockBreakEvent  $event
      */
     public function onBlockBreak(BlockBreakEvent $event): void
     {
         $player     = $event->getPlayer();
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if (!$player->hasPermission("worlds.admin.build")) {
-                if ($world->getBuild() === false) {
-                    $event->setCancelled();
-                }
-            }
+        if (($world = $this->worlds->getWorldByName($folderName)) === null) {
+            return;
+        }
+
+        if ($player->hasPermission("worlds.admin.build")) {
+            return;
+        }
+
+        if ($world->getBuild() === false) {
+            $event->cancel();
         }
     }
 
     /**
-     * @param  BlockPlaceEvent  $event
+     * Prevent placing blocks if option is set
+     *
+     * @param  \pocketmine\event\block\BlockPlaceEvent  $event
      */
     public function onBlockPlace(BlockPlaceEvent $event): void
     {
         $player     = $event->getPlayer();
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if (!$player->hasPermission("worlds.admin.build")) {
-                if ($world->getBuild() === false) {
-                    $event->setCancelled();
-                }
-            }
+        if (($world = $this->worlds->getWorldByName($folderName)) === null) {
+            return;
+        }
+
+        if ($player->hasPermission("worlds.admin.build")) {
+            return;
+        }
+
+        if ($world->getBuild() === false) {
+            $event->cancel();
         }
     }
 
     /**
-     * @param  PlayerBucketEmptyEvent  $event
+     * Prevent using buckets if building is disabled
+     *
+     * @param  \pocketmine\event\player\PlayerBucketEmptyEvent  $event
      */
     public function onPlayerBucketEmpty(PlayerBucketEmptyEvent $event)
     {
         $player     = $event->getPlayer();
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if (!$player->hasPermission("worlds.admin.build")) {
-                if ($world->getBuild() === false) {
-                    $event->setCancelled();
-                }
-            }
-        }
-    }
-
-    /**
-     * @param  EntityDamageEvent  $event
-     */
-    public function onEntityDamage(EntityDamageEvent $event): void
-    {
-        $entity = $event->getEntity();
-        $level  = $entity->getLevel();
-
-        if ($level === null) {
+        if (($world = $this->worlds->getWorldByName($folderName)) === null) {
             return;
         }
 
-        $foldername = $level->getFolderName();
+        if ($player->hasPermission("worlds.admin.build")) {
+            return;
+        }
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if ($entity instanceof Player) {
-                if ($event instanceof EntityDamageByEntityEvent) {
-                    if ($world->getPvp() === false) {
-                        $event->setCancelled();
-                    }
-                } else {
-                    if ($event->getCause() !== EntityDamageEvent::CAUSE_VOID) {
-                        if ($world->getDamage() === false) {
-                            $event->setCancelled();
-                        }
-                    }
+        if ($world->getBuild() === false) {
+            $event->cancel();
+        }
+    }
+
+    /**
+     * Handle damage options and prevent damage if needed
+     *
+     * @param  \pocketmine\event\entity\EntityDamageEvent  $event
+     */
+    public function onEntityDamage(EntityDamageEvent $event): void
+    {
+        $entity     = $event->getEntity();
+        $pmWorld    = $entity->getWorld();
+        $folderName = $pmWorld->getFolderName();
+
+        if (($world = $this->worlds->getWorldByName($folderName)) === null) {
+            return;
+        }
+
+        if ($entity instanceof Player) {
+            if ($event instanceof EntityDamageByEntityEvent) {
+                if ($world->getPvp() === false) {
+                    $event->cancel();
                 }
-            } elseif ($entity instanceof Painting) {
-                if ($event instanceof EntityDamageByEntityEvent) {
-                    $damager = $event->getDamager();
+            } elseif ($event->getCause() !== EntityDamageEvent::CAUSE_VOID) {
+                if ($world->getDamage() === false) {
+                    $event->cancel();
+                }
+            }
+        } elseif ($entity instanceof Painting) {
+            if ($event instanceof EntityDamageByEntityEvent) {
+                $damager = $event->getDamager();
 
-                    if ($damager instanceof Player) {
-                        if (!$damager->hasPermission("worlds.admin.build")) {
-                            if ($world->getBuild() === false) {
-                                $event->setCancelled();
-                            }
-                        }
-                    } else {
+                if ($damager instanceof Player) {
+                    if (!$damager->hasPermission("worlds.admin.build")) {
                         if ($world->getBuild() === false) {
-                            $event->setCancelled();
+                            $event->cancel();
                         }
                     }
-                } else {
-                    if ($world->getBuild() === false) {
-                        $event->setCancelled();
-                    }
+                } elseif ($world->getBuild() === false) {
+                    $event->cancel();
                 }
+            } elseif ($world->getBuild() === false) {
+                $event->cancel();
             }
         }
     }
 
     /**
-     * @param  ExplosionPrimeEvent  $event
+     * Prevent explosions if policy is set
+     *
+     * @param  \pocketmine\event\entity\ExplosionPrimeEvent  $event
      */
     public function onExplosionPrime(ExplosionPrimeEvent $event): void
     {
         $player     = $event->getEntity();
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if ($world->getExplode() === false) {
-                $event->setCancelled();
-            }
+        if (($world = $this->worlds->getWorldByName($folderName)) === null) {
+            return;
+        }
+
+        if ($world->getExplode() === false) {
+            $event->cancel();
         }
     }
 
     /**
-     * @param  PlayerDropItemEvent  $event
+     * Prevent dropping items if policy is set
+     *
+     * @param  \pocketmine\event\player\PlayerDropItemEvent  $event
      */
     public function onPlayerDropItem(PlayerDropItemEvent $event): void
     {
         $player     = $event->getPlayer();
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if ($world->getDrop() === false) {
-                $event->setCancelled();
-            }
+        if (($world = $this->worlds->getWorldByName($folderName)) === null) {
+            return;
+        }
+
+        if ($world->getDrop() === false) {
+            $event->cancel();
         }
     }
 
     /**
-     * @param  PlayerExhaustEvent  $event
+     * Prevent exhaustion if hunger is disabled
+     *
+     * @param  \pocketmine\event\player\PlayerExhaustEvent  $event
      */
     public function onPlayerExhaust(PlayerExhaustEvent $event): void
     {
         $player     = $event->getPlayer();
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if ($world->getHunger() === false) {
-                $event->setCancelled();
-            }
+        if (($world = $this->worlds->getWorldByName($folderName)) === null) {
+            return;
+        }
+
+        if ($world->getHunger() === false) {
+            $event->cancel();
         }
     }
 
     /**
-     * @param  PlayerInteractEvent  $event
+     * Prevent interaction if disabled and some block breaking events like painting/grass, ...
+     *
+     * @param  \pocketmine\event\player\PlayerInteractEvent  $event
      */
     public function onPlayerInteract(PlayerInteractEvent $event): void
     {
-        $player = $event->getPlayer();
-        $item   = $event->getItem();
-        $block  = $event->getBlock();
+        $player     = $event->getPlayer();
+        $item       = $event->getItem();
+        $block      = $event->getBlock();
+        $folderName = $player->getWorld()->getFolderName();
 
-        $foldername = $player->getLevel()->getFolderName();
+        if (($world = $this->worlds->getWorldByName($folderName)) === null) {
+            return;
+        }
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if (!$player->hasPermission("worlds.admin.interact")) {
-                if ($world->getInteract() === false) {
-                    $event->setCancelled();
-                }
+        if (!$player->hasPermission("worlds.admin.interact")) {
+            if ($world->getInteract() === false) {
+                $event->cancel();
             }
+        }
 
-            if (
-              $item instanceof PaintingItem or
-              $block instanceof ItemFrame or
-              ($item instanceof TieredTool and $block instanceof Grass)
-            ) {
-                if (!$player->hasPermission("worlds.admin.build")) {
-                    if ($world->getBuild() === false) {
-                        $event->setCancelled();
-                    }
+        if (
+          $item instanceof PaintingItem or
+          $block instanceof ItemFrame or
+          ($item instanceof TieredTool and $block instanceof Grass)
+        ) {
+            if (!$player->hasPermission("worlds.admin.build")) {
+                if ($world->getBuild() === false) {
+                    $event->cancel();
                 }
             }
         }
     }
 
     /**
+     * Prevent leaves decaying if option is set
+     *
      * @param  \pocketmine\event\block\LeavesDecayEvent  $event
      */
     public function onLeavesDecay(LeavesDecayEvent $event): void
     {
-        $foldername = $event->getBlock()->getLevel()->getFolderName();
+        $folderName = $event->getBlock()->getPosition()->getWorld()->getFolderName();
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if ($world->getLeavesDecay() === false) {
-                $event->setCancelled();
-            }
+        if (($world = $this->worlds->getWorldByName($folderName)) === null) {
+            return;
+        }
+
+        if ($world->getLeavesDecay() === false) {
+            $event->cancel();
         }
     }
 
     /**
+     * Prevent consuming potions if disabled
+     *
      * @param  \pocketmine\event\player\PlayerItemConsumeEvent  $event
      */
     public function onPlayerItemConsume(PlayerItemConsumeEvent $event): void
     {
         $player     = $event->getPlayer();
         $item       = $event->getItem();
-        $foldername = $player->getLevel()->getFolderName();
+        $folderName = $player->getWorld()->getFolderName();
 
         if (!($item instanceof Potion)) {
             return;
         }
 
-        if ($world = $this->getWorlds()->getWorldByName($foldername)) {
-            if ($world->getPotion() === false) {
-                $event->setCancelled();
-            }
+        if (($world = $this->worlds->getWorldByName($folderName)) === null) {
+            return;
         }
-    }
 
-    /**
-     * @return Worlds
-     */
-    public function getWorlds(): Worlds
-    {
-        return $this->worlds;
+        if ($world->getPotion() === false) {
+            $event->cancel();
+        }
     }
 
 }

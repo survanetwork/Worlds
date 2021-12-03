@@ -6,10 +6,8 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
-use pocketmine\nbt\BigEndianNBTStream;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\StringTag;
 use surva\worlds\logic\WorldActions;
+use surva\worlds\utils\FileUtils;
 
 class CopyCommand extends CustomCommand
 {
@@ -38,39 +36,10 @@ class CopyCommand extends CustomCommand
         $fromPath = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $fromFolderName;
         $toPath   = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $toFolderName;
 
-        $this->getWorlds()->copy($fromPath, $toPath);
+        $res = FileUtils::copyRecursive($fromPath, $toPath);
 
-        if (!($levelDatContent = file_get_contents($toPath . "/level.dat"))) {
-            $sender->sendMessage($this->getWorlds()->getMessage("copy.datfile.notexist"));
-
-            return true;
-        }
-
-        $nbt       = new BigEndianNBTStream();
-        $levelData = $nbt->readCompressed($levelDatContent);
-
-        if (!($levelData instanceof CompoundTag) or !$levelData->hasTag("Data", CompoundTag::class)) {
-            $sender->sendMessage($this->getWorlds()->getMessage("copy.datfile.damaged"));
-
-            return true;
-        }
-
-        $dataWorkingWith = $levelData->getCompoundTag("Data");
-
-        if (!$dataWorkingWith->hasTag("LevelName", StringTag::class)) {
-            $sender->sendMessage($this->getWorlds()->getMessage("copy.datfile.damaged"));
-
-            return true;
-        }
-
-        $dataWorkingWith->setString("LevelName", $toFolderName);
-
-        if (!(file_put_contents(
-          $toPath . "/level.dat",
-          $nbt->writeCompressed(new CompoundTag("", [$dataWorkingWith]))
-        ))
-        ) {
-            $sender->sendMessage($this->getWorlds()->getMessage("copy.datfile.notsave"));
+        if(!$res) {
+            $sender->sendMessage($this->getWorlds()->getMessage("copy.error"));
 
             return true;
         }

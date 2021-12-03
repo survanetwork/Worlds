@@ -5,28 +5,35 @@
 
 namespace surva\worlds\commands;
 
+use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\command\PluginCommand;
+use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginOwned;
 use pocketmine\utils\TextFormat;
 use surva\worlds\Worlds;
 
-class CustomCommand extends PluginCommand
+class CustomCommand extends Command implements PluginOwned
 {
 
-    /* @var Worlds */
-    private $worlds;
-
-    /* @var string */
-    private $permission;
+    private Worlds $worlds;
 
     public function __construct(Worlds $worlds, string $name, string $permission)
     {
-        $this->worlds     = $worlds;
-        $this->permission = $permission;
+        $this->worlds = $worlds;
+        $this->setPermission($permission);
 
-        parent::__construct($name, $worlds);
+        parent::__construct($name);
     }
 
+    /**
+     * Execute this sub command, check permissions before
+     *
+     * @param  \pocketmine\command\CommandSender  $sender
+     * @param  string  $commandLabel
+     * @param  array  $args
+     *
+     * @return bool
+     */
     public function execute(CommandSender $sender, string $commandLabel, array $args)
     {
         array_shift($args);
@@ -44,23 +51,28 @@ class CustomCommand extends PluginCommand
         return $this->do($sender, $args);
     }
 
+    /**
+     * Execution method of the sub command
+     *
+     * @param  \pocketmine\command\CommandSender  $sender
+     * @param  array  $args
+     *
+     * @return bool
+     */
     public function do(CommandSender $sender, array $args): bool
     {
         return false;
     }
 
-    /**
-     * @return string
-     */
-    public function getPermission(): string
+    public function getOwningPlugin(): Plugin
     {
-        return $this->permission;
+        return $this->worlds;
     }
 
     /**
-     * @return Worlds
+     * @return \surva\worlds\Worlds
      */
-    public function getWorlds(): Worlds
+    protected function getWorlds(): Worlds
     {
         return $this->worlds;
     }

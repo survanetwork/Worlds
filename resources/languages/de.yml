@@ -31,24 +31,19 @@ create:
 # Remove command
 remove:
   success: "§aDie Welt §f{name} §awurde erfolgreich gelöscht."
+  error: "§cDie Welt konnte nicht gelöscht werden, bitte prüfe die Welt-Dateien."
 
 # Copy command
 copy:
   success: "§aDie Welt §f{name} §wurde erfolgreich nach §f{to} §akopiert."
   same: "§cDu kannst eine Welt nicht in sich selbst kopieren."
-  datfile:
-    notexist: "§cDie DAT-Datei der Welt konnte nicht gefunden werden."
-    damaged: "§cDie DAT-Datei der Welt ist beschädigt."
-    notsave: "§cDie aktualisierte DAT-Datei der Welt konnte nicht gespeichert werden."
+  error: "§cDie Welt konnte nicht kopiert werden, bitte prüfe die Welt-Dateien."
 
 # Rename command
 rename:
   success: "§aDie Welt §f{name} §awurde zu §f{to} §aumbenannt."
   same: "§cDu kannst eine Welt nicht in den gleichen Namen umbenennen."
-  datfile:
-    notexist: "§cDie DAT-Datei der Welt konnte nicht gefunden werden."
-    damaged: "§cDie DAT-Datei der Welt ist beschädigt."
-    notsave: "§cDie aktualisierte DAT-Datei der Welt konnte nicht gespeichert werden."
+  error: "§cDie Welt konnte nicht umbenannt werden, bitte prüfe die Welt-Dateien."
 
 # Load command
 load:

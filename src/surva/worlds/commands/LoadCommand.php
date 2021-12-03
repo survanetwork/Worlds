@@ -17,7 +17,7 @@ class LoadCommand extends CustomCommand
             return false;
         }
 
-        if ($this->getWorlds()->getServer()->isLevelLoaded($args[0])) {
+        if ($this->getWorlds()->getServer()->getWorldManager()->isWorldLoaded($args[0])) {
             $sender->sendMessage($this->getWorlds()->getMessage("load.already", ["name" => $args[0]]));
 
             return true;
@@ -29,7 +29,7 @@ class LoadCommand extends CustomCommand
             return true;
         }
 
-        if (!($this->getWorlds()->getServer()->loadLevel($args[0]))) {
+        if (!($this->getWorlds()->getServer()->getWorldManager()->loadWorld($args[0]))) {
             $sender->sendMessage($this->getWorlds()->getMessage("load.failed"));
 
             return true;

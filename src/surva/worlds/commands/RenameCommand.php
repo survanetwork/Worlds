@@ -6,10 +6,8 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
-use pocketmine\nbt\BigEndianNBTStream;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\StringTag;
 use surva\worlds\logic\WorldActions;
+use surva\worlds\utils\FileUtils;
 
 class RenameCommand extends CustomCommand
 {
@@ -49,43 +47,17 @@ class RenameCommand extends CustomCommand
         $fromPath = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $fromFolderName;
         $toPath   = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $toFolderName;
 
-        if (!($levelDatContent = file_get_contents($fromPath . "/level.dat"))) {
-            $sender->sendMessage($this->getWorlds()->getMessage("rename.datfile.notexist"));
+        $res = FileUtils::copyRecursive($fromPath, $toPath);
+
+        if ($res === true) {
+            $res = FileUtils::deleteRecursive($fromPath);
+        }
+
+        if(!$res) {
+            $sender->sendMessage($this->getWorlds()->getMessage("rename.error"));
 
             return true;
         }
-
-        $nbt       = new BigEndianNBTStream();
-        $levelData = $nbt->readCompressed($levelDatContent);
-
-        if (!($levelData instanceof CompoundTag) or !$levelData->hasTag("Data", CompoundTag::class)) {
-            $sender->sendMessage($this->getWorlds()->getMessage("rename.datfile.damaged"));
-
-            return true;
-        }
-
-        $dataWorkingWith = $levelData->getCompoundTag("Data");
-
-        if (!$dataWorkingWith->hasTag("LevelName", StringTag::class)) {
-            $sender->sendMessage($this->getWorlds()->getMessage("rename.datfile.damaged"));
-
-            return true;
-        }
-
-        $dataWorkingWith->setString("LevelName", $toFolderName);
-
-        if (!(file_put_contents(
-          $fromPath . "/level.dat",
-          $nbt->writeCompressed(new CompoundTag("", [$dataWorkingWith]))
-        ))
-        ) {
-            $sender->sendMessage($this->getWorlds()->getMessage("rename.datfile.notsave"));
-
-            return true;
-        }
-
-        $this->getWorlds()->copy($fromPath, $toPath);
-        $this->getWorlds()->delete($fromPath);
 
         $sender->sendMessage(
           $this->getWorlds()->getMessage("rename.success", ["name" => $fromFolderName, "to" => $toFolderName])

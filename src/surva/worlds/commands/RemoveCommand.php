@@ -7,6 +7,7 @@ namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
 use surva\worlds\logic\WorldActions;
+use surva\worlds\utils\FileUtils;
 
 class RemoveCommand extends CustomCommand
 {
@@ -28,7 +29,13 @@ class RemoveCommand extends CustomCommand
                 return true;
         }
 
-        $this->getWorlds()->delete($this->getWorlds()->getServer()->getDataPath() . "worlds/" . $args[0]);
+        $res = FileUtils::deleteRecursive($this->getWorlds()->getServer()->getDataPath() . "worlds/" . $args[0]);
+
+        if(!$res) {
+            $sender->sendMessage($this->getWorlds()->getMessage("remove.error"));
+
+            return true;
+        }
 
         $sender->sendMessage($this->getWorlds()->getMessage("remove.success", ["name" => $args[0]]));
 

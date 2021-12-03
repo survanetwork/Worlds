@@ -1,7 +1,7 @@
 name: Worlds
 main: surva\worlds\Worlds
 version: 3.0.10
-api: 3.0.0
+api: 4.0.0
 
 author: survanetwork
 description: Easy to use but feature rich World Guard Plugin
@@ -11,51 +11,54 @@ commands:
   worlds:
     description: "Worlds plugin main command"
     usage: "/worlds list\n/worlds create <worldname> [type]\n/worlds <remove|load|unload|tp> <worldname>\n/worlds <copy|rename> <from> <to>\n/worlds set\n/worlds set legacy\n/worlds set permission <permissionstring>\n/worlds set gamemode <survival|creative|adventure|spectator>\n/worlds set <rulename> <true|false>\n/worlds unset\n/worlds unset <rulename>\n/worlds defaults\n/worlds defaults legacy\n/worlds defaults set permission <permissionstring>\n/worlds defaults set gamemode <survival|creative|adventure|spectator>\n/worlds defaults set <rulename> <true|false>\n/worlds defaults unset <rulename>"
+    permission: worlds.command
     aliases: ["ws"]
 permissions:
+  worlds.command:
+    description: "Use the worlds command"
+    default: true
   worlds.list:
     description: "List existing worlds on the server"
     default: true
   worlds.admin:
     description: "Create worlds, delete worlds, set parameters, ..."
     default: op
-    children:
-      worlds.admin.create:
-        description: "Create new worlds"
-        default: op
-      worlds.admin.remove:
-        description: "Remove worlds"
-        default: op
-      worlds.admin.copy:
-        description: "Copy worlds"
-        default: op
-      worlds.admin.rename:
-        description: "Rename worlds"
-        default: op
-      worlds.admin.load:
-        description: "Load worlds"
-        default: op
-      worlds.admin.unload:
-        description: "Unload worlds"
-        default: op
-      worlds.admin.teleport:
-        description: "Teleport to any world"
-        default: op
-      worlds.admin.set:
-        description: "Set parameters (like gamemode, damage, ...)"
-        default: op
-      worlds.admin.unset:
-        description: "Unset parameters (like gamemode, damage, ...)"
-        default: op
-      worlds.admin.defaults:
-        description: "Set / unset world default values / parameters"
-        default: op
-      worlds.admin.build:
-        description: "Allow building in protected worlds"
-        default: op
-      worlds.admin.interact:
-        description: "Allow interacting in protected worlds"
-        default: op
+  worlds.admin.create:
+    description: "Create new worlds"
+    default: op
+  worlds.admin.remove:
+    description: "Remove worlds"
+    default: op
+  worlds.admin.copy:
+    description: "Copy worlds"
+    default: op
+  worlds.admin.rename:
+    description: "Rename worlds"
+    default: op
+  worlds.admin.load:
+    description: "Load worlds"
+    default: op
+  worlds.admin.unload:
+    description: "Unload worlds"
+    default: op
+  worlds.admin.teleport:
+    description: "Teleport to any world"
+    default: op
+  worlds.admin.set:
+    description: "Set parameters (like gamemode, damage, ...)"
+    default: op
+  worlds.admin.unset:
+    description: "Unset parameters (like gamemode, damage, ...)"
+    default: op
+  worlds.admin.defaults:
+    description: "Set / unset world default values / parameters"
+    default: op
+  worlds.admin.build:
+    description: "Allow building in protected worlds"
+    default: op
+  worlds.admin.interact:
+    description: "Allow interacting in protected worlds"
+    default: op
   worlds.teleport.general:
     description: "Allow teleporting to worlds when having the permission of the specific world"
     default: true
