@@ -18,7 +18,7 @@
         <img src="https://poggit.pmmp.io/shield.dl/Worlds" alt="Downloads on Poggit">
     </a>
     <a href="https://github.com/survanetwork/Worlds/blob/master/LICENSE">
-        <img src="https://img.shields.io/badge/license-CC--BY--NC--SA--4.0-orange.svg" alt="License">
+        <img src="https://img.shields.io/github/license/survanetwork/Worlds.svg" alt="License">
     </a>
     <a href="https://discord.gg/t4Kg4j3829">
         <img src="https://img.shields.io/discord/685532530451283997?color=blueviolet" alt="Discord">
@@ -133,6 +133,4 @@ Please read our **[Contribution Guidelines](CONTRIBUTING.md)** before creating a
 Many thanks for their support to all contributors!
 
 ## 👨‍⚖️ License
-[![Creative Commons License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
-
-[Worlds](https://github.com/survanetwork/Worlds) by [surva network](https://github.com/survanetwork) is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/). Permissions beyond the scope of this license may be available on request.
+[MIT](https://github.com/survanetwork/Worlds/blob/master/LICENSE)
