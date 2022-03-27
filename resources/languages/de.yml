@@ -50,6 +50,7 @@ load:
   success: "§aDie Welt §f{world} §awurde erfolgreich geladen."
   already: "§eDie Welt §f{name} §eist bereits geladen."
   failed: "§cDie Welt konnte nicht geladen werden."
+  error: "§cBeim Laden der Welt ist ein Fehler aufgetreten: §7{message}§c."
 
 # Unload command
 unload:

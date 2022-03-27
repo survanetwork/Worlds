@@ -6,6 +6,7 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
+use pocketmine\world\WorldException;
 use surva\worlds\logic\WorldActions;
 
 class LoadCommand extends CustomCommand
@@ -29,8 +30,16 @@ class LoadCommand extends CustomCommand
             return true;
         }
 
-        if (!($this->getWorlds()->getServer()->getWorldManager()->loadWorld($args[0]))) {
-            $sender->sendMessage($this->getWorlds()->getMessage("load.failed"));
+        $upgradeFormat = $this->getWorlds()->getConfig()->get("autoupgradeformat", true);
+
+        try {
+            if (!($this->getWorlds()->getServer()->getWorldManager()->loadWorld($args[0], $upgradeFormat))) {
+                $sender->sendMessage($this->getWorlds()->getMessage("load.failed"));
+
+                return true;
+            }
+        } catch (WorldException $ex) {
+            $sender->sendMessage($this->getWorlds()->getMessage("load.error", ["message" => $ex->getMessage()]));
 
             return true;
         }

@@ -9,3 +9,6 @@
 # Language of the plugin messages
 # Possible options are: en (English), de (German), zh (Chinese), id (Indonesian), lv (Latvian), fr (French), tr (Turkish), ja (Japanese)
 language: "en"
+
+# Automatically convert worlds into the default format when loading an unsupported format
+autoupgradeformat: true
