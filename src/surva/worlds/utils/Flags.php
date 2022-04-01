@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | world flag definitions
  */
@@ -7,7 +8,6 @@ namespace surva\worlds\utils;
 
 class Flags
 {
-
     public const TYPE_BOOL = 0;
 
     public const TYPE_PERMISSION = 1;
@@ -96,5 +96,4 @@ class Flags
           "type" => self::TYPE_BOOL,
         ],
       ];
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | plugin main class
  */
@@ -28,7 +29,6 @@ use surva\worlds\types\World;
 
 class Worlds extends PluginBase
 {
-
     /**
      * @var \surva\worlds\types\Defaults default world options
      */
@@ -67,7 +67,7 @@ class Worlds extends PluginBase
 
         $this->defaultMessages = new Config($this->getFile() . "resources/languages/en.yml");
         $this->messages        = new Config(
-          $this->getFile() . "resources/languages/" . $this->getConfig()->get("language", "en") . ".yml"
+            $this->getFile() . "resources/languages/" . $this->getConfig()->get("language", "en") . ".yml"
         );
     }
 
@@ -261,5 +261,4 @@ class Worlds extends PluginBase
     {
         return $this->defaults;
     }
-
 }

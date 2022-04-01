@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | unset parameter command
  */
@@ -12,7 +13,6 @@ use surva\worlds\logic\WorldActions;
 
 class UnsetCommand extends CustomCommand
 {
-
     public function do(CommandSender $sender, array $args): bool
     {
         if (!($sender instanceof Player)) {
@@ -50,13 +50,12 @@ class UnsetCommand extends CustomCommand
         $world->removeValue($args[0]);
 
         $player->sendMessage(
-          $this->getWorlds()->getMessage(
-            "unset.success",
-            ["world" => $player->getWorld()->getFolderName(), "key" => $args[0]]
-          )
+            $this->getWorlds()->getMessage(
+                "unset.success",
+                ["world" => $player->getWorld()->getFolderName(), "key" => $args[0]]
+            )
         );
 
         return true;
     }
-
 }

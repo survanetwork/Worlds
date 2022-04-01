@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | PM world functions
  */
@@ -11,7 +12,6 @@ use surva\worlds\Worlds;
 
 class WorldActions
 {
-
     public const SUCCESS = 0;
 
     public const UNLOAD_DEFAULT = 1;
@@ -63,9 +63,10 @@ class WorldActions
             }
         }
 
-        if (!($worlds->getServer()->getWorldManager()->unloadWorld(
-          $worlds->getServer()->getWorldManager()->getWorldByName($worldName)
-        ))
+        if (
+            !($worlds->getServer()->getWorldManager()->unloadWorld(
+                $worlds->getServer()->getWorldManager()->getWorldByName($worldName)
+            ))
         ) {
             return self::UNLOAD_FAILED;
         }
@@ -92,5 +93,4 @@ class WorldActions
             default => null
         };
     }
-
 }

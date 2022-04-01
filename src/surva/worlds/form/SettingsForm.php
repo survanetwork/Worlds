@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | settings form class
  */
@@ -14,7 +15,6 @@ use surva\worlds\Worlds;
 
 abstract class SettingsForm implements Form
 {
-
     private Worlds $worlds;
 
     private World $storage;
@@ -152,5 +152,4 @@ abstract class SettingsForm implements Form
     {
         return $this->worlds;
     }
-
 }

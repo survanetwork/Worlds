@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | copy world command
  */
@@ -11,7 +12,6 @@ use surva\worlds\utils\FileUtils;
 
 class CopyCommand extends CustomCommand
 {
-
     public function do(CommandSender $sender, array $args): bool
     {
         if (!(count($args) === 2)) {
@@ -38,17 +38,16 @@ class CopyCommand extends CustomCommand
 
         $res = FileUtils::copyRecursive($fromPath, $toPath);
 
-        if(!$res) {
+        if (!$res) {
             $sender->sendMessage($this->getWorlds()->getMessage("copy.error"));
 
             return true;
         }
 
         $sender->sendMessage(
-          $this->getWorlds()->getMessage("copy.success", ["name" => $fromFolderName, "to" => $toFolderName])
+            $this->getWorlds()->getMessage("copy.success", ["name" => $fromFolderName, "to" => $toFolderName])
         );
 
         return true;
     }
-
 }

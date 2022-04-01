@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | rename world command
  */
@@ -11,7 +12,6 @@ use surva\worlds\utils\FileUtils;
 
 class RenameCommand extends CustomCommand
 {
-
     public function do(CommandSender $sender, array $args): bool
     {
         if (!(count($args) === 2)) {
@@ -53,17 +53,16 @@ class RenameCommand extends CustomCommand
             $res = FileUtils::deleteRecursive($fromPath);
         }
 
-        if(!$res) {
+        if (!$res) {
             $sender->sendMessage($this->getWorlds()->getMessage("rename.error"));
 
             return true;
         }
 
         $sender->sendMessage(
-          $this->getWorlds()->getMessage("rename.success", ["name" => $fromFolderName, "to" => $toFolderName])
+            $this->getWorlds()->getMessage("rename.success", ["name" => $fromFolderName, "to" => $toFolderName])
         );
 
         return true;
     }
-
 }

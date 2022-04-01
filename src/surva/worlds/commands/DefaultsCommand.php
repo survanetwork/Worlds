@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | defaults set / unset command
  */
@@ -15,7 +16,6 @@ use surva\worlds\utils\Flags;
 
 class DefaultsCommand extends CustomCommand
 {
-
     public function do(CommandSender $sender, array $args): bool
     {
         if (!($sender instanceof Player)) {
@@ -80,10 +80,10 @@ class DefaultsCommand extends CustomCommand
                     $defaults->updateValue("gamemode", WorldActions::getGameModeId($gm));
 
                     $player->sendMessage(
-                      $this->getWorlds()->getMessage(
-                        "defaults.set.success",
-                        ["key" => $args[1], "value" => $args[2]]
-                      )
+                        $this->getWorlds()->getMessage(
+                            "defaults.set.success",
+                            ["key" => $args[1], "value" => $args[2]]
+                        )
                     );
                 } else {
                     if (!(in_array($args[2], ["true", "false"]))) {
@@ -95,10 +95,10 @@ class DefaultsCommand extends CustomCommand
                     $defaults->updateValue($args[1], $args[2]);
 
                     $player->sendMessage(
-                      $this->getWorlds()->getMessage(
-                        "defaults.set.success",
-                        ["key" => $args[1], "value" => $args[2]]
-                      )
+                        $this->getWorlds()->getMessage(
+                            "defaults.set.success",
+                            ["key" => $args[1], "value" => $args[2]]
+                        )
                     );
                 }
 
@@ -115,10 +115,10 @@ class DefaultsCommand extends CustomCommand
                 $defaults->removeValue($args[1]);
 
                 $player->sendMessage(
-                  $this->getWorlds()->getMessage(
-                    "defaults.unset.success",
-                    ["key" => $args[1]]
-                  )
+                    $this->getWorlds()->getMessage(
+                        "defaults.unset.success",
+                        ["key" => $args[1]]
+                    )
                 );
 
                 return true;
@@ -157,7 +157,7 @@ class DefaultsCommand extends CustomCommand
         }
 
         return $this->getWorlds()->getServer()->getLanguage()->translateString(
-          TextFormat::WHITE . GameMode::fromString($value)->getEnglishName()
+            TextFormat::WHITE . GameMode::fromString($value)->getEnglishName()
         );
     }
 
@@ -178,5 +178,4 @@ class DefaultsCommand extends CustomCommand
             return $this->getWorlds()->getMessage("set.list.notset");
         }
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | set parameter command
  */
@@ -15,7 +16,6 @@ use surva\worlds\utils\Flags;
 
 class SetCommand extends CustomCommand
 {
-
     public function do(CommandSender $sender, array $args): bool
     {
         if (!($sender instanceof Player)) {
@@ -72,7 +72,8 @@ class SetCommand extends CustomCommand
         }
 
         if ($args[0] === "permission") {
-            if ($this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld()->getFolderName()
+            if (
+                $this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld()->getFolderName()
                 === $folderName
             ) {
                 $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
@@ -102,10 +103,10 @@ class SetCommand extends CustomCommand
         }
 
         $player->sendMessage(
-          $this->getWorlds()->getMessage(
-            "set.success",
-            ["world" => $player->getWorld()->getFolderName(), "key" => $args[0], "value" => $args[1]]
-          )
+            $this->getWorlds()->getMessage(
+                "set.success",
+                ["world" => $player->getWorld()->getFolderName(), "key" => $args[0], "value" => $args[1]]
+            )
         );
 
         return true;
@@ -141,7 +142,7 @@ class SetCommand extends CustomCommand
         }
 
         return $this->getWorlds()->getServer()->getLanguage()->translateString(
-          TextFormat::WHITE . GameMode::fromString($value)->getEnglishName()
+            TextFormat::WHITE . GameMode::fromString($value)->getEnglishName()
         );
     }
 
@@ -162,5 +163,4 @@ class SetCommand extends CustomCommand
             return $this->getWorlds()->getMessage("set.list.notset");
         }
     }
-
 }

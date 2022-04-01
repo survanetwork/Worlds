@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | load world command
  */
@@ -11,7 +12,6 @@ use surva\worlds\logic\WorldActions;
 
 class LoadCommand extends CustomCommand
 {
-
     public function do(CommandSender $sender, array $args): bool
     {
         if (!(count($args) === 1)) {
@@ -48,5 +48,4 @@ class LoadCommand extends CustomCommand
 
         return true;
     }
-
 }

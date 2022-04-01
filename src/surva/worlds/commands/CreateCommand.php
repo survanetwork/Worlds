@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | create world command
  */
@@ -11,15 +12,15 @@ use pocketmine\world\WorldCreationOptions;
 
 class CreateCommand extends CustomCommand
 {
-
     public function do(CommandSender $sender, array $args): bool
     {
         switch (count($args)) {
             case 1:
-                if (!$this->getWorlds()->getServer()->getWorldManager()->generateWorld(
-                  $args[0],
-                  WorldCreationOptions::create()
-                )
+                if (
+                    !$this->getWorlds()->getServer()->getWorldManager()->generateWorld(
+                        $args[0],
+                        WorldCreationOptions::create()
+                    )
                 ) {
                     $sender->sendMessage($this->getWorlds()->getMessage("create.failed"));
 
@@ -38,7 +39,7 @@ class CreateCommand extends CustomCommand
 
                 if ($gmEntry === null) {
                     $sender->sendMessage(
-                      $this->getWorlds()->getMessage("create.generator.notexist", ["name" => $args[1]])
+                        $this->getWorlds()->getMessage("create.generator.notexist", ["name" => $args[1]])
                     );
 
                     return true;
@@ -59,5 +60,4 @@ class CreateCommand extends CustomCommand
                 return false;
         }
     }
-
 }

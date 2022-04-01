@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | teleport command
  */
@@ -11,7 +12,6 @@ use pocketmine\utils\TextFormat;
 
 class TeleportCommand extends CustomCommand
 {
-
     public function do(CommandSender $sender, array $args): bool
     {
         if (!($sender instanceof Player)) {
@@ -34,9 +34,9 @@ class TeleportCommand extends CustomCommand
 
         if (!$isAllowed) {
             $sender->sendMessage(
-              $this->getWorlds()->getServer()->getLanguage()->translateString(
-                TextFormat::RED . "%commands.generic.permission"
-              )
+                $this->getWorlds()->getServer()->getLanguage()->translateString(
+                    TextFormat::RED . "%commands.generic.permission"
+                )
             );
 
             return true;
@@ -60,5 +60,4 @@ class TeleportCommand extends CustomCommand
 
         return true;
     }
-
 }

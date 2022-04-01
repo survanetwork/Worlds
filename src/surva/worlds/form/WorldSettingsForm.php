@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | world settings form
  */
@@ -13,7 +14,6 @@ use surva\worlds\Worlds;
 
 class WorldSettingsForm extends SettingsForm
 {
-
     public function __construct(Worlds $wsInstance, string $worldName, World $world)
     {
         parent::__construct($wsInstance, $world);
@@ -121,5 +121,4 @@ class WorldSettingsForm extends SettingsForm
 
         $this->getStorage()->updateValue($name, $data);
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | defaults processing file
  */
@@ -7,7 +8,6 @@ namespace surva\worlds\types;
 
 class Defaults extends World
 {
-
     /**
      * Get value from config
      *
@@ -51,5 +51,4 @@ class Defaults extends World
         $this->$name = $val;
         return $val;
     }
-
 }

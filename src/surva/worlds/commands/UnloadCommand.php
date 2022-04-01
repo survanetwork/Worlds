@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | unload world command
  */
@@ -9,7 +10,6 @@ use pocketmine\command\CommandSender;
 
 class UnloadCommand extends CustomCommand
 {
-
     public function do(CommandSender $sender, array $args): bool
     {
         if (!(count($args) === 1)) {
@@ -30,9 +30,10 @@ class UnloadCommand extends CustomCommand
             }
         }
 
-        if (!($this->getWorlds()->getServer()->getWorldManager()->unloadWorld(
-          $this->getWorlds()->getServer()->getWorldManager()->getWorldByName($args[0])
-        ))
+        if (
+            !($this->getWorlds()->getServer()->getWorldManager()->unloadWorld(
+                $this->getWorlds()->getServer()->getWorldManager()->getWorldByName($args[0])
+            ))
         ) {
             $sender->sendMessage($this->getWorlds()->getMessage("unload.failed"));
 
@@ -45,5 +46,4 @@ class UnloadCommand extends CustomCommand
 
         return true;
     }
-
 }

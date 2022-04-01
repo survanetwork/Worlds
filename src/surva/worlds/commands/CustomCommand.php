@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | custom command class
  */
@@ -14,7 +15,6 @@ use surva\worlds\Worlds;
 
 class CustomCommand extends Command implements PluginOwned
 {
-
     private Worlds $worlds;
 
     public function __construct(Worlds $worlds, string $name, string $permission)
@@ -40,9 +40,9 @@ class CustomCommand extends Command implements PluginOwned
 
         if (!($sender->hasPermission($this->getPermission()))) {
             $sender->sendMessage(
-              $this->getWorlds()->getServer()->getLanguage()->translateString(
-                TextFormat::RED . "%commands.generic.permission"
-              )
+                $this->getWorlds()->getServer()->getLanguage()->translateString(
+                    TextFormat::RED . "%commands.generic.permission"
+                )
             );
 
             return true;
@@ -76,5 +76,4 @@ class CustomCommand extends Command implements PluginOwned
     {
         return $this->worlds;
     }
-
 }

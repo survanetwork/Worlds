@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | list worlds command
  */
@@ -10,7 +11,6 @@ use pocketmine\utils\TextFormat;
 
 class ListCommand extends CustomCommand
 {
-
     public function do(CommandSender $sender, array $args): bool
     {
         $worlds = [];
@@ -23,9 +23,9 @@ class ListCommand extends CustomCommand
 
         foreach (scandir($worldsStoragePath) as $unloadedWorld) {
             if (
-              is_dir($worldsStoragePath . "/" . $unloadedWorld) and
-              is_file($worldsStoragePath . "/" . $unloadedWorld . "/level.dat") and
-              !in_array(TextFormat::WHITE . $unloadedWorld, $worlds)
+                is_dir($worldsStoragePath . "/" . $unloadedWorld) and
+                is_file($worldsStoragePath . "/" . $unloadedWorld . "/level.dat") and
+                !in_array(TextFormat::WHITE . $unloadedWorld, $worlds)
             ) {
                 $worlds[] = TextFormat::GRAY . $unloadedWorld;
             }
@@ -35,5 +35,4 @@ class ListCommand extends CustomCommand
 
         return true;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | default settings form
  */
@@ -13,7 +14,6 @@ use surva\worlds\Worlds;
 
 class DefaultSettingsForm extends SettingsForm
 {
-
     public function __construct(Worlds $wsInstance, Defaults $defaults)
     {
         parent::__construct($wsInstance, $defaults);
@@ -81,5 +81,4 @@ class DefaultSettingsForm extends SettingsForm
 
         $player->sendMessage($this->getWorlds()->getMessage("forms.saved"));
     }
-
 }

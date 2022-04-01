@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | world flag definitions
  */
@@ -7,7 +8,6 @@ namespace surva\worlds\utils;
 
 class FileUtils
 {
-
     /**
      * Copy a world directory recursively
      *
@@ -69,5 +69,4 @@ class FileUtils
 
         return true;
     }
-
 }

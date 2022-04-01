@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | EventListener
  */
@@ -30,7 +31,6 @@ use pocketmine\player\Player;
 
 class EventListener implements Listener
 {
-
     private Worlds $worlds;
 
     public function __construct(Worlds $worlds)
@@ -318,9 +318,9 @@ class EventListener implements Listener
         }
 
         if (
-          $item instanceof PaintingItem or
-          $block instanceof ItemFrame or
-          ($item instanceof TieredTool and $block instanceof Grass)
+            $item instanceof PaintingItem or
+            $block instanceof ItemFrame or
+            ($item instanceof TieredTool and $block instanceof Grass)
         ) {
             if (!$player->hasPermission("worlds.admin.build")) {
                 if ($world->getBuild() === false) {
@@ -371,5 +371,4 @@ class EventListener implements Listener
             $event->cancel();
         }
     }
-
 }

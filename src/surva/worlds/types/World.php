@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | world config class file
  */
@@ -11,7 +12,6 @@ use surva\worlds\Worlds;
 
 class World
 {
-
     private Worlds $worlds;
 
     private Config $config;
@@ -234,5 +234,4 @@ class World
     {
         return $this->config;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Worlds | remove world command
  */
@@ -11,7 +12,6 @@ use surva\worlds\utils\FileUtils;
 
 class RemoveCommand extends CustomCommand
 {
-
     public function do(CommandSender $sender, array $args): bool
     {
         if (!(count($args) === 1)) {
@@ -31,7 +31,7 @@ class RemoveCommand extends CustomCommand
 
         $res = FileUtils::deleteRecursive($this->getWorlds()->getServer()->getDataPath() . "worlds/" . $args[0]);
 
-        if(!$res) {
+        if (!$res) {
             $sender->sendMessage($this->getWorlds()->getMessage("remove.error"));
 
             return true;
@@ -41,5 +41,4 @@ class RemoveCommand extends CustomCommand
 
         return true;
     }
-
 }
