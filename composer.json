@@ -1,0 +1,34 @@
+{
+    "name": "survanetwork/worlds",
+    "description": "Easy to use but feature rich World Guard Plugin",
+    "version": "3.1.1",
+    "type": "project",
+    "keywords": [
+        "game",
+        "world",
+        "management",
+        "pocketmine",
+        "teleport",
+        "rule"
+    ],
+    "homepage": "https://plugins.surva.net/#worlds",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jarne",
+            "homepage": "https://github.com/jarne",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/survanetwork/Worlds/issues",
+        "source": "https://github.com/survanetwork/Worlds"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.6"
+    },
+    "scripts": {
+        "check-format": "./vendor/bin/phpcs --standard=PSR12 src",
+        "fix-format": "./vendor/bin/phpcbf --standard=PSR12 src"
+    }
+}
