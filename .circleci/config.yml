@@ -8,15 +8,6 @@ jobs:
       # Checkout branch
       - checkout
 
-      # Install native extensions
-      - run: |
-          sudo apt-get update
-          sudo apt-get install -y libzip-dev
-
-      # Install PHP extensions
-      - run: |
-          sudo docker-php-ext-install zip
-
       # Install Composer dependencies
       - restore_cache:
           key: composer-{{ checksum "composer.json" }}
@@ -41,15 +32,6 @@ jobs:
     steps:
       # Checkout branch
       - checkout
-
-      # Install native extensions
-      - run: |
-          sudo apt-get update
-          sudo apt-get install -y libzip-dev
-
-      # Install PHP extensions
-      - run: |
-          sudo docker-php-ext-install zip
 
       # Install Composer dependencies
       - restore_cache:
