@@ -26,6 +26,9 @@ jobs:
           paths:
             - vendor
 
+      # Create result folder
+      - run: mkdir -p test-results/phpstan-result
+
       # Run code analysis with PHPStan
       - run: composer code-analyze-save-report
 
@@ -56,6 +59,9 @@ jobs:
           key: composer-{{ checksum "composer.json" }}
           paths:
             - vendor
+
+      # Create result folder
+      - run: mkdir -p test-results/phpcs-result
 
       # Run code style check with PHP_CodeSniffer
       - run: composer check-format-save-report
