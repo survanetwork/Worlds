@@ -1,0 +1,65 @@
+version: 2
+
+jobs:
+  phpstan:
+    docker:
+      - image: circleci/php:8.0-node
+    steps:
+      # Checkout branch
+      - checkout
+
+      # Install native extensions
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y libzip-dev
+
+      # Install PHP extensions
+      - run: |
+          sudo docker-php-ext-install zip
+
+      # Install Composer dependencies
+      - restore_cache:
+          key: composer-{{ checksum "composer.json" }}
+      - run: composer install --ignore-platform-reqs
+      - save_cache:
+          key: composer-{{ checksum "composer.json" }}
+          paths:
+            - vendor
+
+      # Run code analysis with PHPStan
+      - run: composer code-analyze-save-report
+
+      # Save code analysis results
+      - store_test_results:
+          path: test-results
+  phpcs:
+    docker:
+      - image: circleci/php:8.0-node
+    steps:
+      # Checkout branch
+      - checkout
+
+      # Install native extensions
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y libzip-dev
+
+      # Install PHP extensions
+      - run: |
+          sudo docker-php-ext-install zip
+
+      # Install Composer dependencies
+      - restore_cache:
+          key: composer-{{ checksum "composer.json" }}
+      - run: composer install --ignore-platform-reqs
+      - save_cache:
+          key: composer-{{ checksum "composer.json" }}
+          paths:
+            - vendor
+
+      # Run code style check with PHP_CodeSniffer
+      - run: composer check-format-save-report
+
+      # Save code style check results
+      - store_test_results:
+          path: test-results
