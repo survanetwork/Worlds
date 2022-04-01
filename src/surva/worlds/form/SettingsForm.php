@@ -89,7 +89,9 @@ abstract class SettingsForm implements Form
      * Evaluate bool form response value
      *
      * @param  string  $name
-     * @param $data
+     * @param  mixed  $data
+     *
+     * @return void
      */
     protected function procBool(string $name, $data): void
     {
@@ -110,7 +112,9 @@ abstract class SettingsForm implements Form
      * Evaluate game mode form response value
      *
      * @param  string  $name
-     * @param $data
+     * @param  mixed  $data
+     *
+     * @return void
      */
     protected function procGameMode(string $name, $data): void
     {

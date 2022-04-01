@@ -99,9 +99,11 @@ class WorldSettingsForm extends SettingsForm
      * Evaluate permission string form response value
      *
      * @param  string  $name
-     * @param $data
+     * @param  mixed  $data
      * @param  bool  $isDefLvl
-     * @param  Player  $player
+     * @param  \pocketmine\player\Player  $player
+     *
+     * @return void
      */
     private function procPerm(string $name, $data, bool $isDefLvl, Player $player): void
     {
