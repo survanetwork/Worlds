@@ -181,7 +181,7 @@ class Worlds extends PluginBase
     public function getWorldSettingsFilePath(string $folderName): string
     {
 		if(file_exists(Path::join($this->getServer()->getDataPath(), 'worlds', $folderName, 'worlds.yml'))) {
-			copy(
+			rename(
 				Path::join($this->getServer()->getDataPath(), 'worlds', $folderName, 'worlds.yml'),
 				Path::join($this->getDataFolder(), 'worlds', $folderName, 'worlds.yml')
 			);
