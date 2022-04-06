@@ -180,16 +180,16 @@ class Worlds extends PluginBase
      */
     public function getWorldSettingsFilePath(string $folderName): string
     {
+		$dirPath = Path::join($this->getDataFolder(), 'worlds', $folderName);
+		@mkdir($dirPath);
+		$filePath = Path::join($dirPath, 'worlds.yml');
 		if(file_exists(Path::join($this->getServer()->getDataPath(), 'worlds', $folderName, 'worlds.yml'))) {
 			rename(
 				Path::join($this->getServer()->getDataPath(), 'worlds', $folderName, 'worlds.yml'),
-				Path::join($this->getDataFolder(), 'worlds', $folderName, 'worlds.yml')
+				Path::join($dirPath, 'worlds.yml')
 			);
 		}
-
-		$path = Path::join($this->getDataFolder(), 'worlds', $folderName);
-		@mkdir($path);
-        return Path::join($path, 'worlds.yml');
+        return $filePath;
     }
 
     /**
