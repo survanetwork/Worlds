@@ -26,6 +26,7 @@ use surva\worlds\commands\UnloadCommand;
 use surva\worlds\commands\UnsetCommand;
 use surva\worlds\types\Defaults;
 use surva\worlds\types\World;
+use Webmozart\PathUtil\Path;
 
 class Worlds extends PluginBase
 {
@@ -179,7 +180,17 @@ class Worlds extends PluginBase
      */
     public function getWorldSettingsFilePath(string $folderName): string
     {
-        return $this->getServer()->getDataPath() . "worlds/" . $folderName . "/worlds.yml";
+        $legacyFilePath = Path::join($this->getServer()->getDataPath(), 'worlds', $folderName, 'worlds.yml');
+
+        $dirPath = Path::join($this->getDataFolder(), 'worlds', $folderName);
+        @mkdir($dirPath, 0777, true);
+        $filePath = Path::join($dirPath, 'worlds.yml');
+
+        if (file_exists($legacyFilePath)) {
+            rename($legacyFilePath, $filePath);
+        }
+
+        return $filePath;
     }
 
     /**
