@@ -36,7 +36,7 @@ class FileUtils
             $fromObj = $from . "/" . $obj;
             $toObj   = $to . "/" . $obj;
 
-            is_dir($fromObj) ? self::copyRecursive($fromObj, $toObj) : copy($fromObj, $toObj);
+            is_dir($fromObj) ? self::copyRecursive($fromObj, $toObj) : @copy($fromObj, $toObj);
         }
 
         return true;
