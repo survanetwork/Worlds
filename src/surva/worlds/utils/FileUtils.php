@@ -6,6 +6,8 @@
 
 namespace surva\worlds\utils;
 
+use Exception;
+
 class FileUtils
 {
     /**
@@ -26,7 +28,13 @@ class FileUtils
             return false;
         }
 
-        mkdir($to);
+        try {
+            mkdir($to);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        $success = true;
 
         foreach (scandir($from) as $obj) {
             if ($obj === "." or $obj === "..") {
@@ -36,10 +44,20 @@ class FileUtils
             $fromObj = $from . "/" . $obj;
             $toObj   = $to . "/" . $obj;
 
-            is_dir($fromObj) ? self::copyRecursive($fromObj, $toObj) : copy($fromObj, $toObj);
+            if (is_dir($fromObj)) {
+                $success = self::copyRecursive($fromObj, $toObj);
+
+                continue;
+            }
+
+            try {
+                copy($fromObj, $toObj);
+            } catch (Exception $e) {
+                $success = false;
+            }
         }
 
-        return true;
+        return $success;
     }
 
     /**
@@ -55,6 +73,8 @@ class FileUtils
             return false;
         }
 
+        $success = true;
+
         foreach (scandir($dir) as $obj) {
             if ($obj === "." or $obj === "..") {
                 continue;
@@ -62,11 +82,25 @@ class FileUtils
 
             $dirObj = $dir . "/" . $obj;
 
-            is_dir($dirObj) ? self::deleteRecursive($dirObj) : unlink($dirObj);
+            if (is_dir($dirObj)) {
+                $success = self::deleteRecursive($dirObj);
+
+                continue;
+            }
+
+            try {
+                unlink($dirObj);
+            } catch (Exception $e) {
+                $success = false;
+            }
         }
 
-        rmdir($dir);
+        try {
+            rmdir($dir);
+        } catch (Exception $e) {
+            $success = false;
+        }
 
-        return true;
+        return $success;
     }
 }
