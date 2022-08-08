@@ -9,90 +9,102 @@ namespace surva\worlds\utils;
 class Flags
 {
     public const TYPE_BOOL = 0;
-
     public const TYPE_PERMISSION = 1;
-
     public const TYPE_GAMEMODE = 2;
+
+    public const FLAG_PERMISSION = "permission";
+    public const FLAG_GAME_MODE = "gamemode";
+    public const FLAG_BUILD = "build";
+    public const FLAG_PVP = "pvp";
+    public const FLAG_DAMAGE = "damage";
+    public const FLAG_INTERACT = "interact";
+    public const FLAG_EXPLODE = "explode";
+    public const FLAG_DROP = "drop";
+    public const FLAG_HUNGER = "hunger";
+    public const FLAG_FLY = "fly";
+    public const FLAG_DAYLIGHT_CYCLE = "daylightcycle";
+    public const FLAG_LEAVES_DECAY = "leavesdecay";
+    public const FLAG_POTION = "potion";
 
     public const AVAILABLE_WORLD_FLAGS
       = [
-        "permission"    => [
+        self::FLAG_PERMISSION    => [
           "type" => self::TYPE_PERMISSION,
         ],
-        "gamemode"      => [
+        self::FLAG_GAME_MODE      => [
           "type" => self::TYPE_GAMEMODE,
         ],
-        "build"         => [
+        self::FLAG_BUILD         => [
           "type" => self::TYPE_BOOL,
         ],
-        "pvp"           => [
+        self::FLAG_PVP           => [
           "type" => self::TYPE_BOOL,
         ],
-        "damage"        => [
+        self::FLAG_DAMAGE        => [
           "type" => self::TYPE_BOOL,
         ],
-        "interact"      => [
+        self::FLAG_INTERACT      => [
           "type" => self::TYPE_BOOL,
         ],
-        "explode"       => [
+        self::FLAG_EXPLODE       => [
           "type" => self::TYPE_BOOL,
         ],
-        "drop"          => [
+        self::FLAG_DROP          => [
           "type" => self::TYPE_BOOL,
         ],
-        "hunger"        => [
+        self::FLAG_HUNGER        => [
           "type" => self::TYPE_BOOL,
         ],
-        "fly"           => [
+        self::FLAG_FLY           => [
           "type" => self::TYPE_BOOL,
         ],
-        "daylightcycle" => [
+        self::FLAG_DAYLIGHT_CYCLE => [
           "type" => self::TYPE_BOOL,
         ],
-        "leavesdecay"   => [
+        self::FLAG_LEAVES_DECAY   => [
           "type" => self::TYPE_BOOL,
         ],
-        "potion"        => [
+        self::FLAG_POTION        => [
           "type" => self::TYPE_BOOL,
         ],
       ];
 
     public const AVAILABLE_DEFAULT_FLAGS
       = [
-        "gamemode"      => [
+        self::FLAG_GAME_MODE      => [
           "type" => self::TYPE_GAMEMODE,
         ],
-        "build"         => [
+        self::FLAG_BUILD         => [
           "type" => self::TYPE_BOOL,
         ],
-        "pvp"           => [
+        self::FLAG_PVP           => [
           "type" => self::TYPE_BOOL,
         ],
-        "damage"        => [
+        self::FLAG_DAMAGE        => [
           "type" => self::TYPE_BOOL,
         ],
-        "interact"      => [
+        self::FLAG_INTERACT      => [
           "type" => self::TYPE_BOOL,
         ],
-        "explode"       => [
+        self::FLAG_EXPLODE       => [
           "type" => self::TYPE_BOOL,
         ],
-        "drop"          => [
+        self::FLAG_DROP          => [
           "type" => self::TYPE_BOOL,
         ],
-        "hunger"        => [
+        self::FLAG_HUNGER        => [
           "type" => self::TYPE_BOOL,
         ],
-        "fly"           => [
+        self::FLAG_FLY           => [
           "type" => self::TYPE_BOOL,
         ],
-        "daylightcycle" => [
+        self::FLAG_DAYLIGHT_CYCLE => [
           "type" => self::TYPE_BOOL,
         ],
-        "leavesdecay"   => [
+        self::FLAG_LEAVES_DECAY   => [
           "type" => self::TYPE_BOOL,
         ],
-        "potion"        => [
+        self::FLAG_POTION        => [
           "type" => self::TYPE_BOOL,
         ],
       ];

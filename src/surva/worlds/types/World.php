@@ -6,6 +6,7 @@
 
 namespace surva\worlds\types;
 
+use JsonException;
 use pocketmine\utils\Config;
 use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
@@ -13,34 +14,12 @@ use surva\worlds\Worlds;
 class World
 {
     private Worlds $worlds;
-
     private Config $config;
 
-    protected ?string $permission;
-
-    protected ?int $gamemode;
-
-    protected ?bool $build;
-
-    protected ?bool $pvp;
-
-    protected ?bool $damage;
-
-    protected ?bool $interact;
-
-    protected ?bool $explode;
-
-    protected ?bool $drop;
-
-    protected ?bool $hunger;
-
-    protected ?bool $fly;
-
-    protected ?bool $daylightcycle;
-
-    protected ?bool $leavesdecay;
-
-    protected ?bool $potion;
+    /**
+     * @var array loaded flag values
+     */
+    protected array $flags;
 
     /**
      * Load world options on class creation
@@ -52,6 +31,7 @@ class World
     {
         $this->worlds = $worlds;
         $this->config = $config;
+        $this->flags = [];
 
         $this->loadOptions();
     }
@@ -73,12 +53,12 @@ class World
      *
      * @return mixed|null
      */
-    public function loadValue(string $name)
+    public function loadValue(string $name): mixed
     {
         if (!$this->config->exists($name)) {
             $defVal = $this->worlds->getDefaults()->getValue($name);
 
-            $this->$name = $defVal;
+            $this->flags[$name] = $defVal;
             return $defVal;
         }
 
@@ -88,7 +68,7 @@ class World
             default => $this->config->get($name),
         };
 
-        $this->$name = $val;
+        $this->flags[$name] = $val;
         return $val;
     }
 
@@ -102,7 +82,11 @@ class World
     {
         $this->config->set($name, $value);
 
-        $this->config->save();
+        try {
+            $this->config->save();
+        } catch (JsonException $e) {
+            return;
+        }
         $this->loadOptions();
     }
 
@@ -119,112 +103,48 @@ class World
 
         $this->config->remove($name);
 
-        $this->config->save();
+        try {
+            $this->config->save();
+        } catch (JsonException $e) {
+            return;
+        }
         $this->loadOptions();
     }
 
     /**
+     * Get the value of a bool flag
+     *
+     * @param  string  $flagName
+     *
      * @return bool|null
      */
-    public function getPotion(): ?bool
+    public function getBoolFlag(string $flagName): ?bool
     {
-        return $this->potion;
+        return $this->flags[$flagName];
     }
 
     /**
-     * @return bool|null
-     */
-    public function getLeavesDecay(): ?bool
-    {
-        return $this->leavesdecay;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getDaylightCycle(): ?bool
-    {
-        return $this->daylightcycle;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getFly(): ?bool
-    {
-        return $this->fly;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getHunger(): ?bool
-    {
-        return $this->hunger;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getDrop(): ?bool
-    {
-        return $this->drop;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getExplode(): ?bool
-    {
-        return $this->explode;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getDamage(): ?bool
-    {
-        return $this->damage;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getInteract(): ?bool
-    {
-        return $this->interact;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getPvp(): ?bool
-    {
-        return $this->pvp;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getBuild(): ?bool
-    {
-        return $this->build;
-    }
-
-    /**
+     * Get the value of an int flag
+     *
+     * @param  string  $flagName
+     *
      * @return int|null
      */
-    public function getGamemode(): ?int
+    public function getIntFlag(string $flagName): ?int
     {
-        return $this->gamemode;
+        return $this->flags[$flagName];
     }
 
     /**
+     * Get the value of a string flag
+     *
+     * @param  string  $flagName
+     *
      * @return string|null
      */
-    public function getPermission(): ?string
+    public function getStringFlag(string $flagName): ?string
     {
-        return $this->permission;
+        return $this->flags[$flagName];
     }
 
     /**

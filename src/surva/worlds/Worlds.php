@@ -6,6 +6,7 @@
 
 namespace surva\worlds;
 
+use JsonException;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\GameMode;
@@ -26,6 +27,7 @@ use surva\worlds\commands\UnloadCommand;
 use surva\worlds\commands\UnsetCommand;
 use surva\worlds\types\Defaults;
 use surva\worlds\types\World;
+use surva\worlds\utils\Flags;
 use Webmozart\PathUtil\Path;
 
 class Worlds extends PluginBase
@@ -201,15 +203,15 @@ class Worlds extends PluginBase
      */
     public function applyWorldOptions(World $world, Player $pl): void
     {
-        if ($world->getGamemode() !== null) {
+        if ($world->getIntFlag(Flags::FLAG_GAME_MODE) !== null) {
             if (!$pl->hasPermission("worlds.special.gamemode")) {
-                $pl->setGamemode(GameMode::fromString($world->getGamemode()));
+                $pl->setGamemode(GameMode::fromString($world->getIntFlag(Flags::FLAG_GAME_MODE)));
             }
         }
 
-        if ($world->getFly() === true or $pl->hasPermission("worlds.special.fly")) {
+        if ($world->getBoolFlag(Flags::FLAG_FLY) === true or $pl->hasPermission("worlds.special.fly")) {
             $pl->setAllowFlight(true);
-        } elseif ($world->getFly() === false) {
+        } elseif ($world->getBoolFlag(Flags::FLAG_FLY) === false) {
             $pl->setAllowFlight(false);
         }
     }
@@ -226,7 +228,11 @@ class Worlds extends PluginBase
         $config = new Config($file);
 
         if (!file_exists($file)) {
-            $config->save();
+            try {
+                $config->save();
+            } catch (JsonException $e) {
+                // do nothing for now
+            }
         }
 
         return $config;

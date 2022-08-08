@@ -15,7 +15,7 @@ class Defaults extends World
      *
      * @return mixed|null
      */
-    public function getValue(string $name)
+    public function getValue(string $name): mixed
     {
         if (!$this->getConfig()->exists($name)) {
             return null;
@@ -35,10 +35,10 @@ class Defaults extends World
      *
      * @return mixed|null
      */
-    public function loadValue(string $name)
+    public function loadValue(string $name): mixed
     {
         if (!$this->getConfig()->exists($name)) {
-            $this->$name = null;
+            $this->flags[$name] = null;
             return null;
         }
 
@@ -48,7 +48,7 @@ class Defaults extends World
             default => $this->getConfig()->get($name),
         };
 
-        $this->$name = $val;
+        $this->flags[$name] = $val;
         return $val;
     }
 }
