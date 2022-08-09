@@ -112,6 +112,8 @@ forms:
       notset: "§7not set (null)"
       true: "§aenabled"
       false: "§cdisabled"
+      white: "§fuse whitelist"
+      black: "§0use blacklist"
   # Default settings
   default:
     title: "§aDefault world settings"

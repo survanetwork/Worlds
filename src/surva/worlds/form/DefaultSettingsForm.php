@@ -31,7 +31,19 @@ class DefaultSettingsForm extends SettingsForm
                     $this->getWorlds()->getMessage("forms.world.options.false"),
                     $this->getWorlds()->getMessage("forms.world.options.true"),
                   ],
-                  "default" => $this->convBool($defaults->loadValue($flagName)),
+                  "default" => $this->confValueToForm($defaults->loadValue($flagName), Flags::TYPE_BOOL),
+                ],
+                Flags::TYPE_WHITEBLACKLIST => [
+                  "type"    => "dropdown",
+                  "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
+                  "options" => [
+                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    $this->getWorlds()->getMessage("forms.world.options.false"),
+                    $this->getWorlds()->getMessage("forms.world.options.true"),
+                    $this->getWorlds()->getMessage("forms.world.options.white"),
+                    $this->getWorlds()->getMessage("forms.world.options.black"),
+                  ],
+                  "default" => $this->confValueToForm($defaults->loadValue($flagName), Flags::TYPE_WHITEBLACKLIST),
                 ],
                 Flags::TYPE_GAMEMODE => [
                   "type"    => "dropdown",
@@ -43,7 +55,7 @@ class DefaultSettingsForm extends SettingsForm
                     GameMode::ADVENTURE()->getEnglishName(),
                     GameMode::SPECTATOR()->getEnglishName(),
                   ],
-                  "default" => $this->convGameMode($defaults->loadValue($flagName)),
+                  "default" => $this->confValueToForm($defaults->loadValue($flagName), Flags::TYPE_GAMEMODE),
                 ],
             };
         }
@@ -70,6 +82,9 @@ class DefaultSettingsForm extends SettingsForm
             switch ($flagDetails["type"]) {
                 case Flags::TYPE_BOOL:
                     $this->procBool($flagName, $data[$i]);
+                    break;
+                case Flags::TYPE_WHITEBLACKLIST:
+                    $this->procWhiteBlack($flagName, $data[$i]);
                     break;
                 case Flags::TYPE_GAMEMODE:
                     $this->procGameMode($flagName, $data[$i]);

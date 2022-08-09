@@ -21,11 +21,7 @@ class Defaults extends World
             return null;
         }
 
-        return match ($this->getConfig()->get($name)) {
-            "true" => true,
-            "false" => false,
-            default => $this->getConfig()->get($name),
-        };
+        return $this->getConfig()->get($name);
     }
 
     /**
@@ -42,11 +38,7 @@ class Defaults extends World
             return null;
         }
 
-        $val = match ($this->getConfig()->get($name)) {
-            "true" => true,
-            "false" => false,
-            default => $this->getConfig()->get($name),
-        };
+        $val = $this->getConfig()->get($name);
 
         $this->flags[$name] = $val;
         return $val;

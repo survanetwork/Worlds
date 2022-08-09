@@ -62,11 +62,7 @@ class World
             return $defVal;
         }
 
-        $val = match ($this->config->get($name)) {
-            "true" => true,
-            "false" => false,
-            default => $this->config->get($name),
-        };
+        $val = $this->config->get($name);
 
         $this->flags[$name] = $val;
         return $val;
@@ -119,6 +115,22 @@ class World
      * @return bool|null
      */
     public function getBoolFlag(string $flagName): ?bool
+    {
+        return match ($this->flags[$flagName]) {
+            Flags::VALUE_TRUE => true,
+            Flags::VALUE_FALSE => false,
+            default => null,
+        };
+    }
+
+    /**
+     * Get the value of a white-/blacklist flag
+     *
+     * @param  string  $flagName
+     *
+     * @return string|null
+     */
+    public function getWhiteBlackFlag(string $flagName): ?string
     {
         return $this->flags[$flagName];
     }

@@ -11,6 +11,7 @@ class Flags
     public const TYPE_BOOL = 0;
     public const TYPE_PERMISSION = 1;
     public const TYPE_GAMEMODE = 2;
+    public const TYPE_WHITEBLACKLIST = 3;
 
     public const FLAG_PERMISSION = "permission";
     public const FLAG_GAME_MODE = "gamemode";
@@ -26,6 +27,11 @@ class Flags
     public const FLAG_LEAVES_DECAY = "leavesdecay";
     public const FLAG_POTION = "potion";
 
+    public const VALUE_TRUE = "true";
+    public const VALUE_FALSE = "false";
+    public const VALUE_WHITELISTED = "white";
+    public const VALUE_BLACKLISTED = "black";
+
     public const AVAILABLE_WORLD_FLAGS
       = [
         self::FLAG_PERMISSION    => [
@@ -35,7 +41,7 @@ class Flags
           "type" => self::TYPE_GAMEMODE,
         ],
         self::FLAG_BUILD         => [
-          "type" => self::TYPE_BOOL,
+          "type" => self::TYPE_WHITEBLACKLIST,
         ],
         self::FLAG_PVP           => [
           "type" => self::TYPE_BOOL,
@@ -44,13 +50,13 @@ class Flags
           "type" => self::TYPE_BOOL,
         ],
         self::FLAG_INTERACT      => [
-          "type" => self::TYPE_BOOL,
+          "type" => self::TYPE_WHITEBLACKLIST,
         ],
         self::FLAG_EXPLODE       => [
           "type" => self::TYPE_BOOL,
         ],
         self::FLAG_DROP          => [
-          "type" => self::TYPE_BOOL,
+          "type" => self::TYPE_WHITEBLACKLIST,
         ],
         self::FLAG_HUNGER        => [
           "type" => self::TYPE_BOOL,
@@ -65,7 +71,7 @@ class Flags
           "type" => self::TYPE_BOOL,
         ],
         self::FLAG_POTION        => [
-          "type" => self::TYPE_BOOL,
+          "type" => self::TYPE_WHITEBLACKLIST,
         ],
       ];
 
@@ -75,7 +81,7 @@ class Flags
           "type" => self::TYPE_GAMEMODE,
         ],
         self::FLAG_BUILD         => [
-          "type" => self::TYPE_BOOL,
+          "type" => self::TYPE_WHITEBLACKLIST,
         ],
         self::FLAG_PVP           => [
           "type" => self::TYPE_BOOL,
@@ -84,13 +90,13 @@ class Flags
           "type" => self::TYPE_BOOL,
         ],
         self::FLAG_INTERACT      => [
-          "type" => self::TYPE_BOOL,
+          "type" => self::TYPE_WHITEBLACKLIST,
         ],
         self::FLAG_EXPLODE       => [
           "type" => self::TYPE_BOOL,
         ],
         self::FLAG_DROP          => [
-          "type" => self::TYPE_BOOL,
+          "type" => self::TYPE_WHITEBLACKLIST,
         ],
         self::FLAG_HUNGER        => [
           "type" => self::TYPE_BOOL,
@@ -105,7 +111,7 @@ class Flags
           "type" => self::TYPE_BOOL,
         ],
         self::FLAG_POTION        => [
-          "type" => self::TYPE_BOOL,
+          "type" => self::TYPE_WHITEBLACKLIST,
         ],
       ];
 }
