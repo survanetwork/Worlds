@@ -142,6 +142,43 @@ class World
     }
 
     /**
+     * Check if using the item is allowed by the control list
+     *
+     * @param  string  $flagName
+     * @param  mixed  $item
+     *
+     * @return bool|null
+     */
+    public function checkControlList(string $flagName, mixed $item): ?bool
+    {
+        $flagVal = $this->getControlListFlag($flagName);
+
+        if ($flagVal === null) {
+            return null;
+        }
+
+        if ($flagVal === Flags::VALUE_FALSE) {
+            return false;
+        }
+
+        $controlList = $this->getControlListContent($flagName);
+
+        if ($controlList === null) {
+            return $flagVal === Flags::VALUE_TRUE;
+        }
+
+        if ($flagVal === Flags::VALUE_WHITELISTED && !$controlList->isListed($item)) {
+            return false;
+        }
+
+        if ($flagVal === Flags::VALUE_BLACKLISTED && $controlList->isListed($item)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Get the value of a bool flag
      *
      * @param  string  $flagName
