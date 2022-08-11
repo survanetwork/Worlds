@@ -35,7 +35,7 @@ class DefaultsCommand extends SetCommand
         }
 
         switch ($args[0]) {
-            case "legacy":
+            case "show":
                 $msg = $this->getWorlds()->getMessage("defaults.list.info") . "\n\n";
 
                 return $this->showFlagValues($player, $defaults, $msg, Flags::AVAILABLE_DEFAULT_FLAGS);

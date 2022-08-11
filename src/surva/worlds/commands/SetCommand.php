@@ -48,7 +48,7 @@ class SetCommand extends CustomCommand
             return true;
         }
 
-        if ($args[0] === "legacy") {
+        if ($args[0] === "show") {
             $msg = $this->getWorlds()->getMessage("set.list.info", ["name" => $folderName]) . "\n\n";
 
             return $this->showFlagValues($player, $world, $msg, Flags::AVAILABLE_WORLD_FLAGS);
