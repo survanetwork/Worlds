@@ -31,14 +31,26 @@ class WorldSettingsForm extends SettingsForm
                     $this->getWorlds()->getMessage("forms.world.options.false"),
                     $this->getWorlds()->getMessage("forms.world.options.true"),
                   ],
-                  "default" => $this->convBool($world->loadValue($flagName)),
+                  "default" => $this->confValueToForm($world->loadValue($flagName), Flags::TYPE_BOOL),
+                ],
+                Flags::TYPE_CONTROL_LIST => [
+                  "type"    => "dropdown",
+                  "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
+                  "options" => [
+                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    $this->getWorlds()->getMessage("forms.world.options.false"),
+                    $this->getWorlds()->getMessage("forms.world.options.true"),
+                    $this->getWorlds()->getMessage("forms.world.options.white"),
+                    $this->getWorlds()->getMessage("forms.world.options.black"),
+                  ],
+                  "default" => $this->confValueToForm($world->loadValue($flagName), Flags::TYPE_CONTROL_LIST),
                 ],
                 Flags::TYPE_PERMISSION => [
                   "type"    => "input",
                   "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
                   "default" => $world->loadValue($flagName),
                 ],
-                Flags::TYPE_GAMEMODE => [
+                Flags::TYPE_GAME_MODE => [
                   "type"    => "dropdown",
                   "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
                   "options" => [
@@ -48,7 +60,7 @@ class WorldSettingsForm extends SettingsForm
                     GameMode::ADVENTURE()->getEnglishName(),
                     GameMode::SPECTATOR()->getEnglishName(),
                   ],
-                  "default" => $this->convGameMode($world->loadValue($flagName)),
+                  "default" => $this->confValueToForm($world->loadValue($flagName), Flags::TYPE_GAME_MODE),
                 ],
             };
         }
@@ -81,10 +93,13 @@ class WorldSettingsForm extends SettingsForm
                 case Flags::TYPE_BOOL:
                     $this->procBool($flagName, $data[$i]);
                     break;
+                case Flags::TYPE_CONTROL_LIST:
+                    $this->procWhiteBlack($flagName, $data[$i]);
+                    break;
                 case Flags::TYPE_PERMISSION:
                     $this->procPerm($flagName, $data[$i], $isDefLvl, $player);
                     break;
-                case Flags::TYPE_GAMEMODE:
+                case Flags::TYPE_GAME_MODE:
                     $this->procGameMode($flagName, $data[$i]);
                     break;
             }

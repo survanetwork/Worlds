@@ -6,6 +6,8 @@
 
 namespace surva\worlds\types;
 
+use surva\worlds\utils\Flags;
+
 class Defaults extends World
 {
     /**
@@ -15,40 +17,41 @@ class Defaults extends World
      *
      * @return mixed|null
      */
-    public function getValue(string $name)
+    public function getValue(string $name): mixed
     {
         if (!$this->getConfig()->exists($name)) {
             return null;
         }
 
-        return match ($this->getConfig()->get($name)) {
-            "true" => true,
-            "false" => false,
-            default => $this->getConfig()->get($name),
-        };
+        return $this->getConfig()->get($name);
     }
 
     /**
      * Load value from config
      *
      * @param  string  $name
+     * @param  int|null  $type
      *
-     * @return mixed|null
+     * @return mixed
      */
-    public function loadValue(string $name)
+    public function loadValue(string $name, ?int $type = null): mixed
     {
         if (!$this->getConfig()->exists($name)) {
-            $this->$name = null;
+            $this->flags[$name] = null;
             return null;
         }
 
-        $val = match ($this->getConfig()->get($name)) {
-            "true" => true,
-            "false" => false,
-            default => $this->getConfig()->get($name),
-        };
+        $val = $this->getConfig()->get($name);
+        $this->flags[$name] = $val;
 
-        $this->$name = $val;
+        if ($type === Flags::TYPE_CONTROL_LIST) {
+            if ($this->getConfig()->exists($name . "list")) {
+                $this->flags[$name . "list"] = new ControlList($this->getConfig()->get($name . "list"));
+            } else {
+                $this->flags[$name . "list"] = new ControlList();
+            }
+        }
+
         return $val;
     }
 }
