@@ -44,7 +44,7 @@ class WorldActions
     }
 
     /**
-     * Get the type of a flag name
+     * Get the type of flag name
      *
      * @param  string  $flagName
      *

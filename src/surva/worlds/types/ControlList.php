@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Worlds | white/black list logic
+ * Worlds | control list logic (whitelisting & blacklisting)
  */
 
 namespace surva\worlds\types;
 
-class WhiteBlackList
+class ControlList
 {
     /**
      * @var array content of the list

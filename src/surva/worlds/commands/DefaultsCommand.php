@@ -43,8 +43,8 @@ class DefaultsCommand extends SetCommand
 
                     $flagVal = match ($flagDetails["type"]) {
                         Flags::TYPE_BOOL => $this->formatBool($defaults->loadValue($flagName)),
-                        Flags::TYPE_WHITEBLACKLIST => $this->formatWhiteBlack($defaults->loadValue($flagName)),
-                        Flags::TYPE_GAMEMODE => $this->formatGameMode($defaults->loadValue($flagName)),
+                        Flags::TYPE_CONTROL_LIST => $this->formatControlList($defaults->loadValue($flagName)),
+                        Flags::TYPE_GAME_MODE => $this->formatGameMode($defaults->loadValue($flagName)),
                         default => "null",
                     };
 
@@ -70,12 +70,12 @@ class DefaultsCommand extends SetCommand
                         $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
 
                         return true;
-                    case Flags::TYPE_GAMEMODE:
+                    case Flags::TYPE_GAME_MODE:
                         return $this->setGameModeSub($player, $args[2], $defaults);
                     case Flags::TYPE_BOOL:
                         return $this->setBoolSub($player, $args[1], $args[2], $defaults);
-                    case Flags::TYPE_WHITEBLACKLIST:
-                        return $this->setWhiteBlackFlagSub($player, $args[1], $args[2], $defaults);
+                    case Flags::TYPE_CONTROL_LIST:
+                        return $this->setControlListSub($player, $args[1], $args[2], $defaults);
                 }
 
                 return false;

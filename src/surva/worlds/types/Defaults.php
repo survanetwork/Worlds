@@ -44,8 +44,8 @@ class Defaults extends World
         $val = $this->getConfig()->get($name);
         $this->flags[$name] = $val;
 
-        if ($type === Flags::TYPE_WHITEBLACKLIST) {
-            $this->flags[$name . "list"] = new WhiteBlackList($this->getConfig()->get($name . "list"));
+        if ($type === Flags::TYPE_CONTROL_LIST) {
+            $this->flags[$name . "list"] = new ControlList($this->getConfig()->get($name . "list"));
         }
 
         return $val;

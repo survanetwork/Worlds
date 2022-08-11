@@ -66,11 +66,11 @@ class World
         $val = $this->config->get($name);
         $this->flags[$name] = $val;
 
-        if ($type === Flags::TYPE_WHITEBLACKLIST) {
+        if ($type === Flags::TYPE_CONTROL_LIST) {
             if ($this->config->exists($name . "list")) {
-                $this->flags[$name . "list"] = new WhiteBlackList($this->config->get($name . "list"));
+                $this->flags[$name . "list"] = new ControlList($this->config->get($name . "list"));
             } else {
-                $this->flags[$name . "list"] = new WhiteBlackList();
+                $this->flags[$name . "list"] = new ControlList();
             }
         }
 
@@ -133,25 +133,25 @@ class World
     }
 
     /**
-     * Get the value of a white-/blacklist flag
+     * Get the flag value of a control list flag
      *
      * @param  string  $flagName
      *
      * @return string|null
      */
-    public function getWhiteBlackFlag(string $flagName): ?string
+    public function getControlListFlag(string $flagName): ?string
     {
         return $this->flags[$flagName];
     }
 
     /**
-     * Get the list class of a white-/blacklist flag
+     * Get the list class (content) of a control list flag
      *
      * @param  string  $flagName
      *
-     * @return \surva\worlds\types\WhiteBlackList|null
+     * @return \surva\worlds\types\ControlList|null
      */
-    public function getWhiteBlackFlagList(string $flagName): ?WhiteBlackList
+    public function getControlListContent(string $flagName): ?ControlList
     {
         return $this->flags[$flagName . "list"];
     }

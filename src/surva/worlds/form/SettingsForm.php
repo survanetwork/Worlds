@@ -67,13 +67,13 @@ abstract class SettingsForm implements Form
 
         return match ($type) {
             Flags::TYPE_BOOL => $val === Flags::VALUE_TRUE ? 2 : 1,
-            Flags::TYPE_WHITEBLACKLIST => match ($val) {
+            Flags::TYPE_CONTROL_LIST => match ($val) {
                 Flags::VALUE_FALSE => 1,
                 Flags::VALUE_TRUE => 2,
                 Flags::VALUE_WHITELISTED => 3,
                 Flags::VALUE_BLACKLISTED => 4,
             },
-            Flags::TYPE_GAMEMODE => $val + 1,
+            Flags::TYPE_GAME_MODE => $val + 1,
             default => 0,
         };
     }

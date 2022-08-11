@@ -51,9 +51,9 @@ class SetCommand extends CustomCommand
 
                 $flagVal = match ($flagDetails["type"]) {
                     Flags::TYPE_BOOL => $this->formatBool($world->loadValue($flagName)),
-                    Flags::TYPE_WHITEBLACKLIST => $this->formatWhiteBlack($world->loadValue($flagName)),
+                    Flags::TYPE_CONTROL_LIST => $this->formatControlList($world->loadValue($flagName)),
                     Flags::TYPE_PERMISSION => $this->formatText($world->loadValue($flagName)),
-                    Flags::TYPE_GAMEMODE => $this->formatGameMode($world->loadValue($flagName)),
+                    Flags::TYPE_GAME_MODE => $this->formatGameMode($world->loadValue($flagName)),
                     default => "null",
                 };
 
@@ -77,9 +77,9 @@ class SetCommand extends CustomCommand
 
         return match ($flagType) {
             Flags::TYPE_PERMISSION => $this->setPermissionSub($player, $args[0], $args[1], $world, $folderName),
-            Flags::TYPE_GAMEMODE => $this->setGameModeSub($player, $args[1], $world),
+            Flags::TYPE_GAME_MODE => $this->setGameModeSub($player, $args[1], $world),
             Flags::TYPE_BOOL => $this->setBoolSub($player, $args[0], $args[1], $world),
-            Flags::TYPE_WHITEBLACKLIST => $this->setWhiteBlackFlagSub($player, $args[0], $args[1], $world),
+            Flags::TYPE_CONTROL_LIST => $this->setControlListSub($player, $args[0], $args[1], $world),
             default => false,
         };
     }
@@ -164,7 +164,7 @@ class SetCommand extends CustomCommand
     }
 
     /**
-     * Sub command to set white-/blacklist flag
+     * Sub command to set control list flag
      *
      * @param  \pocketmine\player\Player  $player
      * @param  string  $key
@@ -173,10 +173,10 @@ class SetCommand extends CustomCommand
      *
      * @return bool
      */
-    protected function setWhiteBlackFlagSub(Player $player, string $key, string $val, World $world): bool
+    protected function setControlListSub(Player $player, string $key, string $val, World $world): bool
     {
-        if (!(in_array($val, Flags::VALID_WBLIST_VALUES))) {
-            $player->sendMessage($this->getWorlds()->getMessage("set.notwblist", ["key" => $key]));
+        if (!(in_array($val, Flags::VALID_CONTROL_LIST_VALUES))) {
+            $player->sendMessage($this->getWorlds()->getMessage("set.notcontrollist", ["key" => $key]));
 
             return true;
         }
@@ -269,13 +269,13 @@ class SetCommand extends CustomCommand
     }
 
     /**
-     * Format a white-/blacklist flag for showing its value
+     * Format a control list flag for showing its value
      *
      * @param  string|null  $value
      *
      * @return string
      */
-    protected function formatWhiteBlack(?string $value): string
+    protected function formatControlList(?string $value): string
     {
         return match ($value) {
             Flags::VALUE_TRUE => TextFormat::GREEN . $this->getWorlds()->getMessage("forms.world.options.true"),
