@@ -41,8 +41,8 @@ class World
      */
     public function loadOptions(): void
     {
-        foreach (array_keys(Flags::AVAILABLE_WORLD_FLAGS) as $flagName) {
-            $this->loadValue($flagName);
+        foreach (Flags::AVAILABLE_WORLD_FLAGS as $flagName => $flagOptions) {
+            $this->loadValue($flagName, $flagOptions["type"]);
         }
     }
 
@@ -50,10 +50,11 @@ class World
      * Load value from config
      *
      * @param  string  $name
+     * @param  int|null  $type
      *
-     * @return mixed|null
+     * @return mixed
      */
-    public function loadValue(string $name): mixed
+    public function loadValue(string $name, ?int $type = null): mixed
     {
         if (!$this->config->exists($name)) {
             $defVal = $this->worlds->getDefaults()->getValue($name);
@@ -63,8 +64,16 @@ class World
         }
 
         $val = $this->config->get($name);
-
         $this->flags[$name] = $val;
+
+        if ($type === Flags::TYPE_WHITEBLACKLIST) {
+            if ($this->config->exists($name . "list")) {
+                $this->flags[$name . "list"] = new WhiteBlackList($this->config->get($name . "list"));
+            } else {
+                $this->flags[$name . "list"] = new WhiteBlackList();
+            }
+        }
+
         return $val;
     }
 
@@ -133,6 +142,18 @@ class World
     public function getWhiteBlackFlag(string $flagName): ?string
     {
         return $this->flags[$flagName];
+    }
+
+    /**
+     * Get the list class of a white-/blacklist flag
+     *
+     * @param  string  $flagName
+     *
+     * @return \surva\worlds\types\WhiteBlackList|null
+     */
+    public function getWhiteBlackFlagList(string $flagName): ?WhiteBlackList
+    {
+        return $this->flags[$flagName . "list"];
     }
 
     /**

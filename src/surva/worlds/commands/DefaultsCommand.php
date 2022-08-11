@@ -7,14 +7,12 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
-use pocketmine\player\GameMode;
 use pocketmine\player\Player;
-use pocketmine\utils\TextFormat;
 use surva\worlds\form\DefaultSettingsForm;
 use surva\worlds\logic\WorldActions;
 use surva\worlds\utils\Flags;
 
-class DefaultsCommand extends CustomCommand
+class DefaultsCommand extends SetCommand
 {
     public function do(CommandSender $sender, array $args): bool
     {
@@ -45,6 +43,7 @@ class DefaultsCommand extends CustomCommand
 
                     $flagVal = match ($flagDetails["type"]) {
                         Flags::TYPE_BOOL => $this->formatBool($defaults->loadValue($flagName)),
+                        Flags::TYPE_WHITEBLACKLIST => $this->formatWhiteBlack($defaults->loadValue($flagName)),
                         Flags::TYPE_GAMEMODE => $this->formatGameMode($defaults->loadValue($flagName)),
                         default => "null",
                     };
@@ -64,45 +63,22 @@ class DefaultsCommand extends CustomCommand
                     return false;
                 }
 
-                if ($args[1] === "permission") {
-                    $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
+                $flagType = WorldActions::getFlagType($args[0]);
 
-                    return true;
-                } elseif ($args[1] === "gamemode") {
-                    $gm = GameMode::fromString($args[2]);
-
-                    if ($gm === null) {
-                        $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.notexist"));
+                switch ($flagType) {
+                    case Flags::TYPE_PERMISSION:
+                        $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
 
                         return true;
-                    }
-
-                    $defaults->updateValue("gamemode", WorldActions::getGameModeId($gm));
-
-                    $player->sendMessage(
-                        $this->getWorlds()->getMessage(
-                            "defaults.set.success",
-                            ["key" => $args[1], "value" => $args[2]]
-                        )
-                    );
-                } else {
-                    if (!(in_array($args[2], ["true", "false"]))) {
-                        $player->sendMessage($this->getWorlds()->getMessage("set.notbool", ["key" => $args[1]]));
-
-                        return true;
-                    }
-
-                    $defaults->updateValue($args[1], $args[2]);
-
-                    $player->sendMessage(
-                        $this->getWorlds()->getMessage(
-                            "defaults.set.success",
-                            ["key" => $args[1], "value" => $args[2]]
-                        )
-                    );
+                    case Flags::TYPE_GAMEMODE:
+                        return $this->setGameModeSub($player, $args[2], $defaults);
+                    case Flags::TYPE_BOOL:
+                        return $this->setBoolSub($player, $args[1], $args[2], $defaults);
+                    case Flags::TYPE_WHITEBLACKLIST:
+                        return $this->setWhiteBlackFlagSub($player, $args[1], $args[2], $defaults);
                 }
 
-                return true;
+                return false;
             case "unset":
                 if (!(count($args) === 2)) {
                     return false;
@@ -124,58 +100,6 @@ class DefaultsCommand extends CustomCommand
                 return true;
             default:
                 return false;
-        }
-    }
-
-    /**
-     * Format a text for showing its value
-     *
-     * @param  string|null  $value
-     *
-     * @return string
-     */
-    private function formatText(?string $value): string
-    {
-        if ($value === null) {
-            return $this->getWorlds()->getMessage("set.list.notset");
-        }
-
-        return TextFormat::WHITE . $value;
-    }
-
-    /**
-     * Format a game mode for showing its value
-     *
-     * @param  int|null  $value
-     *
-     * @return string
-     */
-    private function formatGameMode(?int $value): string
-    {
-        if ($value === null) {
-            return $this->getWorlds()->getMessage("set.list.notset");
-        }
-
-        return $this->getWorlds()->getServer()->getLanguage()->translateString(
-            TextFormat::WHITE . GameMode::fromString($value)->getEnglishName()
-        );
-    }
-
-    /**
-     * Format a boolean for showing its value
-     *
-     * @param  bool|null  $value
-     *
-     * @return string
-     */
-    private function formatBool(?bool $value): string
-    {
-        if ($value === true) {
-            return TextFormat::GREEN . "true";
-        } elseif ($value === false) {
-            return TextFormat::RED . "false";
-        } else {
-            return $this->getWorlds()->getMessage("set.list.notset");
         }
     }
 }

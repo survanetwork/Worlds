@@ -6,6 +6,8 @@
 
 namespace surva\worlds\types;
 
+use surva\worlds\utils\Flags;
+
 class Defaults extends World
 {
     /**
@@ -28,10 +30,11 @@ class Defaults extends World
      * Load value from config
      *
      * @param  string  $name
+     * @param  int|null  $type
      *
-     * @return mixed|null
+     * @return mixed
      */
-    public function loadValue(string $name): mixed
+    public function loadValue(string $name, ?int $type = null): mixed
     {
         if (!$this->getConfig()->exists($name)) {
             $this->flags[$name] = null;
@@ -39,8 +42,12 @@ class Defaults extends World
         }
 
         $val = $this->getConfig()->get($name);
-
         $this->flags[$name] = $val;
+
+        if ($type === Flags::TYPE_WHITEBLACKLIST) {
+            $this->flags[$name . "list"] = new WhiteBlackList($this->getConfig()->get($name . "list"));
+        }
+
         return $val;
     }
 }

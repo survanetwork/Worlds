@@ -44,6 +44,22 @@ class WorldActions
     }
 
     /**
+     * Get the type of a flag name
+     *
+     * @param  string  $flagName
+     *
+     * @return int|null
+     */
+    public static function getFlagType(string $flagName): ?int
+    {
+        if (!isset(Flags::AVAILABLE_WORLD_FLAGS[$flagName])) {
+            return null;
+        }
+
+        return Flags::AVAILABLE_WORLD_FLAGS[$flagName]["type"];
+    }
+
+    /**
      * Try to unload a world if it's loaded
      *
      * @param  \surva\worlds\Worlds  $worlds

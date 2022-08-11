@@ -32,6 +32,13 @@ class Flags
     public const VALUE_WHITELISTED = "white";
     public const VALUE_BLACKLISTED = "black";
 
+    public const VALID_BOOL_VALUES = [
+      self::VALUE_TRUE, self::VALUE_FALSE
+    ];
+    public const VALID_WBLIST_VALUES = [
+      self::VALUE_TRUE, self::VALUE_FALSE, self::VALUE_WHITELISTED, self::VALUE_BLACKLISTED
+    ];
+
     public const AVAILABLE_WORLD_FLAGS
       = [
         self::FLAG_PERMISSION    => [

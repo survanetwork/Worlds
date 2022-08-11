@@ -86,7 +86,7 @@ abstract class SettingsForm implements Form
      *
      * @return void
      */
-    protected function procBool(string $name, $data): void
+    protected function procBool(string $name, mixed $data): void
     {
         switch ($data) {
             case 1:
@@ -109,7 +109,7 @@ abstract class SettingsForm implements Form
      *
      * @return void
      */
-    protected function procWhiteBlack(string $name, $data): void
+    protected function procWhiteBlack(string $name, mixed $data): void
     {
         switch ($data) {
             case 1:
@@ -138,7 +138,7 @@ abstract class SettingsForm implements Form
      *
      * @return void
      */
-    protected function procGameMode(string $name, $data): void
+    protected function procGameMode(string $name, mixed $data): void
     {
         switch ($data) {
             case 1:
