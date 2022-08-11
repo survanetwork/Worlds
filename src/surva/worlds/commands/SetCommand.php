@@ -129,7 +129,7 @@ class SetCommand extends CustomCommand
      *
      * @return \surva\worlds\commands\controllist\ControlListCommand|null
      */
-    private function getControlListSubCommand(string $name, World $world, string $flagName): ?ControlListCommand
+    protected function getControlListSubCommand(string $name, World $world, string $flagName): ?ControlListCommand
     {
         return match ($name) {
             "add" => new ListAddCommand($this->getWorlds(), $world, $flagName, "add", "worlds.admin.set"),

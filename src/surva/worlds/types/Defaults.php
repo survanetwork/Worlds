@@ -45,7 +45,11 @@ class Defaults extends World
         $this->flags[$name] = $val;
 
         if ($type === Flags::TYPE_CONTROL_LIST) {
-            $this->flags[$name . "list"] = new ControlList($this->getConfig()->get($name . "list"));
+            if ($this->getConfig()->exists($name . "list")) {
+                $this->flags[$name . "list"] = new ControlList($this->getConfig()->get($name . "list"));
+            } else {
+                $this->flags[$name . "list"] = new ControlList();
+            }
         }
 
         return $val;

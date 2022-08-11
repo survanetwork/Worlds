@@ -40,7 +40,7 @@ class DefaultsCommand extends SetCommand
 
                 return $this->showFlagValues($player, $defaults, $msg, Flags::AVAILABLE_DEFAULT_FLAGS);
             case "set":
-                if (!(count($args) === 3)) {
+                if (count($args) < 3) {
                     return false;
                 }
 
@@ -48,7 +48,25 @@ class DefaultsCommand extends SetCommand
                     return false;
                 }
 
-                $flagType = WorldActions::getFlagType($args[0]);
+                $flagType = WorldActions::getFlagType($args[1]);
+
+                if ($flagType === Flags::TYPE_CONTROL_LIST && $args[2] === "list") {
+                    if (count($args) < 4) {
+                        return false;
+                    }
+
+                    array_shift($args);
+
+                    if ($subCommand = $this->getControlListSubCommand($args[2], $defaults, $args[0])) {
+                        return $subCommand->execute($sender, $this->getName(), $args);
+                    }
+
+                    return false;
+                }
+
+                if (!(count($args) === 3)) {
+                    return false;
+                }
 
                 switch ($flagType) {
                     case Flags::TYPE_PERMISSION:
