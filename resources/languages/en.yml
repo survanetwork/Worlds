@@ -76,6 +76,17 @@ set:
   notbool: "§6You can set §f{key} §6only to §atrue §6or §cfalse§6."
   notcontrollist: "§6You can set §f{key} §6only to §atrue§6, §cfalse§6, §fwhite §6or §0black§6."
 
+# ControlList sub command (of set)
+controllist:
+  add:
+    success: "§aItem §c{item} §aadded to §b{key} §acontrol list."
+  remove:
+    success: "§6Item §c{item} §6removed from §b{key} §6control list."
+  reset:
+    success: "§6All items were removed from §b{key} §6control list."
+  list:
+    description: "§fShowing content of the §b{key} §fcontrol list: §7{content}"
+
 # Unset command
 unset:
   success: "§b{key} §ahas been unset in §f{world}§a."

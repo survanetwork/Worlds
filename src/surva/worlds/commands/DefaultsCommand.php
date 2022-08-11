@@ -38,22 +38,7 @@ class DefaultsCommand extends SetCommand
             case "legacy":
                 $msg = $this->getWorlds()->getMessage("defaults.list.info") . "\n\n";
 
-                foreach (Flags::AVAILABLE_DEFAULT_FLAGS as $flagName => $flagDetails) {
-                    $flagStr = $this->getWorlds()->getMessage("forms.world.params." . $flagName);
-
-                    $flagVal = match ($flagDetails["type"]) {
-                        Flags::TYPE_BOOL => $this->formatBool($defaults->loadValue($flagName)),
-                        Flags::TYPE_CONTROL_LIST => $this->formatControlList($defaults->loadValue($flagName)),
-                        Flags::TYPE_GAME_MODE => $this->formatGameMode($defaults->loadValue($flagName)),
-                        default => "null",
-                    };
-
-                    $msg .= "§e" . $flagStr . " (§7" . $flagName . "§e): " . $flagVal . "\n";
-                }
-
-                $player->sendMessage($msg);
-
-                return true;
+                return $this->showFlagValues($player, $defaults, $msg, Flags::AVAILABLE_DEFAULT_FLAGS);
             case "set":
                 if (!(count($args) === 3)) {
                     return false;
@@ -101,5 +86,17 @@ class DefaultsCommand extends SetCommand
             default:
                 return false;
         }
+    }
+
+    protected function sendSuccessMessage(Player $player, string $key, string $val): bool
+    {
+        $player->sendMessage(
+            $this->getWorlds()->getMessage(
+                "defaults.set.success",
+                ["key" => $key, "value" => $val]
+            )
+        );
+
+        return true;
     }
 }

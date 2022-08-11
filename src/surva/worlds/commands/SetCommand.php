@@ -10,6 +10,11 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
+use surva\worlds\commands\controllist\ListAddCommand;
+use surva\worlds\commands\controllist\ControlListCommand;
+use surva\worlds\commands\controllist\ListRemoveCommand;
+use surva\worlds\commands\controllist\ListResetCommand;
+use surva\worlds\commands\controllist\ListShowCommand;
 use surva\worlds\form\WorldSettingsForm;
 use surva\worlds\logic\WorldActions;
 use surva\worlds\types\World;
@@ -46,26 +51,10 @@ class SetCommand extends CustomCommand
         if ($args[0] === "legacy") {
             $msg = $this->getWorlds()->getMessage("set.list.info", ["name" => $folderName]) . "\n\n";
 
-            foreach (Flags::AVAILABLE_WORLD_FLAGS as $flagName => $flagDetails) {
-                $flagStr = $this->getWorlds()->getMessage("forms.world.params." . $flagName);
-
-                $flagVal = match ($flagDetails["type"]) {
-                    Flags::TYPE_BOOL => $this->formatBool($world->loadValue($flagName)),
-                    Flags::TYPE_CONTROL_LIST => $this->formatControlList($world->loadValue($flagName)),
-                    Flags::TYPE_PERMISSION => $this->formatText($world->loadValue($flagName)),
-                    Flags::TYPE_GAME_MODE => $this->formatGameMode($world->loadValue($flagName)),
-                    default => "null",
-                };
-
-                $msg .= "§e" . $flagStr . " (§7" . $flagName . "§e): " . $flagVal . "\n";
-            }
-
-            $player->sendMessage($msg);
-
-            return true;
+            return $this->showFlagValues($player, $world, $msg, Flags::AVAILABLE_WORLD_FLAGS);
         }
 
-        if (!(count($args) === 2)) {
+        if (count($args) < 2) {
             return false;
         }
 
@@ -75,12 +64,79 @@ class SetCommand extends CustomCommand
 
         $flagType = WorldActions::getFlagType($args[0]);
 
+        if ($flagType === Flags::TYPE_CONTROL_LIST && $args[1] === "list") {
+            if (count($args) < 3) {
+                return false;
+            }
+
+            if ($subCommand = $this->getControlListSubCommand($args[2], $world, $args[0])) {
+                return $subCommand->execute($sender, $this->getName(), $args);
+            }
+
+            return false;
+        }
+
+        if (!(count($args) === 2)) {
+            return false;
+        }
+
         return match ($flagType) {
             Flags::TYPE_PERMISSION => $this->setPermissionSub($player, $args[0], $args[1], $world, $folderName),
             Flags::TYPE_GAME_MODE => $this->setGameModeSub($player, $args[1], $world),
             Flags::TYPE_BOOL => $this->setBoolSub($player, $args[0], $args[1], $world),
             Flags::TYPE_CONTROL_LIST => $this->setControlListSub($player, $args[0], $args[1], $world),
             default => false,
+        };
+    }
+
+    /**
+     * Show flag values of the world to player in chat
+     *
+     * @param  \pocketmine\player\Player  $player
+     * @param  \surva\worlds\types\World  $world
+     * @param  string  $msg
+     * @param  array  $availableFlags
+     *
+     * @return bool
+     */
+    protected function showFlagValues(Player $player, World $world, string $msg, array $availableFlags): bool
+    {
+        foreach ($availableFlags as $flagName => $flagDetails) {
+            $flagStr = $this->getWorlds()->getMessage("forms.world.params." . $flagName);
+
+            $flagVal = match ($flagDetails["type"]) {
+                Flags::TYPE_BOOL => $this->formatBool($world->loadValue($flagName)),
+                Flags::TYPE_CONTROL_LIST => $this->formatControlList($world->loadValue($flagName)),
+                Flags::TYPE_PERMISSION => $this->formatText($world->loadValue($flagName)),
+                Flags::TYPE_GAME_MODE => $this->formatGameMode($world->loadValue($flagName)),
+                default => "null",
+            };
+
+            $msg .= "§e" . $flagStr . " (§7" . $flagName . "§e): " . $flagVal . "\n";
+        }
+
+        $player->sendMessage($msg);
+
+        return true;
+    }
+
+    /**
+     * Get sub command for control list features
+     *
+     * @param  string  $name
+     * @param  \surva\worlds\types\World  $world
+     * @param  string  $flagName
+     *
+     * @return \surva\worlds\commands\controllist\ControlListCommand|null
+     */
+    private function getControlListSubCommand(string $name, World $world, string $flagName): ?ControlListCommand
+    {
+        return match ($name) {
+            "add" => new ListAddCommand($this->getWorlds(), $world, $flagName, "add", "worlds.admin.set"),
+            "remove" => new ListRemoveCommand($this->getWorlds(), $world, $flagName, "remove", "worlds.admin.set"),
+            "reset" => new ListResetCommand($this->getWorlds(), $world, $flagName, "reset", "worlds.admin.set"),
+            "show" => new ListShowCommand($this->getWorlds(), $world, $flagName, "show", "worlds.admin.set"),
+            default => null,
         };
     }
 
@@ -197,15 +253,6 @@ class SetCommand extends CustomCommand
      */
     protected function sendSuccessMessage(Player $player, string $key, string $val): bool
     {
-        /*else {
-                    $player->sendMessage(
-                        $this->getWorlds()->getMessage(
-                            "defaults.set.success",
-                            ["key" => $args[1], "value" => $args[2]]
-                        )
-                    );
-                }*/ // TODO: add case for defaults
-
         $player->sendMessage(
             $this->getWorlds()->getMessage(
                 "set.success",

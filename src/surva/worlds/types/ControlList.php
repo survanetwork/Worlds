@@ -72,4 +72,12 @@ class ControlList
     {
         return in_array($value, $this->list);
     }
+
+    /**
+     * @return array
+     */
+    public function getList(): array
+    {
+        return $this->list;
+    }
 }

@@ -96,6 +96,31 @@ class World
     }
 
     /**
+     * Save the content of a control list to config
+     *
+     * @param  string  $name
+     *
+     * @return void
+     */
+    public function saveControlList(string $name): void
+    {
+        $list = $this->flags[$name . "list"];
+
+        if (!($list instanceof ControlList)) {
+            return;
+        }
+
+        $this->config->set($name . "list", $list->getList());
+
+        try {
+            $this->config->save();
+        } catch (JsonException $e) {
+            return;
+        }
+        $this->loadOptions();
+    }
+
+    /**
      * Remove a config value
      *
      * @param  string  $name
