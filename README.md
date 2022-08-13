@@ -135,7 +135,7 @@ Feel free to contribute if you have ideas or found an issue.
 You can:
 - [open an issue](https://github.com/survanetwork/Worlds/issues) (problems, bugs or feature requests)
 - [create a pull request](https://github.com/survanetwork/Worlds/pulls) (code contributions like fixed bugs or added features)
-- [help translating the plugin](https://github.com/survanetwork/Worlds/tree/master/resources/languages) (create a new language file or correct an existing one)
+- [help translating the plugin](https://www.transifex.com/surva/worlds) (help us to translate this plugin into your language on Transifex platform)
 
 Please read our **[Contribution Guidelines](CONTRIBUTING.md)** before creating an issue or submitting a pull request.
 
