@@ -7,6 +7,8 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
+use surva\worlds\logic\exception\UnloadDefaultLevelException;
+use surva\worlds\logic\exception\UnloadFailedException;
 use surva\worlds\logic\WorldActions;
 use surva\worlds\utils\exception\SourceNotExistException;
 use surva\worlds\utils\exception\TargetExistException;
@@ -26,15 +28,16 @@ class RenameCommand extends CustomCommand
             return true;
         }
 
-        switch (WorldActions::unloadIfLoaded($this->getWorlds(), $args[0])) {
-            case WorldActions::UNLOAD_DEFAULT:
-                $sender->sendMessage($this->getWorlds()->getMessage("unload.default"));
+        try {
+            WorldActions::unloadIfLoaded($this->getWorlds(), $args[0]);
+        } catch (UnloadDefaultLevelException $e) {
+            $sender->sendMessage($this->getWorlds()->getMessage("unload.default"));
 
-                return true;
-            case WorldActions::UNLOAD_FAILED:
-                $sender->sendMessage($this->getWorlds()->getMessage("unload.failed"));
+            return true;
+        } catch (UnloadFailedException $e) {
+            $sender->sendMessage($this->getWorlds()->getMessage("unload.failed"));
 
-                return true;
+            return true;
         }
 
         $fromFolderName = $args[0];

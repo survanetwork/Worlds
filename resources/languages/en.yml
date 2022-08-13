@@ -31,7 +31,7 @@ create:
 # Remove command
 remove:
   success: "§aWorld §f{name} §ahas been removed."
-  error: "§cWorld couldn't be removed, please check the world files."
+  error: "§cSome world files couldn't be removed, please check the world files."
 
 # Copy command
 copy:

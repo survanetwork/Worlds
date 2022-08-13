@@ -7,17 +7,13 @@
 namespace surva\worlds\logic;
 
 use pocketmine\player\GameMode;
+use surva\worlds\logic\exception\UnloadDefaultLevelException;
+use surva\worlds\logic\exception\UnloadFailedException;
 use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
 
 class WorldActions
 {
-    public const SUCCESS = 0;
-
-    public const UNLOAD_DEFAULT = 1;
-
-    public const UNLOAD_FAILED = 2;
-
     /**
      * Check if the directory of a world exists
      *
@@ -65,17 +61,19 @@ class WorldActions
      * @param  \surva\worlds\Worlds  $worlds
      * @param  string  $worldName
      *
-     * @return int
+     * @return void
+     * @throws \surva\worlds\logic\exception\UnloadDefaultLevelException
+     * @throws \surva\worlds\logic\exception\UnloadFailedException
      */
-    public static function unloadIfLoaded(Worlds $worlds, string $worldName): int
+    public static function unloadIfLoaded(Worlds $worlds, string $worldName): void
     {
         if (!$worlds->getServer()->getWorldManager()->isWorldLoaded($worldName)) {
-            return self::SUCCESS;
+            return;
         }
 
         if ($defLvl = $worlds->getServer()->getWorldManager()->getDefaultWorld()) {
             if ($defLvl->getFolderName() === $worldName) {
-                return self::UNLOAD_DEFAULT;
+                throw new UnloadDefaultLevelException();
             }
         }
 
@@ -84,12 +82,10 @@ class WorldActions
                 $worlds->getServer()->getWorldManager()->getWorldByName($worldName)
             ))
         ) {
-            return self::UNLOAD_FAILED;
+            throw new UnloadFailedException();
         }
 
         $worlds->unregisterWorld($worldName);
-
-        return self::SUCCESS;
     }
 
     /**
