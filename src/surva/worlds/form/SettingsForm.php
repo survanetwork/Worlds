@@ -85,6 +85,8 @@ abstract class SettingsForm implements Form
      * @param  mixed  $data
      *
      * @return void
+     * @throws \surva\worlds\types\exception\ConfigSaveException
+     * @throws \surva\worlds\types\exception\ValueNotExistException
      */
     protected function procBool(string $name, mixed $data): void
     {
@@ -102,14 +104,16 @@ abstract class SettingsForm implements Form
     }
 
     /**
-     * Evaluate white-/blacklist form response value
+     * Evaluate control list form response value
      *
      * @param  string  $name
      * @param  mixed  $data
      *
      * @return void
+     * @throws \surva\worlds\types\exception\ConfigSaveException
+     * @throws \surva\worlds\types\exception\ValueNotExistException
      */
-    protected function procWhiteBlack(string $name, mixed $data): void
+    protected function procControlList(string $name, mixed $data): void
     {
         switch ($data) {
             case 1:
@@ -137,6 +141,8 @@ abstract class SettingsForm implements Form
      * @param  mixed  $data
      *
      * @return void
+     * @throws \surva\worlds\types\exception\ConfigSaveException
+     * @throws \surva\worlds\types\exception\ValueNotExistException
      */
     protected function procGameMode(string $name, mixed $data): void
     {

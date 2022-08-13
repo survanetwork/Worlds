@@ -16,6 +16,8 @@ general:
     not_exist: "§cWorld §f{name} §cdoesn't exist."
     not_loaded: "§cWorld §f{name} §cisn't loaded or does not exist."
   permission: "§6You don't have the permission to join this world."
+  config:
+    save_error: "§cWorld config file couldn't be saved, please check server folder!"
 
 # List command
 list:
@@ -134,3 +136,5 @@ forms:
     title: "§aDefault world settings"
   # Settings saved message
   saved: "§aSettings saved successfully!"
+  error_code:
+    invalid_data: "§6Received invalid data from settings form, settings have not been saved."

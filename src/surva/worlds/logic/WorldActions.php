@@ -98,10 +98,10 @@ class WorldActions
     public static function getGameModeId(GameMode $gameMode): ?int
     {
         return match ($gameMode->name()) {
-            "survival" => 0,
-            "creative" => 1,
-            "adventure" => 2,
-            "spectator" => 3,
+            GameMode::SURVIVAL()->name() => 0,
+            GameMode::CREATIVE()->name() => 1,
+            GameMode::ADVENTURE()->name() => 2,
+            GameMode::SPECTATOR()->name() => 3,
             default => null
         };
     }

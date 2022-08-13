@@ -6,8 +6,11 @@
 
 namespace surva\worlds\types;
 
+use InvalidArgumentException;
 use JsonException;
 use pocketmine\utils\Config;
+use surva\worlds\types\exception\ConfigSaveException;
+use surva\worlds\types\exception\ValueNotExistException;
 use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
 
@@ -82,6 +85,8 @@ class World
      *
      * @param  string  $name
      * @param  string  $value
+     *
+     * @throws \surva\worlds\types\exception\ConfigSaveException
      */
     public function updateValue(string $name, string $value): void
     {
@@ -90,7 +95,7 @@ class World
         try {
             $this->config->save();
         } catch (JsonException $e) {
-            return;
+            throw new ConfigSaveException();
         }
         $this->loadOptions();
     }
@@ -101,13 +106,14 @@ class World
      * @param  string  $name
      *
      * @return void
+     * @throws \surva\worlds\types\exception\ConfigSaveException
      */
     public function saveControlList(string $name): void
     {
         $list = $this->flags[$name . "list"];
 
         if (!($list instanceof ControlList)) {
-            return;
+            throw new InvalidArgumentException();
         }
 
         $this->config->set($name . "list", $list->getList());
@@ -115,7 +121,7 @@ class World
         try {
             $this->config->save();
         } catch (JsonException $e) {
-            return;
+            throw new ConfigSaveException();
         }
         $this->loadOptions();
     }
@@ -124,11 +130,14 @@ class World
      * Remove a config value
      *
      * @param  string  $name
+     *
+     * @throws \surva\worlds\types\exception\ValueNotExistException
+     * @throws \surva\worlds\types\exception\ConfigSaveException
      */
     public function removeValue(string $name): void
     {
         if (!$this->config->exists($name)) {
-            return;
+            throw new ValueNotExistException();
         }
 
         $this->config->remove($name);
@@ -136,7 +145,7 @@ class World
         try {
             $this->config->save();
         } catch (JsonException $e) {
-            return;
+            throw new ConfigSaveException();
         }
         $this->loadOptions();
     }

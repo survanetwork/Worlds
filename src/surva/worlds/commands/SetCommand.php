@@ -17,6 +17,7 @@ use surva\worlds\commands\controllist\ListResetCommand;
 use surva\worlds\commands\controllist\ListShowCommand;
 use surva\worlds\form\WorldSettingsForm;
 use surva\worlds\logic\WorldActions;
+use surva\worlds\types\exception\ConfigSaveException;
 use surva\worlds\types\World;
 use surva\worlds\utils\Flags;
 
@@ -167,7 +168,13 @@ class SetCommand extends CustomCommand
             return true;
         }
 
-        $world->updateValue($key, $val);
+        try {
+            $world->updateValue($key, $val);
+        } catch (ConfigSaveException $e) {
+            $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+
+            return true;
+        }
 
         return $this->sendSuccessMessage($player, $key, $val);
     }
@@ -191,7 +198,13 @@ class SetCommand extends CustomCommand
             return true;
         }
 
-        $world->updateValue(Flags::FLAG_GAME_MODE, WorldActions::getGameModeId($gm));
+        try {
+            $world->updateValue(Flags::FLAG_GAME_MODE, WorldActions::getGameModeId($gm));
+        } catch (ConfigSaveException $e) {
+            $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+
+            return true;
+        }
 
         return $this->sendSuccessMessage($player, Flags::FLAG_GAME_MODE, $gmArg);
     }
@@ -214,7 +227,13 @@ class SetCommand extends CustomCommand
             return true;
         }
 
-        $world->updateValue($key, $val);
+        try {
+            $world->updateValue($key, $val);
+        } catch (ConfigSaveException $e) {
+            $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+
+            return true;
+        }
 
         return $this->sendSuccessMessage($player, $key, $val);
     }
@@ -237,7 +256,13 @@ class SetCommand extends CustomCommand
             return true;
         }
 
-        $world->updateValue($key, $val);
+        try {
+            $world->updateValue($key, $val);
+        } catch (ConfigSaveException $e) {
+            $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+
+            return true;
+        }
 
         return $this->sendSuccessMessage($player, $key, $val);
     }

@@ -10,6 +10,8 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use surva\worlds\form\WorldSettingsForm;
 use surva\worlds\logic\WorldActions;
+use surva\worlds\types\exception\ConfigSaveException;
+use surva\worlds\types\exception\ValueNotExistException;
 
 class UnsetCommand extends CustomCommand
 {
@@ -47,7 +49,13 @@ class UnsetCommand extends CustomCommand
             return false;
         }
 
-        $world->removeValue($args[0]);
+        try {
+            $world->removeValue($args[0]);
+        } catch (ConfigSaveException | ValueNotExistException $e) {
+            $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+
+            return true;
+        }
 
         $player->sendMessage(
             $this->getWorlds()->getMessage(
