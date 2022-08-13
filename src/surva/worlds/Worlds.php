@@ -205,7 +205,7 @@ class Worlds extends PluginBase
     {
         if ($world->getIntFlag(Flags::FLAG_GAME_MODE) !== null) {
             if (!$pl->hasPermission("worlds.special.gamemode")) {
-                $pl->setGamemode(GameMode::fromString($world->getIntFlag(Flags::FLAG_GAME_MODE)));
+                $pl->setGamemode(GameMode::fromString((string) $world->getIntFlag(Flags::FLAG_GAME_MODE)));
             }
         }
 

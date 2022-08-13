@@ -84,11 +84,12 @@ class World
      * Update a config value
      *
      * @param  string  $name
-     * @param  string  $value
+     * @param  mixed  $value
      *
+     * @return void
      * @throws \surva\worlds\types\exception\ConfigSaveException
      */
-    public function updateValue(string $name, string $value): void
+    public function updateValue(string $name, mixed $value): void
     {
         $this->config->set($name, $value);
 

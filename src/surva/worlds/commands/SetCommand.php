@@ -191,15 +191,16 @@ class SetCommand extends CustomCommand
     protected function setGameModeSub(Player $player, string $gmArg, World $world): bool
     {
         $gm = GameMode::fromString($gmArg);
+        $gmId = WorldActions::getGameModeId($gm);
 
-        if ($gm === null) {
+        if ($gmId === null) {
             $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.not_exist"));
 
             return true;
         }
 
         try {
-            $world->updateValue(Flags::FLAG_GAME_MODE, WorldActions::getGameModeId($gm));
+            $world->updateValue(Flags::FLAG_GAME_MODE, $gmId);
         } catch (ConfigSaveException $e) {
             $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
 
@@ -318,7 +319,7 @@ class SetCommand extends CustomCommand
         }
 
         return $this->getWorlds()->getServer()->getLanguage()->translateString(
-            TextFormat::WHITE . GameMode::fromString($value)->getEnglishName()
+            TextFormat::WHITE . GameMode::fromString((string) $value)->getEnglishName()
         );
     }
 

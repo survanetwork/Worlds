@@ -72,6 +72,7 @@ abstract class SettingsForm implements Form
                 Flags::VALUE_TRUE => 2,
                 Flags::VALUE_WHITELISTED => 3,
                 Flags::VALUE_BLACKLISTED => 4,
+                default => 0,
             },
             Flags::TYPE_GAME_MODE => $val + 1,
             default => 0,
