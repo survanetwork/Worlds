@@ -6,16 +6,18 @@
 #
 # (C) 2019 by surva network | https://github.com/survanetwork
 
-# German language
+# English language
 
 # General
 general:
   command:
-    ingame: "§6Du kannst diesen Befehl nur im Spiel ausführen."
+    in_game: ""
   world:
-    notexist: "§cDie Welt §f{name} §cexistiert nicht."
-    notloaded: "§cDie Welt §f{name} §cist nicht geladen oder existiert nicht."
+    not_exist: ""
+    not_loaded: ""
   permission: "§6Du hast keine Berechtigung, diese Welt zu betreten."
+  config:
+    save_error: ""
 
 # List command
 list:
@@ -26,24 +28,28 @@ create:
   success: "§aDie Welt §f{name} §awurde erfolgreich erstellt."
   failed: "§cDie Welt konnte aufgrund eines unbekannten Fehlers nicht erstellt werden."
   generator:
-    notexist: "§6Es gibt keinen Generator namens §f{name} §6- benutze den Standard-Generator."
+    not_exist: ""
 
 # Remove command
 remove:
   success: "§aDie Welt §f{name} §awurde erfolgreich gelöscht."
-  error: "§cDie Welt konnte nicht gelöscht werden, bitte prüfe die Welt-Dateien."
+  error: ""
 
 # Copy command
 copy:
   success: "§aDie Welt §f{name} §wurde erfolgreich nach §f{to} §akopiert."
-  same: "§cDu kannst eine Welt nicht in sich selbst kopieren."
-  error: "§cDie Welt konnte nicht kopiert werden, bitte prüfe die Welt-Dateien."
+  error_code:
+    same_source_target: ""
+    source_not_exist: ""
+    target_exist: ""
+    copy_failed: ""
 
 # Rename command
 rename:
   success: "§aDie Welt §f{name} §awurde zu §f{to} §aumbenannt."
-  same: "§cDu kannst eine Welt nicht in den gleichen Namen umbenennen."
-  error: "§cDie Welt konnte nicht umbenannt werden, bitte prüfe die Welt-Dateien."
+  error_code:
+    same_source_target: ""
+    delete_failed: ""
 
 # Load command
 load:
@@ -68,12 +74,24 @@ set:
   success: "§aDu hast §b{key} §ain §f{world} §aauf §c{value} §agesetzt."
   list:
     info: "§Einstellungen für die Welt §f{name}"
-    notset: "§7nicht gesetzt"
+    not_set: ""
   permission:
-    notdefault: "§cDu kannst keine Berechtigung für die Standard-Welt setzen."
+    not_default: ""
   gamemode:
-    notexist: "§6Dieser Spielmodus existiert nicht."
-  notbool: "§6Du kannst §f{key} §6nur auf §atrue §6oder §afalse §6setzen."
+    not_exist: ""
+  not_bool: ""
+  not_controllist: ""
+
+# ControlList sub command (of set)
+controllist:
+  add:
+    success: ""
+  remove:
+    success: ""
+  reset:
+    success: ""
+  list:
+    description: ""
 
 # Unset command
 unset:
@@ -83,7 +101,6 @@ unset:
 defaults:
   list:
     info: "§Einstellungen für Welten auf diesem Server"
-    notset: "§7nicht gesetzt"
   set:
     success: "§aDu hast §b{key} §aauf §c{value} §aals Standard-Wert gesetzt."
   unset:
@@ -109,11 +126,15 @@ forms:
       leavesdecay: "Blätter verwesen"
       potion: "Zaubertränke"
     options:
-      notset: "§7nicht eingestellt (kein Wert)"
+      not_set: ""
       true: "§aaktiviert"
       false: "§cdeaktiviert"
+      white: ""
+      black: ""
   # Default settings
   default:
     title: "§aStandard Welt-Einstellungen"
   # Settings saved message
   saved: "§aEinstellungen erfolgreich gespeichert!"
+  error_code:
+    invalid_data: ""
