@@ -6,16 +6,18 @@
 #
 # (C) 2019 by surva network | https://github.com/survanetwork
 
-# Vietnamese language
+# English language
 
 # General
 general:
   command:
-    ingame: "§6Bạn chỉ có thể chạy lệnh này trong trò chơi."
+    in_game: ""
   world:
-    notexist: "§cThế giới §f{name} §ckhông tồn tại."
-    notloaded: "§cThế giới §f{name} §ckhông được tải hoặc không tồn tại."
+    not_exist: ""
+    not_loaded: ""
   permission: "§6Bạn không có quyền tham gia thế giới này."
+  config:
+    save_error: ""
 
 # List command
 list:
@@ -26,24 +28,28 @@ create:
   success: "§aThế giới §f{name} §ađã được tạo."
   failed: "§cĐã xảy ra lỗi không xác định trong khi tạo thế giới."
   generator:
-    notexist: "§6Không có trình khởi tạo thế giới được gọi là §f{name} §6- đã sử dụng trình khởi tạo thế giới mặc định."
+    not_exist: ""
 
 # Remove command
 remove:
   success: "§aThế giới §f{name} đã được xóa bỏ§a."
-  error: "§cKhông thể xóa thế giới, vui lòng kiểm tra các tệp thế giới."
+  error: ""
 
 # Copy command
 copy:
   success: "§aThế giới §f{name} §ađã được sao chép thành §f{to}§a."
-  same: "§cBạn không thể sao chép thế giới vào trong chính nó."
-  error: "§cThế giới không thể sao chép, vui lòng kiểm tra tệp thế giới."
+  error_code:
+    same_source_target: ""
+    source_not_exist: ""
+    target_exist: ""
+    copy_failed: ""
 
 # Rename command
 rename:
   success: "§aThế giới §f{name} §ađã được đổi tên thành §f{to}§a."
-  same: "§cBạn không thể đổi tên thế giới thành cùng một tên."
-  error: "§cThế giới không thể được đổi tên, vui lòng kiểm tra các tệp thế giới."
+  error_code:
+    same_source_target: ""
+    delete_failed: ""
 
 # Load command
 load:
@@ -68,12 +74,24 @@ set:
   success: "§aBạn đã thiết lập §b{key} §atại §f{world} §athành §c{value}§a."
   list:
     info: "§cCác cài đặt cho thế giới §f{name}"
-    notset: "§7không được thiết lập"
+    not_set: ""
   permission:
-    notdefault: "§cBạn không thể thiết lập quyền trên thế giới mặc định."
+    not_default: ""
   gamemode:
-    notexist: "§6Chế độ trò chơi này không tồn tại."
-  notbool: "§6Bạn có thể thiết lập §f{key} §6thành §atrue §6hoặc §afalse§6."
+    not_exist: ""
+  not_bool: ""
+  not_controllist: ""
+
+# ControlList sub command (of set)
+controllist:
+  add:
+    success: ""
+  remove:
+    success: ""
+  reset:
+    success: ""
+  list:
+    description: ""
 
 # Unset command
 unset:
@@ -83,7 +101,6 @@ unset:
 defaults:
   list:
     info: "§cCác cài đặt mặc định cho thế giới trên máy chủ này"
-    notset: "§7không được thiết lập"
   set:
     success: "§aBạn đã thiết lập §b{key} §athành §c{value} §alàm giá trị mặc định."
   unset:
@@ -109,11 +126,15 @@ forms:
       leavesdecay: "Lá thối rữa"
       potion: "Lọ thuốc"
     options:
-      notset: "§7không được thiết lập (null)"
+      not_set: ""
       true: "§ađược kích hoạt"
       false: "§cbị vô hiệu hóa"
+      white: ""
+      black: ""
   # Default settings
   default:
     title: "§aCác cài đặt thế giới mặc định"
   # Settings saved message
   saved: "§aCác cài đặt đã được lưu thành công!!"
+  error_code:
+    invalid_data: ""
