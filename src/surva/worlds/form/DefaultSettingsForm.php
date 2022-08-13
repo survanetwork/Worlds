@@ -27,7 +27,7 @@ class DefaultSettingsForm extends SettingsForm
                   "type"    => "dropdown",
                   "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
                   "options" => [
-                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    $this->getWorlds()->getMessage("forms.world.options.not_set"),
                     $this->getWorlds()->getMessage("forms.world.options.false"),
                     $this->getWorlds()->getMessage("forms.world.options.true"),
                   ],
@@ -37,7 +37,7 @@ class DefaultSettingsForm extends SettingsForm
                   "type"    => "dropdown",
                   "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
                   "options" => [
-                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    $this->getWorlds()->getMessage("forms.world.options.not_set"),
                     $this->getWorlds()->getMessage("forms.world.options.false"),
                     $this->getWorlds()->getMessage("forms.world.options.true"),
                     $this->getWorlds()->getMessage("forms.world.options.white"),
@@ -49,7 +49,7 @@ class DefaultSettingsForm extends SettingsForm
                   "type"    => "dropdown",
                   "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
                   "options" => [
-                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    $this->getWorlds()->getMessage("forms.world.options.not_set"),
                     GameMode::SURVIVAL()->getEnglishName(),
                     GameMode::CREATIVE()->getEnglishName(),
                     GameMode::ADVENTURE()->getEnglishName(),

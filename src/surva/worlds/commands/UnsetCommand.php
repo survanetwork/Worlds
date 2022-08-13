@@ -16,7 +16,7 @@ class UnsetCommand extends CustomCommand
     public function do(CommandSender $sender, array $args): bool
     {
         if (!($sender instanceof Player)) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.command.ingame"));
+            $sender->sendMessage($this->getWorlds()->getMessage("general.command.in_game"));
 
             return true;
         }
@@ -26,7 +26,7 @@ class UnsetCommand extends CustomCommand
         $folderName = $player->getWorld()->getFolderName();
 
         if (!($world = $this->getWorlds()->getWorldByName($folderName))) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.world.notloaded", ["name" => $folderName]));
+            $sender->sendMessage($this->getWorlds()->getMessage("general.world.not_loaded", ["name" => $folderName]));
 
             return true;
         }

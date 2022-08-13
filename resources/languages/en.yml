@@ -11,10 +11,10 @@
 # General
 general:
   command:
-    ingame: "§6You can only run this command in game."
+    in_game: "§6You can only run this command in game."
   world:
-    notexist: "§cWorld §f{name} §cdoesn't exist."
-    notloaded: "§cWorld §f{name} §cisn't loaded or does not exist."
+    not_exist: "§cWorld §f{name} §cdoesn't exist."
+    not_loaded: "§cWorld §f{name} §cisn't loaded or does not exist."
   permission: "§6You don't have the permission to join this world."
 
 # List command
@@ -26,7 +26,7 @@ create:
   success: "§aWorld §f{name} §ahas been created."
   failed: "§cAn unknown error occurred while creating the world."
   generator:
-    notexist: "§6There is no generated called §f{name} §6- using the default one."
+    not_exist: "§6There is no generated called §f{name} §6- using the default one."
 
 # Remove command
 remove:
@@ -68,13 +68,13 @@ set:
   success: "§aYou've set §b{key} §ain §f{world} §ato §c{value}§a."
   list:
     info: "§cSettings for world §f{name}"
-    notset: "§7not set"
+    not_set: "§7not set"
   permission:
-    notdefault: "§cYou can't set a permission on the default world."
+    not_default: "§cYou can't set a permission on the default world."
   gamemode:
-    notexist: "§6This gamemode does not exist."
-  notbool: "§6You can set §f{key} §6only to §atrue §6or §cfalse§6."
-  notcontrollist: "§6You can set §f{key} §6only to §atrue§6, §cfalse§6, §fwhite §6or §0black§6."
+    not_exist: "§6This gamemode does not exist."
+  not_bool: "§6You can set §f{key} §6only to §atrue §6or §cfalse§6."
+  not_controllist: "§6You can set §f{key} §6only to §atrue§6, §cfalse§6, §fwhite §6or §0black§6."
 
 # ControlList sub command (of set)
 controllist:
@@ -95,7 +95,6 @@ unset:
 defaults:
   list:
     info: "§cDefault settings for worlds on this server"
-    notset: "§7not set"
   set:
     success: "§aYou've set §b{key} §ato §c{value} §aas default value."
   unset:
@@ -121,7 +120,7 @@ forms:
       leavesdecay: "Leaves decay"
       potion: "Potion"
     options:
-      notset: "§7not set (null)"
+      not_set: "§7not set (null)"
       true: "§aenabled"
       false: "§cdisabled"
       white: "§fuse whitelist"

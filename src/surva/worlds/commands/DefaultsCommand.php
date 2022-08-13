@@ -17,7 +17,7 @@ class DefaultsCommand extends SetCommand
     public function do(CommandSender $sender, array $args): bool
     {
         if (!($sender instanceof Player)) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.command.ingame"));
+            $sender->sendMessage($this->getWorlds()->getMessage("general.command.in_game"));
 
             return true;
         }
@@ -70,7 +70,7 @@ class DefaultsCommand extends SetCommand
 
                 switch ($flagType) {
                     case Flags::TYPE_PERMISSION:
-                        $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
+                        $player->sendMessage($this->getWorlds()->getMessage("set.permission.not_default"));
 
                         return true;
                     case Flags::TYPE_GAME_MODE:

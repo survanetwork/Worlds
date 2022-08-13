@@ -39,7 +39,7 @@ class CreateCommand extends CustomCommand
 
                 if ($gmEntry === null) {
                     $sender->sendMessage(
-                        $this->getWorlds()->getMessage("create.generator.notexist", ["name" => $args[1]])
+                        $this->getWorlds()->getMessage("create.generator.not_exist", ["name" => $args[1]])
                     );
 
                     return true;
