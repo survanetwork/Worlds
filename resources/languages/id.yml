@@ -6,87 +6,101 @@
 #
 # (C) 2019 by surva network | https://github.com/survanetwork
 
-# Indonesian language
+# English language
 
-# Perintah umum
+# General
 general:
   command:
-    ingame: "§6Anda hanya boleh menjalankan perintah ini dalam game."
+    in_game: ""
   world:
-    notexist: "§cDunia §f{name} §ctidak ada."
-    notloaded: "§cDunia §f{name} §cbelum dimuat atau tidak ada."
+    not_exist: ""
+    not_loaded: ""
   permission: "§6Anda tidak memiliki izin untuk mengunjungi dunia ini."
+  config:
+    save_error: ""
 
-# Perintah menampilkan dunia
+# List command
 list:
   worlds: "§eDunia yang ada di server: §f{worlds}§e."
 
-# Perintah membuat dunia
+# Create command
 create:
   success: "§aDunia §f{name} §aberhasil dibuat."
   failed: "§cTerdapat kesalahan yang tidak diketahui saat membuat dunia ini."
   generator:
-    notexist: "§6Tidak ada generator yang bernama §f{name} §6- menggunakan generator default."
+    not_exist: ""
 
-# Perintah menghapus dunia
+# Remove command
 remove:
   success: "§aDunia §f{name} §aberhasil dihapus."
+  error: ""
 
-# Perintah menyalin dunia
+# Copy command
 copy:
   success: "§aDunia §f{name} §aberhasil disalin ke §f{to}§a."
-  same: "§cAnda tidak bisa menyalin dunia ke dunia sendiri."
-  datfile:
-    notexist: "§cFile data dunia tidak ditemukan."
-    damaged: "§cFile data dunia rusak."
-    notsave: "§cGagal menyimpan file data baru ke dunia."
+  error_code:
+    same_source_target: ""
+    source_not_exist: ""
+    target_exist: ""
+    copy_failed: ""
 
-# Perintah mengganti nama dunia
+# Rename command
 rename:
   success: "§aDunia §f{name} §aberhasil dinamakan ulang menjadi §f{to}§a."
-  same: "§cAnda tidak bisa menamakan ulang dunia ke nama yang sama."
-  datfile:
-    notexist: "§cFile data dunia tidak ditemukan."
-    damaged: "§cFile data dunia rusak."
-    notsave: "§cGagal menyimpan file data baru ke dunia."
+  error_code:
+    same_source_target: ""
+    delete_failed: ""
 
-# Perintah memuat dunia
+# Load command
 load:
   success: "§aDunia §f{world} §aberhasil dimuat."
   already: "§eDunia §f{name} §esudah dimuat."
   failed: "§cGagal memuat dunia."
+  error: ""
 
-# Perintah menonaktifkan dunia
+# Unload command
 unload:
   success: "§aDunia §f{world} §aberhasil dinonaktifkan."
+  default: ""
   failed: "§cGagal menonaktifkan dunia."
 
-# Perintah teleportasi di dunia
+# Teleport command
 teleport:
   success: "§aBerhasil meneleportasikan Anda ke dunia §f{world}§a."
   failed: "§cGagal meneleportasikan Anda ke dunia."
 
-# Perintah menyetel dunia
+# Set command
 set:
   success: "§aBerhasil mengubah §b{key} §adi dunia §f{world} §amenjadi §c{value}§a."
   list:
-    values: "§cPengaturan dunia §f{name}\n\n§eizin: {permission}\n§emode game: {gamemode}\n§emembangun: {build}\n§epvp: {pvp}\n§emerusak: {damage}\n§eberinteraksi: {interact}\n§eledakan: {explode}\n§emembuang: {drop}\n§ekelaparan: {hunger}\n§eterbang: {fly}\n"
-    notset: "§7belum diatur"
+    info: ""
+    not_set: ""
   permission:
-    notdefault: "§cAnda tidak bisa mengubah izin dunia default."
+    not_default: ""
   gamemode:
-    notexist: "§6Mode game tidak tersedia."
-  notbool: "§6Anda hanya boleh mengubah §f{key} §6omenjadi §atrue §6atau §afalse§6."
+    not_exist: ""
+  not_bool: ""
+  not_controllist: ""
 
-# Perintah menonaktifkan dunia
+# ControlList sub command (of set)
+controllist:
+  add:
+    success: ""
+  remove:
+    success: ""
+  reset:
+    success: ""
+  list:
+    description: ""
+
+# Unset command
 unset:
   success: "§aBerhasil menonaktifkan §b{key} §adi dunia §f{world}§a."
 
-# Perintah default
+# Defaults command
 defaults:
   list:
-    values: "§cPengaturan default semua dunia di server ini\n\n§eizin: {permission}\n§emode game: {gamemode}\n§emembangun: {build}\n§epvp: {pvp}\n§emerusak: {damage}\n§eberinteraksi: {interact}\n§eledakan: {explode}\n§emembuang: {drop}\n§ekelaparan: {hunger}\n§eterbang: {fly}\n"
-    notset: "§7belum diatur"
+    info: ""
   set:
     success: "§aBerhasil mengubah §b{key} §amenjadi §c{value} §asebagai default."
   unset:
@@ -94,7 +108,7 @@ defaults:
 
 # Forms
 forms:
-  # Pengaturan dunia
+  # World settings
   world:
     title: "§aPengaturan dunia §f{name}"
     params:
@@ -109,12 +123,18 @@ forms:
       hunger: "Memperbolehkan kelaparan"
       fly: "Memperbolehkan terbang"
       daylightcycle: "Siklus hari"
+      leavesdecay: ""
+      potion: ""
     options:
-      notset: "§7belum diatur (null)"
+      not_set: ""
       true: "§adiaktifkan"
       false: "§cdinonaktifkan"
-  # Pengaturan default
+      white: ""
+      black: ""
+  # Default settings
   default:
     title: "§aPengaturan default dunia"
-  # Pesan menyimpan pengaturan dunia
+  # Settings saved message
   saved: "§aBerhasil menyimpan pengaturan!"
+  error_code:
+    invalid_data: ""
