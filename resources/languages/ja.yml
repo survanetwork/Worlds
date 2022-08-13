@@ -6,16 +6,18 @@
 #
 # (C) 2019 by surva network | https://github.com/survanetwork
 
-# Japanese language
+# English language
 
 # General
 general:
   command:
-    ingame: "§6このコマンドはゲーム内でのみ実行可能です。"
+    in_game: ""
   world:
-    notexist: "§f{name}§cは世界に存在しません。"
-    notloaded: "§f{name}§cはロードされていないか、世界に存在しません。"
+    not_exist: ""
+    not_loaded: ""
   permission: "§6この世界に入る許可がありません。"
+  config:
+    save_error: ""
 
 # List command
 list:
@@ -26,30 +28,35 @@ create:
   success: "§a新しい世界§f{name}§aが作成されました。"
   failed: "§c世界の作成中に不明なエラーが発生しました"
   generator:
-    notexist: "§6生成された§f{name}という名前のものはありません。§6-デフォルトのものを使用する"
+    not_exist: ""
 
 # Remove command
 remove:
   success: "§a世界§f{name}§aは削除されました"
-  error: "§c世界を削除できませんでした。worldファイルを確認してください。"
+  error: ""
 
 # Copy command
 copy:
   success: "§a世界§f{name}§は§f{to}§aにコピーされました。"
-  same: "§c世界を自分自身にコピーすることはできません。"
-  error: "§c世界を削除できませんでした。worldファイルを確認してください。"
+  error_code:
+    same_source_target: ""
+    source_not_exist: ""
+    target_exist: ""
+    copy_failed: ""
 
 # Rename command
 rename:
   success: "§a世界§f{name}§は§f{to}§aに改名されました。"
-  same: "§c同じ名前に変更することはできません。"
-  error: "§c世界の名前を変更できませんでした。worldファイルを確認してください。"
+  error_code:
+    same_source_target: ""
+    delete_failed: ""
 
 # Load command
 load:
   success: "§a世界§f{world}§aは正常にロードされました"
   already: "§e世界§f{name}§eはすでに読み込まれています。"
   failed: "§c世界を読み込むことができませんでした。"
+  error: ""
 
 # Unload command
 unload:
@@ -67,12 +74,24 @@ set:
   success: "§aあなたは§b{key}を設定しました。§f{world}§aを選択します。を§c{value}§aに変更する。"
   list:
     info: "§c世界§f{name}の設定"
-    notset: "§7設定されていません"
+    not_set: ""
   permission:
-    notdefault: "§cデフォルトの世界にパーミッションを設定することはできません。"
+    not_default: ""
   gamemode:
-    notexist: "§6このゲームモードは存在しません"
-  notbool: "§6あなたは§f{key}を設定することができます。§atrue§6または§afalse§6。"
+    not_exist: ""
+  not_bool: ""
+  not_controllist: ""
+
+# ControlList sub command (of set)
+controllist:
+  add:
+    success: ""
+  remove:
+    success: ""
+  reset:
+    success: ""
+  list:
+    description: ""
 
 # Unset command
 unset:
@@ -82,7 +101,6 @@ unset:
 defaults:
   list:
     info: "§cこのサーバー上のワールドのデフォルト設定"
-    notset: "§7設定されていません"
   set:
     success: "§aあなたは§b{key}§aを設定しました。§c{value}§aをデフォルト値として使用する"
   unset:
@@ -108,11 +126,15 @@ forms:
       leavesdecay: "葉っぱの自然消滅"
       potion: "ポーション"
     options:
-      notset: "§7設定されていません"
+      not_set: ""
       true: "§a有効"
       false: "§c無効"
+      white: ""
+      black: ""
   # Default settings
   default:
     title: "§a世界の初期設定"
   # Settings saved message
   saved: "§a設定の保存に成功しました！"
+  error_code:
+    invalid_data: ""
