@@ -141,7 +141,7 @@ class WorldSettingsForm extends SettingsForm
     private function procPerm(string $name, mixed $data, bool $isDefLvl, Player $player): void
     {
         if ($data === "") {
-            $this->getStorage()->removeValue($name);
+            $this->getStorage()->removeValue($name, true);
 
             return;
         }

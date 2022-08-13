@@ -99,7 +99,7 @@ abstract class SettingsForm implements Form
                 $this->storage->updateValue($name, Flags::VALUE_TRUE);
                 break;
             default:
-                $this->storage->removeValue($name);
+                $this->storage->removeValue($name, true);
                 break;
         }
     }
@@ -130,7 +130,7 @@ abstract class SettingsForm implements Form
                 $this->storage->updateValue($name, Flags::VALUE_BLACKLISTED);
                 break;
             default:
-                $this->storage->removeValue($name);
+                $this->storage->removeValue($name, true);
                 break;
         }
     }
@@ -161,7 +161,7 @@ abstract class SettingsForm implements Form
                 $this->storage->updateValue($name, WorldActions::getGameModeId(GameMode::SPECTATOR()));
                 break;
             default:
-                $this->storage->removeValue($name);
+                $this->storage->removeValue($name, true);
                 break;
         }
     }

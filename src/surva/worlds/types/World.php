@@ -131,14 +131,20 @@ class World
      * Remove a config value
      *
      * @param  string  $name
+     * @param  bool  $ifExisting
      *
-     * @throws \surva\worlds\types\exception\ValueNotExistException
+     * @return void
      * @throws \surva\worlds\types\exception\ConfigSaveException
+     * @throws \surva\worlds\types\exception\ValueNotExistException
      */
-    public function removeValue(string $name): void
+    public function removeValue(string $name, bool $ifExisting = false): void
     {
         if (!$this->config->exists($name)) {
-            throw new ValueNotExistException();
+            if (!$ifExisting) {
+                throw new ValueNotExistException();
+            }
+
+            return;
         }
 
         $this->config->remove($name);
