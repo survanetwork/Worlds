@@ -15,7 +15,7 @@ class TeleportCommand extends CustomCommand
     public function do(CommandSender $sender, array $args): bool
     {
         if (!($sender instanceof Player)) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.command.ingame"));
+            $sender->sendMessage($this->getWorlds()->getMessage("general.command.in_game"));
 
             return true;
         }
@@ -43,7 +43,7 @@ class TeleportCommand extends CustomCommand
         }
 
         if (!($this->getWorlds()->getServer()->getWorldManager()->isWorldLoaded($args[0]))) {
-            $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded", ["name" => $args[0]]));
+            $player->sendMessage($this->getWorlds()->getMessage("general.world.not_loaded", ["name" => $args[0]]));
 
             return true;
         }

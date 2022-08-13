@@ -8,6 +8,8 @@ namespace surva\worlds\form;
 
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
+use surva\worlds\types\exception\ConfigSaveException;
+use surva\worlds\types\exception\ValueNotExistException;
 use surva\worlds\types\World;
 use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
@@ -27,7 +29,7 @@ class WorldSettingsForm extends SettingsForm
                   "type"    => "dropdown",
                   "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
                   "options" => [
-                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    $this->getWorlds()->getMessage("forms.world.options.not_set"),
                     $this->getWorlds()->getMessage("forms.world.options.false"),
                     $this->getWorlds()->getMessage("forms.world.options.true"),
                   ],
@@ -37,7 +39,7 @@ class WorldSettingsForm extends SettingsForm
                   "type"    => "dropdown",
                   "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
                   "options" => [
-                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    $this->getWorlds()->getMessage("forms.world.options.not_set"),
                     $this->getWorlds()->getMessage("forms.world.options.false"),
                     $this->getWorlds()->getMessage("forms.world.options.true"),
                     $this->getWorlds()->getMessage("forms.world.options.white"),
@@ -54,7 +56,7 @@ class WorldSettingsForm extends SettingsForm
                   "type"    => "dropdown",
                   "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
                   "options" => [
-                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    $this->getWorlds()->getMessage("forms.world.options.not_set"),
                     GameMode::SURVIVAL()->getEnglishName(),
                     GameMode::CREATIVE()->getEnglishName(),
                     GameMode::ADVENTURE()->getEnglishName(),
@@ -75,10 +77,14 @@ class WorldSettingsForm extends SettingsForm
     public function handleResponse(Player $player, $data): void
     {
         if (!is_array($data)) {
+            $player->sendMessage($this->getWorlds()->getMessage("forms.error_code.invalid_data"));
+
             return;
         }
 
         if (count($data) !== count(Flags::AVAILABLE_WORLD_FLAGS)) {
+            $player->sendMessage($this->getWorlds()->getMessage("forms.error_code.invalid_data"));
+
             return;
         }
 
@@ -87,24 +93,34 @@ class WorldSettingsForm extends SettingsForm
 
         $isDefLvl = $defFolderName === $plFolderName;
 
-        $i = 0;
-        foreach (Flags::AVAILABLE_WORLD_FLAGS as $flagName => $flagDetails) {
-            switch ($flagDetails["type"]) {
-                case Flags::TYPE_BOOL:
-                    $this->procBool($flagName, $data[$i]);
-                    break;
-                case Flags::TYPE_CONTROL_LIST:
-                    $this->procWhiteBlack($flagName, $data[$i]);
-                    break;
-                case Flags::TYPE_PERMISSION:
-                    $this->procPerm($flagName, $data[$i], $isDefLvl, $player);
-                    break;
-                case Flags::TYPE_GAME_MODE:
-                    $this->procGameMode($flagName, $data[$i]);
-                    break;
-            }
+        try {
+            $i = 0;
+            foreach (Flags::AVAILABLE_WORLD_FLAGS as $flagName => $flagDetails) {
+                switch ($flagDetails["type"]) {
+                    case Flags::TYPE_BOOL:
+                        $this->procBool($flagName, $data[$i]);
+                        break;
+                    case Flags::TYPE_CONTROL_LIST:
+                        $this->procControlList($flagName, $data[$i]);
+                        break;
+                    case Flags::TYPE_PERMISSION:
+                        $this->procPerm($flagName, $data[$i], $isDefLvl, $player);
+                        break;
+                    case Flags::TYPE_GAME_MODE:
+                        $this->procGameMode($flagName, $data[$i]);
+                        break;
+                }
 
-            $i++;
+                $i++;
+            }
+        } catch (ConfigSaveException $e) {
+            $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+
+            return;
+        } catch (ValueNotExistException $e) {
+            $player->sendMessage($this->getWorlds()->getMessage("forms.error_code.invalid_data"));
+
+            return;
         }
 
         $player->sendMessage($this->getWorlds()->getMessage("forms.saved"));
@@ -119,8 +135,10 @@ class WorldSettingsForm extends SettingsForm
      * @param  \pocketmine\player\Player  $player
      *
      * @return void
+     * @throws \surva\worlds\types\exception\ConfigSaveException
+     * @throws \surva\worlds\types\exception\ValueNotExistException
      */
-    private function procPerm(string $name, $data, bool $isDefLvl, Player $player): void
+    private function procPerm(string $name, mixed $data, bool $isDefLvl, Player $player): void
     {
         if ($data === "") {
             $this->getStorage()->removeValue($name);
@@ -129,7 +147,7 @@ class WorldSettingsForm extends SettingsForm
         }
 
         if ($isDefLvl) {
-            $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
+            $player->sendMessage($this->getWorlds()->getMessage("set.permission.not_default"));
 
             return;
         }

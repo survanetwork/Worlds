@@ -9,6 +9,8 @@ namespace surva\worlds\form;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 use surva\worlds\types\Defaults;
+use surva\worlds\types\exception\ConfigSaveException;
+use surva\worlds\types\exception\ValueNotExistException;
 use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
 
@@ -27,7 +29,7 @@ class DefaultSettingsForm extends SettingsForm
                   "type"    => "dropdown",
                   "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
                   "options" => [
-                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    $this->getWorlds()->getMessage("forms.world.options.not_set"),
                     $this->getWorlds()->getMessage("forms.world.options.false"),
                     $this->getWorlds()->getMessage("forms.world.options.true"),
                   ],
@@ -37,7 +39,7 @@ class DefaultSettingsForm extends SettingsForm
                   "type"    => "dropdown",
                   "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
                   "options" => [
-                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    $this->getWorlds()->getMessage("forms.world.options.not_set"),
                     $this->getWorlds()->getMessage("forms.world.options.false"),
                     $this->getWorlds()->getMessage("forms.world.options.true"),
                     $this->getWorlds()->getMessage("forms.world.options.white"),
@@ -49,7 +51,7 @@ class DefaultSettingsForm extends SettingsForm
                   "type"    => "dropdown",
                   "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
                   "options" => [
-                    $this->getWorlds()->getMessage("forms.world.options.notset"),
+                    $this->getWorlds()->getMessage("forms.world.options.not_set"),
                     GameMode::SURVIVAL()->getEnglishName(),
                     GameMode::CREATIVE()->getEnglishName(),
                     GameMode::ADVENTURE()->getEnglishName(),
@@ -70,28 +72,42 @@ class DefaultSettingsForm extends SettingsForm
     public function handleResponse(Player $player, $data): void
     {
         if (!is_array($data)) {
+            $player->sendMessage($this->getWorlds()->getMessage("forms.error_code.invalid_data"));
+
             return;
         }
 
         if (count($data) !== count(Flags::AVAILABLE_DEFAULT_FLAGS)) {
+            $player->sendMessage($this->getWorlds()->getMessage("forms.error_code.invalid_data"));
+
             return;
         }
 
-        $i = 0;
-        foreach (Flags::AVAILABLE_DEFAULT_FLAGS as $flagName => $flagDetails) {
-            switch ($flagDetails["type"]) {
-                case Flags::TYPE_BOOL:
-                    $this->procBool($flagName, $data[$i]);
-                    break;
-                case Flags::TYPE_CONTROL_LIST:
-                    $this->procWhiteBlack($flagName, $data[$i]);
-                    break;
-                case Flags::TYPE_GAME_MODE:
-                    $this->procGameMode($flagName, $data[$i]);
-                    break;
-            }
+        try {
+            $i = 0;
+            foreach (Flags::AVAILABLE_DEFAULT_FLAGS as $flagName => $flagDetails) {
+                switch ($flagDetails["type"]) {
+                    case Flags::TYPE_BOOL:
+                        $this->procBool($flagName, $data[$i]);
+                        break;
+                    case Flags::TYPE_CONTROL_LIST:
+                        $this->procControlList($flagName, $data[$i]);
+                        break;
+                    case Flags::TYPE_GAME_MODE:
+                        $this->procGameMode($flagName, $data[$i]);
+                        break;
+                }
 
-            $i++;
+                $i++;
+            }
+        } catch (ConfigSaveException $e) {
+            $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+
+            return;
+        } catch (ValueNotExistException $e) {
+            $player->sendMessage($this->getWorlds()->getMessage("forms.error_code.invalid_data"));
+
+            return;
         }
 
         $player->sendMessage($this->getWorlds()->getMessage("forms.saved"));

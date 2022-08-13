@@ -10,6 +10,8 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use surva\worlds\form\DefaultSettingsForm;
 use surva\worlds\logic\WorldActions;
+use surva\worlds\types\exception\ConfigSaveException;
+use surva\worlds\types\exception\ValueNotExistException;
 use surva\worlds\utils\Flags;
 
 class DefaultsCommand extends SetCommand
@@ -17,7 +19,7 @@ class DefaultsCommand extends SetCommand
     public function do(CommandSender $sender, array $args): bool
     {
         if (!($sender instanceof Player)) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.command.ingame"));
+            $sender->sendMessage($this->getWorlds()->getMessage("general.command.in_game"));
 
             return true;
         }
@@ -70,7 +72,7 @@ class DefaultsCommand extends SetCommand
 
                 switch ($flagType) {
                     case Flags::TYPE_PERMISSION:
-                        $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
+                        $player->sendMessage($this->getWorlds()->getMessage("set.permission.not_default"));
 
                         return true;
                     case Flags::TYPE_GAME_MODE:
@@ -91,7 +93,13 @@ class DefaultsCommand extends SetCommand
                     return false;
                 }
 
-                $defaults->removeValue($args[1]);
+                try {
+                    $defaults->removeValue($args[1]);
+                } catch (ConfigSaveException | ValueNotExistException $e) {
+                    $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+
+                    return true;
+                }
 
                 $player->sendMessage(
                     $this->getWorlds()->getMessage(

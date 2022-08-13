@@ -6,7 +6,9 @@
 
 namespace surva\worlds\commands\controllist;
 
+use InvalidArgumentException;
 use pocketmine\command\CommandSender;
+use surva\worlds\types\exception\ConfigSaveException;
 
 class ListRemoveCommand extends ControlListCommand
 {
@@ -26,7 +28,13 @@ class ListRemoveCommand extends ControlListCommand
         }
 
         $controlList->remove($item);
-        $this->getWorld()->saveControlList($flag);
+        try {
+            $this->getWorld()->saveControlList($flag);
+        } catch (ConfigSaveException | InvalidArgumentException $e) {
+            $sender->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+
+            return true;
+        }
 
         $sender->sendMessage(
             $this->getWorlds()->getMessage(

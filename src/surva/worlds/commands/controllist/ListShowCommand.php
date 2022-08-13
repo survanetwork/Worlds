@@ -25,7 +25,6 @@ class ListShowCommand extends ControlListCommand
         }
 
         $listArray = $controlList->getList();
-        $this->getWorld()->saveControlList($flag);
 
         $sender->sendMessage(
             $this->getWorlds()->getMessage(

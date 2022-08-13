@@ -17,6 +17,7 @@ use surva\worlds\commands\controllist\ListResetCommand;
 use surva\worlds\commands\controllist\ListShowCommand;
 use surva\worlds\form\WorldSettingsForm;
 use surva\worlds\logic\WorldActions;
+use surva\worlds\types\exception\ConfigSaveException;
 use surva\worlds\types\World;
 use surva\worlds\utils\Flags;
 
@@ -25,7 +26,7 @@ class SetCommand extends CustomCommand
     public function do(CommandSender $sender, array $args): bool
     {
         if (!($sender instanceof Player)) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.command.ingame"));
+            $sender->sendMessage($this->getWorlds()->getMessage("general.command.in_game"));
 
             return true;
         }
@@ -35,7 +36,7 @@ class SetCommand extends CustomCommand
         $folderName = $player->getWorld()->getFolderName();
 
         if (!($world = $this->getWorlds()->getWorldByName($folderName))) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.world.notloaded", ["name" => $folderName]));
+            $sender->sendMessage($this->getWorlds()->getMessage("general.world.not_loaded", ["name" => $folderName]));
 
             return true;
         }
@@ -162,12 +163,18 @@ class SetCommand extends CustomCommand
             $this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld()->getFolderName()
             === $folderName
         ) {
-            $player->sendMessage($this->getWorlds()->getMessage("set.permission.notdefault"));
+            $player->sendMessage($this->getWorlds()->getMessage("set.permission.not_default"));
 
             return true;
         }
 
-        $world->updateValue($key, $val);
+        try {
+            $world->updateValue($key, $val);
+        } catch (ConfigSaveException $e) {
+            $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+
+            return true;
+        }
 
         return $this->sendSuccessMessage($player, $key, $val);
     }
@@ -186,12 +193,18 @@ class SetCommand extends CustomCommand
         $gm = GameMode::fromString($gmArg);
 
         if ($gm === null) {
-            $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.notexist"));
+            $player->sendMessage($this->getWorlds()->getMessage("set.gamemode.not_exist"));
 
             return true;
         }
 
-        $world->updateValue(Flags::FLAG_GAME_MODE, WorldActions::getGameModeId($gm));
+        try {
+            $world->updateValue(Flags::FLAG_GAME_MODE, WorldActions::getGameModeId($gm));
+        } catch (ConfigSaveException $e) {
+            $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+
+            return true;
+        }
 
         return $this->sendSuccessMessage($player, Flags::FLAG_GAME_MODE, $gmArg);
     }
@@ -209,12 +222,18 @@ class SetCommand extends CustomCommand
     protected function setBoolSub(Player $player, string $key, string $val, World $world): bool
     {
         if (!(in_array($val, Flags::VALID_BOOL_VALUES))) {
-            $player->sendMessage($this->getWorlds()->getMessage("set.notbool", ["key" => $key]));
+            $player->sendMessage($this->getWorlds()->getMessage("set.not_bool", ["key" => $key]));
 
             return true;
         }
 
-        $world->updateValue($key, $val);
+        try {
+            $world->updateValue($key, $val);
+        } catch (ConfigSaveException $e) {
+            $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+
+            return true;
+        }
 
         return $this->sendSuccessMessage($player, $key, $val);
     }
@@ -232,12 +251,18 @@ class SetCommand extends CustomCommand
     protected function setControlListSub(Player $player, string $key, string $val, World $world): bool
     {
         if (!(in_array($val, Flags::VALID_CONTROL_LIST_VALUES))) {
-            $player->sendMessage($this->getWorlds()->getMessage("set.notcontrollist", ["key" => $key]));
+            $player->sendMessage($this->getWorlds()->getMessage("set.not_controllist", ["key" => $key]));
 
             return true;
         }
 
-        $world->updateValue($key, $val);
+        try {
+            $world->updateValue($key, $val);
+        } catch (ConfigSaveException $e) {
+            $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+
+            return true;
+        }
 
         return $this->sendSuccessMessage($player, $key, $val);
     }
@@ -273,7 +298,7 @@ class SetCommand extends CustomCommand
     protected function formatText(?string $value): string
     {
         if ($value === null) {
-            return $this->getWorlds()->getMessage("set.list.notset");
+            return $this->getWorlds()->getMessage("set.list.not_set");
         }
 
         return TextFormat::WHITE . $value;
@@ -289,7 +314,7 @@ class SetCommand extends CustomCommand
     protected function formatGameMode(?int $value): string
     {
         if ($value === null) {
-            return $this->getWorlds()->getMessage("set.list.notset");
+            return $this->getWorlds()->getMessage("set.list.not_set");
         }
 
         return $this->getWorlds()->getServer()->getLanguage()->translateString(
@@ -311,7 +336,7 @@ class SetCommand extends CustomCommand
         } elseif ($value === false) {
             return TextFormat::RED . $this->getWorlds()->getMessage("forms.world.options.false");
         } else {
-            return $this->getWorlds()->getMessage("set.list.notset");
+            return $this->getWorlds()->getMessage("set.list.not_set");
         }
     }
 
@@ -329,7 +354,7 @@ class SetCommand extends CustomCommand
             Flags::VALUE_FALSE => TextFormat::RED . $this->getWorlds()->getMessage("forms.world.options.false"),
             Flags::VALUE_WHITELISTED => TextFormat::WHITE . $this->getWorlds()->getMessage("forms.world.options.white"),
             Flags::VALUE_BLACKLISTED => TextFormat::BLACK . $this->getWorlds()->getMessage("forms.world.options.black"),
-            default => $this->getWorlds()->getMessage("set.list.notset")
+            default => $this->getWorlds()->getMessage("set.list.not_set")
         };
     }
 }
