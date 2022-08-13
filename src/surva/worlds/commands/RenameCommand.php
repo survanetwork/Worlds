@@ -8,6 +8,8 @@ namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
 use surva\worlds\logic\WorldActions;
+use surva\worlds\utils\exception\SourceNotExistException;
+use surva\worlds\utils\exception\TargetExistException;
 use surva\worlds\utils\FileUtils;
 
 class RenameCommand extends CustomCommand
@@ -39,7 +41,7 @@ class RenameCommand extends CustomCommand
         $toFolderName   = $args[1];
 
         if ($fromFolderName === $toFolderName) {
-            $sender->sendMessage($this->getWorlds()->getMessage("rename.same"));
+            $sender->sendMessage($this->getWorlds()->getMessage("rename.error_code.same_source_target"));
 
             return true;
         }
@@ -47,14 +49,34 @@ class RenameCommand extends CustomCommand
         $fromPath = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $fromFolderName;
         $toPath   = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $toFolderName;
 
-        $res = FileUtils::copyRecursive($fromPath, $toPath);
+        try {
+            $copyRes = FileUtils::copyRecursive($fromPath, $toPath);
+        } catch (SourceNotExistException $e) {
+            $sender->sendMessage($this->getWorlds()->getMessage("copy.error_code.source_not_exist"));
 
-        if ($res === true) {
-            $res = FileUtils::deleteRecursive($fromPath);
+            return true;
+        } catch (TargetExistException $e) {
+            $sender->sendMessage($this->getWorlds()->getMessage("copy.error_code.target_exist"));
+
+            return true;
         }
 
-        if (!$res) {
-            $sender->sendMessage($this->getWorlds()->getMessage("rename.error"));
+        if (!$copyRes) {
+            $sender->sendMessage($this->getWorlds()->getMessage("copy.error_code.copy_failed"));
+
+            return true;
+        }
+
+        try {
+            $deleteRes = FileUtils::deleteRecursive($fromPath);
+        } catch (SourceNotExistException $e) {
+            $sender->sendMessage($this->getWorlds()->getMessage("copy.error_code.source_not_exist"));
+
+            return true;
+        }
+
+        if (!$deleteRes) {
+            $sender->sendMessage($this->getWorlds()->getMessage("rename.error_code.delete_failed"));
 
             return true;
         }

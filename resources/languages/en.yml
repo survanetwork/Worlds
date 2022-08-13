@@ -36,14 +36,18 @@ remove:
 # Copy command
 copy:
   success: "§aWorld §f{name} §ahas been copied to §f{to}§a."
-  same: "§cYou can't copy the world into itself."
-  error: "§cWorld couldn't be copied, please check the world files."
+  error_code:
+    same_source_target: "§cYou can't copy the world into itself."
+    source_not_exist: "§cSource folder does not exist!"
+    target_exist: "§cTarget folder already exists!"
+    copy_failed: "§cSome world files couldn't be copied, please check the world files."
 
 # Rename command
 rename:
   success: "§aWorld §f{name} §ahas been renamed to §f{to}§a."
-  same: "§cYou can't rename the world to the same name."
-  error: "§cWorld couldn't be renamed, please check the world files."
+  error_code:
+    same_source_target: "§cYou can't rename the world to the same name."
+    delete_failed: "§cSome world files in the old folder couldn't be deleted, please check the world files."
 
 # Load command
 load:

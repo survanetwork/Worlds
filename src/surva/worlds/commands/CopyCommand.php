@@ -8,6 +8,8 @@ namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
 use surva\worlds\logic\WorldActions;
+use surva\worlds\utils\exception\SourceNotExistException;
+use surva\worlds\utils\exception\TargetExistException;
 use surva\worlds\utils\FileUtils;
 
 class CopyCommand extends CustomCommand
@@ -28,7 +30,7 @@ class CopyCommand extends CustomCommand
         $toFolderName   = $args[1];
 
         if ($fromFolderName === $toFolderName) {
-            $sender->sendMessage($this->getWorlds()->getMessage("copy.same"));
+            $sender->sendMessage($this->getWorlds()->getMessage("copy.error_code.same_source_target"));
 
             return true;
         }
@@ -36,10 +38,20 @@ class CopyCommand extends CustomCommand
         $fromPath = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $fromFolderName;
         $toPath   = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $toFolderName;
 
-        $res = FileUtils::copyRecursive($fromPath, $toPath);
+        try {
+            $res = FileUtils::copyRecursive($fromPath, $toPath);
+        } catch (SourceNotExistException $e) {
+            $sender->sendMessage($this->getWorlds()->getMessage("copy.error_code.source_not_exist"));
+
+            return true;
+        } catch (TargetExistException $e) {
+            $sender->sendMessage($this->getWorlds()->getMessage("copy.error_code.target_exist"));
+
+            return true;
+        }
 
         if (!$res) {
-            $sender->sendMessage($this->getWorlds()->getMessage("copy.error"));
+            $sender->sendMessage($this->getWorlds()->getMessage("copy.error_code.copy_failed"));
 
             return true;
         }
