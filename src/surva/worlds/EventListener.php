@@ -149,9 +149,6 @@ class EventListener implements Listener
         }
 
         $commandParts = explode(" ", $commandStr);
-        if (count($commandParts) < 1) {
-            return;
-        }
         $commandName = $commandParts[0];
 
         if ($commandName === "worlds" || $commandName === "ws") {
