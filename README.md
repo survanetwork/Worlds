@@ -67,6 +67,7 @@ Please report bugs on the issues page on GitHub.
     - Daylight cycle
     - Leaves decay
     - Potion
+    - Executing commands
     - You have an idea what to add? Feel free to open an issue.
 - **CONTROL LISTS** Create whitelists and blacklists for many events like block placing, interacting with blocks, ...
 - **DEFAULT VALUES** Set default values for worlds without settings
