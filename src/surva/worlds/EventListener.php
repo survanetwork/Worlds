@@ -23,6 +23,7 @@ use pocketmine\event\player\PlayerExhaustEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\server\CommandEvent;
 use pocketmine\event\world\WorldLoadEvent;
 use pocketmine\item\PaintingItem;
 use pocketmine\item\Potion;
@@ -123,6 +124,48 @@ class EventListener implements Listener
             $target->startTime();
         } elseif ($world->getBoolFlag(Flags::FLAG_DAYLIGHT_CYCLE) === false) {
             $target->stopTime();
+        }
+    }
+
+    /**
+     * Check command before execution if command execution is blocked or managed by a control list
+     *
+     * @param  \pocketmine\event\server\CommandEvent  $event
+     *
+     * @return void
+     */
+    public function onCommand(CommandEvent $event): void
+    {
+        $sender = $event->getSender();
+        $commandStr = $event->getCommand();
+
+        if (!($sender instanceof Player)) {
+            return;
+        }
+
+        $folderName = $sender->getWorld()->getFolderName();
+        if (($world = $this->worlds->getWorldByName($folderName)) === null) {
+            return;
+        }
+
+        $commandParts = explode(" ", $commandStr);
+        if (count($commandParts) < 1) {
+            return;
+        }
+        $commandName = $commandParts[0];
+
+        if ($commandName === "worlds" || $commandName === "ws") {
+            return;
+        }
+
+        if ($sender->hasPermission("worlds.admin.command")) {
+            return;
+        }
+
+        if ($world->checkControlList(Flags::FLAG_COMMAND, $commandName) === false) {
+            $sender->sendMessage($this->worlds->getMessage("general.command.no_permission"));
+
+            $event->cancel();
         }
     }
 

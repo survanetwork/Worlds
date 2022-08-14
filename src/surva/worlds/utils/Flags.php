@@ -26,6 +26,7 @@ class Flags
     public const FLAG_DAYLIGHT_CYCLE = "daylightcycle";
     public const FLAG_LEAVES_DECAY = "leavesdecay";
     public const FLAG_POTION = "potion";
+    public const FLAG_COMMAND = "command";
 
     public const VALUE_TRUE = "true";
     public const VALUE_FALSE = "false";
@@ -80,6 +81,9 @@ class Flags
         self::FLAG_POTION        => [
           "type" => self::TYPE_CONTROL_LIST,
         ],
+        self::FLAG_COMMAND => [
+          "type" => self::TYPE_CONTROL_LIST,
+        ],
       ];
 
     public const AVAILABLE_DEFAULT_FLAGS
@@ -118,6 +122,9 @@ class Flags
           "type" => self::TYPE_BOOL,
         ],
         self::FLAG_POTION        => [
+          "type" => self::TYPE_CONTROL_LIST,
+        ],
+        self::FLAG_COMMAND => [
           "type" => self::TYPE_CONTROL_LIST,
         ],
       ];

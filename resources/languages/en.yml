@@ -12,6 +12,7 @@
 general:
   command:
     in_game: "§6You can only run this command in game."
+    no_permission: "§6Using this command is not allowed in this world."
   world:
     not_exist: "§cWorld §f{name} §cdoesn't exist."
     not_loaded: "§cWorld §f{name} §cisn't loaded or does not exist."
@@ -125,6 +126,7 @@ forms:
       daylightcycle: "Daylight cycling"
       leavesdecay: "Leaves decay"
       potion: "Potion"
+      command: "Commands execution"
     options:
       not_set: "§7not set (null)"
       true: "§aenabled"

@@ -18,6 +18,8 @@ daylightcycle: [true|false]
 leavesdecay: [true|false]
 potion: [true|false|white|black]
 potionlist: [array of ID's]
+command: [true|false|white|black]
+commandlist: [array of ID's]
 ```
 
 The *list values are used if the flag is set to white or blacklist.

@@ -59,6 +59,9 @@ permissions:
   worlds.admin.interact:
     description: "Allow interacting in protected worlds"
     default: op
+  worlds.admin.command:
+    description: "Allow using blocked commands in protected worlds"
+    default: op
   worlds.teleport.general:
     description: "Allow teleporting to worlds when having the permission of the specific world"
     default: true
