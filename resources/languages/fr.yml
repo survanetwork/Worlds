@@ -6,16 +6,18 @@
 #
 # (C) 2019 by surva network | https://github.com/survanetwork
 
-# French language
+# English language
 
 # General
 general:
   command:
-    ingame: "§6Vous ne pouvez exécuter cette commande que dans le jeu."
+    in_game: ""
   world:
-    notexist: "§cLe monde §f{name} §cn'existe pas."
-    notloaded: "§cLe monde §f{name} §cn'est pas chargé ou n'existe pas."
+    not_exist: ""
+    not_loaded: ""
   permission: "§6Vous n'avez pas la permission de rejoindre ce monde."
+  config:
+    save_error: ""
 
 # List command
 list:
@@ -26,35 +28,35 @@ create:
   success: "§aLe Monde §f{name} §aa été créé."
   failed: "§cUne erreur inconnue s'est produite lors de la création du monde."
   generator:
-    notexist: "§6Il n'y a pas de générateur nommé §f{name} §6- utilisation du générateur par défaut."
+    not_exist: ""
 
 # Remove command
 remove:
   success: "§aLe Monde §f{name} §aa été supprimé."
+  error: ""
 
 # Copy command
 copy:
   success: "§aLe Monde §f{name} §aa été copié vers §f{to}§a."
-  same: "§cVous ne pouvez pas copié le monde dans son propre dossier."
-  datfile:
-    notexist: "§cLe fichier de données du monde n'existe pas."
-    damaged: "§cLe fichier de données du monde est endommagé."
-    notsave: "§cÉchec de l'enregistrement du fichier de mise à jour du monde dat."
+  error_code:
+    same_source_target: ""
+    source_not_exist: ""
+    target_exist: ""
+    copy_failed: ""
 
 # Rename command
 rename:
   success: "§aLe Monde §f{name} §aa été renommé en §f{to}§a."
-  same: "§cVous ne pouvez pas utiliser le même nom pour renommer le monde."
-  datfile:
-    notexist: "§cLe fichier de données du monde n'existe pas."
-    damaged: "§cLe fichier de données du monde est endommagé."
-    notsave: "§cÉchec de l'enregistrement du fichier de mise à jour du monde dat."
+  error_code:
+    same_source_target: ""
+    delete_failed: ""
 
 # Load command
 load:
   success: "§aLe Monde §f{world} §aa été chargé avec succès."
   already: "§eLe Monde §f{name} §eest déjà chargé."
   failed: "§cLe Monde n'a pas pu être chargé."
+  error: ""
 
 # Unload command
 unload:
@@ -71,13 +73,25 @@ teleport:
 set:
   success: "§aVous avez défini §b{key} §adans §f{world} §asur §c{value}§a."
   list:
-    values: "§cParamètres du monde §f{name}\n\n§epermission: {permission}\n§emode de jeu:gamemode}\n§econstruire\n§epvp: {pvp}\n§edommage: {damage}\n§einteraction: {interact}\n§eexplosion: {explode}\n§edrop: {drop}\n§efaim: {hunger}\n§evol{fly}\n"
-    notset: "§7non défini"
+    info: ""
+    not_set: ""
   permission:
-    notdefault: "§cVous ne pouvez pas définir une permission sur le monde par défaut."
+    not_default: ""
   gamemode:
-    notexist: "§6Ce gamemode n'existe pas."
-  notbool: "§6Vous ne pouvez définir §f{key} §6que sur §atrue §6ou §afalse§6."
+    not_exist: ""
+  not_bool: ""
+  not_controllist: ""
+
+# ControlList sub command (of set)
+controllist:
+  add:
+    success: ""
+  remove:
+    success: ""
+  reset:
+    success: ""
+  list:
+    description: ""
 
 # Unset command
 unset:
@@ -86,8 +100,7 @@ unset:
 # Defaults command
 defaults:
   list:
-    values: "§cParamètres par défaut des mondes sur ce serveur\n\n§epermission: {permission}\n§emode de jeu: {gamemode}\n§econstruire: {build}\n§epvp: {pvp}\n§edommage: {damage}\n§einteraction: {interact}\n§eexplosion: {explode}\n§edrop: {drop}\n§efaim: {hunger}\n§evol{fly}\n"
-    notset: "§7non défini"
+    info: ""
   set:
     success: "§aVous avez défini §b{key} §asur §c{value} §acomme valeur par défaut."
   unset:
@@ -110,12 +123,18 @@ forms:
       hunger: "Faim"
       fly: "Vol"
       daylightcycle: "Cycle jour/nuit"
+      leavesdecay: ""
+      potion: ""
     options:
-      notset: "§7non défini (null)"
+      not_set: ""
       true: "§aactivé"
       false: "§cdésactivé"
+      white: ""
+      black: ""
   # Default settings
   default:
     title: "§aParamètres par défaut du monde"
   # Settings saved message
   saved: "§aParamètres enregistrés avec succès!"
+  error_code:
+    invalid_data: ""

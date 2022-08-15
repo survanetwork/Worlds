@@ -67,9 +67,13 @@ Please report bugs on the issues page on GitHub.
     - Daylight cycle
     - Leaves decay
     - Potion
+    - Executing commands
     - You have an idea what to add? Feel free to open an issue.
+- **CONTROL LISTS** Create whitelists and blacklists for many events like block placing, interacting with blocks, ...
 - **DEFAULT VALUES** Set default values for worlds without settings
 - **SOPHISTICATED** Easy to use, fast and mostly bug-free.
+
+**NEW** Control lists can be used to create whitelists and blacklists instead of just allowing/disabling a world flag!  
 
 **NEW** Edit the settings of a world (gamemode, building, damage, and so on) using a super-easy form GUI!
 
@@ -82,39 +86,47 @@ Worlds is really easy to use. Here is the command syntax:
 /worlds list
 /worlds create <worldname> [type]
 /worlds <remove|load|unload|teleport> <worldname>
+/worlds teleport <player> <worldname>
 /worlds <copy|rename> <from> <to>
 /worlds set
-/worlds set legacy
+/worlds set show
 /worlds set permission <permissionstring>
 /worlds set gamemode <survival|creative|adventure|spectator>
 /worlds set <rulename> <true|false>
+/worlds set <rulename> <true|false|white|black>
+/worlds set <rulename> list <add|remove> <item>
+/worlds set <rulename> list <show|reset>
 /worlds unset
 /worlds unset <rulename>
 /worlds defaults
-/worlds defaults legacy
+/worlds defaults show
 /worlds defaults set permission <permissionstring>
 /worlds defaults set gamemode <survival|creative|adventure|spectator>
 /worlds defaults set <rulename> <true|false>
+/worlds defaults set <rulename> <true|false|white|black>
+/worlds defaults set <rulename> list <add|remove> <item>
+/worlds defaults set <rulename> list <show|reset>
 /worlds defaults unset <rulename>
 ```
 
 Available world rules are:
 
-```
-permission (not available as default rule)
-gamemode
-build
-pvp
-damage
-interact
-explode
-drop
-hunger
-fly
-daylightcycle
-leavesdecay
-potion
-```
+| Flag name     | available as default rule | control lists | listed by    |
+|---------------|---------------------------|---------------|--------------|
+| permission    | ❌ no                      | ❌ no          |              |
+| gamemode      | ✅ yes                     | ❌ no          |              |
+| build         | ✅ yes                     | ✅ yes         | block ID     |
+| pvp           | ✅ yes                     | ❌ no          |              |
+| damage        | ✅ yes                     | ❌ no          |              |
+| interact      | ✅ yes                     | ✅ yes         | block ID     |
+| explode       | ✅ yes                     | ❌ no          |              |
+| drop          | ✅ yes                     | ✅ yes         | item ID      |
+| hunger        | ✅ yes                     | ❌ no          |              |
+| fly           | ✅ yes                     | ❌ no          |              |
+| daylightcycle | ✅ yes                     | ❌ no          |              |
+| leavesdecay   | ✅ yes                     | ❌ no          |              |
+| potion        | ✅ yes                     | ✅ yes         | item ID      |
+| command       | ✅ yes                     | ✅ yes         | command name |
 
 For a full list of commands, their usage and a description what they are for, take a look at the [wiki](https://plugins.surva.net/docs/Worlds#commands).
 
@@ -126,7 +138,7 @@ Feel free to contribute if you have ideas or found an issue.
 You can:
 - [open an issue](https://github.com/survanetwork/Worlds/issues) (problems, bugs or feature requests)
 - [create a pull request](https://github.com/survanetwork/Worlds/pulls) (code contributions like fixed bugs or added features)
-- [help translating the plugin](https://github.com/survanetwork/Worlds/tree/master/resources/languages) (create a new language file or correct an existing one)
+- [help translating the plugin](https://www.transifex.com/surva/worlds) (help us to translate this plugin into your language on Transifex platform)
 
 Please read our **[Contribution Guidelines](CONTRIBUTING.md)** before creating an issue or submitting a pull request.
 

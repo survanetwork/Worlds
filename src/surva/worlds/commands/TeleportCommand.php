@@ -14,23 +14,41 @@ class TeleportCommand extends CustomCommand
 {
     public function do(CommandSender $sender, array $args): bool
     {
-        if (!($sender instanceof Player)) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.command.ingame"));
+        $otherPlayer = false;
 
-            return true;
+        switch (count($args)) {
+            case 1:
+                if (!($sender instanceof Player)) {
+                    $sender->sendMessage($this->getWorlds()->getMessage("general.command.in_game"));
+
+                    return true;
+                }
+
+                $player = $sender;
+
+                $isAllowed = $sender->hasPermission("worlds.admin.teleport.self") or
+                (
+                  $sender->hasPermission("worlds.teleport.general") and
+                  $sender->hasPermission("worlds.teleport.world." . strtolower($args[0]))
+                );
+                break;
+            case 2:
+                $plName = array_shift($args);
+                $player = $this->getWorlds()->getServer()->getPlayerExact($plName);
+
+                if ($player === null) {
+                    $sender->sendMessage($this->getWorlds()->getMessage("teleport.error_code.no_player"));
+
+                    return true;
+                }
+
+                $otherPlayer = true;
+
+                $isAllowed = $sender->hasPermission("worlds.admin.teleport.others");
+                break;
+            default:
+                return false;
         }
-
-        $player = $sender;
-
-        if (!(count($args) === 1)) {
-            return false;
-        }
-
-        $isAllowed = $sender->hasPermission("worlds.admin.teleport") or
-        (
-          $sender->hasPermission("worlds.teleport.general") and
-          $sender->hasPermission("worlds.teleport.world." . strtolower($args[0]))
-        );
 
         if (!$isAllowed) {
             $sender->sendMessage(
@@ -43,7 +61,11 @@ class TeleportCommand extends CustomCommand
         }
 
         if (!($this->getWorlds()->getServer()->getWorldManager()->isWorldLoaded($args[0]))) {
-            $player->sendMessage($this->getWorlds()->getMessage("general.world.notloaded", ["name" => $args[0]]));
+            $sender->sendMessage($this->getWorlds()->getMessage("general.world.not_loaded", ["name" => $args[0]]));
+
+            if ($otherPlayer) {
+                $player->sendMessage($this->getWorlds()->getMessage("general.world.not_loaded", ["name" => $args[0]]));
+            }
 
             return true;
         }
@@ -51,12 +73,23 @@ class TeleportCommand extends CustomCommand
         $targetWorld = $this->getWorlds()->getServer()->getWorldManager()->getWorldByName($args[0]);
 
         if (!$player->teleport($targetWorld->getSafeSpawn())) {
-            $player->sendMessage($this->getWorlds()->getMessage("teleport.failed"));
+            $sender->sendMessage($this->getWorlds()->getMessage("teleport.error_code.teleport_failed"));
+
+            if ($otherPlayer) {
+                $player->sendMessage($this->getWorlds()->getMessage("teleport.error_code.teleport_failed"));
+            }
 
             return true;
         }
 
-        $player->sendMessage($this->getWorlds()->getMessage("teleport.success", ["world" => $args[0]]));
+        if ($otherPlayer && isset($plName)) {
+            $sender->sendMessage(
+                $this->getWorlds()->getMessage("teleport.success_other", ["player" => $plName, "world" => $args[0]])
+            );
+            $player->sendMessage($this->getWorlds()->getMessage("teleport.success", ["world" => $args[0]]));
+        } else {
+            $sender->sendMessage($this->getWorlds()->getMessage("teleport.success", ["world" => $args[0]]));
+        }
 
         return true;
     }

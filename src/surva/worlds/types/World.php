@@ -6,41 +6,23 @@
 
 namespace surva\worlds\types;
 
+use InvalidArgumentException;
+use JsonException;
 use pocketmine\utils\Config;
+use surva\worlds\types\exception\ConfigSaveException;
+use surva\worlds\types\exception\ValueNotExistException;
 use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
 
 class World
 {
     private Worlds $worlds;
-
     private Config $config;
 
-    protected ?string $permission;
-
-    protected ?int $gamemode;
-
-    protected ?bool $build;
-
-    protected ?bool $pvp;
-
-    protected ?bool $damage;
-
-    protected ?bool $interact;
-
-    protected ?bool $explode;
-
-    protected ?bool $drop;
-
-    protected ?bool $hunger;
-
-    protected ?bool $fly;
-
-    protected ?bool $daylightcycle;
-
-    protected ?bool $leavesdecay;
-
-    protected ?bool $potion;
+    /**
+     * @var array loaded flag values
+     */
+    protected array $flags;
 
     /**
      * Load world options on class creation
@@ -52,6 +34,7 @@ class World
     {
         $this->worlds = $worlds;
         $this->config = $config;
+        $this->flags = [];
 
         $this->loadOptions();
     }
@@ -61,8 +44,8 @@ class World
      */
     public function loadOptions(): void
     {
-        foreach (array_keys(Flags::AVAILABLE_WORLD_FLAGS) as $flagName) {
-            $this->loadValue($flagName);
+        foreach (Flags::AVAILABLE_WORLD_FLAGS as $flagName => $flagOptions) {
+            $this->loadValue($flagName, $flagOptions["type"]);
         }
     }
 
@@ -70,25 +53,30 @@ class World
      * Load value from config
      *
      * @param  string  $name
+     * @param  int|null  $type
      *
-     * @return mixed|null
+     * @return mixed
      */
-    public function loadValue(string $name)
+    public function loadValue(string $name, ?int $type = null): mixed
     {
         if (!$this->config->exists($name)) {
             $defVal = $this->worlds->getDefaults()->getValue($name);
 
-            $this->$name = $defVal;
+            $this->flags[$name] = $defVal;
             return $defVal;
         }
 
-        $val = match ($this->config->get($name)) {
-            "true" => true,
-            "false" => false,
-            default => $this->config->get($name),
-        };
+        $val = $this->config->get($name);
+        $this->flags[$name] = $val;
 
-        $this->$name = $val;
+        if ($type === Flags::TYPE_CONTROL_LIST) {
+            if ($this->config->exists($name . "list")) {
+                $this->flags[$name . "list"] = new ControlList($this->config->get($name . "list"));
+            } else {
+                $this->flags[$name . "list"] = new ControlList();
+            }
+        }
+
         return $val;
     }
 
@@ -96,13 +84,46 @@ class World
      * Update a config value
      *
      * @param  string  $name
-     * @param  string  $value
+     * @param  mixed  $value
+     *
+     * @return void
+     * @throws \surva\worlds\types\exception\ConfigSaveException
      */
-    public function updateValue(string $name, string $value): void
+    public function updateValue(string $name, mixed $value): void
     {
         $this->config->set($name, $value);
 
-        $this->config->save();
+        try {
+            $this->config->save();
+        } catch (JsonException $e) {
+            throw new ConfigSaveException();
+        }
+        $this->loadOptions();
+    }
+
+    /**
+     * Save the content of a control list to config
+     *
+     * @param  string  $name
+     *
+     * @return void
+     * @throws \surva\worlds\types\exception\ConfigSaveException
+     */
+    public function saveControlList(string $name): void
+    {
+        $list = $this->flags[$name . "list"];
+
+        if (!($list instanceof ControlList)) {
+            throw new InvalidArgumentException();
+        }
+
+        $this->config->set($name . "list", $list->getList());
+
+        try {
+            $this->config->save();
+        } catch (JsonException $e) {
+            throw new ConfigSaveException();
+        }
         $this->loadOptions();
     }
 
@@ -110,121 +131,131 @@ class World
      * Remove a config value
      *
      * @param  string  $name
+     * @param  bool  $ifExisting
+     *
+     * @return void
+     * @throws \surva\worlds\types\exception\ConfigSaveException
+     * @throws \surva\worlds\types\exception\ValueNotExistException
      */
-    public function removeValue(string $name): void
+    public function removeValue(string $name, bool $ifExisting = false): void
     {
         if (!$this->config->exists($name)) {
+            if (!$ifExisting) {
+                throw new ValueNotExistException();
+            }
+
             return;
         }
 
         $this->config->remove($name);
 
-        $this->config->save();
+        try {
+            $this->config->save();
+        } catch (JsonException $e) {
+            throw new ConfigSaveException();
+        }
         $this->loadOptions();
     }
 
     /**
+     * Check if using the item is allowed by the control list
+     *
+     * @param  string  $flagName
+     * @param  mixed  $item
+     *
      * @return bool|null
      */
-    public function getPotion(): ?bool
+    public function checkControlList(string $flagName, mixed $item): ?bool
     {
-        return $this->potion;
+        $flagVal = $this->getControlListFlag($flagName);
+
+        if ($flagVal === null) {
+            return null;
+        }
+
+        if ($flagVal === Flags::VALUE_FALSE) {
+            return false;
+        }
+
+        $controlList = $this->getControlListContent($flagName);
+
+        if ($controlList === null) {
+            return $flagVal === Flags::VALUE_TRUE;
+        }
+
+        if ($flagVal === Flags::VALUE_WHITELISTED && !$controlList->isListed($item)) {
+            return false;
+        }
+
+        if ($flagVal === Flags::VALUE_BLACKLISTED && $controlList->isListed($item)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
+     * Get the value of a bool flag
+     *
+     * @param  string  $flagName
+     *
      * @return bool|null
      */
-    public function getLeavesDecay(): ?bool
+    public function getBoolFlag(string $flagName): ?bool
     {
-        return $this->leavesdecay;
+        return match ($this->flags[$flagName]) {
+            Flags::VALUE_TRUE => true,
+            Flags::VALUE_FALSE => false,
+            default => null,
+        };
     }
 
     /**
-     * @return bool|null
-     */
-    public function getDaylightCycle(): ?bool
-    {
-        return $this->daylightcycle;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getFly(): ?bool
-    {
-        return $this->fly;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getHunger(): ?bool
-    {
-        return $this->hunger;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getDrop(): ?bool
-    {
-        return $this->drop;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getExplode(): ?bool
-    {
-        return $this->explode;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getDamage(): ?bool
-    {
-        return $this->damage;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getInteract(): ?bool
-    {
-        return $this->interact;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getPvp(): ?bool
-    {
-        return $this->pvp;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getBuild(): ?bool
-    {
-        return $this->build;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getGamemode(): ?int
-    {
-        return $this->gamemode;
-    }
-
-    /**
+     * Get the flag value of a control list flag
+     *
+     * @param  string  $flagName
+     *
      * @return string|null
      */
-    public function getPermission(): ?string
+    public function getControlListFlag(string $flagName): ?string
     {
-        return $this->permission;
+        return $this->flags[$flagName];
+    }
+
+    /**
+     * Get the list class (content) of a control list flag
+     *
+     * @param  string  $flagName
+     *
+     * @return \surva\worlds\types\ControlList|null
+     */
+    public function getControlListContent(string $flagName): ?ControlList
+    {
+        return $this->flags[$flagName . "list"];
+    }
+
+    /**
+     * Get the value of an int flag
+     *
+     * @param  string  $flagName
+     *
+     * @return int|null
+     */
+    public function getIntFlag(string $flagName): ?int
+    {
+        return $this->flags[$flagName];
+    }
+
+    /**
+     * Get the value of a string flag
+     *
+     * @param  string  $flagName
+     *
+     * @return string|null
+     */
+    public function getStringFlag(string $flagName): ?string
+    {
+        return $this->flags[$flagName];
     }
 
     /**

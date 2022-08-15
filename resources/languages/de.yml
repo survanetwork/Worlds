@@ -6,16 +6,18 @@
 #
 # (C) 2019 by surva network | https://github.com/survanetwork
 
-# German language
+# English language
 
 # General
 general:
   command:
-    ingame: "§6Du kannst diesen Befehl nur im Spiel ausführen."
+    in_game: "§6Du kannst diesen Befehl nur im Spiel ausführen."
   world:
-    notexist: "§cDie Welt §f{name} §cexistiert nicht."
-    notloaded: "§cDie Welt §f{name} §cist nicht geladen oder existiert nicht."
+    not_exist: "§cDie Welt §f{name} §cexistiert nicht."
+    not_loaded: "§cDie Welt §f{name} §cist nicht geladen oder existiert nicht."
   permission: "§6Du hast keine Berechtigung, diese Welt zu betreten."
+  config:
+    save_error: "§cEinstellungs-Datei (Config) der Welt konnte nicht gespeichert werden, bitte prüfe den Server-Ordner!"
 
 # List command
 list:
@@ -26,24 +28,28 @@ create:
   success: "§aDie Welt §f{name} §awurde erfolgreich erstellt."
   failed: "§cDie Welt konnte aufgrund eines unbekannten Fehlers nicht erstellt werden."
   generator:
-    notexist: "§6Es gibt keinen Generator namens §f{name} §6- benutze den Standard-Generator."
+    not_exist: "§6Es gibt keinen Generator namens §f{name} §6- benutze den Standard-Generator."
 
 # Remove command
 remove:
   success: "§aDie Welt §f{name} §awurde erfolgreich gelöscht."
-  error: "§cDie Welt konnte nicht gelöscht werden, bitte prüfe die Welt-Dateien."
+  error: "§cEinige Dateien der Welt konnten nicht gelöscht werden, bitte prüfe den Welt-Ordner."
 
 # Copy command
 copy:
   success: "§aDie Welt §f{name} §wurde erfolgreich nach §f{to} §akopiert."
-  same: "§cDu kannst eine Welt nicht in sich selbst kopieren."
-  error: "§cDie Welt konnte nicht kopiert werden, bitte prüfe die Welt-Dateien."
+  error_code:
+    same_source_target: "§cDu kannst eine Welt nicht in sich selbst kopieren."
+    source_not_exist: "§cQuell-Ordner existiert nicht!"
+    target_exist: "§cZiel-Ordner existiert bereits!"
+    copy_failed: "§cEinige Dateien der Welt konnten nicht kopiert werden, bitte prüfe den Welt-Ordner."
 
 # Rename command
 rename:
   success: "§aDie Welt §f{name} §awurde zu §f{to} §aumbenannt."
-  same: "§cDu kannst eine Welt nicht in den gleichen Namen umbenennen."
-  error: "§cDie Welt konnte nicht umbenannt werden, bitte prüfe die Welt-Dateien."
+  error_code:
+    same_source_target: "§cDu kannst eine Welt nicht in den gleichen Namen umbenennen."
+    delete_failed: "§cEinige Dateien im alten Welt-Ordner konnten nicht gelöscht werden, bitte prüfe den Welt-Ordner."
 
 # Load command
 load:
@@ -68,12 +74,24 @@ set:
   success: "§aDu hast §b{key} §ain §f{world} §aauf §c{value} §agesetzt."
   list:
     info: "§Einstellungen für die Welt §f{name}"
-    notset: "§7nicht gesetzt"
+    not_set: "§7nicht gesetzt"
   permission:
-    notdefault: "§cDu kannst keine Berechtigung für die Standard-Welt setzen."
+    not_default: "§cDu kannst keine Berechtigung für die Standard-Welt setzen."
   gamemode:
-    notexist: "§6Dieser Spielmodus existiert nicht."
-  notbool: "§6Du kannst §f{key} §6nur auf §atrue §6oder §afalse §6setzen."
+    not_exist: "§6Dieser Spielmodus existiert nicht."
+  not_bool: "§6Du kannst §f{key} §6nur auf §atrue §6oder §afalse §6setzen."
+  not_controllist: "§6Du kannst §f{key} §6nur auf §atrue§6, §cfalse§6, §fwhite §6oder §0black §6setzen."
+
+# ControlList sub command (of set)
+controllist:
+  add:
+    success: "§aElement §c{item} §ahinzugefügt zu Steuerliste §b{key}§a."
+  remove:
+    success: "§6Element §c{item} §6entfernt von Steuerliste §b{key}§6."
+  reset:
+    success: "§6Alle Elemente wurden von Steuerliste §b{key} §6entfernt."
+  list:
+    description: "§fInhalt der Steuerliste §b{key}§f: §7{content}"
 
 # Unset command
 unset:
@@ -83,7 +101,6 @@ unset:
 defaults:
   list:
     info: "§Einstellungen für Welten auf diesem Server"
-    notset: "§7nicht gesetzt"
   set:
     success: "§aDu hast §b{key} §aauf §c{value} §aals Standard-Wert gesetzt."
   unset:
@@ -109,11 +126,15 @@ forms:
       leavesdecay: "Blätter verwesen"
       potion: "Zaubertränke"
     options:
-      notset: "§7nicht eingestellt (kein Wert)"
+      not_set: "§7nicht eingestellt (kein Wert)"
       true: "§aaktiviert"
       false: "§cdeaktiviert"
+      white: "§fWhitelist verwenden"
+      black: "§0Blacklist verwenden"
   # Default settings
   default:
     title: "§aStandard Welt-Einstellungen"
   # Settings saved message
   saved: "§aEinstellungen erfolgreich gespeichert!"
+  error_code:
+    invalid_data: "§6Ungültige Daten vom Einstellungs-Formular erhalten, Änderungen wurden nicht gespeichert."

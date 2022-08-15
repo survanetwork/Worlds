@@ -25,7 +25,7 @@ class LoadCommand extends CustomCommand
         }
 
         if (!WorldActions::worldPathExists($this->getWorlds(), $args[0])) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.world.notexist", ["name" => $args[0]]));
+            $sender->sendMessage($this->getWorlds()->getMessage("general.world.not_exist", ["name" => $args[0]]));
 
             return true;
         }

@@ -7,6 +7,8 @@
 namespace surva\worlds\utils;
 
 use Exception;
+use surva\worlds\utils\exception\SourceNotExistException;
+use surva\worlds\utils\exception\TargetExistException;
 
 class FileUtils
 {
@@ -17,21 +19,23 @@ class FileUtils
      * @param  string  $to
      *
      * @return bool
+     * @throws \surva\worlds\utils\exception\SourceNotExistException
+     * @throws \surva\worlds\utils\exception\TargetExistException
      */
     public static function copyRecursive(string $from, string $to): bool
     {
         if (!is_dir($from)) {
-            return false;
+            throw new SourceNotExistException();
         }
 
         if (is_dir($to)) {
-            return false;
+            throw new TargetExistException();
         }
 
         try {
             mkdir($to);
         } catch (Exception $e) {
-            return false;
+            throw new TargetExistException();
         }
 
         $success = true;
@@ -66,11 +70,12 @@ class FileUtils
      * @param  string  $dir
      *
      * @return bool
+     * @throws \surva\worlds\utils\exception\SourceNotExistException
      */
     public static function deleteRecursive(string $dir): bool
     {
         if (!is_dir($dir)) {
-            return false;
+            throw new SourceNotExistException();
         }
 
         $success = true;

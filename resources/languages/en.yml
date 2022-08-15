@@ -6,16 +6,17 @@
 #
 # (C) 2019 by surva network | https://github.com/survanetwork
 
-# English language
-
 # General
 general:
   command:
-    ingame: "§6You can only run this command in game."
+    in_game: "§6You can only run this command in game."
+    no_permission: "§6Using this command is not allowed in this world."
   world:
-    notexist: "§cWorld §f{name} §cdoesn't exist."
-    notloaded: "§cWorld §f{name} §cisn't loaded or does not exist."
+    not_exist: "§cWorld §f{name} §cdoesn't exist."
+    not_loaded: "§cWorld §f{name} §cisn't loaded or does not exist."
   permission: "§6You don't have the permission to join this world."
+  config:
+    save_error: "§cWorld config file couldn't be saved, please check server folder!"
 
 # List command
 list:
@@ -26,24 +27,28 @@ create:
   success: "§aWorld §f{name} §ahas been created."
   failed: "§cAn unknown error occurred while creating the world."
   generator:
-    notexist: "§6There is no generated called §f{name} §6- using the default one."
+    not_exist: "§6There is no generated called §f{name} §6- using the default one."
 
 # Remove command
 remove:
   success: "§aWorld §f{name} §ahas been removed."
-  error: "§cWorld couldn't be removed, please check the world files."
+  error: "§cSome world files couldn't be removed, please check the world files."
 
 # Copy command
 copy:
   success: "§aWorld §f{name} §ahas been copied to §f{to}§a."
-  same: "§cYou can't copy the world into itself."
-  error: "§cWorld couldn't be copied, please check the world files."
+  error_code:
+    same_source_target: "§cYou can't copy the world into itself."
+    source_not_exist: "§cSource folder does not exist!"
+    target_exist: "§cTarget folder already exists!"
+    copy_failed: "§cSome world files couldn't be copied, please check the world files."
 
 # Rename command
 rename:
   success: "§aWorld §f{name} §ahas been renamed to §f{to}§a."
-  same: "§cYou can't rename the world to the same name."
-  error: "§cWorld couldn't be renamed, please check the world files."
+  error_code:
+    same_source_target: "§cYou can't rename the world to the same name."
+    delete_failed: "§cSome world files in the old folder couldn't be deleted, please check the world files."
 
 # Load command
 load:
@@ -61,19 +66,34 @@ unload:
 # Teleport command
 teleport:
   success: "§aYou've been teleported to §f{world}§a."
-  failed: "§cUnable to teleport you to the world."
+  success_other: "§aYou've teleported §6{player} §ato §f{world}§a."
+  error_code:
+    no_player: "§6Player to teleport does not exist."
+    teleport_failed: "§cUnable to teleport you to the world."
 
 # Set command
 set:
   success: "§aYou've set §b{key} §ain §f{world} §ato §c{value}§a."
   list:
     info: "§cSettings for world §f{name}"
-    notset: "§7not set"
+    not_set: "§7not set"
   permission:
-    notdefault: "§cYou can't set a permission on the default world."
+    not_default: "§cYou can't set a permission on the default world."
   gamemode:
-    notexist: "§6This gamemode does not exist."
-  notbool: "§6You can set §f{key} §6only to §atrue §6or §afalse§6."
+    not_exist: "§6This gamemode does not exist."
+  not_bool: "§6You can set §f{key} §6only to §atrue §6or §cfalse§6."
+  not_controllist: "§6You can set §f{key} §6only to §atrue§6, §cfalse§6, §fwhite §6or §0black§6."
+
+# ControlList sub command (of set)
+controllist:
+  add:
+    success: "§aItem §c{item} §aadded to §b{key} §acontrol list."
+  remove:
+    success: "§6Item §c{item} §6removed from §b{key} §6control list."
+  reset:
+    success: "§6All items were removed from §b{key} §6control list."
+  list:
+    description: "§fShowing content of the §b{key} §fcontrol list: §7{content}"
 
 # Unset command
 unset:
@@ -83,7 +103,6 @@ unset:
 defaults:
   list:
     info: "§cDefault settings for worlds on this server"
-    notset: "§7not set"
   set:
     success: "§aYou've set §b{key} §ato §c{value} §aas default value."
   unset:
@@ -108,12 +127,17 @@ forms:
       daylightcycle: "Daylight cycling"
       leavesdecay: "Leaves decay"
       potion: "Potion"
+      command: "Commands execution"
     options:
-      notset: "§7not set (null)"
+      not_set: "§7not set (null)"
       true: "§aenabled"
       false: "§cdisabled"
+      white: "§fuse whitelist"
+      black: "§0use blacklist"
   # Default settings
   default:
     title: "§aDefault world settings"
   # Settings saved message
   saved: "§aSettings saved successfully!"
+  error_code:
+    invalid_data: "§6Received invalid data from settings form, settings have not been saved."

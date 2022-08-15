@@ -1,7 +1,7 @@
 {
     "name": "survanetwork/worlds",
     "description": "Easy to use but feature rich World Guard Plugin",
-    "version": "3.1.2",
+    "version": "4.0.0",
     "type": "project",
     "keywords": [
         "game",
@@ -25,13 +25,13 @@
         "source": "https://github.com/survanetwork/Worlds"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.7",
-        "pocketmine/pocketmine-mp": "^4.5",
+        "phpstan/phpstan": "^1.8",
+        "pocketmine/pocketmine-mp": "^4.7",
         "squizlabs/php_codesniffer": "^3.7"
     },
     "scripts": {
-        "code-analyze": "./vendor/bin/phpstan analyze -l 3 src",
-        "code-analyze-save-report": "./vendor/bin/phpstan analyze -l 3 --error-format junit src > test-results/phpstan-result/junit.xml",
+        "code-analyze": "./vendor/bin/phpstan analyze -l 5 src",
+        "code-analyze-save-report": "./vendor/bin/phpstan analyze -l 5 --error-format junit src > test-results/phpstan-result/junit.xml",
         "check-format": "./vendor/bin/phpcs --standard=PSR12 src",
         "check-format-save-report": "./vendor/bin/phpcs --standard=PSR12 --report=junit src > test-results/phpcs-result/junit.xml",
         "fix-format": "./vendor/bin/phpcbf --standard=PSR12 src"

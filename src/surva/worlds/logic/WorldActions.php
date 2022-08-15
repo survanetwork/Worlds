@@ -7,17 +7,13 @@
 namespace surva\worlds\logic;
 
 use pocketmine\player\GameMode;
+use surva\worlds\logic\exception\UnloadDefaultLevelException;
+use surva\worlds\logic\exception\UnloadFailedException;
 use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
 
 class WorldActions
 {
-    public const SUCCESS = 0;
-
-    public const UNLOAD_DEFAULT = 1;
-
-    public const UNLOAD_FAILED = 2;
-
     /**
      * Check if the directory of a world exists
      *
@@ -44,22 +40,40 @@ class WorldActions
     }
 
     /**
+     * Get the type of flag name
+     *
+     * @param  string  $flagName
+     *
+     * @return int|null
+     */
+    public static function getFlagType(string $flagName): ?int
+    {
+        if (!isset(Flags::AVAILABLE_WORLD_FLAGS[$flagName])) {
+            return null;
+        }
+
+        return Flags::AVAILABLE_WORLD_FLAGS[$flagName]["type"];
+    }
+
+    /**
      * Try to unload a world if it's loaded
      *
      * @param  \surva\worlds\Worlds  $worlds
      * @param  string  $worldName
      *
-     * @return int
+     * @return void
+     * @throws \surva\worlds\logic\exception\UnloadDefaultLevelException
+     * @throws \surva\worlds\logic\exception\UnloadFailedException
      */
-    public static function unloadIfLoaded(Worlds $worlds, string $worldName): int
+    public static function unloadIfLoaded(Worlds $worlds, string $worldName): void
     {
         if (!$worlds->getServer()->getWorldManager()->isWorldLoaded($worldName)) {
-            return self::SUCCESS;
+            return;
         }
 
         if ($defLvl = $worlds->getServer()->getWorldManager()->getDefaultWorld()) {
             if ($defLvl->getFolderName() === $worldName) {
-                return self::UNLOAD_DEFAULT;
+                throw new UnloadDefaultLevelException();
             }
         }
 
@@ -68,12 +82,10 @@ class WorldActions
                 $worlds->getServer()->getWorldManager()->getWorldByName($worldName)
             ))
         ) {
-            return self::UNLOAD_FAILED;
+            throw new UnloadFailedException();
         }
 
         $worlds->unregisterWorld($worldName);
-
-        return self::SUCCESS;
     }
 
     /**
@@ -86,10 +98,10 @@ class WorldActions
     public static function getGameModeId(GameMode $gameMode): ?int
     {
         return match ($gameMode->name()) {
-            "survival" => 0,
-            "creative" => 1,
-            "adventure" => 2,
-            "spectator" => 3,
+            GameMode::SURVIVAL()->name() => 0,
+            GameMode::CREATIVE()->name() => 1,
+            GameMode::ADVENTURE()->name() => 2,
+            GameMode::SPECTATOR()->name() => 3,
             default => null
         };
     }

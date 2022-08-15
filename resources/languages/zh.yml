@@ -6,95 +6,109 @@
 #
 # (C) 2019 by surva network | https://github.com/survanetwork
 
-# Chinese language
+# English language
 
-# 常规
+# General
 general:
   command:
-    ingame: "§6你只能在游戏中运行该指令。"
+    in_game: ""
   world:
-    notexist: "§c世界 §f{name} §c不存在。"
-    notloaded: "§c世界 §f{name} §c未载入或不存在。"
+    not_exist: ""
+    not_loaded: ""
   permission: "§6你没有进入该世界的权限。"
+  config:
+    save_error: ""
 
-# 列表指令
+# List command
 list:
   worlds: "§e该服务器中的世界: §f{worlds}§e。"
 
-# 创建指令
+# Create command
 create:
   success: "§a世界 §f{name} §a已创建。"
   failed: "§c创建世界时发生了一个未知的错误。"
   generator:
-    notexist: "§6没有已生成世界名为 §f{name} §6- 使用默认世界。"
+    not_exist: ""
 
-# 移除指令
+# Remove command
 remove:
   success: "§a世界 §f{name} §a已移除"
+  error: ""
 
-# 复制指令
+# Copy command
 copy:
   success: "§a世界 §f{name} §a已被复制至 §f{to}§a。"
-  same: "§c你不能把这个世界复制到它本身。"
-  datfile:
-    notexist: "§c该世界的数据文件不存在。"
-    damaged: "§c该世界的数据文件已被破坏。"
-    notsave: "§c保存更新后的世界数据文件失败。"
+  error_code:
+    same_source_target: ""
+    source_not_exist: ""
+    target_exist: ""
+    copy_failed: ""
 
-# 重命名指令
+# Rename command
 rename:
   success: "§a世界 §f{name} §a已被重命名为 §f{to}§a。"
-  same: "§c你不能将该世界重命名为相同的名称。"
-  datfile:
-    notexist: "§c该世界的数据文件不存在。"
-    damaged: "§c该世界的数据文件已被破坏。"
-    notsave: "§c保存更新后的世界数据文件失败。"
+  error_code:
+    same_source_target: ""
+    delete_failed: ""
 
-# 加载指令
+# Load command
 load:
   success: "§a世界 §f{world} §a已成功被加载。"
   already: "§e世界 §f{name} §e已被加载。"
   failed: "§c该世界无法被加载。"
+  error: ""
 
-# 卸载指令
+# Unload command
 unload:
   success: "§a世界 §f{world} §a已被成功卸载。"
+  default: ""
   failed: "§c该世界无法被卸载"
 
-# 传送指令
+# Teleport command
 teleport:
   success: "§a你已被传送至 §f{world}§a。"
   failed: "§c无法将你传送至指定世界。"
 
-# 设置指令
+# Set command
 set:
   success: "§a你已将 §f{world} §a中的 §b{key} §a值设置为 §c{value}§a。"
   list:
-    values: "§c世界 §f{name} §c的配置\n\n§e权限: {permission}\n§e游戏模式: {gamemode}\n§e建筑: {build}\n§ePVP: {pvp}\n§e破坏: {damage}\n§e交互: {interact}\n§e爆炸: {explode}\n§e掉落: {drop}\n§e饥饿: {hunger}\n§e飞行: {fly}\n"
-    notset: "§7未设置"
+    info: ""
+    not_set: ""
   permission:
-    notdefault: "§c你不能给默认世界设置权限。"
+    not_default: ""
   gamemode:
-    notexist: "§6这个游戏模式并不存在"
-  notbool: "§6你只能将 §f{key} §6设置为 §atrue §6或者 §afalse§6。"
+    not_exist: ""
+  not_bool: ""
+  not_controllist: ""
 
-# 重置指令
+# ControlList sub command (of set)
+controllist:
+  add:
+    success: ""
+  remove:
+    success: ""
+  reset:
+    success: ""
+  list:
+    description: ""
+
+# Unset command
 unset:
   success: "§a世界 §f{world} §a的 §b{key} §a已被重置。"
 
-# 默认指令
+# Defaults command
 defaults:
   list:
-    values: "§c这个服务器世界的默认配置\n\n§e权限: {permission}\n§e游戏模式: {gamemode}\n§e建筑: {build}\n§ePVP: {pvp}\n§e破坏: {damage}\n§e交互: {interact}\n§e爆炸: {explode}\n§e掉落: {drop}\n§e饥饿: {hunger}\n§e飞行: {fly}\n"
-    notset: "§7未设置"
+    info: ""
   set:
     success: "§a你已将 §c{value} §a设置为 §b{key} §a的默认值。"
   unset:
     success: "§b{key} §a已被重置为默认值。"
 
-# 表格
+# Forms
 forms:
-  # 世界设置
+  # World settings
   world:
     title: "§a世界 §f{name} §a的设置"
     params:
@@ -109,12 +123,18 @@ forms:
       hunger: "饥饿"
       fly: "飞行"
       daylightcycle: "昼夜交替"
+      leavesdecay: ""
+      potion: ""
     options:
-      notset: "§7无设置（空值）"
+      not_set: ""
       true: "§a已启用"
       false: "§c已禁用"
-  # 默认设置
+      white: ""
+      black: ""
+  # Default settings
   default:
     title: "§a默认世界设置"
-  # 发送已保存信息
+  # Settings saved message
   saved: "§a设置已成功保存！"
+  error_code:
+    invalid_data: ""

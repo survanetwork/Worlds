@@ -11,18 +11,16 @@ use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 use surva\worlds\logic\WorldActions;
 use surva\worlds\types\World;
+use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
 
 abstract class SettingsForm implements Form
 {
     private Worlds $worlds;
-
     private World $storage;
 
     private string $type = "custom_form";
-
     protected string $title;
-
     protected array $content;
 
     public function __construct(Worlds $wsInstance, World $storage)
@@ -54,35 +52,31 @@ abstract class SettingsForm implements Form
     abstract public function handleResponse(Player $player, $data): void;
 
     /**
-     * Convert stored bool to form option index
+     * Convert a world config value to form value index
      *
-     * @param  bool|null  $val
+     * @param  mixed  $val
+     * @param  int  $type
      *
      * @return int
      */
-    protected function convBool(?bool $val): int
+    protected function confValueToForm(mixed $val, int $type): int
     {
         if ($val === null) {
             return 0;
         }
 
-        return $val ? 2 : 1;
-    }
-
-    /**
-     * Convert stored game mode to form option index
-     *
-     * @param  int|null  $gm
-     *
-     * @return int
-     */
-    protected function convGameMode(?int $gm): int
-    {
-        if ($gm === null) {
-            return 0;
-        }
-
-        return $gm + 1;
+        return match ($type) {
+            Flags::TYPE_BOOL => $val === Flags::VALUE_TRUE ? 2 : 1,
+            Flags::TYPE_CONTROL_LIST => match ($val) {
+                Flags::VALUE_FALSE => 1,
+                Flags::VALUE_TRUE => 2,
+                Flags::VALUE_WHITELISTED => 3,
+                Flags::VALUE_BLACKLISTED => 4,
+                default => 0,
+            },
+            Flags::TYPE_GAME_MODE => $val + 1,
+            default => 0,
+        };
     }
 
     /**
@@ -92,18 +86,51 @@ abstract class SettingsForm implements Form
      * @param  mixed  $data
      *
      * @return void
+     * @throws \surva\worlds\types\exception\ConfigSaveException
+     * @throws \surva\worlds\types\exception\ValueNotExistException
      */
-    protected function procBool(string $name, $data): void
+    protected function procBool(string $name, mixed $data): void
     {
         switch ($data) {
             case 1:
-                $this->storage->updateValue($name, "false");
+                $this->storage->updateValue($name, Flags::VALUE_FALSE);
                 break;
             case 2:
-                $this->storage->updateValue($name, "true");
+                $this->storage->updateValue($name, Flags::VALUE_TRUE);
                 break;
             default:
-                $this->storage->removeValue($name);
+                $this->storage->removeValue($name, true);
+                break;
+        }
+    }
+
+    /**
+     * Evaluate control list form response value
+     *
+     * @param  string  $name
+     * @param  mixed  $data
+     *
+     * @return void
+     * @throws \surva\worlds\types\exception\ConfigSaveException
+     * @throws \surva\worlds\types\exception\ValueNotExistException
+     */
+    protected function procControlList(string $name, mixed $data): void
+    {
+        switch ($data) {
+            case 1:
+                $this->storage->updateValue($name, Flags::VALUE_FALSE);
+                break;
+            case 2:
+                $this->storage->updateValue($name, Flags::VALUE_TRUE);
+                break;
+            case 3:
+                $this->storage->updateValue($name, Flags::VALUE_WHITELISTED);
+                break;
+            case 4:
+                $this->storage->updateValue($name, Flags::VALUE_BLACKLISTED);
+                break;
+            default:
+                $this->storage->removeValue($name, true);
                 break;
         }
     }
@@ -115,8 +142,10 @@ abstract class SettingsForm implements Form
      * @param  mixed  $data
      *
      * @return void
+     * @throws \surva\worlds\types\exception\ConfigSaveException
+     * @throws \surva\worlds\types\exception\ValueNotExistException
      */
-    protected function procGameMode(string $name, $data): void
+    protected function procGameMode(string $name, mixed $data): void
     {
         switch ($data) {
             case 1:
@@ -132,7 +161,7 @@ abstract class SettingsForm implements Form
                 $this->storage->updateValue($name, WorldActions::getGameModeId(GameMode::SPECTATOR()));
                 break;
             default:
-                $this->storage->removeValue($name);
+                $this->storage->removeValue($name, true);
                 break;
         }
     }

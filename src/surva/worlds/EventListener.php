@@ -23,11 +23,13 @@ use pocketmine\event\player\PlayerExhaustEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\server\CommandEvent;
 use pocketmine\event\world\WorldLoadEvent;
 use pocketmine\item\PaintingItem;
 use pocketmine\item\Potion;
 use pocketmine\item\TieredTool;
 use pocketmine\player\Player;
+use surva\worlds\utils\Flags;
 
 class EventListener implements Listener
 {
@@ -65,8 +67,8 @@ class EventListener implements Listener
             return;
         }
 
-        if ($world->getPermission() !== null) {
-            if (!$player->hasPermission($world->getPermission())) {
+        if ($world->getStringFlag(Flags::FLAG_PERMISSION) !== null) {
+            if (!$player->hasPermission($world->getStringFlag(Flags::FLAG_PERMISSION))) {
                 $player->sendMessage($this->worlds->getMessage("general.permission"));
 
                 $defaultWorld = $this->worlds->getServer()->getWorldManager()->getDefaultWorld();
@@ -106,8 +108,8 @@ class EventListener implements Listener
             return;
         }
 
-        if ($world->getPermission() !== null) {
-            if (!$player->hasPermission($world->getPermission())) {
+        if ($world->getStringFlag(Flags::FLAG_PERMISSION) !== null) {
+            if (!$player->hasPermission($world->getStringFlag(Flags::FLAG_PERMISSION))) {
                 $player->sendMessage($this->worlds->getMessage("general.permission"));
 
                 $event->cancel();
@@ -118,10 +120,49 @@ class EventListener implements Listener
 
         $this->worlds->applyWorldOptions($world, $player);
 
-        if ($world->getDaylightCycle() === true) {
+        if ($world->getBoolFlag(Flags::FLAG_DAYLIGHT_CYCLE) === true) {
             $target->startTime();
-        } elseif ($world->getDaylightCycle() === false) {
+        } elseif ($world->getBoolFlag(Flags::FLAG_DAYLIGHT_CYCLE) === false) {
             $target->stopTime();
+        }
+    }
+
+    /**
+     * Check command before execution if command execution is blocked or managed by a control list
+     *
+     * @param  \pocketmine\event\server\CommandEvent  $event
+     *
+     * @return void
+     */
+    public function onCommand(CommandEvent $event): void
+    {
+        $sender = $event->getSender();
+        $commandStr = $event->getCommand();
+
+        if (!($sender instanceof Player)) {
+            return;
+        }
+
+        $folderName = $sender->getWorld()->getFolderName();
+        if (($world = $this->worlds->getWorldByName($folderName)) === null) {
+            return;
+        }
+
+        $commandParts = explode(" ", $commandStr);
+        $commandName = $commandParts[0];
+
+        if ($commandName === "worlds" || $commandName === "ws") {
+            return;
+        }
+
+        if ($sender->hasPermission("worlds.admin.command")) {
+            return;
+        }
+
+        if ($world->checkControlList(Flags::FLAG_COMMAND, $commandName) === false) {
+            $sender->sendMessage($this->worlds->getMessage("general.command.no_permission"));
+
+            $event->cancel();
         }
     }
 
@@ -133,6 +174,7 @@ class EventListener implements Listener
     public function onBlockBreak(BlockBreakEvent $event): void
     {
         $player     = $event->getPlayer();
+        $blockId    = $event->getBlock()->getId();
         $folderName = $player->getWorld()->getFolderName();
 
         if (($world = $this->worlds->getWorldByName($folderName)) === null) {
@@ -143,7 +185,7 @@ class EventListener implements Listener
             return;
         }
 
-        if ($world->getBuild() === false) {
+        if ($world->checkControlList(Flags::FLAG_BUILD, $blockId) === false) {
             $event->cancel();
         }
     }
@@ -156,6 +198,7 @@ class EventListener implements Listener
     public function onBlockPlace(BlockPlaceEvent $event): void
     {
         $player     = $event->getPlayer();
+        $blockId    = $event->getBlock()->getId();
         $folderName = $player->getWorld()->getFolderName();
 
         if (($world = $this->worlds->getWorldByName($folderName)) === null) {
@@ -166,7 +209,7 @@ class EventListener implements Listener
             return;
         }
 
-        if ($world->getBuild() === false) {
+        if ($world->checkControlList(Flags::FLAG_BUILD, $blockId) === false) {
             $event->cancel();
         }
     }
@@ -179,6 +222,7 @@ class EventListener implements Listener
     public function onPlayerBucketEmpty(PlayerBucketEmptyEvent $event)
     {
         $player     = $event->getPlayer();
+        $blockId    = $event->getBlockClicked()->getId();
         $folderName = $player->getWorld()->getFolderName();
 
         if (($world = $this->worlds->getWorldByName($folderName)) === null) {
@@ -189,7 +233,7 @@ class EventListener implements Listener
             return;
         }
 
-        if ($world->getBuild() === false) {
+        if ($world->checkControlList(Flags::FLAG_BUILD, $blockId) === false) {
             $event->cancel();
         }
     }
@@ -211,11 +255,11 @@ class EventListener implements Listener
 
         if ($entity instanceof Player) {
             if ($event instanceof EntityDamageByEntityEvent) {
-                if ($world->getPvp() === false) {
+                if ($world->getBoolFlag(Flags::FLAG_PVP) === false) {
                     $event->cancel();
                 }
             } elseif ($event->getCause() !== EntityDamageEvent::CAUSE_VOID) {
-                if ($world->getDamage() === false) {
+                if ($world->getBoolFlag(Flags::FLAG_DAMAGE) === false) {
                     $event->cancel();
                 }
             }
@@ -225,14 +269,14 @@ class EventListener implements Listener
 
                 if ($damager instanceof Player) {
                     if (!$damager->hasPermission("worlds.admin.build")) {
-                        if ($world->getBuild() === false) {
+                        if ($world->getBoolFlag(Flags::FLAG_BUILD) === false) {
                             $event->cancel();
                         }
                     }
-                } elseif ($world->getBuild() === false) {
+                } elseif ($world->getBoolFlag(Flags::FLAG_BUILD) === false) {
                     $event->cancel();
                 }
-            } elseif ($world->getBuild() === false) {
+            } elseif ($world->getBoolFlag(Flags::FLAG_BUILD) === false) {
                 $event->cancel();
             }
         }
@@ -252,7 +296,7 @@ class EventListener implements Listener
             return;
         }
 
-        if ($world->getExplode() === false) {
+        if ($world->getBoolFlag(Flags::FLAG_EXPLODE) === false) {
             $event->cancel();
         }
     }
@@ -265,13 +309,14 @@ class EventListener implements Listener
     public function onPlayerDropItem(PlayerDropItemEvent $event): void
     {
         $player     = $event->getPlayer();
+        $itemId     = $event->getItem()->getId();
         $folderName = $player->getWorld()->getFolderName();
 
         if (($world = $this->worlds->getWorldByName($folderName)) === null) {
             return;
         }
 
-        if ($world->getDrop() === false) {
+        if ($world->checkControlList(Flags::FLAG_DROP, $itemId) === false) {
             $event->cancel();
         }
     }
@@ -290,7 +335,7 @@ class EventListener implements Listener
             return;
         }
 
-        if ($world->getHunger() === false) {
+        if ($world->getBoolFlag(Flags::FLAG_HUNGER) === false) {
             $event->cancel();
         }
     }
@@ -312,7 +357,7 @@ class EventListener implements Listener
         }
 
         if (!$player->hasPermission("worlds.admin.interact")) {
-            if ($world->getInteract() === false) {
+            if ($world->checkControlList(Flags::FLAG_INTERACT, $block->getId()) === false) {
                 $event->cancel();
             }
         }
@@ -323,7 +368,7 @@ class EventListener implements Listener
             ($item instanceof TieredTool and $block instanceof Grass)
         ) {
             if (!$player->hasPermission("worlds.admin.build")) {
-                if ($world->getBuild() === false) {
+                if ($world->checkControlList(Flags::FLAG_BUILD, $block->getId()) === false) {
                     $event->cancel();
                 }
             }
@@ -343,7 +388,7 @@ class EventListener implements Listener
             return;
         }
 
-        if ($world->getLeavesDecay() === false) {
+        if ($world->getBoolFlag(Flags::FLAG_LEAVES_DECAY) === false) {
             $event->cancel();
         }
     }
@@ -367,7 +412,7 @@ class EventListener implements Listener
             return;
         }
 
-        if ($world->getPotion() === false) {
+        if ($world->checkControlList(Flags::FLAG_POTION, $item->getId()) === false) {
             $event->cancel();
         }
     }
