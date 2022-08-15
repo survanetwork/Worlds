@@ -10,7 +10,7 @@ website: https://plugins.surva.net/#worlds
 commands:
   worlds:
     description: "Worlds plugin main command"
-    usage: "/worlds list\n/worlds create <worldname> [type]\n/worlds <remove|load|unload|teleport> <worldname>\n/worlds <copy|rename> <from> <to>\n/worlds set\n/worlds set show\n/worlds set permission <permissionstring>\n/worlds set gamemode <survival|creative|adventure|spectator>\n/worlds set <rulename> <true|false>\n/worlds set <rulename> <true|false|white|black>\n/worlds set <rulename> list <add|remove> <item>\n/worlds set <rulename> list <show|reset>\n/worlds unset\n/worlds unset <rulename>\n/worlds defaults\n/worlds defaults show\n/worlds defaults set permission <permissionstring>\n/worlds defaults set gamemode <survival|creative|adventure|spectator>\n/worlds defaults set <rulename> <true|false>\n/worlds defaults set <rulename> <true|false|white|black>\n/worlds defaults set <rulename> list <add|remove> <item>\n/worlds defaults set <rulename> list <show|reset>\n/worlds defaults unset <rulename>"
+    usage: "/worlds list\n/worlds create <worldname> [type]\n/worlds <remove|load|unload|teleport> <worldname>\n/worlds teleport <player> <worldname>\n/worlds <copy|rename> <from> <to>\n/worlds set\n/worlds set show\n/worlds set permission <permissionstring>\n/worlds set gamemode <survival|creative|adventure|spectator>\n/worlds set <rulename> <true|false>\n/worlds set <rulename> <true|false|white|black>\n/worlds set <rulename> list <add|remove> <item>\n/worlds set <rulename> list <show|reset>\n/worlds unset\n/worlds unset <rulename>\n/worlds defaults\n/worlds defaults show\n/worlds defaults set permission <permissionstring>\n/worlds defaults set gamemode <survival|creative|adventure|spectator>\n/worlds defaults set <rulename> <true|false>\n/worlds defaults set <rulename> <true|false|white|black>\n/worlds defaults set <rulename> list <add|remove> <item>\n/worlds defaults set <rulename> list <show|reset>\n/worlds defaults unset <rulename>"
     permission: worlds.command
     aliases: ["ws"]
 permissions:
@@ -42,7 +42,13 @@ permissions:
     description: "Unload worlds"
     default: op
   worlds.admin.teleport:
-    description: "Teleport to any world"
+    description: "Teleport yourself and other players to any world"
+    default: op
+  worlds.admin.teleport.self:
+    description: "Teleport yourself to any world"
+    default: op
+  worlds.admin.teleport.others:
+    description: "Teleport other players to any world"
     default: op
   worlds.admin.set:
     description: "Set parameters (like gamemode, damage, ...)"

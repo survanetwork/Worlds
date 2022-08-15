@@ -86,6 +86,7 @@ Worlds is really easy to use. Here is the command syntax:
 /worlds list
 /worlds create <worldname> [type]
 /worlds <remove|load|unload|teleport> <worldname>
+/worlds teleport <player> <worldname>
 /worlds <copy|rename> <from> <to>
 /worlds set
 /worlds set show

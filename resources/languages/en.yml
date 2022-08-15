@@ -68,7 +68,10 @@ unload:
 # Teleport command
 teleport:
   success: "§aYou've been teleported to §f{world}§a."
-  failed: "§cUnable to teleport you to the world."
+  success_other: "§aYou've teleported §6{player} §ato §f{world}§a."
+  error_code:
+    no_player: "§6Player to teleport does not exist."
+    teleport_failed: "§cUnable to teleport you to the world."
 
 # Set command
 set:
