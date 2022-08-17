@@ -43,11 +43,9 @@
 [• License](#%EF%B8%8F-license)
 
 ## 📙 Description
-Because there was no plugin to manage all aspects of Minecraft: Bedrock Edition servers for each world like WorldGuard on Bukkit, I made Worlds.
-With Worlds, you can control events like breaking blocks, dropping items, and many more. And it's getting even more!
-
-If you want to help or you have ideas to make our plugin better, feel free to make a commit or open an issue.
-Please report bugs on the issues page on GitHub.
+Worlds is our feature-packed world management plugin. It provides general world management like creating, copying, loading and teleporting to worlds.
+We've also added flags which can be used to control in game behaviour like game mode, block breaking/placing, damage, hunger, flying, daylight cycling and many more per-world and as default value.
+Using control lists, you can precisely create whitelists and blacklists to add exceptions for specific blocks, items or commands.
 
 ## 🎁 Features
 - **CREATE / REMOVE** Create and remove worlds (even special ones with custom world generators)
@@ -55,7 +53,7 @@ Please report bugs on the issues page on GitHub.
 - **LOAD / UNLOAD** Load and unload worlds
 - **TELEPORT** Teleport to worlds
 - **CONTROL EVERYTHING** Control nearly every event for each world (it's getting more and more).
-    - World's gamemode
+    - World's game mode
     - Permission to join a world
     - Block breaking and placing
     - PvP
@@ -75,7 +73,7 @@ Please report bugs on the issues page on GitHub.
 
 **NEW** Control lists can be used to create whitelists and blacklists instead of just allowing/disabling a world flag!  
 
-**NEW** Edit the settings of a world (gamemode, building, damage, and so on) using a super-easy form GUI!
+**NEW** Edit the settings of a world (game mode, building, damage, and so on) using a super-easy form GUI!
 
 <img src=".github/.media/world-settings-form.png" width="540px" alt="Screenshot of world settings form">
 
