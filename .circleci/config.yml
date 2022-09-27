@@ -51,6 +51,31 @@ jobs:
       # Save code style check results
       - store_test_results:
           path: test-results
+  build-phar:
+    docker:
+      - image: cimg/php:8.0
+    steps:
+      # Checkout branch
+      - checkout
+
+      # Install dependencies of PHP extensions
+      - run: sudo apt-get update && sudo apt-get install -y libyaml-dev
+
+      # Manually install PHP extensions
+      - run: sudo pecl install yaml
+
+      # Clone DevTools sources
+      - run: git clone https://github.com/pmmp/DevTools.git
+
+      # Create build output folder
+      - run: mkdir -p build-output
+
+      # Build PHAR with DevTools
+      - run: php -d phar.readonly=0 DevTools/src/ConsoleScript.php --make plugin.yml,src --out build-output/$CIRCLE_PROJECT_REPONAME$CIRCLE_SHA1.phar
+
+      # Save built PHAR file
+      - store_artifacts:
+          path: build-output
 
 workflows:
   version: 2
@@ -58,3 +83,4 @@ workflows:
     jobs:
       - phpstan
       - phpcs
+      - build-phar
