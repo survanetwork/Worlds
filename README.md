@@ -48,7 +48,7 @@ We've also added flags which can be used to control in game behaviour like game 
 Using control lists, you can precisely create whitelists and blacklists to add exceptions for specific blocks, items or commands.
 
 ## 🎁 Features
-- **CREATE / REMOVE** Create and remove worlds (even special ones with custom world generators)
+- **CREATE / REMOVE** Create and remove worlds (also custom world generators, e.g. with [FancyGenerators](https://plugins.surva.net/#fancygenerators) plugin)
 - **COPY / RENAME** Copy and rename worlds (including all necessary files)
 - **LOAD / UNLOAD** Load and unload worlds
 - **TELEPORT** Teleport to worlds
@@ -72,6 +72,8 @@ Using control lists, you can precisely create whitelists and blacklists to add e
 - **SOPHISTICATED** Easy to use, fast and mostly bug-free.
 
 **NEW** Control lists can be used to create whitelists and blacklists instead of just allowing/disabling a world flag!  
+
+**NEW** Add new level generators to use with Worlds using the [FancyGenerators](https://plugins.surva.net/#fancygenerators) plugin!
 
 **NEW** Edit the settings of a world (game mode, building, damage, and so on) using a super-easy form GUI!
 
