@@ -12,10 +12,10 @@
         <img src="https://poggit.pmmp.io/shield.state/Worlds" alt="Plugin version">
     </a>
     <a href="https://github.com/pmmp/PocketMine-MP">
-        <img src="https://poggit.pmmp.io/shield.api/Worlds" alt="API version">
+        <img src="https://poggit.pmmp.io/shield.api/Worlds" alt="PocketMine-MP API version">
     </a>
     <a href="https://poggit.pmmp.io/p/Worlds">
-        <img src="https://poggit.pmmp.io/shield.dl/Worlds" alt="Downloads on Poggit">
+        <img src="https://poggit.pmmp.io/shield.dl.total/Worlds" alt="Downloads on Poggit">
     </a>
     <a href="https://github.com/survanetwork/Worlds/blob/master/LICENSE">
         <img src="https://img.shields.io/github/license/survanetwork/Worlds.svg" alt="License">
@@ -24,7 +24,7 @@
         <img src="https://img.shields.io/discord/685532530451283997?color=blueviolet" alt="Discord">
     </a>
     <a href="https://twitter.com/survanetwork">
-        <img src="https://img.shields.io/twitter/url?label=SURVA%20network%20on%20Twitter&style=social&url=https%3A%2F%2Ftwitter.com%2Fsurvanetwork" alt="Twitter">
+        <img src="https://img.shields.io/twitter/follow/survanetwork?style=social" alt="Twitter">
     </a>
 </p>
 
@@ -33,8 +33,6 @@
 <p align="center">
     <img src=".github/.media/feature-banner.png" width="650" height="366" alt="World plugin features">
 </p>
-
-✅ Ready for PocketMine-MP version 4.0 (PM4).
 
 [• Description](#-description)  
 [• Features](#-features)  
@@ -75,7 +73,7 @@ Using control lists, you can precisely create whitelists and blacklists to add e
 
 **NEW** Add new level generators to use with Worlds using the [FancyGenerators](https://plugins.surva.net/#fancygenerators) plugin!
 
-**NEW** Edit the settings of a world (game mode, building, damage, and so on) using a super-easy form GUI!
+**Forms GUI** Edit the settings of a world (game mode, building, damage, and so on) using a super-easy form GUI.
 
 <img src=".github/.media/world-settings-form.png" width="540px" alt="Screenshot of world settings form">
 
