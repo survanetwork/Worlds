@@ -26,11 +26,10 @@ class ListShowCommand extends ControlListCommand
 
         $listArray = $controlList->getList();
 
-        $sender->sendMessage(
-            $this->getWorlds()->getMessage(
-                "controllist.list.description",
-                ["key" => $flag, "content" => implode(", ", $listArray)]
-            )
+        $this->getWorlds()->sendMessage(
+            $sender,
+            "controllist.list.description",
+            ["key" => $flag, "content" => implode(", ", $listArray)]
         );
 
         return true;

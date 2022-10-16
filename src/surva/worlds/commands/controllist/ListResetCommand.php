@@ -30,16 +30,15 @@ class ListResetCommand extends ControlListCommand
         try {
             $this->getWorld()->saveControlList($flag);
         } catch (ConfigSaveException | InvalidArgumentException $e) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+            $this->getWorlds()->sendMessage($sender, "general.config.save_error");
 
             return true;
         }
 
-        $sender->sendMessage(
-            $this->getWorlds()->getMessage(
-                "controllist.reset.success",
-                ["key" => $flag]
-            )
+        $this->getWorlds()->sendMessage(
+            $sender,
+            "controllist.reset.success",
+            ["key" => $flag]
         );
 
         return true;

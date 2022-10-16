@@ -29,6 +29,7 @@ use surva\worlds\commands\UnsetCommand;
 use surva\worlds\types\Defaults;
 use surva\worlds\types\World;
 use surva\worlds\utils\Flags;
+use surva\worlds\utils\Messages;
 use Webmozart\PathUtil\Path;
 
 class Worlds extends PluginBase
@@ -238,49 +239,19 @@ class Worlds extends PluginBase
     }
 
     /**
-     * Get a translated message
+     * Shorthand to send a translated message to a command sender
      *
+     * @param  \pocketmine\command\CommandSender  $sender
      * @param  string  $key
      * @param  array  $replaces
-     * @param  \pocketmine\command\CommandSender|null  $sender
      *
-     * @return string
+     * @return void
      */
-    public function getMessage(string $key, array $replaces = [], ?CommandSender $sender = null): string
+    public function sendMessage(CommandSender $sender, string $key, array $replaces = []): void
     {
-        $prefLangId = null;
+        $messages = new Messages($this, $sender);
 
-        if ($sender instanceof Player && $this->getConfig()->get("autodetectlanguage", true)) {
-            preg_match("/^[a-z][a-z]/", $sender->getLocale(), $localeRes);
-
-            if (isset($localeRes[0])) {
-                $prefLangId = $localeRes[0];
-            }
-        }
-
-        $defaultLangId = $this->getConfig()->get("language", "en");
-
-        if ($prefLangId !== null) {
-            $langConfig = $this->translationMessages[$prefLangId];
-        } else {
-            $langConfig = $this->translationMessages[$defaultLangId];
-        }
-
-        $rawMessage = $langConfig->getNested($key);
-
-        if ($rawMessage === null || $rawMessage === "") {
-            $rawMessage = $this->defaultMessages->getNested($key);
-        }
-
-        if ($rawMessage === null) {
-            return $key;
-        }
-
-        foreach ($replaces as $replace => $value) {
-            $rawMessage = str_replace("{" . $replace . "}", $value, $rawMessage);
-        }
-
-        return $rawMessage;
+        $sender->sendMessage($messages->getMessage($key, $replaces));
     }
 
     /**
@@ -313,6 +284,22 @@ class Worlds extends PluginBase
                 $this->getFile() . "resources/languages/" . $langId . ".yml"
             );
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getTranslationMessages(): array
+    {
+        return $this->translationMessages;
+    }
+
+    /**
+     * @return \pocketmine\utils\Config
+     */
+    public function getDefaultMessages(): Config
+    {
+        return $this->defaultMessages;
     }
 
     /**

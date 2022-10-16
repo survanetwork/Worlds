@@ -9,11 +9,14 @@ namespace surva\worlds\commands;
 use pocketmine\command\CommandSender;
 use pocketmine\world\generator\GeneratorManager;
 use pocketmine\world\WorldCreationOptions;
+use surva\worlds\utils\Messages;
 
 class CreateCommand extends CustomCommand
 {
     public function do(CommandSender $sender, array $args): bool
     {
+        $messages = new Messages($this->getWorlds(), $sender);
+
         switch (count($args)) {
             case 1:
                 if (
@@ -22,12 +25,12 @@ class CreateCommand extends CustomCommand
                         WorldCreationOptions::create()
                     )
                 ) {
-                    $sender->sendMessage($this->getWorlds()->getMessage("create.failed"));
+                    $sender->sendMessage($messages->getMessage("create.failed"));
 
                     return true;
                 }
 
-                $sender->sendMessage($this->getWorlds()->getMessage("create.success", ["name" => $args[0]]));
+                $sender->sendMessage($messages->getMessage("create.success", ["name" => $args[0]]));
 
                 return true;
             case 2:
@@ -39,7 +42,7 @@ class CreateCommand extends CustomCommand
 
                 if ($gmEntry === null) {
                     $sender->sendMessage(
-                        $this->getWorlds()->getMessage("create.generator.not_exist", ["name" => $args[1]])
+                        $messages->getMessage("create.generator.not_exist", ["name" => $args[1]])
                     );
 
                     return true;
@@ -48,12 +51,12 @@ class CreateCommand extends CustomCommand
                 $worldOpt->setGeneratorClass($gmEntry->getGeneratorClass());
 
                 if (!$this->getWorlds()->getServer()->getWorldManager()->generateWorld($args[0], $worldOpt)) {
-                    $sender->sendMessage($this->getWorlds()->getMessage("create.failed"));
+                    $sender->sendMessage($messages->getMessage("create.failed"));
 
                     return true;
                 }
 
-                $sender->sendMessage($this->getWorlds()->getMessage("create.success", ["name" => $args[0]]));
+                $sender->sendMessage($messages->getMessage("create.success", ["name" => $args[0]]));
 
                 return true;
             default:

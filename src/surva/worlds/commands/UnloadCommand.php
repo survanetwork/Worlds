@@ -7,6 +7,7 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
+use surva\worlds\utils\Messages;
 
 class UnloadCommand extends CustomCommand
 {
@@ -16,15 +17,17 @@ class UnloadCommand extends CustomCommand
             return false;
         }
 
+        $messages = new Messages($this->getWorlds(), $sender);
+
         if (!($this->getWorlds()->getServer()->getWorldManager()->isWorldLoaded($args[0]))) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.world.not_loaded", ["name" => $args[0]]));
+            $sender->sendMessage($messages->getMessage("general.world.not_loaded", ["name" => $args[0]]));
 
             return true;
         }
 
         if ($defLvl = $this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld()) {
             if ($defLvl->getFolderName() === $args[0]) {
-                $sender->sendMessage($this->getWorlds()->getMessage("unload.default"));
+                $sender->sendMessage($messages->getMessage("unload.default"));
 
                 return true;
             }
@@ -35,14 +38,14 @@ class UnloadCommand extends CustomCommand
                 $this->getWorlds()->getServer()->getWorldManager()->getWorldByName($args[0])
             ))
         ) {
-            $sender->sendMessage($this->getWorlds()->getMessage("unload.failed"));
+            $sender->sendMessage($messages->getMessage("unload.failed"));
 
             return true;
         }
 
         $this->getWorlds()->unregisterWorld($args[0]);
 
-        $sender->sendMessage($this->getWorlds()->getMessage("unload.success", ["world" => $args[0]]));
+        $sender->sendMessage($messages->getMessage("unload.success", ["world" => $args[0]]));
 
         return true;
     }

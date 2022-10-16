@@ -12,13 +12,16 @@ use surva\worlds\form\WorldSettingsForm;
 use surva\worlds\logic\WorldActions;
 use surva\worlds\types\exception\ConfigSaveException;
 use surva\worlds\types\exception\ValueNotExistException;
+use surva\worlds\utils\Messages;
 
 class UnsetCommand extends CustomCommand
 {
     public function do(CommandSender $sender, array $args): bool
     {
+        $messages = new Messages($this->getWorlds(), $sender);
+
         if (!($sender instanceof Player)) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.command.in_game"));
+            $sender->sendMessage($messages->getMessage("general.command.in_game"));
 
             return true;
         }
@@ -28,13 +31,18 @@ class UnsetCommand extends CustomCommand
         $folderName = $player->getWorld()->getFolderName();
 
         if (!($world = $this->getWorlds()->getWorldByName($folderName))) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.world.not_loaded", ["name" => $folderName]));
+            $sender->sendMessage($messages->getMessage("general.world.not_loaded", ["name" => $folderName]));
 
             return true;
         }
 
         if (count($args) === 0) {
-            $wsForm = new WorldSettingsForm($this->getWorlds(), $folderName, $world);
+            $wsForm = new WorldSettingsForm(
+                $this->getWorlds(),
+                $folderName,
+                $world,
+                new Messages($this->getWorlds(), $sender)
+            );
 
             $player->sendForm($wsForm);
 
@@ -52,13 +60,13 @@ class UnsetCommand extends CustomCommand
         try {
             $world->removeValue($args[0]);
         } catch (ConfigSaveException | ValueNotExistException $e) {
-            $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+            $player->sendMessage($messages->getMessage("general.config.save_error"));
 
             return true;
         }
 
         $player->sendMessage(
-            $this->getWorlds()->getMessage(
+            $messages->getMessage(
                 "unset.success",
                 ["world" => $player->getWorld()->getFolderName(), "key" => $args[0]]
             )

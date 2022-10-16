@@ -69,7 +69,7 @@ class EventListener implements Listener
 
         if ($world->getStringFlag(Flags::FLAG_PERMISSION) !== null) {
             if (!$player->hasPermission($world->getStringFlag(Flags::FLAG_PERMISSION))) {
-                $player->sendMessage($this->worlds->getMessage("general.permission"));
+                $this->worlds->sendMessage($player, "general.permission");
 
                 $defaultWorld = $this->worlds->getServer()->getWorldManager()->getDefaultWorld();
 
@@ -110,7 +110,7 @@ class EventListener implements Listener
 
         if ($world->getStringFlag(Flags::FLAG_PERMISSION) !== null) {
             if (!$player->hasPermission($world->getStringFlag(Flags::FLAG_PERMISSION))) {
-                $player->sendMessage($this->worlds->getMessage("general.permission"));
+                $this->worlds->sendMessage($player, "general.permission");
 
                 $event->cancel();
 
@@ -160,7 +160,7 @@ class EventListener implements Listener
         }
 
         if ($world->checkControlList(Flags::FLAG_COMMAND, $commandName) === false) {
-            $sender->sendMessage($this->worlds->getMessage("general.command.no_permission"));
+            $this->worlds->sendMessage($sender, "general.command.no_permission");
 
             $event->cancel();
         }

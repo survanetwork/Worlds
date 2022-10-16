@@ -12,51 +12,56 @@ use surva\worlds\types\exception\ConfigSaveException;
 use surva\worlds\types\exception\ValueNotExistException;
 use surva\worlds\types\World;
 use surva\worlds\utils\Flags;
+use surva\worlds\utils\Messages;
 use surva\worlds\Worlds;
 
 class WorldSettingsForm extends SettingsForm
 {
-    public function __construct(Worlds $wsInstance, string $worldName, World $world)
+    private Messages $messages;
+
+    public function __construct(Worlds $wsInstance, string $worldName, World $world, Messages $messages)
     {
         parent::__construct($wsInstance, $world);
 
-        $this->title   = $this->getWorlds()->getMessage("forms.world.title", ["name" => $worldName]);
+        $this->messages = $messages;
+
+        $this->title   = $this->messages->getMessage("forms.world.title", ["name" => $worldName]);
         $this->content = [];
 
         foreach (Flags::AVAILABLE_WORLD_FLAGS as $flagName => $flagDetails) {
             $this->content[] = match ($flagDetails["type"]) {
                 Flags::TYPE_BOOL => [
                   "type"    => "dropdown",
-                  "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
+                  "text"    => $this->messages->getMessage("forms.world.params." . $flagName),
                   "options" => [
-                    $this->getWorlds()->getMessage("forms.world.options.not_set"),
-                    $this->getWorlds()->getMessage("forms.world.options.false"),
-                    $this->getWorlds()->getMessage("forms.world.options.true"),
+                    $this->messages->getMessage("forms.world.options.not_set"),
+                    $this->messages->getMessage("forms.world.options.false"),
+                    $this->messages->getMessage("forms.world.options.true"),
                   ],
                   "default" => $this->confValueToForm($world->loadValue($flagName), Flags::TYPE_BOOL),
                 ],
                 Flags::TYPE_CONTROL_LIST => [
                   "type"    => "dropdown",
-                  "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
+                  "text"    => $this->messages->getMessage("forms.world.params." . $flagName),
                   "options" => [
-                    $this->getWorlds()->getMessage("forms.world.options.not_set"),
-                    $this->getWorlds()->getMessage("forms.world.options.false"),
-                    $this->getWorlds()->getMessage("forms.world.options.true"),
-                    $this->getWorlds()->getMessage("forms.world.options.white"),
-                    $this->getWorlds()->getMessage("forms.world.options.black"),
+                    $this->messages->getMessage("forms.world.options.not_set"),
+                    $this->messages->getMessage("forms.world.options.false"),
+                    $this->messages->getMessage("forms.world.options.true"),
+                    $this->messages->getMessage("forms.world.options.white"),
+                    $this->messages->getMessage("forms.world.options.black"),
                   ],
                   "default" => $this->confValueToForm($world->loadValue($flagName), Flags::TYPE_CONTROL_LIST),
                 ],
                 Flags::TYPE_PERMISSION => [
                   "type"    => "input",
-                  "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
+                  "text"    => $this->messages->getMessage("forms.world.params." . $flagName),
                   "default" => $world->loadValue($flagName),
                 ],
                 Flags::TYPE_GAME_MODE => [
                   "type"    => "dropdown",
-                  "text"    => $this->getWorlds()->getMessage("forms.world.params." . $flagName),
+                  "text"    => $this->messages->getMessage("forms.world.params." . $flagName),
                   "options" => [
-                    $this->getWorlds()->getMessage("forms.world.options.not_set"),
+                    $this->messages->getMessage("forms.world.options.not_set"),
                     GameMode::SURVIVAL()->getEnglishName(),
                     GameMode::CREATIVE()->getEnglishName(),
                     GameMode::ADVENTURE()->getEnglishName(),
@@ -77,13 +82,13 @@ class WorldSettingsForm extends SettingsForm
     public function handleResponse(Player $player, $data): void
     {
         if (!is_array($data)) {
-            $player->sendMessage($this->getWorlds()->getMessage("forms.error_code.invalid_data"));
+            $player->sendMessage($this->messages->getMessage("forms.error_code.invalid_data"));
 
             return;
         }
 
         if (count($data) !== count(Flags::AVAILABLE_WORLD_FLAGS)) {
-            $player->sendMessage($this->getWorlds()->getMessage("forms.error_code.invalid_data"));
+            $player->sendMessage($this->messages->getMessage("forms.error_code.invalid_data"));
 
             return;
         }
@@ -114,16 +119,16 @@ class WorldSettingsForm extends SettingsForm
                 $i++;
             }
         } catch (ConfigSaveException $e) {
-            $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+            $player->sendMessage($this->messages->getMessage("general.config.save_error"));
 
             return;
         } catch (ValueNotExistException $e) {
-            $player->sendMessage($this->getWorlds()->getMessage("forms.error_code.invalid_data"));
+            $player->sendMessage($this->messages->getMessage("forms.error_code.invalid_data"));
 
             return;
         }
 
-        $player->sendMessage($this->getWorlds()->getMessage("forms.saved"));
+        $player->sendMessage($this->messages->getMessage("forms.saved"));
     }
 
     /**
@@ -147,7 +152,7 @@ class WorldSettingsForm extends SettingsForm
         }
 
         if ($isDefLvl) {
-            $player->sendMessage($this->getWorlds()->getMessage("set.permission.not_default"));
+            $player->sendMessage($this->messages->getMessage("set.permission.not_default"));
 
             return;
         }

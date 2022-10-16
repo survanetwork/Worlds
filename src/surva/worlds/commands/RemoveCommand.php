@@ -12,6 +12,7 @@ use surva\worlds\logic\exception\UnloadFailedException;
 use surva\worlds\logic\WorldActions;
 use surva\worlds\utils\exception\SourceNotExistException;
 use surva\worlds\utils\FileUtils;
+use surva\worlds\utils\Messages;
 
 class RemoveCommand extends CustomCommand
 {
@@ -21,14 +22,16 @@ class RemoveCommand extends CustomCommand
             return false;
         }
 
+        $messages = new Messages($this->getWorlds(), $sender);
+
         try {
             WorldActions::unloadIfLoaded($this->getWorlds(), $args[0]);
         } catch (UnloadDefaultLevelException $e) {
-            $sender->sendMessage($this->getWorlds()->getMessage("unload.default"));
+            $sender->sendMessage($messages->getMessage("unload.default"));
 
             return true;
         } catch (UnloadFailedException $e) {
-            $sender->sendMessage($this->getWorlds()->getMessage("unload.failed"));
+            $sender->sendMessage($messages->getMessage("unload.failed"));
 
             return true;
         }
@@ -36,18 +39,18 @@ class RemoveCommand extends CustomCommand
         try {
             $res = FileUtils::deleteRecursive($this->getWorlds()->getServer()->getDataPath() . "worlds/" . $args[0]);
         } catch (SourceNotExistException $e) {
-            $sender->sendMessage($this->getWorlds()->getMessage("copy.error_code.source_not_exist"));
+            $sender->sendMessage($messages->getMessage("copy.error_code.source_not_exist"));
 
             return true;
         }
 
         if (!$res) {
-            $sender->sendMessage($this->getWorlds()->getMessage("remove.error"));
+            $sender->sendMessage($messages->getMessage("remove.error"));
 
             return true;
         }
 
-        $sender->sendMessage($this->getWorlds()->getMessage("remove.success", ["name" => $args[0]]));
+        $sender->sendMessage($messages->getMessage("remove.success", ["name" => $args[0]]));
 
         return true;
     }

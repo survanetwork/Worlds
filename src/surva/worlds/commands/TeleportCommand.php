@@ -9,6 +9,7 @@ namespace surva\worlds\commands;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
+use surva\worlds\utils\Messages;
 
 class TeleportCommand extends CustomCommand
 {
@@ -16,10 +17,12 @@ class TeleportCommand extends CustomCommand
     {
         $otherPlayer = false;
 
+        $messages = new Messages($this->getWorlds(), $sender);
+
         switch (count($args)) {
             case 1:
                 if (!($sender instanceof Player)) {
-                    $sender->sendMessage($this->getWorlds()->getMessage("general.command.in_game"));
+                    $sender->sendMessage($messages->getMessage("general.command.in_game"));
 
                     return true;
                 }
@@ -37,7 +40,7 @@ class TeleportCommand extends CustomCommand
                 $player = $this->getWorlds()->getServer()->getPlayerExact($plName);
 
                 if ($player === null) {
-                    $sender->sendMessage($this->getWorlds()->getMessage("teleport.error_code.no_player"));
+                    $sender->sendMessage($messages->getMessage("teleport.error_code.no_player"));
 
                     return true;
                 }
@@ -61,10 +64,10 @@ class TeleportCommand extends CustomCommand
         }
 
         if (!($this->getWorlds()->getServer()->getWorldManager()->isWorldLoaded($args[0]))) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.world.not_loaded", ["name" => $args[0]]));
+            $sender->sendMessage($messages->getMessage("general.world.not_loaded", ["name" => $args[0]]));
 
             if ($otherPlayer) {
-                $player->sendMessage($this->getWorlds()->getMessage("general.world.not_loaded", ["name" => $args[0]]));
+                $player->sendMessage($messages->getMessage("general.world.not_loaded", ["name" => $args[0]]));
             }
 
             return true;
@@ -73,10 +76,10 @@ class TeleportCommand extends CustomCommand
         $targetWorld = $this->getWorlds()->getServer()->getWorldManager()->getWorldByName($args[0]);
 
         if (!$player->teleport($targetWorld->getSafeSpawn())) {
-            $sender->sendMessage($this->getWorlds()->getMessage("teleport.error_code.teleport_failed"));
+            $sender->sendMessage($messages->getMessage("teleport.error_code.teleport_failed"));
 
             if ($otherPlayer) {
-                $player->sendMessage($this->getWorlds()->getMessage("teleport.error_code.teleport_failed"));
+                $player->sendMessage($messages->getMessage("teleport.error_code.teleport_failed"));
             }
 
             return true;
@@ -84,11 +87,11 @@ class TeleportCommand extends CustomCommand
 
         if ($otherPlayer && isset($plName)) {
             $sender->sendMessage(
-                $this->getWorlds()->getMessage("teleport.success_other", ["player" => $plName, "world" => $args[0]])
+                $messages->getMessage("teleport.success_other", ["player" => $plName, "world" => $args[0]])
             );
-            $player->sendMessage($this->getWorlds()->getMessage("teleport.success", ["world" => $args[0]]));
+            $player->sendMessage($messages->getMessage("teleport.success", ["world" => $args[0]]));
         } else {
-            $sender->sendMessage($this->getWorlds()->getMessage("teleport.success", ["world" => $args[0]]));
+            $sender->sendMessage($messages->getMessage("teleport.success", ["world" => $args[0]]));
         }
 
         return true;

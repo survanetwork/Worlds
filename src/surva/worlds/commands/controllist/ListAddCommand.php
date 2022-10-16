@@ -31,16 +31,15 @@ class ListAddCommand extends ControlListCommand
         try {
             $this->getWorld()->saveControlList($flag);
         } catch (ConfigSaveException | InvalidArgumentException $e) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+            $this->getWorlds()->sendMessage($sender, "general.config.save_error");
 
             return true;
         }
 
-        $sender->sendMessage(
-            $this->getWorlds()->getMessage(
-                "controllist.add.success",
-                ["item" => $item, "key" => $flag]
-            )
+        $this->getWorlds()->sendMessage(
+            $sender,
+            "controllist.add.success",
+            ["item" => $item, "key" => $flag]
         );
 
         return true;

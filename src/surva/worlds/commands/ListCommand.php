@@ -31,7 +31,7 @@ class ListCommand extends CustomCommand
             }
         }
 
-        $sender->sendMessage($this->getWorlds()->getMessage("list.worlds", ["worlds" => implode(", ", $worlds)]));
+        $this->getWorlds()->sendMessage($sender, "list.worlds", ["worlds" => implode(", ", $worlds)]);
 
         return true;
     }

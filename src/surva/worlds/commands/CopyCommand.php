@@ -11,6 +11,7 @@ use surva\worlds\logic\WorldActions;
 use surva\worlds\utils\exception\SourceNotExistException;
 use surva\worlds\utils\exception\TargetExistException;
 use surva\worlds\utils\FileUtils;
+use surva\worlds\utils\Messages;
 
 class CopyCommand extends CustomCommand
 {
@@ -20,8 +21,10 @@ class CopyCommand extends CustomCommand
             return false;
         }
 
+        $messages = new Messages($this->getWorlds(), $sender);
+
         if (!WorldActions::worldPathExists($this->getWorlds(), $args[0])) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.world.not_exist", ["name" => $args[0]]));
+            $sender->sendMessage($messages->getMessage("general.world.not_exist", ["name" => $args[0]]));
 
             return true;
         }
@@ -30,7 +33,7 @@ class CopyCommand extends CustomCommand
         $toFolderName   = $args[1];
 
         if ($fromFolderName === $toFolderName) {
-            $sender->sendMessage($this->getWorlds()->getMessage("copy.error_code.same_source_target"));
+            $sender->sendMessage($messages->getMessage("copy.error_code.same_source_target"));
 
             return true;
         }
@@ -41,23 +44,23 @@ class CopyCommand extends CustomCommand
         try {
             $res = FileUtils::copyRecursive($fromPath, $toPath);
         } catch (SourceNotExistException $e) {
-            $sender->sendMessage($this->getWorlds()->getMessage("copy.error_code.source_not_exist"));
+            $sender->sendMessage($messages->getMessage("copy.error_code.source_not_exist"));
 
             return true;
         } catch (TargetExistException $e) {
-            $sender->sendMessage($this->getWorlds()->getMessage("copy.error_code.target_exist"));
+            $sender->sendMessage($messages->getMessage("copy.error_code.target_exist"));
 
             return true;
         }
 
         if (!$res) {
-            $sender->sendMessage($this->getWorlds()->getMessage("copy.error_code.copy_failed"));
+            $sender->sendMessage($messages->getMessage("copy.error_code.copy_failed"));
 
             return true;
         }
 
         $sender->sendMessage(
-            $this->getWorlds()->getMessage("copy.success", ["name" => $fromFolderName, "to" => $toFolderName])
+            $messages->getMessage("copy.success", ["name" => $fromFolderName, "to" => $toFolderName])
         );
 
         return true;

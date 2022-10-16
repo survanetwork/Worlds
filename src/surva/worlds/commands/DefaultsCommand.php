@@ -13,13 +13,18 @@ use surva\worlds\logic\WorldActions;
 use surva\worlds\types\exception\ConfigSaveException;
 use surva\worlds\types\exception\ValueNotExistException;
 use surva\worlds\utils\Flags;
+use surva\worlds\utils\Messages;
 
 class DefaultsCommand extends SetCommand
 {
+    private Messages $messages;
+
     public function do(CommandSender $sender, array $args): bool
     {
+        $this->messages = new Messages($this->getWorlds(), $sender);
+
         if (!($sender instanceof Player)) {
-            $sender->sendMessage($this->getWorlds()->getMessage("general.command.in_game"));
+            $sender->sendMessage($this->messages->getMessage("general.command.in_game"));
 
             return true;
         }
@@ -29,7 +34,7 @@ class DefaultsCommand extends SetCommand
         $defaults = $this->getWorlds()->getDefaults();
 
         if (count($args) === 0) {
-            $dfForm = new DefaultSettingsForm($this->getWorlds(), $defaults);
+            $dfForm = new DefaultSettingsForm($this->getWorlds(), $defaults, new Messages($this->getWorlds(), $sender));
 
             $player->sendForm($dfForm);
 
@@ -38,7 +43,7 @@ class DefaultsCommand extends SetCommand
 
         switch ($args[0]) {
             case "show":
-                $msg = $this->getWorlds()->getMessage("defaults.list.info") . "\n\n";
+                $msg = $this->messages->getMessage("defaults.list.info") . "\n\n";
 
                 return $this->showFlagValues($player, $defaults, $msg, Flags::AVAILABLE_DEFAULT_FLAGS);
             case "set":
@@ -72,7 +77,7 @@ class DefaultsCommand extends SetCommand
 
                 switch ($flagType) {
                     case Flags::TYPE_PERMISSION:
-                        $player->sendMessage($this->getWorlds()->getMessage("set.permission.not_default"));
+                        $player->sendMessage($this->messages->getMessage("set.permission.not_default"));
 
                         return true;
                     case Flags::TYPE_GAME_MODE:
@@ -96,13 +101,13 @@ class DefaultsCommand extends SetCommand
                 try {
                     $defaults->removeValue($args[1]);
                 } catch (ConfigSaveException | ValueNotExistException $e) {
-                    $player->sendMessage($this->getWorlds()->getMessage("general.config.save_error"));
+                    $player->sendMessage($this->messages->getMessage("general.config.save_error"));
 
                     return true;
                 }
 
                 $player->sendMessage(
-                    $this->getWorlds()->getMessage(
+                    $this->messages->getMessage(
                         "defaults.unset.success",
                         ["key" => $args[1]]
                     )
@@ -117,7 +122,7 @@ class DefaultsCommand extends SetCommand
     protected function sendSuccessMessage(Player $player, string $key, string $val): bool
     {
         $player->sendMessage(
-            $this->getWorlds()->getMessage(
+            $this->messages->getMessage(
                 "defaults.set.success",
                 ["key" => $key, "value" => $val]
             )
