@@ -10,5 +10,9 @@
 # Possible options are: en (English), de (German), zh (Chinese), id (Indonesian), lv (Latvian), fr (French), tr (Turkish), ja (Japanese), vi (Vietnamese)
 language: "en"
 
+# Try to automatically detect the player's language and send translated messages for each player
+# (language set above is used if player's language can't be detected)
+autodetectlanguage: true
+
 # Automatically convert worlds into the default format when loading an unsupported format
 autoupgradeformat: true

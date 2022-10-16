@@ -6,6 +6,7 @@
 
 namespace surva\worlds;
 
+use DirectoryIterator;
 use JsonException;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -48,9 +49,9 @@ class Worlds extends PluginBase
     private Config $defaultMessages;
 
     /**
-     * @var \pocketmine\utils\Config selected language config
+     * @var array available language configs
      */
-    private Config $messages;
+    private array $translationMessages;
 
     /**
      * Initialize plugin, config, languages
@@ -69,9 +70,7 @@ class Worlds extends PluginBase
         }
 
         $this->defaultMessages = new Config($this->getFile() . "resources/languages/en.yml");
-        $this->messages        = new Config(
-            $this->getFile() . "resources/languages/" . $this->getConfig()->get("language", "en") . ".yml"
-        );
+        $this->loadLanguageFiles();
     }
 
     /**
@@ -243,12 +242,31 @@ class Worlds extends PluginBase
      *
      * @param  string  $key
      * @param  array  $replaces
+     * @param  \pocketmine\command\CommandSender|null  $sender
      *
      * @return string
      */
-    public function getMessage(string $key, array $replaces = []): string
+    public function getMessage(string $key, array $replaces = [], ?CommandSender $sender = null): string
     {
-        $rawMessage = $this->messages->getNested($key);
+        $prefLangId = null;
+
+        if ($sender instanceof Player && $this->getConfig()->get("autodetectlanguage", true)) {
+            preg_match("/^[a-z][a-z]/", $sender->getLocale(), $localeRes);
+
+            if (isset($localeRes[0])) {
+                $prefLangId = $localeRes[0];
+            }
+        }
+
+        $defaultLangId = $this->getConfig()->get("language", "en");
+
+        if ($prefLangId !== null) {
+            $langConfig = $this->translationMessages[$prefLangId];
+        } else {
+            $langConfig = $this->translationMessages[$defaultLangId];
+        }
+
+        $rawMessage = $langConfig->getNested($key);
 
         if ($rawMessage === null || $rawMessage === "") {
             $rawMessage = $this->defaultMessages->getNested($key);
@@ -266,11 +284,35 @@ class Worlds extends PluginBase
     }
 
     /**
-     * @return \pocketmine\utils\Config
+     * Load all available language files
+     *
+     * @return void
      */
-    public function getMessages(): Config
+    private function loadLanguageFiles(): void
     {
-        return $this->messages;
+        $languageFilesDir = $this->getFile() . "resources/languages/";
+
+        foreach (new DirectoryIterator($languageFilesDir) as $dirObj) {
+            if (!($dirObj instanceof DirectoryIterator)) {
+                continue;
+            }
+
+            if (!$dirObj->isFile() || !str_ends_with($dirObj->getFilename(), ".yml")) {
+                continue;
+            }
+
+            preg_match("/^[a-z][a-z]/", $dirObj->getFilename(), $fileNameRes);
+
+            if (!isset($fileNameRes[0])) {
+                continue;
+            }
+
+            $langId = $fileNameRes[0];
+
+            $this->translationMessages[$langId] = new Config(
+                $this->getFile() . "resources/languages/" . $langId . ".yml"
+            );
+        }
     }
 
     /**
