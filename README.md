@@ -126,9 +126,9 @@ Available world rules are:
 | potion        | ✅ yes                     | ✅ yes         | item ID      |
 | command       | ✅ yes                     | ✅ yes         | command name |
 
-For a full list of commands, their usage and a description what they are for, take a look at the [wiki](https://plugins.surva.net/docs/Worlds#commands).
+For a full list of commands, their usage and a description what they are for, take a look at the [wiki](https://plugin-docs.surva.net/category/commands).
 
-[Read the full documentation 📖](https://plugins.surva.net/docs/Worlds) • [Ask questions on Discord 💬](https://discord.gg/t4Kg4j3829)
+[Read the full documentation 📖](https://plugin-docs.surva.net/worlds) • [Ask questions on Discord 💬](https://discord.gg/t4Kg4j3829)
 
 ## 🙋‍ Contribution
 Feel free to contribute if you have ideas or found an issue.
