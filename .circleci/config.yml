@@ -1,4 +1,7 @@
-version: 2
+version: 2.1
+
+orbs:
+  aws-s3: circleci/aws-s3@3.1.1
 
 jobs:
   phpstan:
@@ -73,9 +76,43 @@ jobs:
       # Build PHAR with DevTools
       - run: php -d phar.readonly=0 DevTools/src/ConsoleScript.php --make plugin.yml,src --out build-output/$CIRCLE_PROJECT_REPONAME$CIRCLE_SHA1.phar
 
-      # Save built PHAR file
+      # Create workspace folder
+      - run: mkdir -p workspace
+
+      # Copy build output folder into workspace
+      - run: cp -r build-output workspace/
+
+      # Save workspace with built PHAR file for release job
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - build-output
+
+      # Save built PHAR file as artifact
       - store_artifacts:
           path: build-output
+  release-plugin:
+    docker:
+      - image: cimg/python:3.11-node
+    steps:
+      # Restore workspace with built PHAR file
+      - attach_workspace:
+          at: /tmp/workspace
+
+      # Rename PHAR file to release name
+      - run: cp /tmp/workspace/build-output/$CIRCLE_PROJECT_REPONAME$CIRCLE_SHA1.phar /tmp/workspace/build-output/$CIRCLE_PROJECT_REPONAME$CIRCLE_TAG.phar
+
+      # Upload files to AWS S3
+      - aws-s3/copy:
+          from: /tmp/workspace/build-output/$CIRCLE_PROJECT_REPONAME$CIRCLE_TAG.phar
+          to: "s3://static.surva.net/osplugins/dl/"
+
+      # Update plugin info in CMS
+      - run: |
+          curl --location --request PATCH "$CONTENT_URL/items/plugin_info/$PL_INFO_ID" \
+            --header "Authorization: Bearer $CONTENT_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data-raw "{\"version\": \"$CIRCLE_TAG\",\"download_url\": \"https://static.surva.net/osplugins/dl/$CIRCLE_PROJECT_REPONAME$CIRCLE_TAG.phar\"}"
 
 workflows:
   version: 2
@@ -83,4 +120,18 @@ workflows:
     jobs:
       - phpstan
       - phpcs
-      - build-phar
+  deploy:
+    jobs:
+      - build-phar:
+          filters:
+            tags:
+              only: /.*/
+      - release-plugin:
+          context: os-plugins-deploy
+          requires:
+            - build-phar
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
