@@ -6,12 +6,11 @@
 #
 # (C) 2019 by surva network | https://github.com/survanetwork
 
-# English language
-
 # General
 general:
   command:
     in_game: "§6Du kannst diesen Befehl nur im Spiel ausführen."
+    no_permission: "§6Dieser Befehl darf in dieser Welt nicht verwendet werden."
   world:
     not_exist: "§cDie Welt §f{name} §cexistiert nicht."
     not_loaded: "§cDie Welt §f{name} §cist nicht geladen oder existiert nicht."
@@ -67,7 +66,10 @@ unload:
 # Teleport command
 teleport:
   success: "§aDu wurdest nach §f{world} §ateleportiert."
-  failed: "§cDu konntest nicht teleportiert werden."
+  success_other: "§aDu hast §6{player} §ain §f{world} §ateleportiert."
+  error_code:
+    no_player: "§6Spieler, der teleportiert werden sollte, existiert nicht."
+    teleport_failed: "§cDu konntest nicht in die Welt teleportiert werden."
 
 # Set command
 set:
@@ -125,6 +127,7 @@ forms:
       daylightcycle: "Tag-Nacht-Zyklus"
       leavesdecay: "Blätter verwesen"
       potion: "Zaubertränke"
+      command: "Befehle ausführen"
     options:
       not_set: "§7nicht eingestellt (kein Wert)"
       true: "§aaktiviert"
