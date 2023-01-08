@@ -6,92 +6,94 @@
 #
 # (C) 2019 by surva network | https://github.com/survanetwork
 
-# English language
-
 # General
 general:
   command:
-    in_game: ""
+    in_game: "§6您只能在游戏中运行此命令。"
+    no_permission: "§6这个世界不允许使用这个命令。"
   world:
-    not_exist: ""
-    not_loaded: ""
-  permission: "§6你没有进入该世界的权限。"
+    not_exist: "§c世界 §f{name} §c不存在。"
+    not_loaded: "§c世界 §f{name} §c未加载或不存在。"
+  permission: "§6你没有加入这个世界的权限。"
   config:
-    save_error: ""
+    save_error: "§c世界配置文件无法保存，请检查服务器文件夹！"
 
 # List command
 list:
-  worlds: "§e该服务器中的世界: §f{worlds}§e。"
+  worlds: "§e此服务器上的世界：§f{worlds}§e。"
 
 # Create command
 create:
   success: "§a世界 §f{name} §a已创建。"
   failed: "§c创建世界时发生了一个未知的错误。"
   generator:
-    not_exist: ""
+    not_exist: "§6没有已生成世界名为 §f{name} §6- 使用默认的。"
 
 # Remove command
 remove:
   success: "§a世界 §f{name} §a已移除"
-  error: ""
+  error: "§c部分世界文件无法删除，请检查世界文件。"
 
 # Copy command
 copy:
   success: "§a世界 §f{name} §a已被复制至 §f{to}§a。"
   error_code:
-    same_source_target: ""
-    source_not_exist: ""
-    target_exist: ""
-    copy_failed: ""
+    same_source_target: "§c你无法将世界复制到它自身。"
+    source_not_exist: "§c源文件夹不存在！"
+    target_exist: "§c目标文件夹已存在！"
+    copy_failed: "§c部分世界文件无法复制，请检查世界文件。"
 
 # Rename command
 rename:
   success: "§a世界 §f{name} §a已被重命名为 §f{to}§a。"
   error_code:
-    same_source_target: ""
-    delete_failed: ""
+    same_source_target: "§c您不能将世界重命名为相同的名称。"
+    delete_failed: "§c旧文件夹中的部分世界文件无法删除，请检查世界文件。"
 
 # Load command
 load:
   success: "§a世界 §f{world} §a已成功被加载。"
   already: "§e世界 §f{name} §e已被加载。"
   failed: "§c该世界无法被加载。"
-  error: ""
+  error: "§c尝试加载世界时发生错误：§7{message}§c。"
 
 # Unload command
 unload:
-  success: "§a世界 §f{world} §a已被成功卸载。"
-  default: ""
+  success: "§a世界 §f{world} §a已成功被卸载。"
+  default: "§c无法卸载默认世界！"
   failed: "§c该世界无法被卸载"
 
 # Teleport command
 teleport:
   success: "§a你已被传送至 §f{world}§a。"
-  failed: "§c无法将你传送至指定世界。"
+  success_other: ""
+  error_code:
+    no_player: "§6要传送的玩家不存在。"
+    teleport_failed: "§c无法将你传送到该世界。"
 
 # Set command
 set:
   success: "§a你已将 §f{world} §a中的 §b{key} §a值设置为 §c{value}§a。"
   list:
-    info: ""
-    not_set: ""
+    info: "§c世界设置 §f{name}"
+    not_set: "§7未设置"
   permission:
-    not_default: ""
+    not_default: "§c您无法在默认世界上设置权限。"
   gamemode:
-    not_exist: ""
-  not_bool: ""
-  not_controllist: ""
+    not_exist: "§6该游戏模式不存在。"
+  not_bool: "§6您只能将 §f{key} §6设置为 §atrue §6或 §cfalse§6."
+  not_controllist: "§6您只能将 §f{key} §6设置为 §atrue§6、§cfalse§6、§fwhite §6或 §0black§6."
 
 # ControlList sub command (of set)
 controllist:
   add:
-    success: ""
+    success: "§a物品 §x{item} §a已添加到 §b{key} §a控制列表。"
   remove:
-    success: ""
+    success: "§6物品 §c{item} §6已从 §b{key} §6控制列表中删除。"
   reset:
-    success: ""
+    success: "§6所有项目都已从 §b{key} §6控制列表中删除。"
   list:
-    description: ""
+    description: "§f显示 §b{key} §f控制列表的内容：§7{content}"
 
 # Unset command
 unset:
@@ -100,7 +102,7 @@ unset:
 # Defaults command
 defaults:
   list:
-    info: ""
+    info: "§c此服务器上世界的默认设置"
   set:
     success: "§a你已将 §c{value} §a设置为 §b{key} §a的默认值。"
   unset:
@@ -123,18 +125,19 @@ forms:
       hunger: "饥饿"
       fly: "飞行"
       daylightcycle: "昼夜交替"
-      leavesdecay: ""
-      potion: ""
+      leavesdecay: "叶子腐烂"
+      potion: "药水"
+      command: "命令执行"
     options:
-      not_set: ""
+      not_set: "§7未设置（空）"
       true: "§a已启用"
       false: "§c已禁用"
-      white: ""
-      black: ""
+      white: "§f使用白名单"
+      black: "§0使用黑名单"
   # Default settings
   default:
     title: "§a默认世界设置"
   # Settings saved message
   saved: "§a设置已成功保存！"
   error_code:
-    invalid_data: ""
+    invalid_data: "§6从设置表单收到无效数据，设置尚未保存。"
