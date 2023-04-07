@@ -66,7 +66,7 @@ unload:
 # Teleport command
 teleport:
   success: "§a你已被传送至 §f{world}§a。"
-  success_other: ""
+  success_other: "§a你已将 §6{player} §a传送至 §f{world}§a。"
   error_code:
     no_player: "§6要传送的玩家不存在。"
     teleport_failed: "§c无法将你传送到该世界。"
