@@ -6,18 +6,17 @@
 #
 # (C) 2019 by surva network | https://github.com/survanetwork
 
-# English language
-
 # General
 general:
   command:
-    in_game: ""
+    in_game: "§6Šo komandu varat izpildīt tikai spēlē."
+    no_permission: "§6Šīs komandas izmantošana šajā pasaulē nav atļauta."
   world:
-    not_exist: ""
-    not_loaded: ""
+    not_exist: "§cPasaule §f{name} §cneeksistē."
+    not_loaded: "§cPasaule §f{name} §cnav ielādēta vai neeksistē."
   permission: "§6Jums nav atļauts pievienoties šajai pasaulei."
   config:
-    save_error: ""
+    save_error: "§cPasaules konfigurācijas failu nevarēja saglabāt. Lūdzu, pārbaudiet servera mapi!"
 
 # List command
 list:
@@ -28,70 +27,73 @@ create:
   success: "§aPasaule ar vārdu §f{name} §air izveidota."
   failed: "§cNezināma kļūda veidojot pasauli."
   generator:
-    not_exist: ""
+    not_exist: "§6Nav neviena ģenerēta nosaukuma §f{name} §6- izmanto noklusējumā iestatīto."
 
 # Remove command
 remove:
   success: "§aPasaule ar vārdu §f{name} §air noņemta."
-  error: ""
+  error: "§cDažus pasaules failus nevarēja noņemt. Lūdzu, pārbaudiet pasaules failus."
 
 # Copy command
 copy:
   success: "§aPasaule ar vārdu §f{name} §air nokopēta uz §f{to}§a."
   error_code:
-    same_source_target: ""
-    source_not_exist: ""
-    target_exist: ""
-    copy_failed: ""
+    same_source_target: "§cJūs nevarat kopēt pasauli sevī."
+    source_not_exist: "§cAvota mape nepastāv!"
+    target_exist: "§cMērķa mape jau pastāv!"
+    copy_failed: "§cDažus pasaules failus nevarēja nokopēt. Lūdzu, pārbaudiet pasaules failus."
 
 # Rename command
 rename:
   success: "§aPasaule §f{name} §air pārdēvēta uz §f{to}§a."
   error_code:
-    same_source_target: ""
-    delete_failed: ""
+    same_source_target: "§cJūs nevarat pārdēvēt pasauli ar tādu pašu nosaukumu."
+    delete_failed: "§cDažus pasaules failus vecajā mapē nevarēja izdzēst. Lūdzu, pārbaudiet pasaules failus."
 
 # Load command
 load:
   success: "§aPasaule ar vārdu §f{world} §air veiksmīgi ielādēta."
   already: "§ePasaule ar vārdu §f{name} §eir jau ielādēta."
   failed: "§cPasauli nevarēja ielādēt."
-  error: ""
+  error: "§cMēģinot ielādēt pasauli, radās kļūda: §7{message}§c."
 
 # Unload command
 unload:
   success: "§aPasaule ar vārdu §f{world} §air veiksmīgi izlādēta."
-  default: ""
+  default: "§cNevar izlādēt noklusējuma pasauli!"
   failed: "§cPasauli nevarēja izlādēt."
 
 # Teleport command
 teleport:
   success: "§aJūs tikāt teleportēts uz pasauli ar vārdu §f{world}§a."
-  failed: "§cNeizdevās jūs teleportēt uz pasauli."
+  success_other: "§aJūs teleportējāt §6{player} §auz §f{world}§a."
+  error_code:
+    no_player: "§6Teleportējamais spēlētājs neeksistē."
+    teleport_failed: "§cNevar jūs teleportēt uz pasauli."
 
 # Set command
 set:
   success: "§aJūs uzstādījāt §b{key} §apasaulē §f{world} §auz §c{value}§a."
   list:
-    info: ""
-    not_set: ""
+    info: "§cIestatījumi pasaulei §f{name}"
+    not_set: "§7nav iestatīts"
   permission:
-    not_default: ""
+    not_default: "§cJūs nevarat iestatīt atļauju noklusējuma pasaulē."
   gamemode:
-    not_exist: ""
-  not_bool: ""
-  not_controllist: ""
+    not_exist: "§6Šis spēles režīms neeksistē."
+  not_bool: "§6Jūs varat iestatīt §f{key} §6tikai uz §atrue §6vai §cfalse§6."
+  not_controllist: "§6Jūs varat iestatīt §f{key} §6tikai uz §atrue§6, §cfalse§6, §fwhite §6vai §0black§6."
 
 # ControlList sub command (of set)
 controllist:
   add:
-    success: ""
+    success: "§aPriekšmets §c{item} §apievienots §b{key} §akontrolsarakstam."
   remove:
-    success: ""
+    success: "§6Priekšmets §c{item} §6noņemts no §b{key} §6kontrolsaraksta."
   reset:
-    success: ""
+    success: "§6Visi priekšmeti tika noņemti no §b{key} §6kontrolsaraksta."
   list:
-    description: ""
+    description: "§fRāda saturu §b{key} §fkontrolsarakstam: §7{content}"
 
 # Unset command
 unset:
@@ -100,7 +102,7 @@ unset:
 # Defaults command
 defaults:
   list:
-    info: ""
+    info: "§cNoklusējuma iestatījumi pasaulēm šajā serverī"
   set:
     success: "§aJūs uzstādījāt §b{key} §auz §c{value} §akā noklusējuma vērtību."
   unset:
@@ -123,18 +125,19 @@ forms:
       hunger: "Izsalkums"
       fly: "Lidošana"
       daylightcycle: "Diennakts ciklēšana"
-      leavesdecay: ""
-      potion: ""
+      leavesdecay: "Lapas izzūd"
+      potion: "Dziras"
+      command: "Komandu izpilde"
     options:
-      not_set: ""
+      not_set: "§7nav iestatīts (null)"
       true: "§aieslēgts"
       false: "§cizslēgts"
-      white: ""
-      black: ""
+      white: "§fizmantot balto sarakstu"
+      black: "§0izmantot melno sarakstu"
   # Default settings
   default:
     title: "§aNoklusējuma pasaules iestatījumi"
   # Settings saved message
   saved: "§aIestatījumi ir veiksmīgi saglabāti!"
   error_code:
-    invalid_data: ""
+    invalid_data: "§6Saņemti nederīgi dati no iestatījumu formas, iestatījumi nav saglabāti."
