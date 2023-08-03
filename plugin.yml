@@ -1,7 +1,7 @@
 name: Worlds
 main: surva\worlds\Worlds
 version: 4.0.1
-api: 4.0.0
+api: 5.0.0
 
 author: survanetwork
 description: Easy to use but feature rich World Guard Plugin
