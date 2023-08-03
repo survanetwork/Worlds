@@ -75,7 +75,7 @@ teleport:
 set:
   success: "§aDu hast §b{key} §ain §f{world} §aauf §c{value} §agesetzt."
   list:
-    info: "§Einstellungen für die Welt §f{name}"
+    info: "§cEinstellungen für die Welt §f{name}"
     not_set: "§7nicht gesetzt"
   permission:
     not_default: "§cDu kannst keine Berechtigung für die Standard-Welt setzen."
