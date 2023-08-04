@@ -130,6 +130,6 @@ class Flags
       ];
 
     public const ITEM_CONTROL_LISTS = [
-      self::FLAG_BUILD, self::FLAG_INTERACT, self::FLAG_DROP
+      self::FLAG_BUILD, self::FLAG_INTERACT, self::FLAG_DROP, self::FLAG_POTION
     ];
 }
