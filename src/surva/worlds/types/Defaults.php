@@ -31,10 +31,11 @@ class Defaults extends World
      *
      * @param  string  $name
      * @param  int|null  $type
+     * @param  bool  $initialLoad
      *
      * @return mixed
      */
-    public function loadValue(string $name, ?int $type = null): mixed
+    public function loadValue(string $name, ?int $type = null, bool $initialLoad = false): mixed
     {
         if (!$this->getConfig()->exists($name)) {
             $this->flags[$name] = null;
@@ -45,11 +46,7 @@ class Defaults extends World
         $this->flags[$name] = $val;
 
         if ($type === Flags::TYPE_CONTROL_LIST) {
-            if ($this->getConfig()->exists($name . "list")) {
-                $this->flags[$name . "list"] = new ControlList($this->getConfig()->get($name . "list"));
-            } else {
-                $this->flags[$name . "list"] = new ControlList();
-            }
+            $this->handleControlListLoading($name, $initialLoad);
         }
 
         return $val;

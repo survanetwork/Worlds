@@ -14,8 +14,8 @@ use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\LeavesDecayEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityPreExplodeEvent;
 use pocketmine\event\entity\EntityTeleportEvent;
-use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerBucketEmptyEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
@@ -27,6 +27,7 @@ use pocketmine\event\server\CommandEvent;
 use pocketmine\event\world\WorldLoadEvent;
 use pocketmine\item\PaintingItem;
 use pocketmine\item\Potion;
+use pocketmine\item\StringToItemParser;
 use pocketmine\item\TieredTool;
 use pocketmine\player\Player;
 use surva\worlds\utils\Flags;
@@ -174,7 +175,7 @@ class EventListener implements Listener
     public function onBlockBreak(BlockBreakEvent $event): void
     {
         $player     = $event->getPlayer();
-        $blockId    = $event->getBlock()->getId();
+        $blockAliases = StringToItemParser::getInstance()->lookupBlockAliases($event->getBlock());
         $folderName = $player->getWorld()->getFolderName();
 
         if (($world = $this->worlds->getWorldByName($folderName)) === null) {
@@ -185,7 +186,7 @@ class EventListener implements Listener
             return;
         }
 
-        if ($world->checkControlList(Flags::FLAG_BUILD, $blockId) === false) {
+        if ($world->checkControlList(Flags::FLAG_BUILD, $blockAliases) === false) {
             $event->cancel();
         }
     }
@@ -198,8 +199,15 @@ class EventListener implements Listener
     public function onBlockPlace(BlockPlaceEvent $event): void
     {
         $player     = $event->getPlayer();
-        $blockId    = $event->getBlock()->getId();
         $folderName = $player->getWorld()->getFolderName();
+
+        $blocks = $event->getTransaction()->getBlocks();
+        $aliasesOfPlacedBlocks = [];
+        foreach ($blocks as $blockData) {
+            $block = $blockData[3];
+            $blockAliases = StringToItemParser::getInstance()->lookupBlockAliases($block);
+            $aliasesOfPlacedBlocks = array_merge($aliasesOfPlacedBlocks, $blockAliases);
+        }
 
         if (($world = $this->worlds->getWorldByName($folderName)) === null) {
             return;
@@ -209,7 +217,7 @@ class EventListener implements Listener
             return;
         }
 
-        if ($world->checkControlList(Flags::FLAG_BUILD, $blockId) === false) {
+        if ($world->checkControlList(Flags::FLAG_BUILD, $aliasesOfPlacedBlocks) === false) {
             $event->cancel();
         }
     }
@@ -219,10 +227,10 @@ class EventListener implements Listener
      *
      * @param  \pocketmine\event\player\PlayerBucketEmptyEvent  $event
      */
-    public function onPlayerBucketEmpty(PlayerBucketEmptyEvent $event)
+    public function onPlayerBucketEmpty(PlayerBucketEmptyEvent $event): void
     {
         $player     = $event->getPlayer();
-        $blockId    = $event->getBlockClicked()->getId();
+        $itemAliases = StringToItemParser::getInstance()->lookupAliases($event->getBucket());
         $folderName = $player->getWorld()->getFolderName();
 
         if (($world = $this->worlds->getWorldByName($folderName)) === null) {
@@ -233,7 +241,7 @@ class EventListener implements Listener
             return;
         }
 
-        if ($world->checkControlList(Flags::FLAG_BUILD, $blockId) === false) {
+        if ($world->checkControlList(Flags::FLAG_BUILD, $itemAliases) === false) {
             $event->cancel();
         }
     }
@@ -285,9 +293,11 @@ class EventListener implements Listener
     /**
      * Prevent explosions if policy is set
      *
-     * @param  \pocketmine\event\entity\ExplosionPrimeEvent  $event
+     * @param  \pocketmine\event\entity\EntityPreExplodeEvent  $event
+     *
+     * @return void
      */
-    public function onExplosionPrime(ExplosionPrimeEvent $event): void
+    public function onExplosionPrime(EntityPreExplodeEvent $event): void
     {
         $player     = $event->getEntity();
         $folderName = $player->getWorld()->getFolderName();
@@ -309,14 +319,14 @@ class EventListener implements Listener
     public function onPlayerDropItem(PlayerDropItemEvent $event): void
     {
         $player     = $event->getPlayer();
-        $itemId     = $event->getItem()->getId();
+        $itemAliases = StringToItemParser::getInstance()->lookupAliases($event->getItem());
         $folderName = $player->getWorld()->getFolderName();
 
         if (($world = $this->worlds->getWorldByName($folderName)) === null) {
             return;
         }
 
-        if ($world->checkControlList(Flags::FLAG_DROP, $itemId) === false) {
+        if ($world->checkControlList(Flags::FLAG_DROP, $itemAliases) === false) {
             $event->cancel();
         }
     }
@@ -350,6 +360,7 @@ class EventListener implements Listener
         $player     = $event->getPlayer();
         $item       = $event->getItem();
         $block      = $event->getBlock();
+        $blockAliases = StringToItemParser::getInstance()->lookupBlockAliases($block);
         $folderName = $player->getWorld()->getFolderName();
 
         if (($world = $this->worlds->getWorldByName($folderName)) === null) {
@@ -357,7 +368,7 @@ class EventListener implements Listener
         }
 
         if (!$player->hasPermission("worlds.admin.interact")) {
-            if ($world->checkControlList(Flags::FLAG_INTERACT, $block->getId()) === false) {
+            if ($world->checkControlList(Flags::FLAG_INTERACT, $blockAliases) === false) {
                 $event->cancel();
             }
         }
@@ -368,7 +379,7 @@ class EventListener implements Listener
             ($item instanceof TieredTool and $block instanceof Grass)
         ) {
             if (!$player->hasPermission("worlds.admin.build")) {
-                if ($world->checkControlList(Flags::FLAG_BUILD, $block->getId()) === false) {
+                if ($world->checkControlList(Flags::FLAG_BUILD, $blockAliases) === false) {
                     $event->cancel();
                 }
             }
@@ -402,6 +413,7 @@ class EventListener implements Listener
     {
         $player     = $event->getPlayer();
         $item       = $event->getItem();
+        $itemAliases = StringToItemParser::getInstance()->lookupAliases($item);
         $folderName = $player->getWorld()->getFolderName();
 
         if (!($item instanceof Potion)) {
@@ -412,7 +424,7 @@ class EventListener implements Listener
             return;
         }
 
-        if ($world->checkControlList(Flags::FLAG_POTION, $item->getId()) === false) {
+        if ($world->checkControlList(Flags::FLAG_POTION, $itemAliases) === false) {
             $event->cancel();
         }
     }

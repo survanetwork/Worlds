@@ -8,7 +8,9 @@ namespace surva\worlds\commands\controllist;
 
 use InvalidArgumentException;
 use pocketmine\command\CommandSender;
+use pocketmine\item\StringToItemParser;
 use surva\worlds\types\exception\ConfigSaveException;
+use surva\worlds\utils\Flags;
 
 class ListAddCommand extends ControlListCommand
 {
@@ -25,6 +27,19 @@ class ListAddCommand extends ControlListCommand
 
         if ($controlList === null) {
             return false;
+        }
+
+        if (
+            in_array($flag, Flags::ITEM_CONTROL_LISTS)
+            && StringToItemParser::getInstance()->parse($item) === null
+        ) {
+            $this->getWorlds()->sendMessage(
+                $sender,
+                "controllist.add.error_code.invalid_item",
+                ["item" => $item]
+            );
+
+            return true;
         }
 
         $controlList->add($item);

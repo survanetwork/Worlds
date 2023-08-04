@@ -30,7 +30,6 @@ use surva\worlds\types\Defaults;
 use surva\worlds\types\World;
 use surva\worlds\utils\Flags;
 use surva\worlds\utils\Messages;
-use Webmozart\PathUtil\Path;
 
 class Worlds extends PluginBase
 {
@@ -62,16 +61,20 @@ class Worlds extends PluginBase
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $this->saveDefaultConfig();
 
-        $this->defaults = new Defaults($this, $this->getCustomConfig($this->getDataFolder() . "defaults.yml"));
+        $this->defaultMessages = new Config($this->getFile() . "resources/languages/en.yml");
+        $this->loadLanguageFiles();
+
+        $this->defaults = new Defaults(
+            $this,
+            $this->getCustomConfig($this->getDataFolder() . "defaults.yml"),
+            "defaults"
+        );
 
         $this->worlds = [];
 
         foreach ($this->getServer()->getWorldManager()->getWorlds() as $world) {
             $this->registerWorld($world->getFolderName());
         }
-
-        $this->defaultMessages = new Config($this->getFile() . "resources/languages/en.yml");
-        $this->loadLanguageFiles();
     }
 
     /**
@@ -152,7 +155,7 @@ class Worlds extends PluginBase
         $settingsFile = $this->getWorldSettingsFilePath($folderName);
         $worldConfig  = $this->getCustomConfig($settingsFile);
 
-        $this->worlds[$folderName] = new World($this, $worldConfig);
+        $this->worlds[$folderName] = new World($this, $worldConfig, $folderName);
     }
 
     /**
@@ -182,11 +185,11 @@ class Worlds extends PluginBase
      */
     public function getWorldSettingsFilePath(string $folderName): string
     {
-        $legacyFilePath = Path::join($this->getServer()->getDataPath(), 'worlds', $folderName, 'worlds.yml');
+        $legacyFilePath = $this->getServer()->getDataPath() . "worlds/" . $folderName . "/worlds.yml";
 
-        $dirPath = Path::join($this->getDataFolder(), 'worlds', $folderName);
+        $dirPath = $this->getDataFolder() . "worlds/" . $folderName;
         @mkdir($dirPath, 0777, true);
-        $filePath = Path::join($dirPath, 'worlds.yml');
+        $filePath = $dirPath . "/worlds.yml";
 
         if (file_exists($legacyFilePath)) {
             rename($legacyFilePath, $filePath);

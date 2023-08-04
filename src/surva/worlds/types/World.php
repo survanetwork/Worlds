@@ -12,12 +12,15 @@ use pocketmine\utils\Config;
 use surva\worlds\types\exception\ConfigSaveException;
 use surva\worlds\types\exception\ValueNotExistException;
 use surva\worlds\utils\Flags;
+use surva\worlds\utils\LegacyItemIdUpdater;
+use surva\worlds\utils\Messages;
 use surva\worlds\Worlds;
 
 class World
 {
     private Worlds $worlds;
     private Config $config;
+    private string $worldName;
 
     /**
      * @var array loaded flag values
@@ -29,23 +32,29 @@ class World
      *
      * @param  \surva\worlds\Worlds  $worlds
      * @param  \pocketmine\utils\Config  $config
+     * @param  string  $worldName
      */
-    public function __construct(Worlds $worlds, Config $config)
+    public function __construct(Worlds $worlds, Config $config, string $worldName)
     {
         $this->worlds = $worlds;
         $this->config = $config;
+        $this->worldName = $worldName;
         $this->flags = [];
 
-        $this->loadOptions();
+        $this->loadOptions(true);
     }
 
     /**
      * Load all possible config values
+     *
+     * @param  bool  $initialLoad
+     *
+     * @return void
      */
-    public function loadOptions(): void
+    public function loadOptions(bool $initialLoad = false): void
     {
         foreach (Flags::AVAILABLE_WORLD_FLAGS as $flagName => $flagOptions) {
-            $this->loadValue($flagName, $flagOptions["type"]);
+            $this->loadValue($flagName, $flagOptions["type"], $initialLoad);
         }
     }
 
@@ -54,10 +63,11 @@ class World
      *
      * @param  string  $name
      * @param  int|null  $type
+     * @param  bool  $initialLoad
      *
      * @return mixed
      */
-    public function loadValue(string $name, ?int $type = null): mixed
+    public function loadValue(string $name, ?int $type = null, bool $initialLoad = false): mixed
     {
         if (!$this->config->exists($name)) {
             $defVal = $this->worlds->getDefaults()->getValue($name);
@@ -70,14 +80,47 @@ class World
         $this->flags[$name] = $val;
 
         if ($type === Flags::TYPE_CONTROL_LIST) {
-            if ($this->config->exists($name . "list")) {
-                $this->flags[$name . "list"] = new ControlList($this->config->get($name . "list"));
-            } else {
-                $this->flags[$name . "list"] = new ControlList();
-            }
+            $this->handleControlListLoading($name, $initialLoad);
         }
 
         return $val;
+    }
+
+    /**
+     * Separate logic for loading control list flags from config
+     *
+     * @param  string  $name
+     * @param  bool  $initialLoad
+     *
+     * @return void
+     */
+    protected function handleControlListLoading(string $name, bool $initialLoad = false): void
+    {
+        if ($this->config->exists($name . "list")) {
+            $listData = $this->config->get($name . "list");
+            $updatedListData = LegacyItemIdUpdater::tryToUpdateArray($listData, $name);
+
+            $this->flags[$name . "list"] = new ControlList($updatedListData);
+
+            if ($initialLoad && (serialize($listData) !== serialize($updatedListData))) {
+                $messages = new Messages($this->worlds);
+
+                $this->worlds->getLogger()->info($messages->getMessage(
+                    "general.config.item_ids_updated",
+                    ["flag" => $name, "world" => $this->worldName]
+                ));
+
+                try {
+                    $this->saveControlList($name);
+                } catch (ConfigSaveException $e) {
+                    $this->worlds->getLogger()->info($messages->getMessage(
+                        "general.config.save_error"
+                    ));
+                }
+            }
+        } else {
+            $this->flags[$name . "list"] = new ControlList();
+        }
     }
 
     /**
@@ -183,11 +226,13 @@ class World
             return $flagVal === Flags::VALUE_TRUE;
         }
 
-        if ($flagVal === Flags::VALUE_WHITELISTED && !$controlList->isListed($item)) {
+        $listed = is_array($item) ? $controlList->anyListed($item) : $controlList->isListed($item);
+
+        if ($flagVal === Flags::VALUE_WHITELISTED && !$listed) {
             return false;
         }
 
-        if ($flagVal === Flags::VALUE_BLACKLISTED && $controlList->isListed($item)) {
+        if ($flagVal === Flags::VALUE_BLACKLISTED && $listed) {
             return false;
         }
 
