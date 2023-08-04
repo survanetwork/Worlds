@@ -34,11 +34,18 @@ class CustomCommand extends Command implements PluginOwned
      *
      * @return bool
      */
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): bool
     {
         array_shift($args);
 
-        if (!($sender->hasPermission($this->getPermission()))) {
+        $hasAllPermissions = true;
+        foreach ($this->getPermissions() as $permission) {
+            if (!$sender->hasPermission($permission)) {
+                $hasAllPermissions = false;
+            }
+        }
+
+        if (!$hasAllPermissions) {
             $sender->sendMessage(
                 $this->getWorlds()->getServer()->getLanguage()->translateString(
                     TextFormat::RED . "%commands.generic.permission"

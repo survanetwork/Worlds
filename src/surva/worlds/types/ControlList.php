@@ -74,6 +74,24 @@ class ControlList
     }
 
     /**
+     * Check if list contains any of the values
+     *
+     * @param  array  $values
+     *
+     * @return bool
+     */
+    public function anyListed(array $values): bool
+    {
+        foreach ($values as $value) {
+            if ($this->isListed($value)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @return array
      */
     public function getList(): array

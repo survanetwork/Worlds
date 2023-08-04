@@ -183,11 +183,13 @@ class World
             return $flagVal === Flags::VALUE_TRUE;
         }
 
-        if ($flagVal === Flags::VALUE_WHITELISTED && !$controlList->isListed($item)) {
+        $listed = is_array($item) ? $controlList->anyListed($item) : $controlList->isListed($item);
+
+        if ($flagVal === Flags::VALUE_WHITELISTED && !$listed) {
             return false;
         }
 
-        if ($flagVal === Flags::VALUE_BLACKLISTED && $controlList->isListed($item)) {
+        if ($flagVal === Flags::VALUE_BLACKLISTED && $listed) {
             return false;
         }
 
