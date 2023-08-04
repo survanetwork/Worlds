@@ -88,6 +88,8 @@ set:
 controllist:
   add:
     success: "§aItem §c{item} §aadded to §b{key} §acontrol list."
+    error_code:
+      invalid_item: "§7{item} §cis not a valid item or block name."
   remove:
     success: "§6Item §c{item} §6removed from §b{key} §6control list."
   reset:
