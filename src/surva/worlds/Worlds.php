@@ -61,16 +61,20 @@ class Worlds extends PluginBase
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $this->saveDefaultConfig();
 
-        $this->defaults = new Defaults($this, $this->getCustomConfig($this->getDataFolder() . "defaults.yml"));
+        $this->defaultMessages = new Config($this->getFile() . "resources/languages/en.yml");
+        $this->loadLanguageFiles();
+
+        $this->defaults = new Defaults(
+            $this,
+            $this->getCustomConfig($this->getDataFolder() . "defaults.yml"),
+            "defaults"
+        );
 
         $this->worlds = [];
 
         foreach ($this->getServer()->getWorldManager()->getWorlds() as $world) {
             $this->registerWorld($world->getFolderName());
         }
-
-        $this->defaultMessages = new Config($this->getFile() . "resources/languages/en.yml");
-        $this->loadLanguageFiles();
     }
 
     /**
@@ -151,7 +155,7 @@ class Worlds extends PluginBase
         $settingsFile = $this->getWorldSettingsFilePath($folderName);
         $worldConfig  = $this->getCustomConfig($settingsFile);
 
-        $this->worlds[$folderName] = new World($this, $worldConfig);
+        $this->worlds[$folderName] = new World($this, $worldConfig, $folderName);
     }
 
     /**

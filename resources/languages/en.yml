@@ -17,6 +17,7 @@ general:
   permission: "§6You don't have the permission to join this world."
   config:
     save_error: "§cWorld config file couldn't be saved, please check server folder!"
+    item_ids_updated: "§bLegacy item/block ID's for flag §e{flag} §bin world §7{world} §bwere updated to new item/block name format."
 
 # List command
 list:
