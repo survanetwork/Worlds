@@ -17,6 +17,7 @@ general:
   permission: "§6Du hast keine Berechtigung, diese Welt zu betreten."
   config:
     save_error: "§cEinstellungs-Datei (Config) der Welt konnte nicht gespeichert werden, bitte prüfe den Server-Ordner!"
+    item_ids_updated: "§bVeraltete Item-/Block-IDs für Option §e{flag} §bin Welt §7{world} §bwurden automatisch auf das neue Format für Item-/Block-Namen aktualisiert."
 
 # List command
 list:
@@ -88,6 +89,8 @@ set:
 controllist:
   add:
     success: "§aElement §c{item} §ahinzugefügt zu Steuerliste §b{key}§a."
+    error_code:
+      invalid_item: "§7{item} §cist kein gültiger Item- oder Block-Name."
   remove:
     success: "§6Element §c{item} §6entfernt von Steuerliste §b{key}§6."
   reset:
