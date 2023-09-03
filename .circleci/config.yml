@@ -74,7 +74,7 @@ jobs:
       - run: mkdir -p build-output
 
       # Build PHAR with DevTools
-      - run: php -d phar.readonly=0 DevTools/src/ConsoleScript.php --make plugin.yml,src --out build-output/$CIRCLE_PROJECT_REPONAME$CIRCLE_SHA1.phar
+      - run: php -d phar.readonly=0 DevTools/src/ConsoleScript.php --make plugin.yml,src,resources --out build-output/$CIRCLE_PROJECT_REPONAME$CIRCLE_SHA1.phar
 
       # Create workspace folder
       - run: mkdir -p workspace
