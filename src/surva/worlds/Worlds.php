@@ -30,6 +30,7 @@ use surva\worlds\types\Defaults;
 use surva\worlds\types\World;
 use surva\worlds\utils\Flags;
 use surva\worlds\utils\Messages;
+use Symfony\Component\Filesystem\Path;
 
 class Worlds extends PluginBase
 {
@@ -61,12 +62,13 @@ class Worlds extends PluginBase
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $this->saveDefaultConfig();
 
-        $this->defaultMessages = new Config($this->getFile() . "resources/languages/en.yml");
+        $this->saveResource(Path::join("languages", "en.yml"), true);
+        $this->defaultMessages = new Config(Path::join($this->getDataFolder(), "languages", "en.yml"));
         $this->loadLanguageFiles();
 
         $this->defaults = new Defaults(
             $this,
-            $this->getCustomConfig($this->getDataFolder() . "defaults.yml"),
+            $this->getCustomConfig(Path::join($this->getDataFolder(), "defaults.yml")),
             "defaults"
         );
 
@@ -185,11 +187,11 @@ class Worlds extends PluginBase
      */
     public function getWorldSettingsFilePath(string $folderName): string
     {
-        $legacyFilePath = $this->getServer()->getDataPath() . "worlds/" . $folderName . "/worlds.yml";
+        $legacyFilePath = Path::join($this->getServer()->getDataPath(), "worlds", $folderName, "worlds.yml");
 
-        $dirPath = $this->getDataFolder() . "worlds/" . $folderName;
+        $dirPath = Path::join($this->getDataFolder(), "worlds", $folderName);
         @mkdir($dirPath, 0777, true);
-        $filePath = $dirPath . "/worlds.yml";
+        $filePath = Path::join($dirPath, "worlds.yml");
 
         if (file_exists($legacyFilePath)) {
             rename($legacyFilePath, $filePath);
@@ -264,18 +266,14 @@ class Worlds extends PluginBase
      */
     private function loadLanguageFiles(): void
     {
-        $languageFilesDir = $this->getFile() . "resources/languages/";
+        $resources = $this->getResources();
 
-        foreach (new DirectoryIterator($languageFilesDir) as $dirObj) {
-            if (!($dirObj instanceof DirectoryIterator)) {
+        foreach ($resources as $resource) {
+            if (!preg_match("/languages\/[a-z]{2}.yml$/", $resource->getPathname())) {
                 continue;
             }
 
-            if (!$dirObj->isFile() || !str_ends_with($dirObj->getFilename(), ".yml")) {
-                continue;
-            }
-
-            preg_match("/^[a-z][a-z]/", $dirObj->getFilename(), $fileNameRes);
+            preg_match("/^[a-z][a-z]/", $resource->getFilename(), $fileNameRes);
 
             if (!isset($fileNameRes[0])) {
                 continue;
@@ -283,8 +281,9 @@ class Worlds extends PluginBase
 
             $langId = $fileNameRes[0];
 
+            $this->saveResource(Path::join("languages", $langId . ".yml"), true);
             $this->translationMessages[$langId] = new Config(
-                $this->getFile() . "resources/languages/" . $langId . ".yml"
+                Path::join($this->getDataFolder(), "languages", $langId . ".yml")
             );
         }
     }
