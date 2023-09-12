@@ -44,10 +44,11 @@ class Messages
 
         $defaultLangId = $this->worlds->getConfig()->get("language", "en");
 
-        if ($prefLangId !== null) {
-            $langConfig = $this->worlds->getTranslationMessages()[$prefLangId];
+        $tm = $this->worlds->getTranslationMessages();
+        if ($prefLangId !== null && isset($tm[$prefLangId])) {
+            $langConfig = $tm[$prefLangId];
         } else {
-            $langConfig = $this->worlds->getTranslationMessages()[$defaultLangId];
+            $langConfig = $tm[$defaultLangId];
         }
 
         $rawMessage = $langConfig->getNested($key);
