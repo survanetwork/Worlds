@@ -23,22 +23,22 @@
     <a href="https://discord.gg/t4Kg4j3829">
         <img src="https://img.shields.io/discord/685532530451283997?color=blueviolet" alt="Discord">
     </a>
-    <a href="https://twitter.com/survanetwork">
-        <img src="https://img.shields.io/twitter/follow/survanetwork?style=social" alt="Twitter">
+    <a href="https://plugins.surva.net">
+        <img src="https://img.shields.io/badge/website-visit-ee8031" alt="Website">
     </a>
 </p>
 
 ##
 
 <p align="center">
-    <img src=".github/.media/feature-banner.png" width="650" height="366" alt="World plugin features">
+    <a href="https://plugins.surva.net/#worlds">
+        <img src="https://static.surva.net/osplugins/assets/dl-buttons/worlds.png" width="220" height="auto" alt="Download Worlds plugin release">
+        <img src="https://static.surva.net/osplugins/assets/feature-banners/worlds.png" width="650" height="auto" alt="Worlds plugin features">
+    </a>
 </p>
 
-[• Description](#-description)  
-[• Features](#-features)  
-[• Usage](#-usage)  
-[• Contribution](#-contribution)  
-[• License](#%EF%B8%8F-license)
+[Description](#-description) | [Features](#-features) | [Usage](#-usage)
+| [Contribution](#-contribution) | [License](#%EF%B8%8F-license)
 
 ## 📙 Description
 Worlds is our feature-packed world management plugin. It provides general world management like creating, copying, loading and teleporting to worlds.
@@ -75,7 +75,7 @@ Using control lists, you can precisely create whitelists and blacklists to add e
 
 **Forms GUI** Edit the settings of a world (game mode, building, damage, and so on) using a super-easy form GUI.
 
-<img src=".github/.media/world-settings-form.png" width="540px" alt="Screenshot of world settings form">
+<img src="https://static.surva.net/osplugins/worlds/world-settings-form.png" width="540" height="auto" alt="Screenshot of world settings form">
 
 ## ⛏ Usage
 Worlds is really easy to use. Here is the command syntax:
