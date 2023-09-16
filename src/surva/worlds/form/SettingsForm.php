@@ -21,6 +21,11 @@ abstract class SettingsForm implements Form
 
     private string $type = "custom_form";
     protected string $title;
+
+    /**
+     * @phpstan-ignore-next-line
+     * @var array[]
+     */
     protected array $content;
 
     public function __construct(Worlds $wsInstance, World $storage)
@@ -32,6 +37,7 @@ abstract class SettingsForm implements Form
     /**
      * Return JSON data of the form
      *
+     * @phpstan-ignore-next-line
      * @return array
      */
     public function jsonSerialize(): array

@@ -40,7 +40,12 @@ class FileUtils
 
         $success = true;
 
-        foreach (scandir($from) as $obj) {
+        $scan = scandir($from);
+        if (!$scan) {
+            throw new SourceNotExistException();
+        }
+
+        foreach ($scan as $obj) {
             if ($obj === "." or $obj === "..") {
                 continue;
             }
@@ -80,7 +85,12 @@ class FileUtils
 
         $success = true;
 
-        foreach (scandir($dir) as $obj) {
+        $scan = scandir($dir);
+        if (!$scan) {
+            throw new SourceNotExistException();
+        }
+
+        foreach ($scan as $obj) {
             if ($obj === "." or $obj === "..") {
                 continue;
             }

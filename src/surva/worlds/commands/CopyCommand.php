@@ -15,6 +15,9 @@ use surva\worlds\utils\Messages;
 
 class CopyCommand extends CustomCommand
 {
+    /**
+     * @inheritDoc
+     */
     public function do(CommandSender $sender, array $args): bool
     {
         if (!(count($args) === 2)) {

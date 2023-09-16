@@ -13,6 +13,9 @@ use surva\worlds\utils\Messages;
 
 class CreateCommand extends CustomCommand
 {
+    /**
+     * @inheritDoc
+     */
     public function do(CommandSender $sender, array $args): bool
     {
         $messages = new Messages($this->getWorlds(), $sender);

@@ -30,7 +30,7 @@ class CustomCommand extends Command implements PluginOwned
      *
      * @param  \pocketmine\command\CommandSender  $sender
      * @param  string  $commandLabel
-     * @param  array  $args
+     * @param  string[]  $args
      *
      * @return bool
      */
@@ -62,7 +62,7 @@ class CustomCommand extends Command implements PluginOwned
      * Execution method of the sub command
      *
      * @param  \pocketmine\command\CommandSender  $sender
-     * @param  array  $args
+     * @param  string[]  $args
      *
      * @return bool
      */

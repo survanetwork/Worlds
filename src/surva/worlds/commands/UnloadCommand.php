@@ -7,10 +7,18 @@
 namespace surva\worlds\commands;
 
 use pocketmine\command\CommandSender;
+use surva\worlds\logic\exception\UnloadDefaultLevelException;
+use surva\worlds\logic\exception\UnloadFailedException;
+use surva\worlds\logic\exception\WorldNotExistException;
+use surva\worlds\logic\WorldActions;
 use surva\worlds\utils\Messages;
+use surva\worlds\Worlds;
 
 class UnloadCommand extends CustomCommand
 {
+    /**
+     * @inheritDoc
+     */
     public function do(CommandSender $sender, array $args): bool
     {
         if (!(count($args) === 1)) {
@@ -19,33 +27,46 @@ class UnloadCommand extends CustomCommand
 
         $messages = new Messages($this->getWorlds(), $sender);
 
-        if (!($this->getWorlds()->getServer()->getWorldManager()->isWorldLoaded($args[0]))) {
-            $sender->sendMessage($messages->getMessage("general.world.not_loaded", ["name" => $args[0]]));
+        $res = self::tryToUnload($this->getWorlds(), $args[0], $sender, $messages);
 
-            return true;
+        if ($res) {
+            $sender->sendMessage($messages->getMessage("unload.success", ["world" => $args[0]]));
         }
 
-        if ($defLvl = $this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld()) {
-            if ($defLvl->getFolderName() === $args[0]) {
-                $sender->sendMessage($messages->getMessage("unload.default"));
+        return true;
+    }
 
-                return true;
-            }
-        }
+    /**
+     * Try to unload a world by name or send error message if it fails
+     *
+     * @param  \surva\worlds\Worlds  $worlds
+     * @param  string  $worldName
+     * @param  \pocketmine\command\CommandSender  $sender
+     * @param  \surva\worlds\utils\Messages  $messages
+     *
+     * @return bool
+     */
+    public static function tryToUnload(
+        Worlds $worlds,
+        string $worldName,
+        CommandSender $sender,
+        Messages $messages
+    ): bool {
+        try {
+            WorldActions::unloadIfLoaded($worlds, $worldName);
+        } catch (UnloadDefaultLevelException $e) {
+            $sender->sendMessage($messages->getMessage("unload.default"));
 
-        if (
-            !($this->getWorlds()->getServer()->getWorldManager()->unloadWorld(
-                $this->getWorlds()->getServer()->getWorldManager()->getWorldByName($args[0])
-            ))
-        ) {
+            return false;
+        } catch (WorldNotExistException $e) {
+            $sender->sendMessage($messages->getMessage("general.world.not_exist", ["name" => $worldName]));
+
+            return false;
+        } catch (UnloadFailedException $e) {
             $sender->sendMessage($messages->getMessage("unload.failed"));
 
-            return true;
+            return false;
         }
-
-        $this->getWorlds()->unregisterWorld($args[0]);
-
-        $sender->sendMessage($messages->getMessage("unload.success", ["world" => $args[0]]));
 
         return true;
     }

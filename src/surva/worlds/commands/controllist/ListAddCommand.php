@@ -14,6 +14,9 @@ use surva\worlds\utils\Flags;
 
 class ListAddCommand extends ControlListCommand
 {
+    /**
+     * @inheritDoc
+     */
     public function do(CommandSender $sender, array $args): bool
     {
         if (count($args) !== 1) {

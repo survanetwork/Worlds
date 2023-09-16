@@ -13,6 +13,9 @@ use surva\worlds\utils\Messages;
 
 class TeleportCommand extends CustomCommand
 {
+    /**
+     * @inheritDoc
+     */
     public function do(CommandSender $sender, array $args): bool
     {
         $otherPlayer = false;
@@ -74,6 +77,15 @@ class TeleportCommand extends CustomCommand
         }
 
         $targetWorld = $this->getWorlds()->getServer()->getWorldManager()->getWorldByName($args[0]);
+        if ($targetWorld === null) {
+            $sender->sendMessage($messages->getMessage("general.world.not_loaded", ["name" => $args[0]]));
+
+            if ($otherPlayer) {
+                $player->sendMessage($messages->getMessage("general.world.not_loaded", ["name" => $args[0]]));
+            }
+
+            return true;
+        }
 
         if (!$player->teleport($targetWorld->getSafeSpawn())) {
             $sender->sendMessage($messages->getMessage("teleport.error_code.teleport_failed"));

@@ -23,6 +23,7 @@ class World
     private string $worldName;
 
     /**
+     * @phpstan-ignore-next-line
      * @var array loaded flag values
      */
     protected array $flags;

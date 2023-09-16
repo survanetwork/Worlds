@@ -11,6 +11,9 @@ use pocketmine\utils\TextFormat;
 
 class ListCommand extends CustomCommand
 {
+    /**
+     * @inheritDoc
+     */
     public function do(CommandSender $sender, array $args): bool
     {
         $worlds = [];
@@ -21,13 +24,17 @@ class ListCommand extends CustomCommand
 
         $worldsStoragePath = $this->getWorlds()->getServer()->getDataPath() . "worlds";
 
-        foreach (scandir($worldsStoragePath) as $unloadedWorld) {
-            if (
-                is_dir($worldsStoragePath . "/" . $unloadedWorld) and
-                is_file($worldsStoragePath . "/" . $unloadedWorld . "/level.dat") and
-                !in_array(TextFormat::WHITE . $unloadedWorld, $worlds)
-            ) {
-                $worlds[] = TextFormat::GRAY . $unloadedWorld;
+        $scan = scandir($worldsStoragePath);
+
+        if ($scan) {
+            foreach ($scan as $unloadedWorld) {
+                if (
+                    is_dir($worldsStoragePath . "/" . $unloadedWorld) and
+                    is_file($worldsStoragePath . "/" . $unloadedWorld . "/level.dat") and
+                    !in_array(TextFormat::WHITE . $unloadedWorld, $worlds)
+                ) {
+                    $worlds[] = TextFormat::GRAY . $unloadedWorld;
+                }
             }
         }
 
