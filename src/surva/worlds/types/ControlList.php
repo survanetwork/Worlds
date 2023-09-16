@@ -9,11 +9,13 @@ namespace surva\worlds\types;
 class ControlList
 {
     /**
+     * @phpstan-ignore-next-line
      * @var array content of the list
      */
     private array $list;
 
     /**
+     * @phpstan-ignore-next-line
      * @param  array  $list
      */
     public function __construct(array $list = [])
@@ -76,6 +78,7 @@ class ControlList
     /**
      * Check if list contains any of the values
      *
+     * @phpstan-ignore-next-line
      * @param  array  $values
      *
      * @return bool
@@ -92,6 +95,7 @@ class ControlList
     }
 
     /**
+     * @phpstan-ignore-next-line
      * @return array
      */
     public function getList(): array

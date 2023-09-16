@@ -12,6 +12,9 @@ use surva\worlds\types\exception\ConfigSaveException;
 
 class ListResetCommand extends ControlListCommand
 {
+    /**
+     * @inheritDoc
+     */
     public function do(CommandSender $sender, array $args): bool
     {
         if (count($args) !== 0) {

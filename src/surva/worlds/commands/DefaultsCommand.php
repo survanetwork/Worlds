@@ -19,6 +19,9 @@ class DefaultsCommand extends SetCommand
 {
     private Messages $messages;
 
+    /**
+     * @inheritDoc
+     */
     public function do(CommandSender $sender, array $args): bool
     {
         $this->messages = new Messages($this->getWorlds(), $sender);

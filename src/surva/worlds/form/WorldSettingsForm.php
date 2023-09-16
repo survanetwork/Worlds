@@ -93,7 +93,7 @@ class WorldSettingsForm extends SettingsForm
             return;
         }
 
-        $defFolderName = $this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld()->getFolderName();
+        $defFolderName = $this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld()?->getFolderName();
         $plFolderName  = $player->getWorld()->getFolderName();
 
         $isDefLvl = $defFolderName === $plFolderName;

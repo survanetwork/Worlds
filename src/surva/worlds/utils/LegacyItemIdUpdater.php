@@ -16,10 +16,10 @@ class LegacyItemIdUpdater
     /**
      * Check if an array contains legacy item/block ID's and needs to be updated
      *
-     * @param  array  $items
+     * @param  (string|int)[]  $items
      * @param  string  $flagName
      *
-     * @return array
+     * @return (string|int)[]
      */
     public static function tryToUpdateArray(array $items, string $flagName): array
     {
@@ -36,7 +36,7 @@ class LegacyItemIdUpdater
                 continue;
             }
 
-            $newName = self::updateLegacyIdToItemName($legacyItem);
+            $newName = self::updateLegacyIdToItemName((int) $legacyItem);
 
             if ($newName === null) {
                 continue;

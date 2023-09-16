@@ -26,7 +26,7 @@ class Messages
      * Get a translated message
      *
      * @param  string  $key
-     * @param  array  $replaces
+     * @param  string[]  $replaces
      *
      * @return string
      */

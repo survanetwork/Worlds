@@ -9,6 +9,7 @@ namespace surva\worlds\logic;
 use pocketmine\player\GameMode;
 use surva\worlds\logic\exception\UnloadDefaultLevelException;
 use surva\worlds\logic\exception\UnloadFailedException;
+use surva\worlds\logic\exception\WorldNotExistException;
 use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
 
@@ -63,6 +64,7 @@ class WorldActions
      *
      * @return void
      * @throws \surva\worlds\logic\exception\UnloadDefaultLevelException
+     * @throws \surva\worlds\logic\exception\WorldNotExistException
      * @throws \surva\worlds\logic\exception\UnloadFailedException
      */
     public static function unloadIfLoaded(Worlds $worlds, string $worldName): void
@@ -77,11 +79,13 @@ class WorldActions
             }
         }
 
-        if (
-            !($worlds->getServer()->getWorldManager()->unloadWorld(
-                $worlds->getServer()->getWorldManager()->getWorldByName($worldName)
-            ))
-        ) {
+        $serverWorld = $worlds->getServer()->getWorldManager()->getWorldByName($worldName);
+        if ($serverWorld === null) {
+            throw new WorldNotExistException();
+        }
+
+        $unloadRes = $worlds->getServer()->getWorldManager()->unloadWorld($serverWorld);
+        if (!$unloadRes) {
             throw new UnloadFailedException();
         }
 

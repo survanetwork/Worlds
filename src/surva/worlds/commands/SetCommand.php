@@ -26,6 +26,9 @@ class SetCommand extends CustomCommand
 {
     private Messages $messages;
 
+    /**
+     * @inheritDoc
+     */
     public function do(CommandSender $sender, array $args): bool
     {
         $this->messages = new Messages($this->getWorlds(), $sender);
@@ -106,7 +109,8 @@ class SetCommand extends CustomCommand
      * @param  \pocketmine\player\Player  $player
      * @param  \surva\worlds\types\World  $world
      * @param  string  $msg
-     * @param  array  $availableFlags
+     * @phpstan-ignore-next-line
+     * @param  array[]  $availableFlags
      *
      * @return bool
      */
@@ -170,7 +174,7 @@ class SetCommand extends CustomCommand
         string $folderName
     ): bool {
         if (
-            $this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld()->getFolderName()
+            $this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld()?->getFolderName()
             === $folderName
         ) {
             $player->sendMessage($this->messages->getMessage("set.permission.not_default"));
@@ -201,8 +205,13 @@ class SetCommand extends CustomCommand
     protected function setGameModeSub(Player $player, string $gmArg, World $world): bool
     {
         $gm = GameMode::fromString($gmArg);
-        $gmId = WorldActions::getGameModeId($gm);
+        if ($gm === null) {
+            $player->sendMessage($this->messages->getMessage("set.gamemode.not_exist"));
 
+            return true;
+        }
+
+        $gmId = WorldActions::getGameModeId($gm);
         if ($gmId === null) {
             $player->sendMessage($this->messages->getMessage("set.gamemode.not_exist"));
 
@@ -328,8 +337,11 @@ class SetCommand extends CustomCommand
             return $this->messages->getMessage("set.list.not_set");
         }
 
+        $gm = GameMode::fromString((string) $value);
+        $gmName = $gm ? $gm->getEnglishName() : $value;
+
         return $this->getWorlds()->getServer()->getLanguage()->translateString(
-            TextFormat::WHITE . GameMode::fromString((string) $value)->getEnglishName()
+            TextFormat::WHITE . $gmName
         );
     }
 

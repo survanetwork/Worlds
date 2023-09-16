@@ -31,6 +31,9 @@ class ControlListCommand extends CustomCommand
         parent::__construct($worlds, $name, $permission);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function execute(CommandSender $sender, string $commandLabel, array $args): bool
     {
         $args = array_slice($args, 2);

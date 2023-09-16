@@ -40,7 +40,7 @@ class Worlds extends PluginBase
     private Defaults $defaults;
 
     /**
-     * @var array loaded worlds array
+     * @var World[] loaded worlds array
      */
     private array $worlds;
 
@@ -50,7 +50,7 @@ class Worlds extends PluginBase
     private Config $defaultMessages;
 
     /**
-     * @var array available language configs
+     * @var Config[] available language configs
      */
     private array $translationMessages;
 
@@ -85,7 +85,7 @@ class Worlds extends PluginBase
      * @param  \pocketmine\command\CommandSender  $sender
      * @param  \pocketmine\command\Command  $command
      * @param  string  $label
-     * @param  array  $args
+     * @param  string[]  $args
      *
      * @return bool
      */
@@ -210,7 +210,14 @@ class Worlds extends PluginBase
     {
         if ($world->getIntFlag(Flags::FLAG_GAME_MODE) !== null) {
             if (!$pl->hasPermission("worlds.special.gamemode")) {
-                $pl->setGamemode(GameMode::fromString((string) $world->getIntFlag(Flags::FLAG_GAME_MODE)));
+                $gmStr = (string) $world->getIntFlag(Flags::FLAG_GAME_MODE);
+                $gm = GameMode::fromString($gmStr);
+
+                if ($gm === null) {
+                    $this->getLogger()->error("Invalid game mode set: " . $gmStr);
+                } else {
+                    $pl->setGamemode($gm);
+                }
             }
         }
 
@@ -248,7 +255,7 @@ class Worlds extends PluginBase
      *
      * @param  \pocketmine\command\CommandSender  $sender
      * @param  string  $key
-     * @param  array  $replaces
+     * @param  string[]  $replaces
      *
      * @return void
      */
@@ -291,7 +298,7 @@ class Worlds extends PluginBase
     }
 
     /**
-     * @return array
+     * @return Config[]
      */
     public function getTranslationMessages(): array
     {
