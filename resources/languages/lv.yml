@@ -17,6 +17,7 @@ general:
   permission: "§6Jums nav atļauts pievienoties šajai pasaulei."
   config:
     save_error: "§cPasaules konfigurācijas failu nevarēja saglabāt. Lūdzu, pārbaudiet servera mapi!"
+    item_ids_updated: "§bMantotais priekšmetu/bloku ID iezīmei §e{flag}, pasaulē §7{world} §btika atjaunots uz jauno priekšmetu/bloku nosaukumu formātu."
 
 # List command
 list:
@@ -88,6 +89,8 @@ set:
 controllist:
   add:
     success: "§aPriekšmets §c{item} §apievienots §b{key} §akontrolsarakstam."
+    error_code:
+      invalid_item: "§7{item} §cnav derīgs priekšmeta vai bloka nosaukums."
   remove:
     success: "§6Priekšmets §c{item} §6noņemts no §b{key} §6kontrolsaraksta."
   reset:
