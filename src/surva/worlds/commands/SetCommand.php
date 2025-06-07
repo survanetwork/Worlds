@@ -109,8 +109,7 @@ class SetCommand extends CustomCommand
      * @param  \pocketmine\player\Player  $player
      * @param  \surva\worlds\types\World  $world
      * @param  string  $msg
-     * @phpstan-ignore-next-line
-     * @param  array[]  $availableFlags
+     * @param  array<string, array<string, mixed>>  $availableFlags
      *
      * @return bool
      */

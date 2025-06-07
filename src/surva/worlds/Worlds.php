@@ -96,9 +96,7 @@ class Worlds extends PluginBase
         if (strtolower($name) === "worlds") {
             if (count($args) > 0) {
                 if ($customCommand = $this->getCustomCommand($args[0])) {
-                    if ($customCommand instanceof CustomCommand) {
-                        return $customCommand->execute($sender, $name, $args);
-                    }
+                    return $customCommand->execute($sender, $name, $args);
                 }
             }
         }

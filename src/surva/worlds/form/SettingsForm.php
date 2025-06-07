@@ -23,8 +23,7 @@ abstract class SettingsForm implements Form
     protected string $title;
 
     /**
-     * @phpstan-ignore-next-line
-     * @var array[]
+     * @var mixed[]
      */
     protected array $content;
 
@@ -37,8 +36,7 @@ abstract class SettingsForm implements Form
     /**
      * Return JSON data of the form
      *
-     * @phpstan-ignore-next-line
-     * @return array
+     * @return array<string, mixed>
      */
     public function jsonSerialize(): array
     {
