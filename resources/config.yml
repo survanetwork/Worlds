@@ -7,7 +7,7 @@
 # (C) 2019 by surva network | https://github.com/survanetwork
 
 # Language of the plugin messages
-# Possible options are: en (English), de (German), zh (Chinese), id (Indonesian), lv (Latvian), fr (French), tr (Turkish), ja (Japanese), vi (Vietnamese)
+# Possible options are: en (English), de (German), zh (Chinese), id (Indonesian), lv (Latvian), fr (French), tr (Turkish), ja (Japanese), vi (Vietnamese), es (Spanish)
 language: "en"
 
 # Try to automatically detect the player's language and send translated messages for each player
