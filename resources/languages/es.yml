@@ -1,0 +1,146 @@
+# __        __         _     _
+# \ \      / /__  _ __| | __| |___
+#  \ \ /\ / / _ \| '__| |/ _` / __|
+#   \ V  V / (_) | |  | | (_| \__ \
+#    \_/\_/ \___/|_|  |_|\__,_|___/
+#
+# (C) 2019 by surva network | https://github.com/survanetwork
+
+# General
+general:
+  command:
+    in_game: "§6Solo puedes ejecutar este comando dentro del juego."
+    no_permission: "§6No está permitido usar este comando en este mundo."
+  world:
+    not_exist: "§cEl mundo §f{name} §cno existe."
+    not_loaded: "§cEl mundo §f{name} §cno está cargado o no existe."
+  permission: "§6No tienes permiso para unirte a este mundo."
+  config:
+    save_error: "§cNo se pudo guardar el archivo de configuración del mundo, ¡revisa la carpeta del servidor!"
+    item_ids_updated: "§bLegacy item/block ID's for flag §e{flag} §ben el mundo §7{world} §bse actualizaron al nuevo formato de nombre de bloques/objetos."
+
+# List command
+list:
+  worlds: "§eMundos en este servidor: §f{worlds}§e."
+
+# Create command
+create:
+  success: "§aEl mundo §f{name} §ase ha creado."
+  failed: ""
+  generator:
+    not_exist: ""
+
+# Remove command
+remove:
+  success: ""
+  error: ""
+
+# Copy command
+copy:
+  success: ""
+  error_code:
+    same_source_target: ""
+    source_not_exist: ""
+    target_exist: ""
+    copy_failed: ""
+
+# Rename command
+rename:
+  success: "§aEl mundo §f{name} §aha sido renombrado a §f{to}§a."
+  error_code:
+    same_source_target: "§cNo puedes renombrar el mundo al mismo nombre."
+    delete_failed: "§cAlgunos archivos del mundo en la carpeta antigua no pudieron eliminarse, revisa los archivos del mundo."
+
+# Load command
+load:
+  success: "§aEl mundo §f{world} §aha sido cargado correctamente."
+  already: "§eEl mundo §f{name} §eya está cargado."
+  failed: "§cNo se pudo cargar el mundo."
+  error: "§cOcurrió un error al intentar cargar el mundo: §7{message}§c."
+
+# Unload command
+unload:
+  success: "§aEl mundo §f{world} §aha sido descargado correctamente."
+  default: "§c¡No puedes descargar el mundo predeterminado!"
+  failed: "§cNo se pudo descargar el mundo."
+
+# Teleport command
+teleport:
+  success: "§aHas sido teletransportado a §f{world}§a."
+  success_other: "§aHas teletransportado a §6{player} §aa §f{world}§a."
+  error_code:
+    no_player: "§6El jugador al que teletransportar no existe."
+    teleport_failed: "§cNo se pudo teletransportarte al mundo."
+
+# Set command
+set:
+  success: "§aHas establecido §b{key} §a en §f{world} §aa §c{value}§a."
+  list:
+    info: "§cConfiguraciones para el mundo §f{name}"
+    not_set: "§7no establecido"
+  permission:
+    not_default: "§cNo puedes establecer un permiso en el mundo predeterminado."
+  gamemode:
+    not_exist: "§6Este modo de juego no existe."
+  not_bool: "§6Solo puedes establecer §f{key} §6en §atrue §6o §cfalse§6."
+  not_controllist: "§6Solo puedes establecer §f{key} §6en §atrue§6, §cfalse§6, §fwhite §6o §0black§6."
+
+# ControlList sub command (of set)
+controllist:
+  add:
+    success: "§aEl objeto §c{item} §aha sido añadido a la lista de control §b{key}§a."
+    error_code:
+      invalid_item: "§7{item} §cno es un nombre válido de bloque u objeto."
+  remove:
+    success: "§6El objeto §c{item} §6ha sido eliminado de la lista de control §b{key}§6."
+  reset:
+    success: "§6Todos los elementos fueron eliminados de la lista de control §b{key}§6."
+  list:
+    description: "§fMostrando el contenido de la lista de control §b{key}§f: §7{content}"
+
+# Unset command
+unset:
+  success: "§b{key} §aha sido desactivado en §f{world}§a."
+
+# Defaults command
+defaults:
+  list:
+    info: "§cConfiguraciones predeterminadas para mundos en este servidor"
+  set:
+    success: "§aHas establecido §b{key} §aa §c{value} §acomo valor predeterminado."
+  unset:
+    success: "§b{key} §aha sido eliminado como valor predeterminado."
+
+# Forms
+forms:
+  # World settings
+  world:
+    title: "§aConfiguración del mundo para §f{name}"
+    params:
+      permission: "Permiso para unirse al mundo"
+      gamemode: "Modo de juego del mundo"
+      build: "Permitir construcción"
+      pvp: "Permitir PvP"
+      damage: "Permitir daño a jugadores"
+      interact: "Permitir interacciones de jugadores (por ejemplo cofres)"
+      explode: ""
+      drop: ""
+      hunger: ""
+      fly: ""
+      daylightcycle: ""
+      leavesdecay: ""
+      potion: "Pociones"
+      command: "Ejecución de comandos"
+    options:
+      not_set: "§7no establecido (null)"
+      true: "§ahabilitado"
+      false: "§cdeshabilitado"
+      white: "§fusar lista blanca"
+      black: "§0usar lista negra"
+  # Default settings
+  default:
+    title: "§aConfiguraciones predeterminadas del mundo"
+  # Settings saved message
+  saved: "§a¡Configuraciones guardadas exitosamente!"
+  error_code:
+    invalid_data: "§6Se recibieron datos inválidos del formulario de configuración, las configuraciones no han sido guardadas."
