@@ -17,6 +17,7 @@ general:
   permission: "§6你没有加入这个世界的权限。"
   config:
     save_error: "§c世界配置文件无法保存，请检查服务器文件夹！"
+    item_ids_updated: ""
 
 # List command
 list:
@@ -88,6 +89,8 @@ set:
 controllist:
   add:
     success: "§a物品 §x{item} §a已添加到 §b{key} §a控制列表。"
+    error_code:
+      invalid_item: ""
   remove:
     success: "§6物品 §c{item} §6已从 §b{key} §6控制列表中删除。"
   reset:
