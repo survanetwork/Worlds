@@ -6,18 +6,18 @@
 #
 # (C) 2019 by surva network | https://github.com/survanetwork
 
-# English language
-
 # General
 general:
   command:
     in_game: ""
+    no_permission: ""
   world:
     not_exist: ""
     not_loaded: ""
   permission: "§6Bu dünyaya katılma izniniz yok."
   config:
     save_error: ""
+    item_ids_updated: ""
 
 # List command
 list:
@@ -67,7 +67,10 @@ unload:
 # Teleport command
 teleport:
   success: "§f{world}§a dünyasına ışınlandınız."
-  failed: "§cSeni dünyaya ışınlayamıyorum."
+  success_other: ""
+  error_code:
+    no_player: ""
+    teleport_failed: ""
 
 # Set command
 set:
@@ -86,6 +89,8 @@ set:
 controllist:
   add:
     success: ""
+    error_code:
+      invalid_item: ""
   remove:
     success: ""
   reset:
@@ -125,6 +130,7 @@ forms:
       daylightcycle: "Gece-gündüz döngüsü"
       leavesdecay: "Yaprakların çürümesi"
       potion: "İksir"
+      command: ""
     options:
       not_set: ""
       true: "§aaktif et"
