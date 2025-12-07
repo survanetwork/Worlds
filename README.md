@@ -23,7 +23,7 @@
     <a href="https://discord.gg/t4Kg4j3829">
         <img src="https://img.shields.io/discord/685532530451283997?color=blueviolet" alt="Discord">
     </a>
-    <a href="https://plugins.surva.net">
+    <a href="https://dev.surva.net/plugins/">
         <img src="https://img.shields.io/badge/website-visit-ee8031" alt="Website">
     </a>
 </p>
@@ -31,7 +31,7 @@
 ##
 
 <p align="center">
-    <a href="https://plugins.surva.net/#worlds">
+    <a href="https://dev.surva.net/plugins/#worlds">
         <img src="https://static.surva.net/osplugins/assets/dl-buttons/worlds.png" width="220" height="auto" alt="Download Worlds plugin release">
         <img src="https://static.surva.net/osplugins/assets/feature-banners/worlds.png" width="650" height="auto" alt="Worlds plugin features">
     </a>
@@ -46,7 +46,7 @@ We've also added flags which can be used to control in game behaviour like game 
 Using control lists, you can precisely create whitelists and blacklists to add exceptions for specific blocks, items or commands.
 
 ## 🎁 Features
-- **CREATE / REMOVE** Create and remove worlds (also custom world generators, e.g. with [FancyGenerators](https://plugins.surva.net/#fancygenerators) plugin)
+- **CREATE / REMOVE** Create and remove worlds (also custom world generators, e.g. with [FancyGenerators](https://dev.surva.net/plugins/#fancygenerators) plugin)
 - **COPY / RENAME** Copy and rename worlds (including all necessary files)
 - **LOAD / UNLOAD** Load and unload worlds
 - **TELEPORT** Teleport to worlds
@@ -71,7 +71,7 @@ Using control lists, you can precisely create whitelists and blacklists to add e
 
 **NEW** Control lists can be used to create whitelists and blacklists instead of just allowing/disabling a world flag!  
 
-**NEW** Add new level generators to use with Worlds using the [FancyGenerators](https://plugins.surva.net/#fancygenerators) plugin!
+**NEW** Add new level generators to use with Worlds using the [FancyGenerators](https://dev.surva.net/plugins/#fancygenerators) plugin!
 
 **Forms GUI** Edit the settings of a world (game mode, building, damage, and so on) using a super-easy form GUI.
 

@@ -5,7 +5,7 @@ api: 5.0.0
 
 author: survanetwork
 description: Easy to use but feature rich World Guard Plugin
-website: https://plugins.surva.net/#worlds
+website: https://dev.surva.net/plugins/#worlds
 
 commands:
   worlds:
