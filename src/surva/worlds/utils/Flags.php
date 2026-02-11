@@ -33,52 +33,58 @@ class Flags
     public const VALUE_WHITELISTED = "white";
     public const VALUE_BLACKLISTED = "black";
 
-    public const VALID_BOOL_VALUES = [
-      self::VALUE_TRUE, self::VALUE_FALSE
-    ];
-    public const VALID_CONTROL_LIST_VALUES = [
-      self::VALUE_TRUE, self::VALUE_FALSE, self::VALUE_WHITELISTED, self::VALUE_BLACKLISTED
-    ];
+    public const VALID_BOOL_VALUES
+      = [
+        self::VALUE_TRUE,
+        self::VALUE_FALSE,
+      ];
+    public const VALID_CONTROL_LIST_VALUES
+      = [
+        self::VALUE_TRUE,
+        self::VALUE_FALSE,
+        self::VALUE_WHITELISTED,
+        self::VALUE_BLACKLISTED,
+      ];
 
     public const AVAILABLE_WORLD_FLAGS
       = [
-        self::FLAG_PERMISSION    => [
+        self::FLAG_PERMISSION => [
           "type" => self::TYPE_PERMISSION,
         ],
-        self::FLAG_GAME_MODE      => [
+        self::FLAG_GAME_MODE => [
           "type" => self::TYPE_GAME_MODE,
         ],
-        self::FLAG_BUILD         => [
+        self::FLAG_BUILD => [
           "type" => self::TYPE_CONTROL_LIST,
         ],
-        self::FLAG_PVP           => [
+        self::FLAG_PVP => [
           "type" => self::TYPE_BOOL,
         ],
-        self::FLAG_DAMAGE        => [
+        self::FLAG_DAMAGE => [
           "type" => self::TYPE_BOOL,
         ],
-        self::FLAG_INTERACT      => [
+        self::FLAG_INTERACT => [
           "type" => self::TYPE_CONTROL_LIST,
         ],
-        self::FLAG_EXPLODE       => [
+        self::FLAG_EXPLODE => [
           "type" => self::TYPE_BOOL,
         ],
-        self::FLAG_DROP          => [
+        self::FLAG_DROP => [
           "type" => self::TYPE_CONTROL_LIST,
         ],
-        self::FLAG_HUNGER        => [
+        self::FLAG_HUNGER => [
           "type" => self::TYPE_BOOL,
         ],
-        self::FLAG_FLY           => [
+        self::FLAG_FLY => [
           "type" => self::TYPE_BOOL,
         ],
         self::FLAG_DAYLIGHT_CYCLE => [
           "type" => self::TYPE_BOOL,
         ],
-        self::FLAG_LEAVES_DECAY   => [
+        self::FLAG_LEAVES_DECAY => [
           "type" => self::TYPE_BOOL,
         ],
-        self::FLAG_POTION        => [
+        self::FLAG_POTION => [
           "type" => self::TYPE_CONTROL_LIST,
         ],
         self::FLAG_COMMAND => [
@@ -88,40 +94,40 @@ class Flags
 
     public const AVAILABLE_DEFAULT_FLAGS
       = [
-        self::FLAG_GAME_MODE      => [
+        self::FLAG_GAME_MODE => [
           "type" => self::TYPE_GAME_MODE,
         ],
-        self::FLAG_BUILD         => [
+        self::FLAG_BUILD => [
           "type" => self::TYPE_CONTROL_LIST,
         ],
-        self::FLAG_PVP           => [
+        self::FLAG_PVP => [
           "type" => self::TYPE_BOOL,
         ],
-        self::FLAG_DAMAGE        => [
+        self::FLAG_DAMAGE => [
           "type" => self::TYPE_BOOL,
         ],
-        self::FLAG_INTERACT      => [
+        self::FLAG_INTERACT => [
           "type" => self::TYPE_CONTROL_LIST,
         ],
-        self::FLAG_EXPLODE       => [
+        self::FLAG_EXPLODE => [
           "type" => self::TYPE_BOOL,
         ],
-        self::FLAG_DROP          => [
+        self::FLAG_DROP => [
           "type" => self::TYPE_CONTROL_LIST,
         ],
-        self::FLAG_HUNGER        => [
+        self::FLAG_HUNGER => [
           "type" => self::TYPE_BOOL,
         ],
-        self::FLAG_FLY           => [
+        self::FLAG_FLY => [
           "type" => self::TYPE_BOOL,
         ],
         self::FLAG_DAYLIGHT_CYCLE => [
           "type" => self::TYPE_BOOL,
         ],
-        self::FLAG_LEAVES_DECAY   => [
+        self::FLAG_LEAVES_DECAY => [
           "type" => self::TYPE_BOOL,
         ],
-        self::FLAG_POTION        => [
+        self::FLAG_POTION => [
           "type" => self::TYPE_CONTROL_LIST,
         ],
         self::FLAG_COMMAND => [
@@ -129,7 +135,11 @@ class Flags
         ],
       ];
 
-    public const ITEM_CONTROL_LISTS = [
-      self::FLAG_BUILD, self::FLAG_INTERACT, self::FLAG_DROP, self::FLAG_POTION
-    ];
+    public const ITEM_CONTROL_LISTS
+      = [
+        self::FLAG_BUILD,
+        self::FLAG_INTERACT,
+        self::FLAG_DROP,
+        self::FLAG_POTION,
+      ];
 }

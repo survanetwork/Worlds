@@ -38,7 +38,7 @@ class RenameCommand extends CustomCommand
         }
 
         $fromFolderName = $args[0];
-        $toFolderName   = $args[1];
+        $toFolderName = $args[1];
 
         if ($fromFolderName === $toFolderName) {
             $sender->sendMessage($messages->getMessage("rename.error_code.same_source_target"));
@@ -47,7 +47,7 @@ class RenameCommand extends CustomCommand
         }
 
         $fromPath = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $fromFolderName;
-        $toPath   = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $toFolderName;
+        $toPath = $this->getWorlds()->getServer()->getDataPath() . "worlds/" . $toFolderName;
 
         try {
             $copyRes = FileUtils::copyRecursive($fromPath, $toPath);

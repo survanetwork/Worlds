@@ -38,8 +38,8 @@ class CreateCommand extends CustomCommand
                 return true;
             case 2:
                 $givenGenName = strtolower($args[1]);
-                $gm           = GeneratorManager::getInstance();
-                $worldOpt     = WorldCreationOptions::create();
+                $gm = GeneratorManager::getInstance();
+                $worldOpt = WorldCreationOptions::create();
 
                 $gmEntry = $gm->getGenerator($givenGenName);
 
