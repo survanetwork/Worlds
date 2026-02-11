@@ -1,0 +1,30 @@
+{
+    "$schema": "https://lingo.dev/schema/i18n.json",
+    "version": "1.10",
+    "locale": {
+        "source": "en",
+        "targets": [
+            "de",
+            "es",
+            "fr",
+            "id",
+            "ja",
+            "lv",
+            "tr",
+            "vi",
+            "zh"
+        ]
+    },
+    "buckets": {
+        "yaml": {
+            "include": [
+                "resources/languages/[locale].yml"
+            ]
+        }
+    },
+    "provider": {
+        "id": "openrouter",
+        "model": "openai/gpt-oss-120b",
+        "prompt": "Translate {source} to {target}"
+    }
+}

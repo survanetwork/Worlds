@@ -3,3 +3,6 @@
 
 # Composer dependencies
 /vendor
+
+# Env variables
+/.env
