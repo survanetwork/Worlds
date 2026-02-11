@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Worlds | EventListener
+ * Worlds | EventListener, listens for events and applies configured
+ * world options
  */
 
 namespace surva\worlds;
@@ -44,7 +45,9 @@ class EventListener implements Listener
     /**
      * Register world in the plugin when loading
      *
-     * @param  \pocketmine\event\world\WorldLoadEvent  $event
+     * @param WorldLoadEvent $event
+     *
+     * @return void
      */
     public function onWorldLoad(WorldLoadEvent $event): void
     {
@@ -56,12 +59,14 @@ class EventListener implements Listener
     /**
      * Apply world options when a player joins the game
      *
-     * @param  \pocketmine\event\player\PlayerJoinEvent  $event
+     * @param PlayerJoinEvent $event
+     *
+     * @return void
      */
     public function onPlayerJoin(PlayerJoinEvent $event): void
     {
-        $player     = $event->getPlayer();
-        $pmWorld    = $player->getWorld();
+        $player = $event->getPlayer();
+        $pmWorld = $player->getWorld();
         $folderName = $pmWorld->getFolderName();
 
         if (($world = $this->worlds->getWorldByName($folderName)) === null) {
@@ -88,13 +93,15 @@ class EventListener implements Listener
     /**
      * Apply world options when a player changes its world on teleportation
      *
-     * @param  \pocketmine\event\entity\EntityTeleportEvent  $event
+     * @param EntityTeleportEvent $event
+     *
+     * @return void
      */
     public function onEntityTeleport(EntityTeleportEvent $event): void
     {
-        $player     = $event->getEntity();
-        $origin     = $event->getFrom()->getWorld();
-        $target     = $event->getTo()->getWorld();
+        $player = $event->getEntity();
+        $origin = $event->getFrom()->getWorld();
+        $target = $event->getTo()->getWorld();
         $folderName = $target->getFolderName();
 
         if (!($player instanceof Player)) {
@@ -129,9 +136,10 @@ class EventListener implements Listener
     }
 
     /**
-     * Check command before execution if command execution is blocked or managed by a control list
+     * Check command before execution if command execution is blocked
+     * or managed by a control list
      *
-     * @param  \pocketmine\event\server\CommandEvent  $event
+     * @param CommandEvent $event
      *
      * @return void
      */
@@ -170,11 +178,13 @@ class EventListener implements Listener
     /**
      * Prevent breaking blocks if option is set
      *
-     * @param  \pocketmine\event\block\BlockBreakEvent  $event
+     * @param BlockBreakEvent $event
+     *
+     * @return void
      */
     public function onBlockBreak(BlockBreakEvent $event): void
     {
-        $player     = $event->getPlayer();
+        $player = $event->getPlayer();
         $blockAliases = StringToItemParser::getInstance()->lookupBlockAliases($event->getBlock());
         $folderName = $player->getWorld()->getFolderName();
 
@@ -194,11 +204,13 @@ class EventListener implements Listener
     /**
      * Prevent placing blocks if option is set
      *
-     * @param  \pocketmine\event\block\BlockPlaceEvent  $event
+     * @param BlockPlaceEvent $event
+     *
+     * @return void
      */
     public function onBlockPlace(BlockPlaceEvent $event): void
     {
-        $player     = $event->getPlayer();
+        $player = $event->getPlayer();
         $folderName = $player->getWorld()->getFolderName();
 
         $blocks = $event->getTransaction()->getBlocks();
@@ -225,11 +237,13 @@ class EventListener implements Listener
     /**
      * Prevent using buckets if building is disabled
      *
-     * @param  \pocketmine\event\player\PlayerBucketEmptyEvent  $event
+     * @param PlayerBucketEmptyEvent $event
+     *
+     * @return void
      */
     public function onPlayerBucketEmpty(PlayerBucketEmptyEvent $event): void
     {
-        $player     = $event->getPlayer();
+        $player = $event->getPlayer();
         $itemAliases = StringToItemParser::getInstance()->lookupAliases($event->getBucket());
         $folderName = $player->getWorld()->getFolderName();
 
@@ -247,14 +261,16 @@ class EventListener implements Listener
     }
 
     /**
-     * Handle damage options and prevent damage if needed
+     * Handle damage event and cancel if set by world options
      *
-     * @param  \pocketmine\event\entity\EntityDamageEvent  $event
+     * @param EntityDamageEvent $event
+     *
+     * @return void
      */
     public function onEntityDamage(EntityDamageEvent $event): void
     {
-        $entity     = $event->getEntity();
-        $pmWorld    = $entity->getWorld();
+        $entity = $event->getEntity();
+        $pmWorld = $entity->getWorld();
         $folderName = $pmWorld->getFolderName();
 
         if (($world = $this->worlds->getWorldByName($folderName)) === null) {
@@ -291,15 +307,15 @@ class EventListener implements Listener
     }
 
     /**
-     * Prevent explosions if policy is set
+     * Prevent explosions if option is set
      *
-     * @param  \pocketmine\event\entity\EntityPreExplodeEvent  $event
+     * @param EntityPreExplodeEvent $event
      *
      * @return void
      */
     public function onExplosionPrime(EntityPreExplodeEvent $event): void
     {
-        $player     = $event->getEntity();
+        $player = $event->getEntity();
         $folderName = $player->getWorld()->getFolderName();
 
         if (($world = $this->worlds->getWorldByName($folderName)) === null) {
@@ -312,13 +328,15 @@ class EventListener implements Listener
     }
 
     /**
-     * Prevent dropping items if policy is set
+     * Prevent dropping items if option is set
      *
-     * @param  \pocketmine\event\player\PlayerDropItemEvent  $event
+     * @param PlayerDropItemEvent $event
+     *
+     * @return void
      */
     public function onPlayerDropItem(PlayerDropItemEvent $event): void
     {
-        $player     = $event->getPlayer();
+        $player = $event->getPlayer();
         $itemAliases = StringToItemParser::getInstance()->lookupAliases($event->getItem());
         $folderName = $player->getWorld()->getFolderName();
 
@@ -334,11 +352,13 @@ class EventListener implements Listener
     /**
      * Prevent exhaustion if hunger is disabled
      *
-     * @param  \pocketmine\event\player\PlayerExhaustEvent  $event
+     * @param PlayerExhaustEvent $event
+     *
+     * @return void
      */
     public function onPlayerExhaust(PlayerExhaustEvent $event): void
     {
-        $player     = $event->getPlayer();
+        $player = $event->getPlayer();
         $folderName = $player->getWorld()->getFolderName();
 
         if (($world = $this->worlds->getWorldByName($folderName)) === null) {
@@ -353,13 +373,15 @@ class EventListener implements Listener
     /**
      * Prevent interaction if disabled and some block breaking events like painting/grass, ...
      *
-     * @param  \pocketmine\event\player\PlayerInteractEvent  $event
+     * @param PlayerInteractEvent $event
+     *
+     * @return void
      */
     public function onPlayerInteract(PlayerInteractEvent $event): void
     {
-        $player     = $event->getPlayer();
-        $item       = $event->getItem();
-        $block      = $event->getBlock();
+        $player = $event->getPlayer();
+        $item = $event->getItem();
+        $block = $event->getBlock();
         $blockAliases = StringToItemParser::getInstance()->lookupBlockAliases($block);
         $folderName = $player->getWorld()->getFolderName();
 
@@ -389,7 +411,9 @@ class EventListener implements Listener
     /**
      * Prevent leaves decaying if option is set
      *
-     * @param  \pocketmine\event\block\LeavesDecayEvent  $event
+     * @param LeavesDecayEvent $event
+     *
+     * @return void
      */
     public function onLeavesDecay(LeavesDecayEvent $event): void
     {
@@ -407,12 +431,14 @@ class EventListener implements Listener
     /**
      * Prevent consuming potions if disabled
      *
-     * @param  \pocketmine\event\player\PlayerItemConsumeEvent  $event
+     * @param PlayerItemConsumeEvent $event
+     *
+     * @return void
      */
     public function onPlayerItemConsume(PlayerItemConsumeEvent $event): void
     {
-        $player     = $event->getPlayer();
-        $item       = $event->getItem();
+        $player = $event->getPlayer();
+        $item = $event->getItem();
         $itemAliases = StringToItemParser::getInstance()->lookupAliases($item);
         $folderName = $player->getWorld()->getFolderName();
 

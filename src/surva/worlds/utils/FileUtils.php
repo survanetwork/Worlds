@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Worlds | world flag definitions
+ * Worlds | functions to recursively copy and delete directories
  */
 
 namespace surva\worlds\utils;
@@ -15,12 +15,12 @@ class FileUtils
     /**
      * Copy a world directory recursively
      *
-     * @param  string  $from
-     * @param  string  $to
+     * @param string $from
+     * @param string $to
      *
      * @return bool
-     * @throws \surva\worlds\utils\exception\SourceNotExistException
-     * @throws \surva\worlds\utils\exception\TargetExistException
+     * @throws SourceNotExistException
+     * @throws TargetExistException
      */
     public static function copyRecursive(string $from, string $to): bool
     {
@@ -51,7 +51,7 @@ class FileUtils
             }
 
             $fromObj = $from . "/" . $obj;
-            $toObj   = $to . "/" . $obj;
+            $toObj = $to . "/" . $obj;
 
             if (is_dir($fromObj)) {
                 $success = self::copyRecursive($fromObj, $toObj);
@@ -72,10 +72,10 @@ class FileUtils
     /**
      * Delete a world directory recursively
      *
-     * @param  string  $dir
+     * @param string $dir
      *
      * @return bool
-     * @throws \surva\worlds\utils\exception\SourceNotExistException
+     * @throws SourceNotExistException
      */
     public static function deleteRecursive(string $dir): bool
     {

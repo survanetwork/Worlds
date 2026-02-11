@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Worlds | copy world command
+ * Worlds | command to copy a world
  */
 
 namespace surva\worlds\commands;

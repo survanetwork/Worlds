@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Worlds | PM world functions
+ * Worlds | world utility functions
  */
 
 namespace surva\worlds\logic;
@@ -18,8 +18,8 @@ class WorldActions
     /**
      * Check if the directory of a world exists
      *
-     * @param  \surva\worlds\Worlds  $worlds
-     * @param  string  $worldName
+     * @param Worlds $worlds
+     * @param string $worldName
      *
      * @return bool
      */
@@ -31,7 +31,7 @@ class WorldActions
     /**
      * Check if the given string is a valid flag name
      *
-     * @param  string  $flagName
+     * @param string $flagName
      *
      * @return bool
      */
@@ -43,7 +43,7 @@ class WorldActions
     /**
      * Get the type of flag name
      *
-     * @param  string  $flagName
+     * @param string $flagName
      *
      * @return int|null
      */
@@ -59,13 +59,13 @@ class WorldActions
     /**
      * Try to unload a world if it's loaded
      *
-     * @param  \surva\worlds\Worlds  $worlds
-     * @param  string  $worldName
+     * @param Worlds $worlds
+     * @param string $worldName
      *
      * @return void
-     * @throws \surva\worlds\logic\exception\UnloadDefaultLevelException
-     * @throws \surva\worlds\logic\exception\WorldNotExistException
-     * @throws \surva\worlds\logic\exception\UnloadFailedException
+     * @throws UnloadDefaultLevelException
+     * @throws WorldNotExistException
+     * @throws UnloadFailedException
      */
     public static function unloadIfLoaded(Worlds $worlds, string $worldName): void
     {
@@ -95,7 +95,7 @@ class WorldActions
     /**
      * Get the ID int value of a game mode
      *
-     * @param  \pocketmine\player\GameMode  $gameMode
+     * @param GameMode $gameMode
      *
      * @return int|null
      */

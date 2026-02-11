@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Worlds | defaults processing file
+ * Worlds | special type of world config that represents
+ * the default configuration
  */
 
 namespace surva\worlds\types;
@@ -13,7 +14,7 @@ class Defaults extends World
     /**
      * Get value from config
      *
-     * @param  string  $name
+     * @param string $name
      *
      * @return mixed|null
      */
@@ -29,9 +30,9 @@ class Defaults extends World
     /**
      * Load value from config
      *
-     * @param  string  $name
-     * @param  int|null  $type
-     * @param  bool  $initialLoad
+     * @param string $name
+     * @param int|null $type
+     * @param bool $initialLoad
      *
      * @return mixed
      */

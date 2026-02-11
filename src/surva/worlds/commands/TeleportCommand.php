@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Worlds | teleport command
+ * Worlds | teleport command, can be used to teleport the sender
+ * or another player to a world
  */
 
 namespace surva\worlds\commands;

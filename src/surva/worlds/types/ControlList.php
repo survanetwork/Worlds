@@ -14,7 +14,7 @@ class ControlList
     private array $list;
 
     /**
-     * @param  mixed[]  $list
+     * @param mixed[] $list
      */
     public function __construct(array $list = [])
     {
@@ -24,7 +24,7 @@ class ControlList
     /**
      * Add value to list
      *
-     * @param  mixed  $value
+     * @param mixed $value
      *
      * @return void
      */
@@ -40,7 +40,7 @@ class ControlList
     /**
      * Remove value from list
      *
-     * @param  mixed  $value
+     * @param mixed $value
      *
      * @return void
      */
@@ -64,7 +64,7 @@ class ControlList
     /**
      * Check if list contains value
      *
-     * @param  mixed  $value
+     * @param mixed $value
      *
      * @return bool
      */
@@ -76,7 +76,7 @@ class ControlList
     /**
      * Check if list contains any of the values
      *
-     * @param  mixed[]  $values
+     * @param mixed[] $values
      *
      * @return bool
      */

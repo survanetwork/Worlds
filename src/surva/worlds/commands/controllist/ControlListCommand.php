@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Worlds | control list command
+ * Worlds | parent class for commands used to manage control lists
  */
 
 namespace surva\worlds\commands\controllist;
@@ -16,13 +16,6 @@ class ControlListCommand extends CustomCommand
     private World $world;
     private string $flagName;
 
-    /**
-     * @param  \surva\worlds\Worlds  $worlds
-     * @param  \surva\worlds\types\World  $world
-     * @param  string  $flagName
-     * @param  string  $name
-     * @param  string  $permission
-     */
     public function __construct(Worlds $worlds, World $world, string $flagName, string $name, string $permission)
     {
         $this->world = $world;
@@ -50,7 +43,7 @@ class ControlListCommand extends CustomCommand
     }
 
     /**
-     * @return \surva\worlds\types\World
+     * @return World
      */
     protected function getWorld(): World
     {

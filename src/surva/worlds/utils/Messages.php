@@ -13,7 +13,6 @@ use surva\worlds\Worlds;
 class Messages
 {
     private Worlds $worlds;
-
     private ?CommandSender $sender;
 
     public function __construct(Worlds $worlds, ?CommandSender $sender = null)
@@ -25,8 +24,8 @@ class Messages
     /**
      * Get a translated message
      *
-     * @param  string  $key
-     * @param  string[]  $replaces
+     * @param string $key
+     * @param array<string, string> $replaces
      *
      * @return string
      */

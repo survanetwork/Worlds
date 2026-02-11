@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Worlds | defaults set / unset command
+ * Worlds | command to set the default config values, opens
+ * a form GUI if no arguments are provided, or supports
+ * setting/unsetting values using the command
  */
 
 namespace surva\worlds\commands;
@@ -122,6 +124,9 @@ class DefaultsCommand extends SetCommand
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function sendSuccessMessage(Player $player, string $key, string $val): bool
     {
         $player->sendMessage(

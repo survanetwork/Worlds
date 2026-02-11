@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Worlds | unload default level exception
+ * Worlds | unload default level exception, thrown when
+ * trying to unload the default level, which is not possible
  */
 
 namespace surva\worlds\logic\exception;
@@ -10,5 +11,5 @@ use Exception;
 
 class UnloadDefaultLevelException extends Exception
 {
-    // thrown when trying to unload the default level
+    // no content
 }

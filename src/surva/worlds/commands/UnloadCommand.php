@@ -39,10 +39,10 @@ class UnloadCommand extends CustomCommand
     /**
      * Try to unload a world by name or send error message if it fails
      *
-     * @param  \surva\worlds\Worlds  $worlds
-     * @param  string  $worldName
-     * @param  \pocketmine\command\CommandSender  $sender
-     * @param  \surva\worlds\utils\Messages  $messages
+     * @param Worlds $worlds
+     * @param string $worldName
+     * @param CommandSender $sender
+     * @param Messages $messages
      *
      * @return bool
      */

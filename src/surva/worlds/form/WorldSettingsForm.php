@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Worlds | world settings form
+ * Worlds | world settings form to configure the config flags
+ * of a specific world
  */
 
 namespace surva\worlds\form;
@@ -25,14 +26,14 @@ class WorldSettingsForm extends SettingsForm
 
         $this->messages = $messages;
 
-        $this->title   = $this->messages->getMessage("forms.world.title", ["name" => $worldName]);
+        $this->title = $this->messages->getMessage("forms.world.title", ["name" => $worldName]);
         $this->content = [];
 
         foreach (Flags::AVAILABLE_WORLD_FLAGS as $flagName => $flagDetails) {
             $this->content[] = match ($flagDetails["type"]) {
                 Flags::TYPE_BOOL => [
-                  "type"    => "dropdown",
-                  "text"    => $this->messages->getMessage("forms.world.params." . $flagName),
+                  "type" => "dropdown",
+                  "text" => $this->messages->getMessage("forms.world.params." . $flagName),
                   "options" => [
                     $this->messages->getMessage("forms.world.options.not_set"),
                     $this->messages->getMessage("forms.world.options.false"),
@@ -41,8 +42,8 @@ class WorldSettingsForm extends SettingsForm
                   "default" => $this->confValueToForm($world->loadValue($flagName), Flags::TYPE_BOOL),
                 ],
                 Flags::TYPE_CONTROL_LIST => [
-                  "type"    => "dropdown",
-                  "text"    => $this->messages->getMessage("forms.world.params." . $flagName),
+                  "type" => "dropdown",
+                  "text" => $this->messages->getMessage("forms.world.params." . $flagName),
                   "options" => [
                     $this->messages->getMessage("forms.world.options.not_set"),
                     $this->messages->getMessage("forms.world.options.false"),
@@ -53,13 +54,13 @@ class WorldSettingsForm extends SettingsForm
                   "default" => $this->confValueToForm($world->loadValue($flagName), Flags::TYPE_CONTROL_LIST),
                 ],
                 Flags::TYPE_PERMISSION => [
-                  "type"    => "input",
-                  "text"    => $this->messages->getMessage("forms.world.params." . $flagName),
+                  "type" => "input",
+                  "text" => $this->messages->getMessage("forms.world.params." . $flagName),
                   "default" => $world->loadValue($flagName),
                 ],
                 Flags::TYPE_GAME_MODE => [
-                  "type"    => "dropdown",
-                  "text"    => $this->messages->getMessage("forms.world.params." . $flagName),
+                  "type" => "dropdown",
+                  "text" => $this->messages->getMessage("forms.world.params." . $flagName),
                   "options" => [
                     $this->messages->getMessage("forms.world.options.not_set"),
                     GameMode::SURVIVAL()->getEnglishName(),
@@ -74,10 +75,7 @@ class WorldSettingsForm extends SettingsForm
     }
 
     /**
-     * Getting a response from the client form
-     *
-     * @param  Player  $player
-     * @param  mixed  $data
+     * @inheritDoc
      */
     public function handleResponse(Player $player, $data): void
     {
@@ -94,7 +92,7 @@ class WorldSettingsForm extends SettingsForm
         }
 
         $defFolderName = $this->getWorlds()->getServer()->getWorldManager()->getDefaultWorld()?->getFolderName();
-        $plFolderName  = $player->getWorld()->getFolderName();
+        $plFolderName = $player->getWorld()->getFolderName();
 
         $isDefLvl = $defFolderName === $plFolderName;
 
@@ -134,14 +132,14 @@ class WorldSettingsForm extends SettingsForm
     /**
      * Evaluate permission string form response value
      *
-     * @param  string  $name
-     * @param  mixed  $data
-     * @param  bool  $isDefLvl
-     * @param  \pocketmine\player\Player  $player
+     * @param string $name
+     * @param mixed $data
+     * @param bool $isDefLvl
+     * @param Player $player
      *
      * @return void
-     * @throws \surva\worlds\types\exception\ConfigSaveException
-     * @throws \surva\worlds\types\exception\ValueNotExistException
+     * @throws ConfigSaveException
+     * @throws ValueNotExistException
      */
     private function procPerm(string $name, mixed $data, bool $isDefLvl, Player $player): void
     {

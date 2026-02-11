@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Worlds | create world command
+ * Worlds | command to create a new world
  */
 
 namespace surva\worlds\commands;

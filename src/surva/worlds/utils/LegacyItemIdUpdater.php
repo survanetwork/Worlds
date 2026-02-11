@@ -16,8 +16,8 @@ class LegacyItemIdUpdater
     /**
      * Check if an array contains legacy item/block ID's and needs to be updated
      *
-     * @param  (string|int)[]  $items
-     * @param  string  $flagName
+     * @param (string|int)[] $items
+     * @param string $flagName
      *
      * @return (string|int)[]
      */
@@ -51,7 +51,7 @@ class LegacyItemIdUpdater
     /**
      * Try to update a legacy int item/block ID to a string name
      *
-     * @param  int  $legacyId
+     * @param int $legacyId
      *
      * @return string|null
      */

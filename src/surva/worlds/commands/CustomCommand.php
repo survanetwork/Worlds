@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Worlds | custom command class
+ * Worlds | parent class for main commands of the
+ * Worlds plugin
  */
 
 namespace surva\worlds\commands;
@@ -28,9 +29,9 @@ class CustomCommand extends Command implements PluginOwned
     /**
      * Execute this sub command, check permissions before
      *
-     * @param  \pocketmine\command\CommandSender  $sender
-     * @param  string  $commandLabel
-     * @param  string[]  $args
+     * @param CommandSender $sender
+     * @param string $commandLabel
+     * @param string[] $args
      *
      * @return bool
      */
@@ -61,8 +62,8 @@ class CustomCommand extends Command implements PluginOwned
     /**
      * Execution method of the sub command
      *
-     * @param  \pocketmine\command\CommandSender  $sender
-     * @param  string[]  $args
+     * @param CommandSender $sender
+     * @param string[] $args
      *
      * @return bool
      */
@@ -77,7 +78,7 @@ class CustomCommand extends Command implements PluginOwned
     }
 
     /**
-     * @return \surva\worlds\Worlds
+     * @return Worlds
      */
     protected function getWorlds(): Worlds
     {

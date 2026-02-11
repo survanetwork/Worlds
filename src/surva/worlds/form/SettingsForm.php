@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Worlds | settings form class
+ * Worlds | general settings form that can be extended for per-world
+ * settings or default settings
  */
 
 namespace surva\worlds\form;
@@ -10,6 +11,8 @@ use pocketmine\form\Form;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 use surva\worlds\logic\WorldActions;
+use surva\worlds\types\exception\ConfigSaveException;
+use surva\worlds\types\exception\ValueNotExistException;
 use surva\worlds\types\World;
 use surva\worlds\utils\Flags;
 use surva\worlds\Worlds;
@@ -21,15 +24,14 @@ abstract class SettingsForm implements Form
 
     private string $type = "custom_form";
     protected string $title;
-
     /**
-     * @var mixed[]
+     * @var array<string, mixed>[]
      */
     protected array $content;
 
     public function __construct(Worlds $wsInstance, World $storage)
     {
-        $this->worlds  = $wsInstance;
+        $this->worlds = $wsInstance;
         $this->storage = $storage;
     }
 
@@ -41,25 +43,25 @@ abstract class SettingsForm implements Form
     public function jsonSerialize(): array
     {
         return [
-          "type"    => $this->type,
-          "title"   => $this->title,
+          "type" => $this->type,
+          "title" => $this->title,
           "content" => $this->content,
         ];
     }
 
     /**
-     * Getting a response from the client form
+     * Handle the response from client and save the settings to world config
      *
-     * @param  Player  $player
-     * @param  mixed  $data
+     * @param Player $player
+     * @param mixed $data
      */
     abstract public function handleResponse(Player $player, $data): void;
 
     /**
      * Convert a world config value to form value index
      *
-     * @param  mixed  $val
-     * @param  int  $type
+     * @param mixed $val
+     * @param int $type
      *
      * @return int
      */
@@ -86,12 +88,12 @@ abstract class SettingsForm implements Form
     /**
      * Evaluate bool form response value
      *
-     * @param  string  $name
-     * @param  mixed  $data
+     * @param string $name
+     * @param mixed $data
      *
      * @return void
-     * @throws \surva\worlds\types\exception\ConfigSaveException
-     * @throws \surva\worlds\types\exception\ValueNotExistException
+     * @throws ConfigSaveException
+     * @throws ValueNotExistException
      */
     protected function procBool(string $name, mixed $data): void
     {
@@ -111,12 +113,12 @@ abstract class SettingsForm implements Form
     /**
      * Evaluate control list form response value
      *
-     * @param  string  $name
-     * @param  mixed  $data
+     * @param string $name
+     * @param mixed $data
      *
      * @return void
-     * @throws \surva\worlds\types\exception\ConfigSaveException
-     * @throws \surva\worlds\types\exception\ValueNotExistException
+     * @throws ConfigSaveException
+     * @throws ValueNotExistException
      */
     protected function procControlList(string $name, mixed $data): void
     {
@@ -142,12 +144,12 @@ abstract class SettingsForm implements Form
     /**
      * Evaluate game mode form response value
      *
-     * @param  string  $name
-     * @param  mixed  $data
+     * @param string $name
+     * @param mixed $data
      *
      * @return void
-     * @throws \surva\worlds\types\exception\ConfigSaveException
-     * @throws \surva\worlds\types\exception\ValueNotExistException
+     * @throws ConfigSaveException
+     * @throws ValueNotExistException
      */
     protected function procGameMode(string $name, mixed $data): void
     {
@@ -171,7 +173,7 @@ abstract class SettingsForm implements Form
     }
 
     /**
-     * @return \surva\worlds\types\World
+     * @return World
      */
     protected function getStorage(): World
     {
@@ -179,7 +181,7 @@ abstract class SettingsForm implements Form
     }
 
     /**
-     * @return \surva\worlds\Worlds
+     * @return Worlds
      */
     protected function getWorlds(): Worlds
     {

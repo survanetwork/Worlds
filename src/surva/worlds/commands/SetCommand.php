@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Worlds | set parameter command
+ * Worlds | command to set world config values, opens
+ * a form GUI if no arguments are provided, or supports
+ * setting/unsetting values using the command
  */
 
 namespace surva\worlds\commands;
@@ -106,10 +108,10 @@ class SetCommand extends CustomCommand
     /**
      * Show flag values of the world to player in chat
      *
-     * @param  \pocketmine\player\Player  $player
-     * @param  \surva\worlds\types\World  $world
-     * @param  string  $msg
-     * @param  array<string, array<string, mixed>>  $availableFlags
+     * @param Player $player
+     * @param World $world
+     * @param string $msg
+     * @param array<string, array<string, mixed>> $availableFlags
      *
      * @return bool
      */
@@ -137,11 +139,11 @@ class SetCommand extends CustomCommand
     /**
      * Get sub command for control list features
      *
-     * @param  string  $name
-     * @param  \surva\worlds\types\World  $world
-     * @param  string  $flagName
+     * @param string $name
+     * @param World $world
+     * @param string $flagName
      *
-     * @return \surva\worlds\commands\controllist\ControlListCommand|null
+     * @return ControlListCommand|null
      */
     protected function getControlListSubCommand(string $name, World $world, string $flagName): ?ControlListCommand
     {
@@ -157,11 +159,11 @@ class SetCommand extends CustomCommand
     /**
      * Sub command to set the permission flag
      *
-     * @param  \pocketmine\player\Player  $player
-     * @param  string  $key
-     * @param  string  $val
-     * @param  \surva\worlds\types\World  $world
-     * @param  string  $folderName
+     * @param Player $player
+     * @param string $key
+     * @param string $val
+     * @param World $world
+     * @param string $folderName
      *
      * @return bool
      */
@@ -195,9 +197,9 @@ class SetCommand extends CustomCommand
     /**
      * Sub command to set game mode flag
      *
-     * @param  \pocketmine\player\Player  $player
-     * @param  string  $gmArg
-     * @param  \surva\worlds\types\World  $world
+     * @param Player $player
+     * @param string $gmArg
+     * @param World $world
      *
      * @return bool
      */
@@ -231,10 +233,10 @@ class SetCommand extends CustomCommand
     /**
      * Sub command to set bool flag
      *
-     * @param  \pocketmine\player\Player  $player
-     * @param  string  $key
-     * @param  string  $val
-     * @param  \surva\worlds\types\World  $world
+     * @param Player $player
+     * @param string $key
+     * @param string $val
+     * @param World $world
      *
      * @return bool
      */
@@ -260,10 +262,10 @@ class SetCommand extends CustomCommand
     /**
      * Sub command to set control list flag
      *
-     * @param  \pocketmine\player\Player  $player
-     * @param  string  $key
-     * @param  string  $val
-     * @param  \surva\worlds\types\World  $world
+     * @param Player $player
+     * @param string $key
+     * @param string $val
+     * @param World $world
      *
      * @return bool
      */
@@ -289,9 +291,9 @@ class SetCommand extends CustomCommand
     /**
      * Send set command success message
      *
-     * @param  \pocketmine\player\Player  $player
-     * @param  string  $key
-     * @param  string  $val
+     * @param Player $player
+     * @param string $key
+     * @param string $val
      *
      * @return bool
      */
@@ -310,7 +312,7 @@ class SetCommand extends CustomCommand
     /**
      * Format a text for showing its value
      *
-     * @param  string|null  $value
+     * @param string|null $value
      *
      * @return string
      */
@@ -326,7 +328,7 @@ class SetCommand extends CustomCommand
     /**
      * Format a game mode for showing its value
      *
-     * @param  int|null  $value
+     * @param int|null $value
      *
      * @return string
      */
@@ -347,7 +349,7 @@ class SetCommand extends CustomCommand
     /**
      * Format a boolean for showing its value
      *
-     * @param  bool|null  $value
+     * @param bool|null $value
      *
      * @return string
      */
@@ -365,7 +367,7 @@ class SetCommand extends CustomCommand
     /**
      * Format a control list flag for showing its value
      *
-     * @param  string|null  $value
+     * @param string|null $value
      *
      * @return string
      */

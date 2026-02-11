@@ -34,33 +34,30 @@ use Symfony\Component\Filesystem\Path;
 class Worlds extends PluginBase
 {
     /**
-     * @var \surva\worlds\types\Defaults default world options
+     * @var Defaults default world options
      */
     private Defaults $defaults;
-
     /**
      * @var World[] loaded worlds array
      */
     private array $worlds;
-
     /**
-     * @var \pocketmine\utils\Config default language config
+     * @var Config default language config
      */
     private Config $defaultMessages;
-
     /**
      * @var Config[] available language configs
      */
     private array $translationMessages;
 
     /**
-     * Initialize plugin, config, languages
+     * Initialize plugin, load language files and world configs,
+     * register events
+     *
+     * @return void
      */
     protected function onEnable(): void
     {
-        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
-        $this->saveDefaultConfig();
-
         $this->saveResource(Path::join("languages", "en.yml"), true);
         $this->defaultMessages = new Config(Path::join($this->getDataFolder(), "languages", "en.yml"));
         $this->loadLanguageFiles();
@@ -70,21 +67,21 @@ class Worlds extends PluginBase
             $this->getCustomConfig(Path::join($this->getDataFolder(), "defaults.yml")),
             "defaults"
         );
-
         $this->worlds = [];
-
         foreach ($this->getServer()->getWorldManager()->getWorlds() as $world) {
             $this->registerWorld($world->getFolderName());
         }
+
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
     }
 
     /**
      * Main command (/worlds) execution, calling sub commands
      *
-     * @param  \pocketmine\command\CommandSender  $sender
-     * @param  \pocketmine\command\Command  $command
-     * @param  string  $label
-     * @param  string[]  $args
+     * @param CommandSender $sender
+     * @param Command $command
+     * @param string $label
+     * @param string[] $args
      *
      * @return bool
      */
@@ -106,9 +103,9 @@ class Worlds extends PluginBase
     /**
      * Get a custom command by its name or alias
      *
-     * @param  string  $name
+     * @param string $name
      *
-     * @return \surva\worlds\commands\CustomCommand|null
+     * @return CustomCommand|null
      */
     public function getCustomCommand(string $name): ?CustomCommand
     {
@@ -131,9 +128,9 @@ class Worlds extends PluginBase
     /**
      * Get a world by its name
      *
-     * @param  string  $name
+     * @param string $name
      *
-     * @return \surva\worlds\types\World|null
+     * @return World|null
      */
     public function getWorldByName(string $name): ?World
     {
@@ -147,20 +144,22 @@ class Worlds extends PluginBase
     /**
      * Register a new server world
      *
-     * @param  string  $folderName
+     * @param string $folderName
+     *
+     * @return void
      */
     public function registerWorld(string $folderName): void
     {
         $settingsFile = $this->getWorldSettingsFilePath($folderName);
-        $worldConfig  = $this->getCustomConfig($settingsFile);
+        $worldConfig = $this->getCustomConfig($settingsFile);
 
         $this->worlds[$folderName] = new World($this, $worldConfig, $folderName);
     }
 
     /**
-     * Unregister a world, e.g. if it's unloaded
+     * Unregister a world, e.g. when it's unloaded
      *
-     * @param  string  $folderName
+     * @param string $folderName
      *
      * @return bool
      */
@@ -176,9 +175,9 @@ class Worlds extends PluginBase
     }
 
     /**
-     * Get the path to the worlds.yml file of a world
+     * Get the path to the worlds.yml config file of a world
      *
-     * @param  string  $folderName
+     * @param string $folderName
      *
      * @return string
      */
@@ -200,8 +199,8 @@ class Worlds extends PluginBase
     /**
      * Apply options of a world to a player
      *
-     * @param  \surva\worlds\types\World  $world
-     * @param  \pocketmine\player\Player  $pl
+     * @param World $world
+     * @param Player $pl
      */
     public function applyWorldOptions(World $world, Player $pl): void
     {
@@ -228,9 +227,9 @@ class Worlds extends PluginBase
     /**
      * Get a custom world settings config file or create if it doesn't exist
      *
-     * @param  string  $file
+     * @param string $file
      *
-     * @return \pocketmine\utils\Config
+     * @return Config
      */
     public function getCustomConfig(string $file): Config
     {
@@ -240,7 +239,7 @@ class Worlds extends PluginBase
             try {
                 $config->save();
             } catch (JsonException $e) {
-                // do nothing for now
+                $this->getLogger()->error("Failed to save world config file: " . $e->getMessage());
             }
         }
 
@@ -250,9 +249,9 @@ class Worlds extends PluginBase
     /**
      * Shorthand to send a translated message to a command sender
      *
-     * @param  \pocketmine\command\CommandSender  $sender
-     * @param  string  $key
-     * @param  string[]  $replaces
+     * @param CommandSender $sender
+     * @param string $key
+     * @param array<string, string> $replaces
      *
      * @return void
      */
@@ -303,7 +302,7 @@ class Worlds extends PluginBase
     }
 
     /**
-     * @return \pocketmine\utils\Config
+     * @return Config
      */
     public function getDefaultMessages(): Config
     {
@@ -311,7 +310,7 @@ class Worlds extends PluginBase
     }
 
     /**
-     * @return \surva\worlds\types\Defaults
+     * @return Defaults
      */
     public function getDefaults(): Defaults
     {

@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Worlds | default settings form
+ * Worlds | default settings form to configure the
+ * default values of the config flags
  */
 
 namespace surva\worlds\form;
@@ -25,14 +26,14 @@ class DefaultSettingsForm extends SettingsForm
 
         $this->messages = $messages;
 
-        $this->title   = $this->messages->getMessage("forms.default.title");
+        $this->title = $this->messages->getMessage("forms.default.title");
         $this->content = [];
 
         foreach (Flags::AVAILABLE_DEFAULT_FLAGS as $flagName => $flagDetails) {
             $this->content[] = match ($flagDetails["type"]) {
                 Flags::TYPE_BOOL => [
-                  "type"    => "dropdown",
-                  "text"    => $this->messages->getMessage("forms.world.params." . $flagName),
+                  "type" => "dropdown",
+                  "text" => $this->messages->getMessage("forms.world.params." . $flagName),
                   "options" => [
                     $this->messages->getMessage("forms.world.options.not_set"),
                     $this->messages->getMessage("forms.world.options.false"),
@@ -41,8 +42,8 @@ class DefaultSettingsForm extends SettingsForm
                   "default" => $this->confValueToForm($defaults->loadValue($flagName), Flags::TYPE_BOOL),
                 ],
                 Flags::TYPE_CONTROL_LIST => [
-                  "type"    => "dropdown",
-                  "text"    => $this->messages->getMessage("forms.world.params." . $flagName),
+                  "type" => "dropdown",
+                  "text" => $this->messages->getMessage("forms.world.params." . $flagName),
                   "options" => [
                     $this->messages->getMessage("forms.world.options.not_set"),
                     $this->messages->getMessage("forms.world.options.false"),
@@ -53,8 +54,8 @@ class DefaultSettingsForm extends SettingsForm
                   "default" => $this->confValueToForm($defaults->loadValue($flagName), Flags::TYPE_CONTROL_LIST),
                 ],
                 Flags::TYPE_GAME_MODE => [
-                  "type"    => "dropdown",
-                  "text"    => $this->messages->getMessage("forms.world.params." . $flagName),
+                  "type" => "dropdown",
+                  "text" => $this->messages->getMessage("forms.world.params." . $flagName),
                   "options" => [
                     $this->messages->getMessage("forms.world.options.not_set"),
                     GameMode::SURVIVAL()->getEnglishName(),
@@ -69,10 +70,7 @@ class DefaultSettingsForm extends SettingsForm
     }
 
     /**
-     * Getting a response from the client form
-     *
-     * @param  Player  $player
-     * @param  mixed  $data
+     * @inheritDoc
      */
     public function handleResponse(Player $player, $data): void
     {

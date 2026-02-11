@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Worlds | unset parameter command
+ * Worlds | command to unset a config value for a specific world
  */
 
 namespace surva\worlds\commands;

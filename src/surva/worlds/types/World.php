@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Worlds | world config class file
+ * Worlds | class that represents a world with all its config options
  */
 
 namespace surva\worlds\types;
@@ -21,7 +21,6 @@ class World
     private Worlds $worlds;
     private Config $config;
     private string $worldName;
-
     /**
      * @var array<string, mixed> loaded flag values
      */
@@ -30,9 +29,9 @@ class World
     /**
      * Load world options on class creation
      *
-     * @param  \surva\worlds\Worlds  $worlds
-     * @param  \pocketmine\utils\Config  $config
-     * @param  string  $worldName
+     * @param Worlds $worlds
+     * @param Config $config
+     * @param string $worldName
      */
     public function __construct(Worlds $worlds, Config $config, string $worldName)
     {
@@ -47,7 +46,7 @@ class World
     /**
      * Load all possible config values
      *
-     * @param  bool  $initialLoad
+     * @param bool $initialLoad
      *
      * @return void
      */
@@ -61,9 +60,9 @@ class World
     /**
      * Load value from config
      *
-     * @param  string  $name
-     * @param  int|null  $type
-     * @param  bool  $initialLoad
+     * @param string $name
+     * @param int|null $type
+     * @param bool $initialLoad
      *
      * @return mixed
      */
@@ -89,8 +88,8 @@ class World
     /**
      * Separate logic for loading control list flags from config
      *
-     * @param  string  $name
-     * @param  bool  $initialLoad
+     * @param string $name
+     * @param bool $initialLoad
      *
      * @return void
      */
@@ -105,17 +104,21 @@ class World
             if ($initialLoad && (serialize($listData) !== serialize($updatedListData))) {
                 $messages = new Messages($this->worlds);
 
-                $this->worlds->getLogger()->info($messages->getMessage(
-                    "general.config.item_ids_updated",
-                    ["flag" => $name, "world" => $this->worldName]
-                ));
+                $this->worlds->getLogger()->info(
+                    $messages->getMessage(
+                        "general.config.item_ids_updated",
+                        ["flag" => $name, "world" => $this->worldName]
+                    )
+                );
 
                 try {
                     $this->saveControlList($name);
                 } catch (ConfigSaveException $e) {
-                    $this->worlds->getLogger()->info($messages->getMessage(
-                        "general.config.save_error"
-                    ));
+                    $this->worlds->getLogger()->info(
+                        $messages->getMessage(
+                            "general.config.save_error"
+                        )
+                    );
                 }
             }
         } else {
@@ -126,11 +129,11 @@ class World
     /**
      * Update a config value
      *
-     * @param  string  $name
-     * @param  mixed  $value
+     * @param string $name
+     * @param mixed $value
      *
      * @return void
-     * @throws \surva\worlds\types\exception\ConfigSaveException
+     * @throws ConfigSaveException
      */
     public function updateValue(string $name, mixed $value): void
     {
@@ -147,10 +150,10 @@ class World
     /**
      * Save the content of a control list to config
      *
-     * @param  string  $name
+     * @param string $name
      *
      * @return void
-     * @throws \surva\worlds\types\exception\ConfigSaveException
+     * @throws ConfigSaveException
      */
     public function saveControlList(string $name): void
     {
@@ -173,12 +176,12 @@ class World
     /**
      * Remove a config value
      *
-     * @param  string  $name
-     * @param  bool  $ifExisting
+     * @param string $name
+     * @param bool $ifExisting
      *
      * @return void
-     * @throws \surva\worlds\types\exception\ConfigSaveException
-     * @throws \surva\worlds\types\exception\ValueNotExistException
+     * @throws ConfigSaveException
+     * @throws ValueNotExistException
      */
     public function removeValue(string $name, bool $ifExisting = false): void
     {
@@ -203,8 +206,8 @@ class World
     /**
      * Check if using the item is allowed by the control list
      *
-     * @param  string  $flagName
-     * @param  mixed  $item
+     * @param string $flagName
+     * @param mixed $item
      *
      * @return bool|null
      */
@@ -242,7 +245,7 @@ class World
     /**
      * Get the value of a bool flag
      *
-     * @param  string  $flagName
+     * @param string $flagName
      *
      * @return bool|null
      */
@@ -258,7 +261,7 @@ class World
     /**
      * Get the flag value of a control list flag
      *
-     * @param  string  $flagName
+     * @param string $flagName
      *
      * @return string|null
      */
@@ -270,9 +273,9 @@ class World
     /**
      * Get the list class (content) of a control list flag
      *
-     * @param  string  $flagName
+     * @param string $flagName
      *
-     * @return \surva\worlds\types\ControlList|null
+     * @return ControlList|null
      */
     public function getControlListContent(string $flagName): ?ControlList
     {
@@ -282,7 +285,7 @@ class World
     /**
      * Get the value of an int flag
      *
-     * @param  string  $flagName
+     * @param string $flagName
      *
      * @return int|null
      */
@@ -294,7 +297,7 @@ class World
     /**
      * Get the value of a string flag
      *
-     * @param  string  $flagName
+     * @param string $flagName
      *
      * @return string|null
      */
@@ -304,7 +307,7 @@ class World
     }
 
     /**
-     * @return \pocketmine\utils\Config
+     * @return Config
      */
     protected function getConfig(): Config
     {
