@@ -6,7 +6,6 @@
 
 namespace surva\worlds;
 
-use DirectoryIterator;
 use JsonException;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
