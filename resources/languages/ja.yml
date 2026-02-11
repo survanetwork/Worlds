@@ -1,108 +1,75 @@
-# __        __         _     _
-# \ \      / /__  _ __| | __| |___
-#  \ \ /\ / / _ \| '__| |/ _` / __|
-#   \ V  V / (_) | |  | | (_| \__ \
-#    \_/\_/ \___/|_|  |_|\__,_|___/
-#
-# (C) 2019 by surva network | https://github.com/survanetwork
-
-# General
 general:
   command:
-    in_game: ""
-    no_permission: ""
+    in_game: "§6このコマンドはゲーム内でのみ実行できます。"
+    no_permission: "§6この世界ではこのコマンドの使用は許可されていません。"
   world:
-    not_exist: ""
-    not_loaded: ""
+    not_exist: "§cワールド §f{name} §cは存在しません。"
+    not_loaded: "§cワールド §f{name} §cはロードされていないか、存在しません。"
   permission: "§6この世界に入る許可がありません。"
   config:
-    save_error: ""
-    item_ids_updated: ""
-
-# List command
+    save_error: "§cワールド設定ファイルを保存できませんでした。サーバーフォルダーを確認してください！"
+    item_ids_updated: "§bワールド §7{world} §bのフラグ §e{flag} §bのレガシーアイテム/ブロックIDは新しいアイテム/ブロック名形式に更新されました。"
 list:
   worlds: "§eこのサーバーにある全ての世界、§f{worlds}"
-
-# Create command
 create:
   success: "§a新しい世界§f{name}§aが作成されました。"
   failed: "§c世界の作成中に不明なエラーが発生しました"
   generator:
-    not_exist: ""
-
-# Remove command
+    not_exist: "§6生成されたもの §f{name} §6がありません。デフォルトを使用します。"
 remove:
   success: "§a世界§f{name}§aは削除されました"
-  error: ""
-
-# Copy command
+  error: "§c一部のワールドファイルを削除できませんでした。ワールドファイルを確認してください。"
 copy:
   success: "§a世界§f{name}§は§f{to}§aにコピーされました。"
   error_code:
-    same_source_target: ""
-    source_not_exist: ""
-    target_exist: ""
-    copy_failed: ""
-
-# Rename command
+    same_source_target: "§c同じワールドにコピーすることはできません。"
+    source_not_exist: "§cソースフォルダーが存在しません！"
+    target_exist: "§cターゲットフォルダーはすでに存在します！"
+    copy_failed: "§c一部のワールドファイルをコピーできませんでした。ワールドファイルを確認してください。"
 rename:
   success: "§a世界§f{name}§は§f{to}§aに改名されました。"
   error_code:
-    same_source_target: ""
-    delete_failed: ""
-
-# Load command
+    same_source_target: "§c同じ名前にワールドをリネームすることはできません。"
+    delete_failed: "§c旧フォルダー内の一部のワールドファイルを削除できませんでした。ワールドファイルを確認してください。"
 load:
   success: "§a世界§f{world}§aは正常にロードされました"
   already: "§e世界§f{name}§eはすでに読み込まれています。"
   failed: "§c世界を読み込むことができませんでした。"
-  error: ""
-
-# Unload command
+  error: "§cワールドの読み込み中にエラーが発生しました: §7{message}§c。"
 unload:
   success: "§a世界§f{world}§aは正常にアンロードされました"
   default: "§cデフォルトの世界をアンロードできません！"
   failed: "§c世界をアンロードできませんでした。"
-
-# Teleport command
 teleport:
   success: "§aあなたは§f{world}§aにテレポートされました。"
-  success_other: ""
+  success_other: "§aテレポートしました: §6{player} §a→ §f{world}§a。"
   error_code:
-    no_player: ""
-    teleport_failed: ""
-
-# Set command
+    no_player: "§6テレポート対象のプレイヤーが存在しません。"
+    teleport_failed: "§cワールドへテレポートできません。"
 set:
   success: "§aあなたは§b{key}を設定しました。§f{world}§aを選択します。を§c{value}§aに変更する。"
   list:
     info: "§c世界§f{name}の設定"
-    not_set: ""
+    not_set: "§7未設定"
   permission:
-    not_default: ""
+    not_default: "§cデフォルトワールドに権限を設定することはできません。"
   gamemode:
-    not_exist: ""
-  not_bool: ""
-  not_controllist: ""
-
-# ControlList sub command (of set)
+    not_exist: "§6そのゲームモードは存在しません。"
+  not_bool: "§6{key} は §atrue §6または §cfalse§6 のみ設定できます。"
+  not_controllist: "§6{key} は §atrue§6、§cfalse§6、§fwhite§6、または §0black§6 のみ設定できます。"
 controllist:
   add:
-    success: ""
+    success: "§aアイテム §c{item} §aが §b{key} §aコントロールリストに追加されました。"
     error_code:
-      invalid_item: ""
+      invalid_item: "§7{item} §cは有効なアイテムまたはブロック名ではありません。"
   remove:
-    success: ""
+    success: "§6アイテム §c{item} §6が §b{key} §6コントロールリストから削除されました。"
   reset:
-    success: ""
+    success: "§6すべてのアイテムが §b{key} §6コントロールリストから削除されました。"
   list:
-    description: ""
-
-# Unset command
+    description: "§f§b{key} §fコントロールリストの内容: §7{content}"
 unset:
   success: "§b{key}§aは§f{world}§aで設定されていません。"
-
-# Defaults command
 defaults:
   list:
     info: "§cこのサーバー上のワールドのデフォルト設定"
@@ -110,10 +77,7 @@ defaults:
     success: "§aあなたは§b{key}§aを設定しました。§c{value}§aをデフォルト値として使用する"
   unset:
     success: "§b{key}§aはデフォルト値として設定されていません"
-
-# Forms
 forms:
-  # World settings
   world:
     title: "§a世界§f{name}§aの設定"
     params:
@@ -130,17 +94,15 @@ forms:
       daylightcycle: "昼夜サイクル"
       leavesdecay: "葉っぱの自然消滅"
       potion: "ポーション"
-      command: ""
+      command: "コマンド実行"
     options:
-      not_set: ""
-      true: "§a有効"
-      false: "§c無効"
-      white: ""
-      black: ""
-  # Default settings
+      not_set: "§7未設定 (null)"
+      "true": "§a有効"
+      "false": "§c無効"
+      white: "§fホワイトリストを使用"
+      black: "§0ブラックリストを使用"
   default:
     title: "§a世界の初期設定"
-  # Settings saved message
   saved: "§a設定の保存に成功しました！"
   error_code:
-    invalid_data: ""
+    invalid_data: "§6設定フォームから無効なデータが受信されました。設定は保存されていません。"

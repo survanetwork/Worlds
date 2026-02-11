@@ -1,12 +1,3 @@
-# __        __         _     _
-# \ \      / /__  _ __| | __| |___
-#  \ \ /\ / / _ \| '__| |/ _` / __|
-#   \ V  V / (_) | |  | | (_| \__ \
-#    \_/\_/ \___/|_|  |_|\__,_|___/
-#
-# (C) 2019 by surva network | https://github.com/survanetwork
-
-# General
 general:
   command:
     in_game: "§6Šo komandu varat izpildīt tikai spēlē."
@@ -18,24 +9,16 @@ general:
   config:
     save_error: "§cPasaules konfigurācijas failu nevarēja saglabāt. Lūdzu, pārbaudiet servera mapi!"
     item_ids_updated: "§bMantotais priekšmetu/bloku ID iezīmei §e{flag}, pasaulē §7{world} §btika atjaunots uz jauno priekšmetu/bloku nosaukumu formātu."
-
-# List command
 list:
   worlds: "§ePasaules šajā serverī: §f{worlds}§e."
-
-# Create command
 create:
   success: "§aPasaule ar vārdu §f{name} §air izveidota."
   failed: "§cNezināma kļūda veidojot pasauli."
   generator:
     not_exist: "§6Nav neviena ģenerēta nosaukuma §f{name} §6- izmanto noklusējumā iestatīto."
-
-# Remove command
 remove:
   success: "§aPasaule ar vārdu §f{name} §air noņemta."
   error: "§cDažus pasaules failus nevarēja noņemt. Lūdzu, pārbaudiet pasaules failus."
-
-# Copy command
 copy:
   success: "§aPasaule ar vārdu §f{name} §air nokopēta uz §f{to}§a."
   error_code:
@@ -43,36 +26,26 @@ copy:
     source_not_exist: "§cAvota mape nepastāv!"
     target_exist: "§cMērķa mape jau pastāv!"
     copy_failed: "§cDažus pasaules failus nevarēja nokopēt. Lūdzu, pārbaudiet pasaules failus."
-
-# Rename command
 rename:
   success: "§aPasaule §f{name} §air pārdēvēta uz §f{to}§a."
   error_code:
     same_source_target: "§cJūs nevarat pārdēvēt pasauli ar tādu pašu nosaukumu."
     delete_failed: "§cDažus pasaules failus vecajā mapē nevarēja izdzēst. Lūdzu, pārbaudiet pasaules failus."
-
-# Load command
 load:
   success: "§aPasaule ar vārdu §f{world} §air veiksmīgi ielādēta."
   already: "§ePasaule ar vārdu §f{name} §eir jau ielādēta."
   failed: "§cPasauli nevarēja ielādēt."
   error: "§cMēģinot ielādēt pasauli, radās kļūda: §7{message}§c."
-
-# Unload command
 unload:
   success: "§aPasaule ar vārdu §f{world} §air veiksmīgi izlādēta."
   default: "§cNevar izlādēt noklusējuma pasauli!"
   failed: "§cPasauli nevarēja izlādēt."
-
-# Teleport command
 teleport:
   success: "§aJūs tikāt teleportēts uz pasauli ar vārdu §f{world}§a."
   success_other: "§aJūs teleportējāt §6{player} §auz §f{world}§a."
   error_code:
     no_player: "§6Teleportējamais spēlētājs neeksistē."
     teleport_failed: "§cNevar jūs teleportēt uz pasauli."
-
-# Set command
 set:
   success: "§aJūs uzstādījāt §b{key} §apasaulē §f{world} §auz §c{value}§a."
   list:
@@ -84,8 +57,6 @@ set:
     not_exist: "§6Šis spēles režīms neeksistē."
   not_bool: "§6Jūs varat iestatīt §f{key} §6tikai uz §atrue §6vai §cfalse§6."
   not_controllist: "§6Jūs varat iestatīt §f{key} §6tikai uz §atrue§6, §cfalse§6, §fwhite §6vai §0black§6."
-
-# ControlList sub command (of set)
 controllist:
   add:
     success: "§aPriekšmets §c{item} §apievienots §b{key} §akontrolsarakstam."
@@ -97,12 +68,8 @@ controllist:
     success: "§6Visi priekšmeti tika noņemti no §b{key} §6kontrolsaraksta."
   list:
     description: "§fRāda saturu §b{key} §fkontrolsarakstam: §7{content}"
-
-# Unset command
 unset:
   success: "§b{key} §atika atiestatīta pasaulē §f{world}§a."
-
-# Defaults command
 defaults:
   list:
     info: "§cNoklusējuma iestatījumi pasaulēm šajā serverī"
@@ -110,10 +77,7 @@ defaults:
     success: "§aJūs uzstādījāt §b{key} §auz §c{value} §akā noklusējuma vērtību."
   unset:
     success: "§b{key} §atika atiestatīta kā noklusējuma vērtība."
-
-# Forms
 forms:
-  # World settings
   world:
     title: "§aIestatījumi pasaulei ar vārdu §f{name}"
     params:
@@ -133,14 +97,12 @@ forms:
       command: "Komandu izpilde"
     options:
       not_set: "§7nav iestatīts (null)"
-      true: "§aieslēgts"
-      false: "§cizslēgts"
+      "true": "§aieslēgts"
+      "false": "§cizslēgts"
       white: "§fizmantot balto sarakstu"
       black: "§0izmantot melno sarakstu"
-  # Default settings
   default:
     title: "§aNoklusējuma pasaules iestatījumi"
-  # Settings saved message
   saved: "§aIestatījumi ir veiksmīgi saglabāti!"
   error_code:
     invalid_data: "§6Saņemti nederīgi dati no iestatījumu formas, iestatījumi nav saglabāti."

@@ -1,12 +1,3 @@
-# __        __         _     _
-# \ \      / /__  _ __| | __| |___
-#  \ \ /\ / / _ \| '__| |/ _` / __|
-#   \ V  V / (_) | |  | | (_| \__ \
-#    \_/\_/ \___/|_|  |_|\__,_|___/
-#
-# (C) 2019 by surva network | https://github.com/survanetwork
-
-# General
 general:
   command:
     in_game: "§6Du kannst diesen Befehl nur im Spiel ausführen."
@@ -18,24 +9,16 @@ general:
   config:
     save_error: "§cEinstellungs-Datei (Config) der Welt konnte nicht gespeichert werden, bitte prüfe den Server-Ordner!"
     item_ids_updated: "§bVeraltete Item-/Block-IDs für Option §e{flag} §bin Welt §7{world} §bwurden automatisch auf das neue Format für Item-/Block-Namen aktualisiert."
-
-# List command
 list:
   worlds: "§eWelten auf diesem Server: §f{worlds}§e."
-
-# Create command
 create:
   success: "§aDie Welt §f{name} §awurde erfolgreich erstellt."
   failed: "§cDie Welt konnte aufgrund eines unbekannten Fehlers nicht erstellt werden."
   generator:
     not_exist: "§6Es gibt keinen Generator namens §f{name} §6- benutze den Standard-Generator."
-
-# Remove command
 remove:
   success: "§aDie Welt §f{name} §awurde erfolgreich gelöscht."
   error: "§cEinige Dateien der Welt konnten nicht gelöscht werden, bitte prüfe den Welt-Ordner."
-
-# Copy command
 copy:
   success: "§aDie Welt §f{name} §wurde erfolgreich nach §f{to} §akopiert."
   error_code:
@@ -43,36 +26,26 @@ copy:
     source_not_exist: "§cQuell-Ordner existiert nicht!"
     target_exist: "§cZiel-Ordner existiert bereits!"
     copy_failed: "§cEinige Dateien der Welt konnten nicht kopiert werden, bitte prüfe den Welt-Ordner."
-
-# Rename command
 rename:
   success: "§aDie Welt §f{name} §awurde zu §f{to} §aumbenannt."
   error_code:
     same_source_target: "§cDu kannst eine Welt nicht in den gleichen Namen umbenennen."
     delete_failed: "§cEinige Dateien im alten Welt-Ordner konnten nicht gelöscht werden, bitte prüfe den Welt-Ordner."
-
-# Load command
 load:
   success: "§aDie Welt §f{world} §awurde erfolgreich geladen."
   already: "§eDie Welt §f{name} §eist bereits geladen."
   failed: "§cDie Welt konnte nicht geladen werden."
   error: "§cBeim Laden der Welt ist ein Fehler aufgetreten: §7{message}§c."
-
-# Unload command
 unload:
   success: "§aDie Welt §f{world} §awurde erfolgreich entladen."
   default: "§cDie Standard-Welt kann nicht entladen werden!"
   failed: "§cDie Welt konnte nicht entladen werden."
-
-# Teleport command
 teleport:
   success: "§aDu wurdest nach §f{world} §ateleportiert."
   success_other: "§aDu hast §6{player} §ain §f{world} §ateleportiert."
   error_code:
     no_player: "§6Spieler, der teleportiert werden sollte, existiert nicht."
     teleport_failed: "§cDu konntest nicht in die Welt teleportiert werden."
-
-# Set command
 set:
   success: "§aDu hast §b{key} §ain §f{world} §aauf §c{value} §agesetzt."
   list:
@@ -84,8 +57,6 @@ set:
     not_exist: "§6Dieser Spielmodus existiert nicht."
   not_bool: "§6Du kannst §f{key} §6nur auf §atrue §6oder §afalse §6setzen."
   not_controllist: "§6Du kannst §f{key} §6nur auf §atrue§6, §cfalse§6, §fwhite §6oder §0black §6setzen."
-
-# ControlList sub command (of set)
 controllist:
   add:
     success: "§aElement §c{item} §ahinzugefügt zu Steuerliste §b{key}§a."
@@ -97,12 +68,8 @@ controllist:
     success: "§6Alle Elemente wurden von Steuerliste §b{key} §6entfernt."
   list:
     description: "§fInhalt der Steuerliste §b{key}§f: §7{content}"
-
-# Unset command
 unset:
   success: "§b{key} §ain §f{world} §awurde zurückgesetzt."
-
-# Defaults command
 defaults:
   list:
     info: "§Einstellungen für Welten auf diesem Server"
@@ -110,10 +77,7 @@ defaults:
     success: "§aDu hast §b{key} §aauf §c{value} §aals Standard-Wert gesetzt."
   unset:
     success: "§b{key} §awurde als Standard-Wert zurückgesetzt."
-
-# Forms
 forms:
-  # World settings
   world:
     title: "§aWelt-Einstellungen für §f{name}"
     params:
@@ -133,14 +97,12 @@ forms:
       command: "Befehle ausführen"
     options:
       not_set: "§7nicht eingestellt (kein Wert)"
-      true: "§aaktiviert"
-      false: "§cdeaktiviert"
+      "true": "§aaktiviert"
+      "false": "§cdeaktiviert"
       white: "§fWhitelist verwenden"
       black: "§0Blacklist verwenden"
-  # Default settings
   default:
     title: "§aStandard Welt-Einstellungen"
-  # Settings saved message
   saved: "§aEinstellungen erfolgreich gespeichert!"
   error_code:
     invalid_data: "§6Ungültige Daten vom Einstellungs-Formular erhalten, Änderungen wurden nicht gespeichert."

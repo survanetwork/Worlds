@@ -1,114 +1,83 @@
-# __        __         _     _
-# \ \      / /__  _ __| | __| |___
-#  \ \ /\ / / _ \| '__| |/ _` / __|
-#   \ V  V / (_) | |  | | (_| \__ \
-#    \_/\_/ \___/|_|  |_|\__,_|___/
-#
-# (C) 2019 by surva network | https://github.com/survanetwork
-
-# English language
-
-# General
 general:
   command:
-    in_game: ""
+    in_game: "§6Anda hanya dapat menjalankan perintah ini dalam permainan."
+    no_permission: "§6Penggunaan perintah ini tidak diizinkan di dunia ini."
   world:
-    not_exist: ""
-    not_loaded: ""
+    not_exist: "§cDunia §f{name} §ctidak ada."
+    not_loaded: "§cDunia §f{name} §ctidak dimuat atau tidak ada."
   permission: "§6Anda tidak memiliki izin untuk mengunjungi dunia ini."
   config:
-    save_error: ""
-
-# List command
+    save_error: "§cBerkas konfigurasi dunia tidak dapat disimpan, silakan periksa folder server!"
+    item_ids_updated: "§bID item/blok lama untuk flag §e{flag} §bpada dunia §7{world} §btelah diperbarui ke format nama item/blok baru."
 list:
   worlds: "§eDunia yang ada di server: §f{worlds}§e."
-
-# Create command
 create:
   success: "§aDunia §f{name} §aberhasil dibuat."
   failed: "§cTerdapat kesalahan yang tidak diketahui saat membuat dunia ini."
   generator:
-    not_exist: ""
-
-# Remove command
+    not_exist: "§6Tidak ada generator bernama §f{name} §6- menggunakan yang standar."
 remove:
   success: "§aDunia §f{name} §aberhasil dihapus."
-  error: ""
-
-# Copy command
+  error: "§cBeberapa berkas dunia tidak dapat dihapus, silakan periksa berkas dunia."
 copy:
   success: "§aDunia §f{name} §aberhasil disalin ke §f{to}§a."
   error_code:
-    same_source_target: ""
-    source_not_exist: ""
-    target_exist: ""
-    copy_failed: ""
-
-# Rename command
+    same_source_target: "§cAnda tidak dapat menyalin dunia ke dirinya sendiri."
+    source_not_exist: "§cFolder sumber tidak ada!"
+    target_exist: "§cFolder target sudah ada!"
+    copy_failed: "§cBeberapa berkas dunia tidak dapat disalin, silakan periksa berkas dunia."
 rename:
   success: "§aDunia §f{name} §aberhasil dinamakan ulang menjadi §f{to}§a."
   error_code:
-    same_source_target: ""
-    delete_failed: ""
-
-# Load command
+    same_source_target: "§cAnda tidak dapat mengganti nama dunia menjadi nama yang sama."
+    delete_failed: "§cBeberapa berkas dunia di folder lama tidak dapat dihapus, silakan periksa berkas dunia."
 load:
   success: "§aDunia §f{world} §aberhasil dimuat."
   already: "§eDunia §f{name} §esudah dimuat."
   failed: "§cGagal memuat dunia."
-  error: ""
-
-# Unload command
+  error: "§cTerjadi kesalahan saat mencoba memuat dunia: §7{message}§c."
 unload:
   success: "§aDunia §f{world} §aberhasil dinonaktifkan."
-  default: ""
+  default: "§cTidak dapat memuat ulang dunia standar!"
   failed: "§cGagal menonaktifkan dunia."
-
-# Teleport command
 teleport:
   success: "§aBerhasil meneleportasikan Anda ke dunia §f{world}§a."
-  failed: "§cGagal meneleportasikan Anda ke dunia."
-
-# Set command
+  success_other: "§aAnda telah teleport §6{player} §ake §f{world}§a."
+  error_code:
+    no_player: "§6Pemain yang akan ditransport tidak ada."
+    teleport_failed: "§cTidak dapat menteleport Anda ke dunia."
 set:
   success: "§aBerhasil mengubah §b{key} §adi dunia §f{world} §amenjadi §c{value}§a."
   list:
-    info: ""
-    not_set: ""
+    info: "§cPengaturan untuk dunia §f{name}"
+    not_set: "§7belum diatur"
   permission:
-    not_default: ""
+    not_default: "§cAnda tidak dapat mengatur izin pada dunia standar."
   gamemode:
-    not_exist: ""
-  not_bool: ""
-  not_controllist: ""
-
-# ControlList sub command (of set)
+    not_exist: "§6Mode permainan ini tidak ada."
+  not_bool: "§6Anda hanya dapat mengatur §f{key} §6menjadi §atrue §6atau §cfalse§6."
+  not_controllist: "§6Anda hanya dapat mengatur §f{key} §6menjadi §atrue§6, §cfalse§6, §fwhite §6atau §0black§6."
 controllist:
   add:
-    success: ""
+    success: "§aItem §c{item} §atelah ditambahkan ke daftar kontrol §b{key}§a."
+    error_code:
+      invalid_item: "§7{item} §cbukan nama item atau blok yang valid."
   remove:
-    success: ""
+    success: "§6Item §c{item} §6telah dihapus dari daftar kontrol §b{key}§6."
   reset:
-    success: ""
+    success: "§6Semua item telah dihapus dari daftar kontrol §b{key}§6."
   list:
-    description: ""
-
-# Unset command
+    description: "§fMenampilkan isi daftar kontrol §b{key} §f: §7{content}"
 unset:
   success: "§aBerhasil menonaktifkan §b{key} §adi dunia §f{world}§a."
-
-# Defaults command
 defaults:
   list:
-    info: ""
+    info: "§cPengaturan standar untuk dunia di server ini"
   set:
     success: "§aBerhasil mengubah §b{key} §amenjadi §c{value} §asebagai default."
   unset:
     success: "§aBerhasil menonaktifkan §b{key} §asebagai default."
-
-# Forms
 forms:
-  # World settings
   world:
     title: "§aPengaturan dunia §f{name}"
     params:
@@ -123,18 +92,17 @@ forms:
       hunger: "Memperbolehkan kelaparan"
       fly: "Memperbolehkan terbang"
       daylightcycle: "Siklus hari"
-      leavesdecay: ""
-      potion: ""
+      leavesdecay: "Daun membusuk"
+      potion: "Ramuan"
+      command: "Eksekusi perintah"
     options:
-      not_set: ""
-      true: "§adiaktifkan"
-      false: "§cdinonaktifkan"
-      white: ""
-      black: ""
-  # Default settings
+      not_set: "§7belum diatur (null)"
+      "true": "§adiaktifkan"
+      "false": "§cdinonaktifkan"
+      white: "§fgunakan daftar putih"
+      black: "§0gunakan daftar hitam"
   default:
     title: "§aPengaturan default dunia"
-  # Settings saved message
   saved: "§aBerhasil menyimpan pengaturan!"
   error_code:
-    invalid_data: ""
+    invalid_data: "§6Menerima data tidak valid dari formulir pengaturan, pengaturan tidak disimpan."

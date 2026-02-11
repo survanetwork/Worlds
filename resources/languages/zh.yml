@@ -1,12 +1,3 @@
-# __        __         _     _
-# \ \      / /__  _ __| | __| |___
-#  \ \ /\ / / _ \| '__| |/ _` / __|
-#   \ V  V / (_) | |  | | (_| \__ \
-#    \_/\_/ \___/|_|  |_|\__,_|___/
-#
-# (C) 2019 by surva network | https://github.com/survanetwork
-
-# General
 general:
   command:
     in_game: "§6您只能在游戏中运行此命令。"
@@ -17,25 +8,17 @@ general:
   permission: "§6你没有加入这个世界的权限。"
   config:
     save_error: "§c世界配置文件无法保存，请检查服务器文件夹！"
-    item_ids_updated: ""
-
-# List command
+    item_ids_updated: "§b已为标志 §e{flag} §b在世界 §7{world} §b更新了旧版物品/方块 ID 为新的物品/方块名称格式。"
 list:
   worlds: "§e此服务器上的世界：§f{worlds}§e。"
-
-# Create command
 create:
   success: "§a世界 §f{name} §a已创建。"
   failed: "§c创建世界时发生了一个未知的错误。"
   generator:
     not_exist: "§6没有已生成世界名为 §f{name} §6- 使用默认的。"
-
-# Remove command
 remove:
   success: "§a世界 §f{name} §a已移除"
   error: "§c部分世界文件无法删除，请检查世界文件。"
-
-# Copy command
 copy:
   success: "§a世界 §f{name} §a已被复制至 §f{to}§a。"
   error_code:
@@ -43,36 +26,26 @@ copy:
     source_not_exist: "§c源文件夹不存在！"
     target_exist: "§c目标文件夹已存在！"
     copy_failed: "§c部分世界文件无法复制，请检查世界文件。"
-
-# Rename command
 rename:
   success: "§a世界 §f{name} §a已被重命名为 §f{to}§a。"
   error_code:
     same_source_target: "§c您不能将世界重命名为相同的名称。"
     delete_failed: "§c旧文件夹中的部分世界文件无法删除，请检查世界文件。"
-
-# Load command
 load:
   success: "§a世界 §f{world} §a已成功被加载。"
   already: "§e世界 §f{name} §e已被加载。"
   failed: "§c该世界无法被加载。"
   error: "§c尝试加载世界时发生错误：§7{message}§c。"
-
-# Unload command
 unload:
   success: "§a世界 §f{world} §a已成功被卸载。"
   default: "§c无法卸载默认世界！"
   failed: "§c该世界无法被卸载"
-
-# Teleport command
 teleport:
   success: "§a你已被传送至 §f{world}§a。"
   success_other: "§a你已将 §6{player} §a传送至 §f{world}§a。"
   error_code:
     no_player: "§6要传送的玩家不存在。"
     teleport_failed: "§c无法将你传送到该世界。"
-
-# Set command
 set:
   success: "§a你已将 §f{world} §a中的 §b{key} §a值设置为 §c{value}§a。"
   list:
@@ -84,25 +57,19 @@ set:
     not_exist: "§6该游戏模式不存在。"
   not_bool: "§6您只能将 §f{key} §6设置为 §atrue §6或 §cfalse§6."
   not_controllist: "§6您只能将 §f{key} §6设置为 §atrue§6、§cfalse§6、§fwhite §6或 §0black§6."
-
-# ControlList sub command (of set)
 controllist:
   add:
     success: "§a物品 §x{item} §a已添加到 §b{key} §a控制列表。"
     error_code:
-      invalid_item: ""
+      invalid_item: "§7{item} §c不是有效的物品或方块名称。"
   remove:
     success: "§6物品 §c{item} §6已从 §b{key} §6控制列表中删除。"
   reset:
     success: "§6所有项目都已从 §b{key} §6控制列表中删除。"
   list:
     description: "§f显示 §b{key} §f控制列表的内容：§7{content}"
-
-# Unset command
 unset:
   success: "§a世界 §f{world} §a的 §b{key} §a已被重置。"
-
-# Defaults command
 defaults:
   list:
     info: "§c此服务器上世界的默认设置"
@@ -110,10 +77,7 @@ defaults:
     success: "§a你已将 §c{value} §a设置为 §b{key} §a的默认值。"
   unset:
     success: "§b{key} §a已被重置为默认值。"
-
-# Forms
 forms:
-  # World settings
   world:
     title: "§a世界 §f{name} §a的设置"
     params:
@@ -133,14 +97,12 @@ forms:
       command: "命令执行"
     options:
       not_set: "§7未设置（空）"
-      true: "§a已启用"
-      false: "§c已禁用"
+      "true": "§a已启用"
+      "false": "§c已禁用"
       white: "§f使用白名单"
       black: "§0使用黑名单"
-  # Default settings
   default:
     title: "§a默认世界设置"
-  # Settings saved message
   saved: "§a设置已成功保存！"
   error_code:
     invalid_data: "§6从设置表单收到无效数据，设置尚未保存。"

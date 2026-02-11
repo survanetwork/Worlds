@@ -1,108 +1,75 @@
-# __        __         _     _
-# \ \      / /__  _ __| | __| |___
-#  \ \ /\ / / _ \| '__| |/ _` / __|
-#   \ V  V / (_) | |  | | (_| \__ \
-#    \_/\_/ \___/|_|  |_|\__,_|___/
-#
-# (C) 2019 by surva network | https://github.com/survanetwork
-
-# General
 general:
   command:
-    in_game: ""
-    no_permission: ""
+    in_game: "§6Bạn chỉ có thể chạy lệnh này trong trò chơi."
+    no_permission: "§6Việc sử dụng lệnh này không được phép trong thế giới này."
   world:
-    not_exist: ""
-    not_loaded: ""
+    not_exist: "§cThế giới §f{name} §ckhông tồn tại."
+    not_loaded: "§cThế giới §f{name} §ckhông được tải hoặc không tồn tại."
   permission: "§6Bạn không có quyền tham gia thế giới này."
   config:
-    save_error: ""
-    item_ids_updated: ""
-
-# List command
+    save_error: "§cKhông thể lưu file cấu hình thế giới, vui lòng kiểm tra thư mục máy chủ!"
+    item_ids_updated: "§bID vật phẩm/khối cũ cho cờ §e{flag} §btrong thế giới §7{world} §bđã được cập nhật sang định dạng tên vật phẩm/khối mới."
 list:
   worlds: "§eCác thế giới trên máy chủ này: §f{worlds}§e."
-
-# Create command
 create:
   success: "§aThế giới §f{name} §ađã được tạo."
   failed: "§cĐã xảy ra lỗi không xác định trong khi tạo thế giới."
   generator:
-    not_exist: ""
-
-# Remove command
+    not_exist: "§6Không có thế giới được tạo có tên §f{name} §6- đang sử dụng mặc định."
 remove:
   success: "§aThế giới §f{name} đã được xóa bỏ§a."
-  error: ""
-
-# Copy command
+  error: "§cKhông thể xóa một số tệp thế giới, vui lòng kiểm tra các tệp thế giới."
 copy:
   success: "§aThế giới §f{name} §ađã được sao chép thành §f{to}§a."
   error_code:
-    same_source_target: ""
-    source_not_exist: ""
-    target_exist: ""
-    copy_failed: ""
-
-# Rename command
+    same_source_target: "§cBạn không thể sao chép thế giới vào chính nó."
+    source_not_exist: "§cThư mục nguồn không tồn tại!"
+    target_exist: "§cThư mục đích đã tồn tại!"
+    copy_failed: "§cKhông thể sao chép một số tệp thế giới, vui lòng kiểm tra các tệp thế giới."
 rename:
   success: "§aThế giới §f{name} §ađã được đổi tên thành §f{to}§a."
   error_code:
-    same_source_target: ""
-    delete_failed: ""
-
-# Load command
+    same_source_target: "§cBạn không thể đổi tên thế giới thành cùng một tên."
+    delete_failed: "§cMột số tệp thế giới trong thư mục cũ không thể xóa, vui lòng kiểm tra các tệp thế giới."
 load:
   success: "§aThế giới §f{world} §ađã được tải thành công."
   already: "§eThế giới §f{name} §eđã được tải."
   failed: "§cThe world could not be loaded."
   error: "§cĐã xảy ra lỗi khi cố gắng tải thế giới: §7{message}§c."
-
-# Unload command
 unload:
   success: "§aThế giới §f{world} §ađã được bỏ tải thành công."
   default: "§cKhông thể bỏ tải thế giới mặc định!"
   failed: "§cThế giới không thể được bỏ tải."
-
-# Teleport command
 teleport:
   success: "§aBạn đã được dịch chuyển đến §f{world}§a."
-  success_other: ""
+  success_other: "§aBạn đã dịch chuyển §6{player} §ađến §f{world}§a."
   error_code:
-    no_player: ""
-    teleport_failed: ""
-
-# Set command
+    no_player: "§6Người chơi để dịch chuyển không tồn tại."
+    teleport_failed: "§cKhông thể dịch chuyển bạn đến thế giới."
 set:
   success: "§aBạn đã thiết lập §b{key} §atại §f{world} §athành §c{value}§a."
   list:
     info: "§cCác cài đặt cho thế giới §f{name}"
-    not_set: ""
+    not_set: "§7không thiết lập"
   permission:
-    not_default: ""
+    not_default: "§cBạn không thể đặt quyền trên thế giới mặc định."
   gamemode:
-    not_exist: ""
-  not_bool: ""
-  not_controllist: ""
-
-# ControlList sub command (of set)
+    not_exist: "§6Chế độ chơi này không tồn tại."
+  not_bool: "§6Bạn chỉ có thể đặt §f{key} §6thành §atrue §6hoặc §cfalse§6."
+  not_controllist: "§6Bạn chỉ có thể đặt §f{key} §6thành §atrue§6, §cfalse§6, §fwhite §6hoặc §0black§6."
 controllist:
   add:
-    success: ""
+    success: "§aMục §c{item} §ađã được thêm vào danh sách kiểm soát §b{key}§a."
     error_code:
-      invalid_item: ""
+      invalid_item: "§7{item} §ckhông phải là tên vật phẩm hoặc khối hợp lệ."
   remove:
-    success: ""
+    success: "§6Mục §c{item} §6đã được gỡ khỏi danh sách kiểm soát §b{key}§6."
   reset:
-    success: ""
+    success: "§6Tất cả các mục đã được gỡ khỏi danh sách kiểm soát §b{key}§6."
   list:
-    description: ""
-
-# Unset command
+    description: "§fHiển thị nội dung của danh sách kiểm soát §b{key} §f: §7{content}"
 unset:
   success: "§b{key} §ađã được thiết lập tại §f{world}§a."
-
-# Defaults command
 defaults:
   list:
     info: "§cCác cài đặt mặc định cho thế giới trên máy chủ này"
@@ -110,10 +77,7 @@ defaults:
     success: "§aBạn đã thiết lập §b{key} §athành §c{value} §alàm giá trị mặc định."
   unset:
     success: "§b{key} §akhông còn là giá trị mặc định."
-
-# Forms
 forms:
-  # World settings
   world:
     title: "§aCài đặt thế giới cho §f{name}"
     params:
@@ -130,17 +94,15 @@ forms:
       daylightcycle: "Chu kỳ ánh sáng ban ngày"
       leavesdecay: "Lá thối rữa"
       potion: "Lọ thuốc"
-      command: ""
+      command: "Thực thi lệnh"
     options:
-      not_set: ""
-      true: "§ađược kích hoạt"
-      false: "§cbị vô hiệu hóa"
-      white: ""
-      black: ""
-  # Default settings
+      not_set: "§7không thiết lập (null)"
+      "true": "§ađược kích hoạt"
+      "false": "§cbị vô hiệu hóa"
+      white: "§fsử dụng danh sách trắng"
+      black: "§0sử dụng danh sách đen"
   default:
     title: "§aCác cài đặt thế giới mặc định"
-  # Settings saved message
   saved: "§aCác cài đặt đã được lưu thành công!!"
   error_code:
-    invalid_data: ""
+    invalid_data: "§6Nhận dữ liệu không hợp lệ từ biểu mẫu cài đặt, cài đặt chưa được lưu."

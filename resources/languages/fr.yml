@@ -1,114 +1,83 @@
-# __        __         _     _
-# \ \      / /__  _ __| | __| |___
-#  \ \ /\ / / _ \| '__| |/ _` / __|
-#   \ V  V / (_) | |  | | (_| \__ \
-#    \_/\_/ \___/|_|  |_|\__,_|___/
-#
-# (C) 2019 by surva network | https://github.com/survanetwork
-
-# English language
-
-# General
 general:
   command:
-    in_game: ""
+    in_game: "§6Vous ne pouvez exécuter cette commande qu'en jeu."
+    no_permission: "§6L'utilisation de cette commande n'est pas autorisée dans ce monde."
   world:
-    not_exist: ""
-    not_loaded: ""
+    not_exist: "§cLe monde §f{name} §cn'existe pas."
+    not_loaded: "§cLe monde §f{name} §cn'est pas chargé ou n'existe pas."
   permission: "§6Vous n'avez pas la permission de rejoindre ce monde."
   config:
-    save_error: ""
-
-# List command
+    save_error: "§cLe fichier de configuration du monde n'a pas pu être enregistré, veuillez vérifier le dossier du serveur !"
+    item_ids_updated: "§bLes ID d'objets/blocs hérités pour le drapeau §e{flag} §bdans le monde §7{world} §bont été mis à jour au nouveau format de nom d'objet/bloc."
 list:
   worlds: "§eMondes de ce serveur: §f{worlds}§e."
-
-# Create command
 create:
   success: "§aLe Monde §f{name} §aa été créé."
   failed: "§cUne erreur inconnue s'est produite lors de la création du monde."
   generator:
-    not_exist: ""
-
-# Remove command
+    not_exist: "§6Il n'existe aucune génération appelée §f{name} §6- utilisation de la valeur par défaut."
 remove:
   success: "§aLe Monde §f{name} §aa été supprimé."
-  error: ""
-
-# Copy command
+  error: "§cCertains fichiers du monde n'ont pas pu être supprimés, veuillez vérifier les fichiers du monde."
 copy:
   success: "§aLe Monde §f{name} §aa été copié vers §f{to}§a."
   error_code:
-    same_source_target: ""
-    source_not_exist: ""
-    target_exist: ""
-    copy_failed: ""
-
-# Rename command
+    same_source_target: "§cVous ne pouvez pas copier le monde sur lui-même."
+    source_not_exist: "§cLe dossier source n'existe pas !"
+    target_exist: "§cLe dossier cible existe déjà !"
+    copy_failed: "§cCertains fichiers du monde n'ont pas pu être copiés, veuillez vérifier les fichiers du monde."
 rename:
   success: "§aLe Monde §f{name} §aa été renommé en §f{to}§a."
   error_code:
-    same_source_target: ""
-    delete_failed: ""
-
-# Load command
+    same_source_target: "§cVous ne pouvez pas renommer le monde avec le même nom."
+    delete_failed: "§cCertains fichiers du monde dans l'ancien dossier n'ont pas pu être supprimés, veuillez vérifier les fichiers du monde."
 load:
   success: "§aLe Monde §f{world} §aa été chargé avec succès."
   already: "§eLe Monde §f{name} §eest déjà chargé."
   failed: "§cLe Monde n'a pas pu être chargé."
-  error: ""
-
-# Unload command
+  error: "§cUne erreur s'est produite lors du chargement du monde : §7{message}§c."
 unload:
   success: "§aLe Monde §f{world} §aa été correctement déchargé."
   default: "§cImpossible de décharger le monde par défaut!"
   failed: "§cLe Monde n'a pas pu être déchargé."
-
-# Teleport command
 teleport:
   success: "§aVous avez été téléporté vers §f{world}§a."
-  failed: "§cImpossible de vous téléporter dans le monde."
-
-# Set command
+  success_other: "§aVous avez téléporté §6{player} §aà §f{world}§a."
+  error_code:
+    no_player: "§6Le joueur à téléporter n'existe pas."
+    teleport_failed: "§cImpossible de vous téléporter dans le monde."
 set:
   success: "§aVous avez défini §b{key} §adans §f{world} §asur §c{value}§a."
   list:
-    info: ""
-    not_set: ""
+    info: "§cParamètres pour le monde §f{name}"
+    not_set: "§7non défini"
   permission:
-    not_default: ""
+    not_default: "§cVous ne pouvez pas définir une permission sur le monde par défaut."
   gamemode:
-    not_exist: ""
-  not_bool: ""
-  not_controllist: ""
-
-# ControlList sub command (of set)
+    not_exist: "§6Ce mode de jeu n'existe pas."
+  not_bool: "§6Vous ne pouvez définir §f{key} §6qu'à §avrai §6ou §cfalse§6."
+  not_controllist: "§6Vous ne pouvez définir §f{key} §6qu'à §avrai§6, §cfalse§6, §fwhite §6ou §0black§6."
 controllist:
   add:
-    success: ""
+    success: "§aObjet §c{item} §aa ajouté à la §b{key} §aliste de contrôle."
+    error_code:
+      invalid_item: "§7{item} §cn'est pas un nom d'objet ou de bloc valide."
   remove:
-    success: ""
+    success: "§6Objet §c{item} §6supprimé de la §b{key} §6liste de contrôle."
   reset:
-    success: ""
+    success: "§6Tous les objets ont été supprimés de la §b{key} §6liste de contrôle."
   list:
-    description: ""
-
-# Unset command
+    description: "§fAffichage du contenu de la §b{key} §fliste de contrôle : §7{content}"
 unset:
   success: "§b{key} §aa été non défini dans §f{world}§a."
-
-# Defaults command
 defaults:
   list:
-    info: ""
+    info: "§cParamètres par défaut pour les mondes sur ce serveur"
   set:
     success: "§aVous avez défini §b{key} §asur §c{value} §acomme valeur par défaut."
   unset:
     success: "§b{key} §aa été retiré comme valeur par défaut."
-
-# Forms
 forms:
-  # World settings
   world:
     title: "§aParamètre du monde pour §f{name}"
     params:
@@ -123,18 +92,17 @@ forms:
       hunger: "Faim"
       fly: "Vol"
       daylightcycle: "Cycle jour/nuit"
-      leavesdecay: ""
-      potion: ""
+      leavesdecay: "Décomposition des feuilles"
+      potion: "Potion"
+      command: "Exécution des commandes"
     options:
-      not_set: ""
-      true: "§aactivé"
-      false: "§cdésactivé"
-      white: ""
-      black: ""
-  # Default settings
+      not_set: "§7non défini (null)"
+      "true": "§aactivé"
+      "false": "§cdésactivé"
+      white: "§futiliser la liste blanche"
+      black: "§0utiliser la liste noire"
   default:
     title: "§aParamètres par défaut du monde"
-  # Settings saved message
   saved: "§aParamètres enregistrés avec succès!"
   error_code:
-    invalid_data: ""
+    invalid_data: "§6Données invalides reçues du formulaire de paramètres, les paramètres n'ont pas été enregistrés."

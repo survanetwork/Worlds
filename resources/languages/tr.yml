@@ -1,108 +1,75 @@
-# __        __         _     _
-# \ \      / /__  _ __| | __| |___
-#  \ \ /\ / / _ \| '__| |/ _` / __|
-#   \ V  V / (_) | |  | | (_| \__ \
-#    \_/\_/ \___/|_|  |_|\__,_|___/
-#
-# (C) 2019 by surva network | https://github.com/survanetwork
-
-# General
 general:
   command:
-    in_game: ""
-    no_permission: ""
+    in_game: "§6Bu komutu yalnızca oyun içinde çalıştırabilirsiniz."
+    no_permission: "§6Bu komutu bu dünyada kullanmak yasak."
   world:
-    not_exist: ""
-    not_loaded: ""
+    not_exist: "§cDünya §f{name} §cmevcut değil."
+    not_loaded: "§cDünya §f{name} §cyüklenmemiş ya da mevcut değil."
   permission: "§6Bu dünyaya katılma izniniz yok."
   config:
-    save_error: ""
-    item_ids_updated: ""
-
-# List command
+    save_error: "§cDünya yapılandırma dosyası kaydedilemedi, lütfen sunucu klasörünü kontrol edin!"
+    item_ids_updated: "§b§7{world} §bdünyasındaki §e{flag} §bbayrağı için eski eşya/blok ID'leri yeni eşya/blok isim formatına güncellendi."
 list:
   worlds: "§eBu sunucudaki dünyalar: §f{worlds}§e."
-
-# Create command
 create:
   success: "§aDünya §f{name} §aoluşturuldu."
   failed: "§cDünya oluşturulurken bilinmeyen bir hata oluştu."
   generator:
-    not_exist: ""
-
-# Remove command
+    not_exist: "§6§f{name} §6adında bir jeneratör bulunamadı - varsayılanı kullanılıyor."
 remove:
   success: "§aDünya §f{name} §kaldırıldı."
-  error: ""
-
-# Copy command
+  error: "§cBazı dünya dosyaları silinemedi, lütfen dünya dosyalarını kontrol edin."
 copy:
   success: "§aDünya §f{name}, §f{to}§a dünyasına kopyalandı."
   error_code:
-    same_source_target: ""
-    source_not_exist: ""
-    target_exist: ""
-    copy_failed: ""
-
-# Rename command
+    same_source_target: "§cDünyayı kendisine kopyalayamazsınız."
+    source_not_exist: "§cKaynak klasör mevcut değil!"
+    target_exist: "§cHedef klasör zaten mevcut!"
+    copy_failed: "§cBazı dünya dosyaları kopyalanamadı, lütfen dünya dosyalarını kontrol edin."
 rename:
   success: "§aDünya §f{name} §aolarak yeniden adlandırıldı §f{to}§a."
   error_code:
-    same_source_target: ""
-    delete_failed: ""
-
-# Load command
+    same_source_target: "§cDünyayı aynı isimle yeniden adlandıramazsınız."
+    delete_failed: "§cEski klasördeki bazı dünya dosyaları silinemedi, lütfen dünya dosyalarını kontrol edin."
 load:
   success: "§aDünya §f{world} §abaşarıyla yüklendi."
   already: "§eDünya §f{name} §ezaten yüklendi."
   failed: "§cDünya yüklenemedi."
-  error: ""
-
-# Unload command
+  error: "§cDünya yüklenirken bir hata oluştu: §7{message}§c."
 unload:
   success: "§aWorld §f{world} §abaşarıyla yüklenmesi kaldırıldı."
   default: "§cVarsayılan dünya yüklenmesi kaldırılamaz!"
   failed: "§cDünya yüklenmesi kaldırılamadı."
-
-# Teleport command
 teleport:
   success: "§f{world}§a dünyasına ışınlandınız."
-  success_other: ""
+  success_other: "§a§6{player} §aoyuncusunu §f{world}§a dünyasına ışınladınız."
   error_code:
-    no_player: ""
-    teleport_failed: ""
-
-# Set command
+    no_player: "§6Işınlanacak oyuncu mevcut değil."
+    teleport_failed: "§cSizi dünyaya ışınlamak mümkün değil."
 set:
   success: "§b{key} §aiçinde §f{world} §aile §c{value}§a arasında ayarladınız."
   list:
     info: "§cAyarlar Menüsü - Dünya §f{name}"
-    not_set: ""
+    not_set: "§7ayarlanmadı"
   permission:
-    not_default: ""
+    not_default: "§cVarsayılan dünyaya izin ayarlayamazsınız."
   gamemode:
-    not_exist: ""
-  not_bool: ""
-  not_controllist: ""
-
-# ControlList sub command (of set)
+    not_exist: "§6Bu oyun modu mevcut değil."
+  not_bool: "§6§f{key} §6anahtarını yalnızca §atrue §6veya §cfalse§6 olarak ayarlayabilirsiniz."
+  not_controllist: "§6§f{key} §6anahtarını yalnızca §atrue§6, §cfalse§6, §fwhite §6veya §0black§6 olarak ayarlayabilirsiniz."
 controllist:
   add:
-    success: ""
+    success: "§aÖge §c{item} §ae §b{key} §akontrol listesine eklendi."
     error_code:
-      invalid_item: ""
+      invalid_item: "§7{item} §cgeçerli bir eşya veya blok adı değil."
   remove:
-    success: ""
+    success: "§6Öge §c{item} §6{key} §bkontrol listesinden kaldırıldı."
   reset:
-    success: ""
+    success: "§6Tüm ögeler §b{key} §6kontrol listesinden kaldırıldı."
   list:
-    description: ""
-
-# Unset command
+    description: "§f§b{key} §fkontrol listesinin içeriği gösteriliyor: §7{content}"
 unset:
   success: "§b{key} §f{world}§adünyasına gönderilmedi."
-
-# Defaults command
 defaults:
   list:
     info: "§cBu sunucudaki dünyalar için varsayılan ayarlar menüsü"
@@ -110,10 +77,7 @@ defaults:
     success: "§b{key} §avarsayılan değer olarak §c{value}§a ayarladınız."
   unset:
     success: "§b{key} §avarsayılan değer olarak ayarlandı."
-
-# Forms
 forms:
-  # World settings
   world:
     title: "§a§fDünya Ayarlar Menüsü - Dünya {name}"
     params:
@@ -130,17 +94,15 @@ forms:
       daylightcycle: "Gece-gündüz döngüsü"
       leavesdecay: "Yaprakların çürümesi"
       potion: "İksir"
-      command: ""
+      command: "Komut yürütme"
     options:
-      not_set: ""
-      true: "§aaktif et"
-      false: "§cde-aktif et"
-      white: ""
-      black: ""
-  # Default settings
+      not_set: "§7ayarlandırılmadı (null)"
+      "true": "§aaktif et"
+      "false": "§cde-aktif et"
+      white: "§fbeyaz listeyi kullan"
+      black: "§0kara listeyi kullan"
   default:
     title: "§aVarsayılan Dünya Ayarları"
-  # Settings saved message
   saved: "§aAyarlar başarıyla kaydedildi!"
   error_code:
-    invalid_data: ""
+    invalid_data: "§6Ayarlar formundan geçersiz veri alındı, ayarlar kaydedilmedi."
